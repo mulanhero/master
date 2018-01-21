@@ -1,0 +1,64 @@
+今天，我们来学习Linux中几种关于时间的命令和方法接口。
+
+(1)首先，来看gettimeofday， 它的函数原型为
+
+#include <sys/time.h>
+int gettimeofday(struct timeval *tv, struct timezone *tz);
+int settimeofday(const struct timeval *tv, const struct timezone *tz);
+
+而struct timeval的定义为：
+struct timeval {
+	time_t tv_sec;   /* seconds*/
+	suseconds_t tv_usec; /* microseconds */
+};
+
+下面的程序是打印一段程序的执行时间：
+#include <stdio.h>
+#include <stdlib.h>
+#include <sys/types.h>
+
+int main()
+{
+	struct timeval start, end;
+
+	gettimeofday(&start, NULL);
+
+	sleep(2);
+
+	gettimeofday(&end, NULL);
+
+	float time_passed = ((end.tv_sec - start.tv_sec) * 1000000 + (end.tv_usec - start.tv_usec))/(float)1000000;
+
+	printf("time_passed = %f\n", time_passed);
+	return 0;
+}
+
+(2) 接下来，我们来看看time和ctime函数
+#include <time.h>
+通过下面的例子来说明：
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+int main()
+{
+	time_t now = time(NULL);
+
+	char *now_str = ctime(&now);
+	puts(now_str);
+
+	return 0;
+}
+
+(3) time 命令可以获取进程执行的时间，例如
+[caoj7@node001 ~]$ time sleep 2
+
+real	0m2.031s
+user	0m0.000s
+sys	0m0.002s
+
+(4) sleep 函数
+#include <unistd.h>
+unsigned int sleep(unsigned int seconds);
+int usleep(useconds_t usec); /*usleep - suspend execution for microsecond intervals*/

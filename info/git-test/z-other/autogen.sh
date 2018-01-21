@@ -1,0 +1,13 @@
+#! /bin/sh
+#set -x
+#aclocal
+#autoheader
+#automake --foreign --add-missing --copy
+#autoconf
+#==============
+# test -d autom4te.cache
+# rm -rf autom4te.cache
+# aclocal -I config
+# autoheader
+# autoconf
+# automake --add-missing --copy

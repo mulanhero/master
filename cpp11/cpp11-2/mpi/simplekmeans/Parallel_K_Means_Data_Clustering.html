@@ -1,0 +1,222 @@
+
+<!-- saved from url=(0060)http://users.eecs.northwestern.edu/~wkliao/Kmeans/index.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Parallel K-Means Data Clustering</title>
+</head>
+
+<body bgcolor="white" lang="EN-US">
+
+<center>
+<h1>Parallel K-Means Data Clustering</h1>
+</center>
+<hr size="2" width="100%" align="center">
+
+This <a href="http://users.eecs.northwestern.edu/~wkliao/Kmeans/simple_kmeans.tar.gz">software package</a>
+of parallel K-means data clustering contains the followings:
+
+<ul>
+ <li> A parallel implementation using
+      <a href="http://www.openmp.org/">OpenMP</a> and C</li>
+ <li> A parallel implementation using
+      <a href="http://www-unix.mcs.anl.gov/mpi/">MPI</a> and C</li>
+ <li> A sequential version in C</li>
+</ul>
+
+<h3>Algorithm:</h3>
+<center>
+<img src="./Parallel_K_Means_Data_Clustering_files/kmeans_algo.jpg">
+</center>
+<p>
+</p><ul>
+ <li> The above sequential algorithm is based on the paper by
+      <i>MacQueen, J.</i> <b>"Some Methods for Classification and Analysis of
+      Multivariate Observations."</b> In the 5th Berkeley Symposium on
+      Mathematical Statistics and Probability, 1967.
+ </li>
+ <li> The parallel implementation uses data parallelism. Data objects
+      to be clustered are evenly partitioned among all processes while the
+      cluster centers are replicated. Global-sum reduction for all cluster
+      centers is performed at the end of each iteration in order to
+      generate the new cluster centers.
+ </li>
+</ul>
+<p>
+
+</p><h3>To compile:</h3>
+<p class="MsoNormal" style="margin-top:0in;margin-right:0in;margin-bottom:0in;margin-left:.25in;margin-bottom:.0001pt">
+Although I used Intel C compiler, icc, version 7.1 during the code development,
+there is no particular features required except for OpenMP. Thus, the
+implementation should be fairly portable. Please modify
+<span style="font-family:Courier"> Makefile</span>
+to change the compiler if needed.</p>
+
+<ul>
+ <li> Make command for the sequential version: <b>make seq_main</b> </li>
+ <li> Make command for the MPI version: <b>make mpi_main</b> </li>
+ <li> Make command for the OpenMP version: <b>make omp_main</b> </li>
+</ul>
+
+<h3>To run:</h3>
+<ul>
+ <li> The <span style="font-family:Courier">Makefile</span> will produce executables</li>
+ <ul>
+  <li><span style="font-family:Courier">"omp_main"</span> for OpenMP version</li>
+  <li><span style="font-family:Courier">"mpi_main"</span> for MPI version</li>
+  <li><span style="font-family:Courier">"seq_main"</span> for sequential version</li>
+ </ul>
+
+ <li> The list of available command-line arguments can be obtained by running -h option<o:p></o:p></li>
+ <ul>
+  <li> For example, running command <span style="font-family:Courier">"omp_main -h"</span> will produce:
+<pre>Usage: main [switches] -i filename -n num_clusters
+       -i filename    : file containing data to be clustered
+       -b             : input file is in binary format (default no)
+       -r             : output file in binary format (default no)
+       -n num_clusters: number of clusters (K must &gt; 1)
+       -t threshold   : threshold value (default 0.0010)
+       -p nproc       : number of threads (default system allocated)
+       -a             : perform atomic OpenMP pragma (default no)
+       -o             : output timing results (default no)
+       -d             : enable debug mode
+</pre>
+ </li></ul>
+</ul>
+
+<h3>Input file format:</h3>
+
+<p class="MsoNormal" style="margin-top:0in;margin-right:0in;margin-bottom:0in;margin-left:.25in;margin-bottom:.0001pt">
+The executables read an input file that stores the data points to be clustered.
+A few example files are provided in the sub-directory
+<span style="font-family:Courier">./Image_data</span>.
+The input files can be in two formats: ASCII text and raw binary.</p>
+
+<ul>
+ <li>ASCII text format:</li>
+ <ul>
+  <li> Each line contains the coordinates of a single data point</li>
+  <li> The number of coordinates must be equal for all data points</li>
+  <li> Example files: color100.txt, texture100.txt, and edge100.txt</li>
+ </ul>
+ <li> Raw binary format:</li>
+ <ul>
+  <li> File header contains two 4-byte integers. </li>
+  <li> The first 4-byte integer is the number of data points. </li>
+  <li> The second integer is the number of coordinates for each data point. </li>
+  <li> The rest of the file (file body) contains the coordinates of
+       all data points and each coordinate is a 4-byte floating point of type float. </li>
+  <li> There are three example files (in little Endian format) provided:
+       color17695.bin, edge17695.bin, and texture17695.bin. They
+       each contains 17695 data points.</li>
+ </ul>
+</ul>
+
+<ul>
+  <li> <b> Note: The first K elements of the input data are picked as the 
+       initial K cluster center coordinates.</b>
+  </li>
+</ul>
+
+<h3>Output files:</h3>
+
+<p class="MsoNormal" style="margin-top:0in;margin-right:0in;margin-bottom:0in;margin-left:.25in;margin-bottom:.0001pt">
+There are two output files:</p>
+
+<ul>
+  <li>Coordinates of cluster centers</li>
+  <ul>
+    <li> The file name is the input file name appended with
+         <span style="font-family:Courier">".cluster_centres"</span>.</li>
+    <li> The default is in ASCII text format.</li>
+    <ul>
+      <li> Each line contains an integer indicating the cluster id and the
+           coordinates of the cluster center.</li>
+    </ul>
+    <li> Binary format can be enabled by using -r option.</li>
+    <ul>
+      <li> Header: the first 4-byte integer is the number of clusters and the
+           second 4-byte integer is the number of coordinates of the 
+           cluster center.</li>
+      <li> Body: the coordinates of all cluster centers. </li>
+    </ul>
+  </ul>
+  <li> Membership of all data points to the clusters</li>
+  <ul>
+    <li> The file name is the input file name appended with
+         <span style="font-family:Courier">".membership"</span>.</li>
+    <li> The default is in ASCII text format.</li>
+    <ul>
+      <li> Each line contains two integers: data point index (from 0
+           to the number of points) and the cluster id indicating the
+           membership of the point.</li>
+    </ul>
+    <li> Binary format can be enabled by using -r option.</li>
+    <ul>
+      <li> Header: a 4-byte integer for the number of data points.</li>
+      <li> Body: the list of cluster IDs (4-byte integers),
+           corresponding to each data point. </li>
+    </ul>
+  </ul>
+</ul>
+
+<h3>Performance results:</h3>
+<center>
+<img src="./Parallel_K_Means_Data_Clustering_files/kmeans_hopper.jpg">
+</center>
+<br>
+<ul>
+<li>
+Performance results on <a href="http://www.nersc.gov/users/computational-systems/hopper/">Hopper</a>, the Cray XE6 at <a href="http://www.nersc.gov/">NERSC</a>, 2011.
+Hopper has 153,216 processors cores (6,384 compute nodes made up of 2 twelve-core AMD MagnyCours 2.1 GHz processors).
+The input data contains 1 billion data points and each data point is a vector of 128 dimensions.
+</li>
+</ul>
+<p>
+
+</p><h3>Limitations:</h3>
+
+<ul>
+ <li> <b>Data type</b> -- This implementation uses C float data type for all coordinates
+      and other real numbers.</li>
+ <li> <b>Large number of data points</b> -- The number of data points cannot exceed 2G due
+      to the 4-byte integers used in the programs. (But do let me know if it is
+      desired.)</li>
+</ul>
+
+
+<h3>Derived Work:</h3>
+
+<ul>
+ <li> <b><a href="http://www.halilbisgin.com/thesis/EGU_abs.pdf">Parallel Clustering Algorithms with Application to Climatology</a></b> -- <a href="http://www.halilbisgin.com/thesis/thesis.pdf">Master thesis</a> of <a href="http://www.halilbisgin.com/">Halil Bisgin</a>, Informatics Institute, Istanbul Technical University, Turkey. (Halil Bisain is now a doctoral student at University of Arkansas.)
+ <!-- <li> <b><a href=http://www.be.itu.edu.tr/~hbisgin/thesis/EGU_abs.pdf>Parallel Clustering Algorithms with Application to Climatology</a></b> -- <a href=http://www.be.itu.edu.tr/~hbisgin/thesis/thesis.pdf>Master thesis</a> of <a href=http://kullanici.be.itu.edu.tr/~hbisgin>Halil Bisgin</a>, Informatics Institute, Istanbul Technical University, Turkey. -->
+ </li>
+</ul>
+
+<h3>Related Links:</h3>
+
+<ul>
+ <li> <b><a href="http://cucis.ece.northwestern.edu/projects/DMS/MineBench.html">NU-MineBench</a></b> -- a data mining benchmark suite
+ </li>
+ <li> <b><a href="http://stamp.stanford.edu/">STAMP</a></b> --
+Stanford Transactional Applications for Multi-Processing
+ </li>
+ <li> <b><a href="http://serban.org/software/kmeans">CUDA K-Means Clustering</a></b> --
+by Serban Giuroiu, a student at UC Berkeley.
+ </li>
+</ul>
+
+
+<hr size="2" width="100%" align="center">
+
+
+<a href="http://www.ece.northwestern.edu/~wkliao">Wei-keng Liao</a><br>
+<a href="http://www.eecs.northwestern.edu/">Electrical Engineering and Computer Science Department</a><br>
+<a href="http://www.northwestern.edu/">Northwestern University</a><br>
+Please send comments to <img src="./Parallel_K_Means_Data_Clustering_files/addr.gif"><br>
+Software available since Sep. 17, 2005.<br>
+Page last modified date: Oct. 6, 2009.
+
+
+
+
+
+</body></html>

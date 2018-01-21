@@ -1,0 +1,1 @@
+SUBDIRS = digstr pointer preprocess string zother

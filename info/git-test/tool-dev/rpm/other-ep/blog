@@ -1,0 +1,80 @@
+最近在做puppet 中间件 部署，之前一直使用rpm安装系统的一些常用包（ntp,ssh等），于是想到把nginx源码包编译后做成rpm来用puppet进行大规模自动部署，这样就省去了不少时间，也简化了puppet编写配置的步骤。
+系统 centos5.4  x86_64
+1.yum install -y rpm-build
+mkdir -p /usr/src/redhat/{RPMS,SOURCES,SPECS}
+mkdir -p /root/rpmbuild/RPMS/
+2.编辑spec文件（此文件用来进行制作rpm时对源码包进行编译等）
+3.rpmbuid  -bb  xx.spec,生成rpm成功后会提示xx.rpm的存放目录.
+以下是我制作nginx的rpm的一个简单示例：
+1）
+   yum install -y rpm-build
+   mkdir -p /usr/src/redhat/{RPMS,SOURCES,SPECS}
+   mkdir -p /root/rpmbuild/{RPMS,BUILD}
+   cp nginx-1.2.0.tar.gz /root/rpmbuild/BUILD/
+2)
+   vim /usr/src/redhat/SPECS/nginx.spec
+ 
+   Name:nginx
+   Version:1.2.0
+   Release:        1%{?dist}
+   Summary:        test
+   Group:Applications
+   License:Share
+   BuildRoot:      %(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)
+   %description
+   %prep
+   tar zxf $RPM_SOURCES_DIR/nginx-1.2.0.tar.gz  #解压缩源码包
+   %build
+   cd $RPM_BUILD_DIR/nginx-1.2.0
+   ./configure --prefix=/usr/nginx_test --without-pcre  --without-http_rewrite_module  #设定编译参数
+   make
+   %install
+   cd $RPM_BUILD_DIR/nginx-1.2.0
+   make install
+   %clean
+   rm -rf $RPM_BUILD_DIR/nginx-1.2.0
+   %files
+   %defattr(-,root,root,-)
+   %doc
+   %changelog
+ 
+3）制作rpm包
+   rpmbuild  -bb  /usr/src/redhat/SPECS/nginx.spec
+制作成功后提示我的rpm包生成的路径为/root/rpmbuild/RPMS/x86_64/nginx-1.2.0-1.el6.x86_64.rpm
+ 
+系统 centos6.0  x86_64
+在centos 6.0上使用rpmbuild制作rpm包会出现File not found: /root/rpmbuild/BUILDROOT/…的错误，看是centos 6中的rpmbuild topdir已经改变，为了能兼容centos 5的spec文件，需要对topdir进行修改：
+编辑/usr/lib/rpm/macros文件：
+%_topdir                %{getenv:HOME}/rpmbuild
+修改为：
+%_topdir                %{_usrsrc}/redhat
+另外还需要定义buildroot
+在spec文件中的make install后面加上DESTDIR=%{buildroot},即：
+make install  DESTDIR=%{buildroot}
+这里是一个简单的nginx.spec实例：
+#cat  nginx.spec 
+Summary: High performance web server
+Name: Nginx
+Version: 1.2
+Release: 0.el5.ngx
+License: 2-clause BSD-like license
+Group: Applications/Server
+Source: /usr/src/redhat/SOURCES/nginx-1.2.0.tar.gz
+URL: http://nginx.org
+Distribution: Centos/Redhat
+Packager: zhaohaihua <zhaohh@chanjet.com>
+
+%description
+Nginx ("engine x") is a high performance HTTP and reverse proxy server
+%prep
+tar zxf $RPM_SOURCE_DIR/nginx-1.2.0.tar.gz
+%build
+cd nginx-1.2.0
+./configure --prefix=/opt/nginx
+make
+%install
+cd nginx-1.2.0
+make install DESTDIR=%{buildroot}
+%preun
+%files
+/opt/nginx

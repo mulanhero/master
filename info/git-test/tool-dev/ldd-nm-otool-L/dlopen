@@ -1,0 +1,82 @@
+//static int ltdl_pbc()
+//{
+//	int rc;
+////	char filename[1024];
+////	strcat(filename, "/Users/caoj7/program/orte");
+////	strcat(filename, "/lib");
+//
+//	void *handle;
+//	char *error;
+//
+//	handle = dlopen("/Users/caoj7/program/orte/lib/libmca_hdclient.dylib", RTLD_LAZY);
+//	if (!handle) {
+//		fprintf(stderr, "%s\n", dlerror());
+//		exit(-1);
+//	}
+//
+//	dlerror(); /* Clear any existing error */
+//	dlclose(handle);
+//	return 0;
+//}
+
+
+dlopen(S)
+
+dlopen -- open a dynamically linked library
+Syntax
+
+cc . . . -lc
+#include <dlfcn.h>
+
+void *dlopen(const char *pathname, int mode);
+
+Description
+
+dlopen(S) is one of a family of routines that give the user direct access to the dynamic linking facilities. dlopen( ) makes a shared object (dynamically linked library) available to a running process. dlopen( ) returns to the process a handle the process may use on subsequent calls to dlsym(S) and dlclose(S). This value should not be interpreted in any way by the process. pathname is the path of the object to be opened; it may be an absolute path or relative to the current directory. If the value of pathname is 0, dlopen( ) makes exported symbols contained in the original a.out, all of the objects that were loaded at program startup with the a.out, and all objects loaded with the RTLD_GLOBAL mode, available through dlsym( ).
+A shared object may specify other objects that it ``needs'' in order to execute properly. These needed objects are specified by DT_NEEDED entries in the .dynamic section of the original object. Each needed object may, in turn, specify other needed objects. All such objects are loaded along with the original object as a result of the call to dlopen( ).
+
+When a shared object is brought into the address space of a process, it may contain references to symbols whose addresses are not known until the object is loaded. These references must be relocated before the symbols can be accessed. The mode parameter governs when these relocations take place and may have the following values:
+
+
+RTLD_LAZY
+Under this mode, only references to data symbols are relocated when the object is loaded. References to functions are not relocated until a given function is invoked for the first time. This mode should result in better performance, since a process may not reference all of the functions in any given shared object.
+
+RTLD_NOW
+Under this mode, all necessary relocations are performed when the object is first loaded. This may result in some wasted effort, if relocations are performed for functions that are never referenced, but is useful for applications that need to know as soon as an object is loaded that all symbols referenced during execution will be available.
+Normally, exported symbols of a dlopen'd object are directly available only to those other objects that were loaded as a result of the same call to dlopen( ). If the mode argument is logically OR'd with the value RTLD_GLOBAL, however, the exported symbols of all objects loaded via this call to dlopen( ) are directly available to all other dlopen'd objects.
+When searching for symbols to resolve a reference in one of the objects it is loading, the dynamic linker looks in the symbol tables of the objects it has already loaded. It uses the first occurrence of the symbol that it finds. The first object searched is the a.out. Then comes the a.out's list of needed objects, in the order specified in the .dynamic section of a.out. Then comes the second level list of needed entries, and so on. After all entries loaded on startup have been searched, the dynamic linker searches all objects loaded as the result of a call to dlopen( ) (following the rules mentioned above for RTLD_GLOBAL). For each group, the object actually specified to dlopen( ) is searched first, then that object's needed list, in order, then the second level needed entries, and so on. Since an object is loaded only once and may appear in the needed list of any number of objects, an object loaded with one call to dlopen( ) or loaded on startup may be searched before the objects loaded for the current invocation of dlopen( ), even if it appears on the chain of dependencies for the object currently being dlopen'd.
+
+Return values
+
+dlopen( ) returns to the process a handle the process may use on subsequent calls to dlsym(S) and dlclose(S). If pathname cannot be found, cannot be opened for reading, or is not a shared object (dynamically linked library), or if an error occurs during the process of loading pathname or relocating its symbolic references, dlopen( ) returns NULL. More detailed diagnostic information is available through dlerror(S).
+Notes
+
+If other shared objects were link edited with pathname when pathname was built, those objects are automatically loaded by dlopen( ). The directory search path to be used to find both pathname and the other ``needed'' objects may be specified by setting the environment variable LD_LIBRARY_PATH. This environment variable should contain a colon-separated list of directories, in the same format as the PATH variable (see sh(C)). LD_LIBRARY_PATH is ignored if the process' real user ID is different from its effective user ID or its real group ID is different from its effective group ID (see exec(S)) or if the name specified is not a simple filename (that is, contains a ``/'' character). Objects whose names resolve to the same absolute or relative pathname may be opened any number of times using dlopen( ), however, the object referenced is loaded only once into the address space of the current process. The same object referenced by two different path names, however, may be loaded multiple times. For example, given the object /usr/home/me/mylibs/mylib.so, and assuming the current directory is /usr/home/me/workdir:
+   . . .
+   void *handle1;
+   void *handle2;
+   
+
+   handle1 = dlopen("../mylibs/mylib.so", RTLD_LAZY);
+   handle2 = dlopen("/usr/home/me/mylibs/mylib.so", RTLD_LAZY);
+   . . .
+
+results in mylibs.so being loaded twice for the current process. On the other hand, given the same object and current directory, if LD_LIBRARY_PATH=/usr/home/me/mylibs, then:
+   . . .
+   void *handle1;
+   void *handle2;
+   
+
+   handle1 = dlopen("mylib.so", RTLD_LAZY);
+   handle2 = dlopen("/usr/home/me/mylibs/mylib.so", RTLD_LAZY);
+   . . .
+
+results in mylibs.so being loaded only once.
+Objects loaded by a single invocation of dlopen( ) may import symbols from one another or from any object loaded automatically during program startup, but objects loaded by one dlopen( ) invocation may not directly reference symbols from objects loaded by a different dlopen( ) invocation (unless loaded using the RTLD_GLOBAL mode). Those symbols, however, may be referenced indirectly using dlsym( ).
+
+Users who want to gain access to the symbol table of the a.out itself using dlopen(0, mode) should be aware that some symbols defined in the a.out may not be available to the dynamic linker. The symbol table created by ld(CP) for use by the dynamic linker might contain only a subset of the symbols defined in the a.out, specifically those referenced by the shared objects with which the a.out is linked. Other symbols can be explicitly exported from the a.out through the use of the -Bexport option to ld(CP).
+
+See also
+
+cc(CP), dlclose(S), dlerror(S), dlsym(S), exec(S), ld(CP), sh(C)
+Standards conformance

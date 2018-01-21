@@ -1,0 +1,8 @@
+.project
+.cproject
+.settings/
+*_main
+Debug/
+*.dSYM/
+*.o
+a.out

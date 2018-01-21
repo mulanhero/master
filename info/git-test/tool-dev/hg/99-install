@@ -1,0 +1,30 @@
+Install Mercurial 
+(tips:Hg is the chemical symbol for Mercury and hg is the command for mercurial. )
+1. download
+	sudo port install mercurial
+2. After install
+	[caoj7@cnencaoj7mbp1 ~]$which hg
+	/usr/local/bin/hg
+	
+	
+	
+3. # Fedora
+$ yum install mercurial
+
+4. mac
+	
+	
+	
+	
+================check hostfingerprints or web.cacerts config setting===============
+Mac OS X 10.6 and higher
+On Mac OS X 10.6 and higher, OpenSSL (which is what Python and therefore Mercurial use to implement their SSL support) will look in the system keychain. Unfortunately, the SSL code in the Python core doesn't allow for this situation---it always expects you to specify a certificate bundle, and if one is specified if must contain at least one certificate. A simple way to deal with this problem is to enter (in Terminal)
+
+openssl req -new -x509 -extensions v3_ca -keyout /dev/null -out dummycert.pem -days 3650
+to generate a dummy certificate (the contents don't matter, so you can just hit return at all of the prompts), then
+
+sudo cp dummycert.pem /etc/hg-dummy-cert.pem
+and set your configuration as follows:
+
+[web]
+cacerts = /etc/hg-dummy-cert.pem

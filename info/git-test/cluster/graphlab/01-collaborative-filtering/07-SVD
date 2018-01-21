@@ -1,0 +1,96 @@
+Restarted Lanczos (SVD)
+Restarted Lanczos Iteration (SVD)
+SVD is implemented using the restarted lanczos algorithm.
+The input is a sparse matrix market format input file.
+The output are 3 files: one file containing the singular values, and two dense matrix market format files containing the matrices U and V.
+---------------------------------------------------------------------------------
+1. matrix_A
+---------------------------------------------------------------------------------
+[root@node1 collaborative_filtering]# cat matrix_A 
+1 1  0.8147236863931789
+1 2  0.9133758561390194
+1 3  0.2784982188670484
+1 4  0.9648885351992765
+2 1  0.9057919370756192
+2 2  0.6323592462254095
+2 3  0.5468815192049838
+2 4  0.1576130816775483
+3 1  0.1269868162935061
+3 2  0.09754040499940952
+3 3  0.9575068354342976
+3 4  0.9705927817606157
+---------------------
+./svd matrix_A --rows=3 --cols=4 --nsv=4 --nv=4 --max_iter=3 --ncpus=1 --quiet=1
+[root@gphd-vm33 collaborative_filtering]# mpirun -np 2 ./svd ./matrix_A --rows=3 --cols=4 --nsv=4 --nv=4 --max_iter=3 --ncpus=1 --quiet=1
+hamster -v -np 2 /root/program/graphlab/release/toolkits/collaborative_filtering/svd /root/program/graphlab/release/toolkits/collaborative_filtering/matrix_A --rows=3 --cols=4 --nsv=4 --nv=4 --max_iter=3 --ncpus=1 --quiet=1
+---------------------------------------------------------------------------------
+2. smallnetflix_mm.train
+---------------------------------------------------------------------------------
+hamster -v -np 2 /root/program/graphlab/release/toolkits/collaborative_filtering/svd --matrix hdfs://10.62.67.33:9000/user/root/data/data/smallnetflix_mm.train --rows=100000 --cols=5000 --nsv=4 --nv=4 --max_iter=3 --ncpus=1
+------check 
+[root@gphd-vm33 userlogs]# cat *45/*/stdout
+ ========================   JOB MAP   ========================
+
+ Data for node: gphd-vm32	Num procs: 1                    ##########
+ 	Process OMPI jobid: [174,1] App: 0 Process rank: 0
+
+ Data for node: 10.62.67.31	Num procs: 1
+ 	Process OMPI jobid: [174,1] App: 0 Process rank: 1
+[root@gphd-vm32 /]# ll /tmp/hadoop-root/nm-local-dir/usercache/root/appcache/application_1379788057904_0045/container_1379788057904_0045_01_000004/
+-rw-r--r-- 1 root root  219 Sep 22 07:47 singular_values  #####
+------------------------------------------------------------------------
+4) hamster on with HDFS
+------------------------------------------------------------------------
+hamster -v -np 2 \
+/usr/local/hamster/graphlab/release/toolkits/collaborative_filtering/svd \
+--matrix hdfs://10.37.7.101:8020/user/root/graphlab/cf/smallnetflix/smallnetflix_mm.train \
+--rows=100000 --cols=5000 --nsv=4 --nv=4 --max_iter=3 --ncpus=1
+
+
+
+
+
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+======================================================================================================
+hamster -np 4 -x CLASSPATH=`sh /mnt/get_hadoop_env.sh` -mem 2048 /mnt/graphlab/release/toolkits/collaborative_filtering/als --matrix hdfs://node0851:9000/user/root/data/small --D=20 --lambda=0.065 --max_iter=5 --predictions=hdfs://node0851:9000/user/root/data/small/out
+hamster -np 40 -x CLASSPATH=`sh /mnt/get_hadoop_env.sh` -mem 4096 /mnt/graphlab/release/toolkits/collaborative_filtering/als --matrix hdfs://node0851:9000/user/root/data/med --D=20 --lambda=0.065 --max_iter=5 --predictions=hdfs://node0851:9000/user/root/data/mde/out
+hamster -np 80 -x CLASSPATH=`sh /mnt/get_hadoop_env.sh` -mem 4096 /mnt/graphlab/release/toolkits/collaborative_filtering/als --matrix hdfs://node0851:9000/user/root/data/huge --D=20 --lambda=0.065 --max_iter=5 --predictions=hdfs://node0851:9000/user/root/data/huge/out
+======================================================================================================
+
+
+
+
+
+/user/root/data/data/smallnetflix_mm.validate
+
+
+mpirun -x CLASSPATH=`sh /mnt/get_hadoop_env.sh` -np 2 /mnt/graphlab/release/toolkits/collaborative_filtering/svd --matrix hdfs://node0851:9000/user/root/data/small --rows=100000 --cols=5000 --nsv=4 --nv=4 --max_iter=3 --ncpus=1
+
+mpirun -np 2 -x CLASSPATH=`sh /mnt/get_hadoop_env.sh` /mnt/graphlab/release/toolkits/collaborative_filtering/svd hdfs://node0851:9000/user/root/data/small/smallnetflix_mm.train --rows=100000 --cols=5000 --nsv=4 --nv=4 --max_iter=3 --ncpus=1 --quiet=1
+
+
+----------------------------------------
+hamster -np 10 -mem 2048 -x CLASSPATH=`sh /mnt/get_hadoop_env.sh` /mnt/graphlab/release/toolkits/collaborative_filtering/svd hdfs://node0851:9000/user/root/data/small/smallnetflix_mm.train --rows=100000 --cols=5000 --nsv=3 --nv=4 --ncpus=1 --max_iter=3
+hamster -np 10 -x CLASSPATH=`sh /mnt/get_hadoop_env.sh` /mnt/graphlab/release/toolkits/collaborative_filtering/svd --matrix hdfs://node0851:9000/user/root/data/small --predictions hdfs://node0851:9000/user/root/data/small/out --rows=100000 --cols=5000 --nsv=3 --nv=4 --ncpus=1 --quiet=1
+----------------------------------------
+		-x CLASSPATH=`sh ~/wangda/get_hadoop_env.sh`
+mpirun -np 2 /mnt/graphlab/release/toolkits/collaborative_filtering/svd /mnt/A2 --rows=3 --cols=4 --nsv=4 --nv=4 --max_iter=3 --ncpus=1 --quiet=1
+
+---huge--
+/user/root/data/huge/hugewiki.clean
+hamster -np 200 -mem 2048 -x CLASSPATH=`sh /mnt/get_hadoop_env.sh` /mnt/graphlab/release/toolkits/collaborative_filtering/svd hdfs://node0851:9000/user/root/data/data/medwiki --rows=50082603 --cols=3445717643 --nsv=3 --nv=4 --ncpus=1 --max_iter=3
+mpirun -bynode -np 128 -x CLASSPATH=`sh /mnt/get_hadoop_env.sh` /mnt/graphlab/release/toolkits/collaborative_filtering/svd hdfs://node0851:9000/user/root/data/data/medwiki --rows=4364329 --cols=513883084 --nsv=3 --nv=4 --ncpus=1 --max_iter=3
+
+mpirun -np 20 -x CLASSPATH=`sh /mnt/get_hadoop_env.sh` /mnt/graphlab/release/toolkits/collaborative_filtering/svd hdfs://node0851:9000/user/root/data/small/smallnetflix_mm.train --rows=100000 --cols=5000 --nsv=3 --nv=4 --ncpus=1 --max_iter=3
+
+--------
+hamster -v -np 2 /root/program/graphlab/release/toolkits/collaborative_filtering/svd /root/program/graphlab/release/toolkits/collaborative_filtering/matrix_A --rows=3 --cols=4 --nsv=4 --nv=4 --max_iter=3 --ncpus=1 --quiet=1
+
+
+====================================

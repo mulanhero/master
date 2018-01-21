@@ -1,0 +1,193 @@
+----------------------------------------------------------------
+0. env   
+----------------------------------------------------------------
+node1
+PHD-1.0.2
+MAHOUT-0.7
+----------------------------------------------------------------
+1. put the synthetic_control.data to hdfs
+----------------------------------------------------------------
+[root@node1 ~]# hadoop fs -mkdir -p /user/root/mahout/kmeans/input
+[root@node1 hamster]# hadoop fs -put ./synthetic_control.data  /user/root/mahout/kmeans/input
+[root@node1 hamster]# hadoop fs -ls /user/root/mahout/kmeans/input
+Found 1 items
+-rw-r--r--   3 root supergroup     288374 2013-09-16 19:20 /user/root/mahout/kmeans/input/synthetic_control.data
+----------------------------------------------------------------
+2-1. seqdirectory
+----------------------------------------------------------------
+mahout seqdirectory \
+    -i /user/root/mahout/kmeans/input \
+    -o /user/root/mahout/kmeans/seqdir \
+    --charset UTF-8
+------result
+# hadoop fs -ls /user/root/mahout/kmeans/seqdir
+-rw-r--r--   3 root supergroup     288488 2013-09-16 19:21 /user/root/mahout/kmeans/seqdir/chunk-0
+----------------------------------------------------------------
+2-2. seq2sparse  (Several MapReduce Jobs)
+----------------------------------------------------------------
+mahout seq2sparse -i /user/root/mahout/kmeans/seqdir/ \
+    -o /user/root/mahout/kmeans/sparseVectors \
+    --namedVector \
+    -wt tf
+------result
+[root@node1 hamster]# hadoop fs -ls /user/root/mahout/kmeans/sparseVectors
+Found 4 items
+-rw-r--r--   3 root supergroup      55668 2013-09-16 19:23 /user/root/mahout/kmeans/sparseVectors/dictionary.file-0
+drwxr-xr-x   - root supergroup          0 2013-09-16 19:24 /user/root/mahout/kmeans/sparseVectors/tf-vectors
+drwxr-xr-x   - root supergroup          0 2013-09-16 19:23 /user/root/mahout/kmeans/sparseVectors/tokenized-documents
+drwxr-xr-x   - root supergroup          0 2013-09-16 19:23 /user/root/mahout/kmeans/sparseVectors/wordcount
+----------------------------------------------------------------
+2-3. canopy  (skip)
+----------------------------------------------------------------
+mahout canopy -i /user/root/mahout/kmeans/sparseVectors/tf-vectors \
+-o /user/root/mahout/kmeans/canopy-output \
+-dm org.apache.mahout.common.distance.CosineDistanceMeasure \
+-ow -t1 5 -t2 2
+----------
+[root@node1 mahout-distribution-0.8]# hadoop fs -ls /user/root/mahout/kmeans/canopy-output/clusters-0-final
+-rw-r--r--   3 root supergroup          0 2013-09-16 22:32 /user/root/mahout/kmeans/canopy-output/clusters-0-final/_SUCCESS
+-rw-r--r--   3 root supergroup      27816 2013-09-16 22:32 /user/root/mahout/kmeans/canopy-output/clusters-0-final/part-r-00000
+----------------------------------------------------------------
+3. kmeans
+----------------------------------------------------------------
+mahout kmeans -i /user/root/mahout/kmeans/sparseVectors/tf-vectors \
+-c /user/root/mahout/kmeans/clusters \
+-o /user/root/mahout/kmeans/kmeans-output \
+-dm org.apache.mahout.common.distance.CosineDistanceMeasure \
+-x 5 \
+-ow \
+-cd 1 \
+-k 25
+----------
+because -k 25 is specified, then an initial cluster will be sampled form input vectors and laid under  
+/user/root/mahout/kmeans/clusters
+----------
+[root@node1 mahout-distribution-0.8]# hadoop fs -ls /user/root/mahout/kmeans/clusters/part-randomSeed
+-rw-r--r--   3 root supergroup      10470 2013-09-16 22:40 /user/root/mahout/kmeans/clusters/part-randomSeed
+[root@node1 mahout-distribution-0.8]# hadoop fs -ls -R /user/root/mahout/kmeans/kmeans-output
+drwxr-xr-x   - root supergroup          0 2013-09-16 22:48 /user/root/mahout/kmeans/kmeans-output/clusters-0
+-rw-r--r--   3 root supergroup        194 2013-09-16 22:48 /user/root/mahout/kmeans/kmeans-output/clusters-0/_policy
+-rw-r--r--   3 root supergroup      82931 2013-09-16 22:48 /user/root/mahout/kmeans/kmeans-output/clusters-0/part-00000
+drwxr-xr-x   - root supergroup          0 2013-09-16 22:48 /user/root/mahout/kmeans/kmeans-output/clusters-1-final
+-rw-r--r--   3 root supergroup          0 2013-09-16 22:48 /user/root/mahout/kmeans/kmeans-output/clusters-1-final/_SUCCESS
+-rw-r--r--   3 root supergroup        194 2013-09-16 22:48 /user/root/mahout/kmeans/kmeans-output/clusters-1-final/_policy
+-rw-r--r--   3 root supergroup      27825 2013-09-16 22:48 /user/root/mahout/kmeans/kmeans-output/clusters-1-final/part-r-00000
+----------
+After running the algorithm, the output directory will contain:
+clusters-N: directories containing SequenceFiles(Text, Cluster) produced by the algorithm for each iteration. 
+			The Text key is a cluster identifier string.
+clusteredPoints: (if --clustering enabled) a directory containing SequenceFile(IntWritable, WeightedVectorWritable). 
+			The IntWritable key is the clusterId. The WeightedVectorWritable value is a bean containing a double 
+			weight and a VectorWritable vector where the weight indicates the probability that the vector is 
+			a member of the cluster. 
+			For k-Means clustering, the weights are computed as 1/(1+distance) where the distance is between the 
+			cluster center and the vector using the chosen DistanceMeasure.
+-----------------
+--input (-i) input                           Path to job input directory.     
+                                             Must be a SequenceFile of        
+                                             VectorWritable                   
+--clusters (-c) clusters                     The input centroids, as Vectors. 
+                                             Must be a SequenceFile of        
+                                             Writable, Cluster/Canopy.  If k  
+                                             is also specified, then a random 
+                                             set of vectors will be selected  
+                                             and written out to this path     
+                                             first                            
+--output (-o) output                         The directory pathname for      
+                                             output.                          
+--distanceMeasure (-dm) distanceMeasure      The classname of the             
+                                             DistanceMeasure. Default is      
+                                             SquaredEuclidean                 
+--convergenceDelta (-cd) convergenceDelta    The convergence delta value.     
+                                             Default is 0.5                  
+--maxIter (-x) maxIter                       The maximum number of            
+                                             iterations.                      
+--maxRed (-r) maxRed                         The number of reduce tasks.      
+                                             Defaults to 2                   
+--k (-k) k                                   The k in k-Means.  If specified, 
+                                             then a random selection of k     
+                                             Vectors will be chosen as the    
+                                             Centroid and written to the      
+                                             clusters input path.             
+--overwrite (-ow)                            If present, overwrite the output 
+                                             directory before running job     
+--help (-h)                                  Print out help                   
+--clustering (-cl)                           If present, run clustering after 
+                                             the iterations have taken place
+----------------------------------------------------------------
+4. Retrieving the Output from hdfs to localFS: clusterdump
+-----------
+To analyze this output we need to convert the sequence files to a human readable format 
+and this is achieved using the clusterdump utility.
+----------------------------------------------------------------
+mahout clusterdump \
+-dt sequencefile \
+-d /user/root/mahout/kmeans/sparseVectors/dictionary.file-0 \
+-i /user/root/mahout/kmeans/kmeans-output/clusters-1-final \
+-o /usr/local/hamster/kmeans_result.txt \
+-b 10 -n 10
+----------------------------------------------------------------
+
+--help (-h)                              Print out help                       
+--input (-i) input                       The directory containing Sequence    
+                                         Files for the Clusters               
+--output (-o) output                     The output file.  If not specified,  
+                                         dumps to the console.
+--outputFormat (-of) outputFormat        The optional output format to write
+                                         the results as. Options: TEXT, CSV, or GRAPH_ML                 
+--substring (-b) substring               The number of chars of the           
+                                         asFormatString() to print            
+--pointsDir (-p) pointsDir               The directory containing points      
+                                         sequence files mapping input vectors 
+                                         to their cluster.  If specified,     
+                                         then the program will output the     
+                                         points associated with a cluster                 
+--dictionary (-d) dictionary             The dictionary file.                 
+--dictionaryType (-dt) dictionaryType    The dictionary file type             
+                                         (text|sequencefile)
+--distanceMeasure (-dm) distanceMeasure  The classname of the DistanceMeasure.
+                                         Default is SquaredEuclidean.               
+--numWords (-n) numWords                 The number of top terms to print  
+--tempDir tempDir                        Intermediate output directory
+--startPhase startPhase                  First phase to run
+--endPhase endPhase                      Last phase to run
+--evaluate (-e)                          Run ClusterEvaluator and CDbwEvaluator over the
+                                         input. The output will be appended to the rest of
+                                         the output at the end.   
+----------------------------------------------------------------
+5. check the result on localFS: /usr/local/hamster/kmeans_result.txt
+----------------------------------------------------------------
+[root@node1 hamster]# cat kmeans_result.txt 
+:VL-0{n=2 c
+	Top Terms: 
+		30.9059                                 =>                 5.0
+		27.3876                                 =>                 5.0
+		24.1528                                 =>                 5.0
+		35.3658                                 =>                 4.0
+		35.2035                                 =>                 4.0
+		34.1775                                 =>                 4.0
+		34.1569                                 =>                 4.0
+		34.1176                                 =>                 4.0
+		33.9476                                 =>                 4.0
+		33.3759                                 =>                 4.0
+----------------------------------------------------------------
+----------------------------------------------------------------
+----------------------------------------------------------------
+----------------------------------------------------------------
+----------------------------------------------------------------
+----------------------------------------------------------------
+----------------------------------------------------------------
+----------------------------------------------------------------
+----------------------------------------------------------------
+----------------------------------------------------------------
+----------------------------------------------------------------
+----------------------------------------------------------------
+----------------------------------------------------------------
+----------------------------------------------------------------
+----------------------------------------------------------------
+----------------------------------------------------------------
+----------------------------------------------------------------
+----------------------------------------------------------------
+----------------------------------------------------------------
+----------------------------------------------------------------
+----------------------------------------------------------------

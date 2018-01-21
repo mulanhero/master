@@ -1,0 +1,46 @@
+[root@gphd-vm33 ~]# hadoop fs -rm -f -R /testdir
+[root@gphd-vm33 ~]# hadoop fs -ls /
+[root@gphd-vm33 ~]# hadoop fs -mkdir /testdir
+[root@gphd-vm33 ~]# hadoop fs -mkdir /testdir/input
+
+
+[root@gphd-vm33 ~]# hadoop fs -put data.txt /testdir/input/
+[root@gphd-vm33 ~]# hadoop jar /root/program/hadoop-2.0.2-alpha/share/hadoop/mapreduce/*example*.jar wordcount hdfs:/testdir/input hdfs:/testdir/output
+[root@gphd-vm33 ~]# hadoop fs -ls /testdir/output
+Found 2 items
+-rw-r--r--   1 root supergroup          0 2013-07-10 07:13 /testdir/output/_SUCCESS
+-rw-r--r--   1 root supergroup         47 2013-07-10 07:13 /testdir/output/part-r-00000
+
+[root@gphd-vm33 ~]# hadoop fs -cat /testdir/output/part-r-00000
+13/07/10 07:16:00 WARN util.NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+Hello	1
+Jimmy	1
+cao	2
+hello	1
+jimmy	1
+world!	2
+
+hadoop jar /root/program/hadoop-2.0.2-alpha/share/hadoop/mapreduce/*example*.jar wordcount hdfs:/testdir/input hdfs:/testdir/output
+
+hadoop jar /root/program/hadoop-2.0.2-alpha/share/hadoop/mapreduce/*example*.jar wordcount hdfs:/testdir/input hdfs:/testdir/output
+
+
+
+hadoop jar /Users/caoj7/workspace-j/hadoop-2.0.4-alpha/hadoop-mapreduce-project/hadoop-mapreduce-examples/target/hadoop-mapreduce-examples-2.0.4-alpha.jar \
+wordcount \
+-Dwordcount.case.sensitive=true \
+hdfs://127.0.0.1:9000/user/caoj7/wordcount/input \
+hdfs://127.0.0.1:9000/user/caoj7/wordcount/output \
+-skip hdfs://127.0.0.1:9000/user/caoj7/wordcount/patterns.txt
+
+____________________________________________________________
+____________________________________________________________
+____________________________________________________________
+____________________________________________________________
+____________________________________________________________
+____________________________________________________________
+____________________________________________________________
+____________________________________________________________
+____________________________________________________________
+____________________________________________________________
+hadoop jar /Users/caoj7/program/hadoop-2.0.4-alpha/share/hadoop/mapreduce/hadoop-mapreduce-examples-2.0.4-alpha.jar wordcount hdfs:/user/caoj7/data/input/* hdfs:/user/caoj7/data/output/out.txt

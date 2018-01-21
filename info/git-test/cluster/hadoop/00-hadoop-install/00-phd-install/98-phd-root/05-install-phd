@@ -1,0 +1,95 @@
+-------------------------------------------------------------
+1. untar
+-------------------------------------------------------------
+[root@node0851 PHD-1.0.2.0-10]# pwd
+/root/program/soft/PHD-1.0.2.0-10
+[root@node0851 PHD-1.0.2.0-10]# ll
+total 48
+drwxr-xr-x 3 k2admin nagios 4096 Aug 23 03:06 flume
+drwxr-xr-x 3 k2admin nagios 4096 Aug 23 03:06 hadoop
+drwxr-xr-x 3 k2admin nagios 4096 Aug 23 03:06 hbase
+drwxr-xr-x 3 k2admin nagios 4096 Aug 23 03:06 hcatalog
+drwxr-xr-x 3 k2admin nagios 4096 Aug 23 03:06 hive
+drwxr-xr-x 3 k2admin nagios 4096 Aug 23 03:06 mahout
+drwxr-xr-x 3 k2admin nagios 4096 Aug 23 03:05 oozie
+drwxr-xr-x 3 k2admin nagios 4096 Aug 23 03:06 pig
+-rw-rw-r-- 1 k2admin nagios   94 Aug 23 03:06 README
+drwxr-xr-x 3 k2admin nagios 4096 Aug 23 03:06 sqoop
+drwxr-xr-x 3 k2admin nagios 4096 Aug 23 03:05 utility
+drwxr-xr-x 3 k2admin nagios 4096 Aug 23 03:06 zookeeper
+-------------------------------------------------------------
+2. install bittop in utility/rpm/
+-------------------------------------------------------------
+rpm -ivh bigtop-jsvc-1.0.15_gphd_2_0_2_0-55.x86_64.rpm
+rpm -ivh bigtop-utils-0.4.0_gphd_2_0_2_0-55.noarch.rpm
+--------
+massh all23 verbose rpm -ivh /root/program/soft/PHD-1.0.2.0-10/utility/rpm/
+-------------------------------------------------------------
+3. install zookeeper/rpm
+-------------------------------------------------------------
+rpm -ivh zookeeper-3.4.5_gphd_2_0_2_0-53.noarch.rpm
+rpm -ivh zookeeper-server-3.4.5_gphd_2_0_2_0-53.noarch.rpm
+---------
+massh all23 verbose rpm -ivh /root/program/soft/PHD-1.0.2.0-10/zookeeper/rpm/
+-------------------------------------------------------------
+4. install hadoop
+---------
+massh all23 verbose yum -y install nc.x86_64
+massh all23 verbose rpm -ivh /root/program/soft/PHD-1.0.2.0-10/hadoop/rpm/
+-------------------------------------------------------------
+rpm -ivh hadoop-2.0.5_alpha_gphd_2_0_2_0-54.x86_64.rpm
+---------------------hdfs
+rpm -ivh hadoop-hdfs-2.0.5_alpha_gphd_2_0_2_0-54.x86_64.rpm
+rpm -ivh hadoop-hdfs-datanode-2.0.5_alpha_gphd_2_0_2_0-54.x86_64.rpm  (datanode)
+rpm -ivh hadoop-hdfs-journalnode-2.0.5_alpha_gphd_2_0_2_0-54.x86_64.rpm 
+rpm -ivh hadoop-hdfs-namenode-2.0.5_alpha_gphd_2_0_2_0-54.x86_64.rpm  (namenode)
+rpm -ivh hadoop-hdfs-secondarynamenode-2.0.5_alpha_gphd_2_0_2_0-54.x86_64.rpm (namenode)
+rpm -ivh hadoop-hdfs-zkfc-2.0.5_alpha_gphd_2_0_2_0-54.x86_64.rpm
+rpm -ivh hadoop-libhdfs-2.0.5_alpha_gphd_2_0_2_0-54.x86_64.rpm
+---------------------yarn
+rpm -ivh hadoop-yarn-2.0.5_alpha_gphd_2_0_2_0-54.x86_64.rpm
+rpm -ivh  hadoop-yarn-resourcemanager-2.0.5_alpha_gphd_2_0_2_0-54.x86_64.rpm  (rm)
+rpm -ivh hadoop-yarn-nodemanager-2.0.5_alpha_gphd_2_0_2_0-54.x86_64.rpm   (nm)
+rpm -ivh hadoop-yarn-proxyserver-2.0.5_alpha_gphd_2_0_2_0-54.x86_64.rpm
+---------------------mapreduce
+rpm -ivh hadoop-mapreduce-2.0.5_alpha_gphd_2_0_2_0-54.x86_64.rpm
+---------------------clent etc.
+rpm -ivh hadoop-client-2.0.5_alpha_gphd_2_0_2_0-54.x86_64.rpm
+rpm -ivh hadoop-hdfs-fuse-2.0.5_alpha_gphd_2_0_2_0-54.x86_64.rpm
+-------------------------------------------------------------
+5. add nfs 
+-------------------------------------------------------------
+massh all23 verbose useradd hamster
+massh all23 verbose usermod -G hadoop hamster
+----------
+/etc/gphd/hadoop/conf
+/var/log/gphd/hadoop-yarn
+/home/hamster
+#/usr/local/hamster   (will install hamster-core/might hamster-ompi/mpi program)
+[root@gphd-vm33 ~]# massh slave22 verbose mount -t nfs gphd-vm33:/etc/gphd/hadoop/conf /etc/gphd/hadoop/conf
+[root@gphd-vm33 ~]# massh slave22 verbose mount -t nfs gphd-vm33:/var/log/gphd/hadoop-yarn /var/log/gphd/hadoop-yarn
+[root@gphd-vm33 ~]# massh slave22 verbose mount -t nfs gphd-vm33:/usr/local/hamster /usr/local/hamster
+[root@gphd-vm33 ~]# massh slave22 verbose mount -t nfs gphd-vm33:/home/hamster /home/hamster
+-------------------------------------------------------------
+6. config file : as 02,03,04,05
+-------------------------------------------------------------
+7. start hdfs
+-------------------------------------------------------------
+[root@hdsh080 ~]#  sudo -u hdfs hdfs namenode -format         ########!!!!!!!!!!!! (format with hdfs user, this is because ${user.name} in 'hdfs-site.xml')
+/etc/init.d/hadoop-hdfs-namenode start
+/etc/init.d/hadoop-hdfs-datanode start
+massh slave22 verbose /etc/init.d/hadoop-hdfs-datanode start 
+-------------------------------------------------------------
+8. start yarn
+-------------------------------------------------------------
+/etc/init.d/hadoop-yarn-resourcemanager start
+/etc/init.d/hadoop-yarn-nodemanager start
+massh slave22 verbose /etc/init.d/hadoop-yarn-nodemanager start
+-------------------------------------------------------------
+9. using hdfs/yarn/mapreduce 
+-------------------------------------------------------------
+[root@hdsh080 cache]# sudo -u hdfs hdfs dfs -mkdir -p /user/root  #!!!!!!!!!!
+sudo -u hdfs hdfs dfs -chown root:root /user/root			      #!!!!!!!!!!!		
+[root@hdsh080 cache]# hadoop jar /usr/lib/gphd/hadoop-mapreduce/hadoop-mapreduce-examples-*.jar pi 2 10000
+[root@node1 program]# hadoop jar /usr/lib/gphd/hadoop-mapreduce-2.0.5_alpha_gphd_2_0_2_0/hadoop-mapreduce-examples.jar pi 2 10000
+================================================================================ 

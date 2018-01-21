@@ -1,0 +1,52 @@
+------------------------------------------------------------------------
+3. hamster on cluster-node1 with input graph
+------------------------------------------------------------------------
+[root@node1 graph_analytics]# cat input.adj     (total 4 vertex)
+1 2 2 5
+7 2 7 1
+5 1 7
+-------------
+./undirected_triangle_count --graph=input.adj --format=adj  
+hamster -v -np 2 /root/program/graphlab/release/toolkits/graph_analytics/undirected_triangle_count --graph=/root/program/graphlab/release/toolkits/graph_analytics/input.adj --format=adj
+-------------
+[root@node1 userlogs]# cat *016/*/stdout
+Number of vertices: 4
+Number of edges:    4
+Counting Triangles...
+Updates: 4
+Counted in 0.169914 seconds
+1 Triangles
+Metrics server stopping.
+This program counts the exact number of triangles in the provided graph.
+
+------------------------------------------------------------------------
+4. hamster on with HDFS
+------------------------------------------------------------------------
+hamster -v -np 2 \
+/usr/local/hamster/graphlab/release/toolkits/graph_analytics/undirected_triangle_count \
+--graph=hdfs://10.37.7.101:8020/user/root/graphlab/ga/input.adj \
+--format=adj --per_vertex=hdfs://10.37.7.101:8020/user/root/graphlab/ga/out
+
+hadoop fs -rm /user/root/graphlab/ga/out*
+
+------------------------------------------------------------------------
+3. hamster with HDFS on AWB
+------------------------------------------------------------------------
+06:00:44 $ hadoop fs  -ls /yarn/apps/caoj7/graphlab_data/ga
+Found 1 items
+-rw-r--r--   3 caoj7 hadoop         22 2013-12-17 06:31 /yarn/apps/caoj7/graphlab_data/ga/input.adj
+----------------------------------------------
+hamster -v -x LD_LIBRARY_PATH=/usr/java/latest/jre/lib/amd64/server -mem 4096 -np 4 \
+/usr/local/graphlab2.2/collaborative_filtering/als \
+--matrix hdfs://mst1.ic.analyticsworkbench.com:8020/yarn/apps/caoj7/graphlab_data/cf/smallnetflix \
+--D=20 --lambda=0.065 --max_iter=5 \
+--predictions=hdfs://mst1.ic.analyticsworkbench.com:8020/yarn/apps/caoj7/graphlab_data/cf/smallnetflix/out
+
+
+hamster -v -p gl -mem 4096 -np 8 \
+/usr/local/graphlab2.2/graph_analytics/undirected_triangle_count \
+--graph=hdfs://mst1.ic.analyticsworkbench.com:8020/yarn/apps/caoj7/graphlab_data/ga/input.adj \
+--format=adj \
+--per_vertex=hdfs://mst1.ic.analyticsworkbench.com:8020/yarn/apps/caoj7/graphlab_data/ga/out
+------------------------------------------------------------------------
+------------------------------------------------------------------------

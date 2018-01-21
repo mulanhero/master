@@ -1,0 +1,2 @@
+make mpi
+mpirun -np 2  --mca ras simulator NPmpi -u 8

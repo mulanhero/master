@@ -1,0 +1,12 @@
+1. Problm SIZE N = 10,000
+ 10,000 * 10,000 * 8B= 100M * 8B = 800MB  
+ 
+ according to 80% policy, physical_mem_needed_in_total = 1GB
+ 
+ if 4 nodes, then each nodes should have 256MB
+ 
+ 2. 
+ 
+ 
+ 
+ 

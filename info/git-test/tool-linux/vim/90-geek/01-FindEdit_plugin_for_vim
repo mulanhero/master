@@ -1,0 +1,41 @@
+Sometime you don't remember the path to the file you want to open, but you 
+remember or know the file name. If you are running on vim, and find yourself 
+in the same trouble, this plugin I made would help.
+----------------------------------------------------------------------------
+command! -nargs=? Findedit :call s:Findedit(<f-args>)
+function! s:Findedit(...)
+  let target = a:1
+  let root = "."
+  let cwd = getcwd()
+  let relpath = ".."
+  while cwd != "/"
+    let basename = fnamemodify(cwd, ":t")
+    let dirname = fnamemodify(cwd, ":h")
+    if basename == "cdb-pg"
+      let root = relpath
+      break
+    endif
+    let cwd = dirname
+    let relpath = relpath . "/.."
+  endwhile
+""  let foo = append(0, cwd)
+  let dest = system("find " . root . " -not -name '.*' | grep '" . target . "' | head -n 1")
+  let dest = fnamemodify(dest, ":.")
+  exec 'e ' . dest
+endfunction
+----------------------------------------------------------------------------
+Save this as ~/.vim/plugin/findedit.vim and restart your vim. 
+Type :Find <filename> and you'll open what you want. 
+The way it works is run the "find" command and grep it then 
+open the first file found in the command chain. So if you want 
+to open analyze.c, maybe cdb-pg/src/backend/commands/analyze.c 
+is not what you want, but it may be actually cdb-pg/src/backend/parser/analyze.c. 
+In that case, try ":Find parser/analyze.c". In addition, this script try to find 
+the root directory of cdb2 branch by finding cdb-pg directory, so you can open 
+5.0.json by simple file name even though you are sitting in cdb-pg.
+Enjoy!
+
+
+
+I personally like the Command-T plugin for this purpose: https://github.com/wincent/Command-T.
+

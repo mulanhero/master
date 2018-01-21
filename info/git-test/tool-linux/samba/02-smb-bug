@@ -1,0 +1,95 @@
+----------------------------------------------------
+1. set
+----------------------------------------------------
+systemctl enable smb.service
+ systemctl enable nmb.service
+ systemctl restart smb.service
+ systemctl restart nmb.service
+ 
+ or
+ 
+ systemctl start smb
+systemctl start nmb
+systemctl enable smb
+systemctl enable nmb
+----------------------------------------------------
+2. Test the Samba server configuration
+----------------------------------------------------
+We can test the Samba server configuration syntax errors using the command ‘testparm’.
+
+testparm
+Sample Output:
+
+Load smb config files from /etc/samba/smb.conf
+rlimit_max: increasing rlimit_max (1024) to minimum Windows limit (16384)
+Processing section "[homes]"
+Processing section "[printers]"
+Processing section "[Anonymous share]"
+Loaded services file OK.
+WARNING: You have some share names that are longer than 12 characters.
+These may not be accessible to some older clients.
+(Eg. Windows9x, WindowsMe, and smbclient prior to Samba 3.0.)
+Server role: ROLE_STANDALONE
+Press enter to see a dump of your service definitions
+----------------------------------------------------
+3. Firewall configuration
+----------------------------------------------------
+firewall-cmd --permanent --add-port=137/tcp
+firewall-cmd --permanent --add-port=138/tcp
+firewall-cmd --permanent --add-port=139/tcp
+firewall-cmd --permanent --add-port=445/tcp
+firewall-cmd --permanent --add-port=901/tcp
+firewall-cmd --reload
+
+
+$ firewall-cmd --permanent --add-service=samba
+$ firewall-cmd --reload
+----------------------------------------------------
+4. SELinux Configuration
+----------------------------------------------------
+setsebool -P samba_enable_home_dirs on
+To disable SELinux, edit file /etc/sysconfig/selinux,
+vi /etc/sysconfig/selinux
+Set SELinux value to disabled.
+
+# This file controls the state of SELinux on the system.
+# SELINUX= can take one of these three values:
+# enforcing - SELinux security policy is enforced.
+# permissive - SELinux prints warnings instead of enforcing.
+# disabled - No SELinux policy is loaded.
+SELINUX=disabled
+# SELINUXTYPE= can take one of these two values:
+# targeted - Targeted processes are protected,
+# mls - Multi Level Security protection.
+SELINUXTYPE=targeted
+----------------------------------------------------
+----------------------------------------------------
+----------------------------------------------------
+----------------------------------------------------
+----------------------------------------------------
+----------------------------------------------------
+----------------------------------------------------
+----------------------------------------------------
+----------------------------------------------------
+----------------------------------------------------
+----------------------------------------------------
+----------------------------------------------------
+----------------------------------------------------
+----------------------------------------------------
+----------------------------------------------------
+----------------------------------------------------
+----------------------------------------------------
+----------------------------------------------------
+----------------------------------------------------
+----------------------------------------------------
+----------------------------------------------------
+----------------------------------------------------
+----------------------------------------------------
+----------------------------------------------------
+----------------------------------------------------
+----------------------------------------------------
+----------------------------------------------------
+----------------------------------------------------
+----------------------------------------------------
+----------------------------------------------------
+----------------------------------------------------

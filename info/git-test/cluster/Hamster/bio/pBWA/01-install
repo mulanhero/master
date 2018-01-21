@@ -1,0 +1,180 @@
+----------------------------------------------------------------
+1. prepare the data (login as hamster)
+----------------------------------------------------------------
+[hamster@gphd-vm33 data]$ pwd
+/home/hamster/bwa/data
+[hamster@gphd-vm33 data]$ ll
+total 26173724
+-rw-r--r-- 1 hamster hamster  3157607965 Mar  2 19:15 hg19.fa
+-rw-r--r-- 1 hamster hamster 11809046086 Mar  2 19:10 SRR099960_1.filt.fastq
+-rw-r--r-- 1 hamster hamster 11809046086 Mar  2 19:13 SRR099960_2.filt.fastq
+
+----------------------------------------------------------------
+2. index data
+----------------------------------------------------------------
+1) download bwa 
+[hamster@gphd-vm33 bwa]$ pwd
+/home/hamster/bwa
+[hamster@gphd-vm33 bwa]$ wget http://sourceforge.net/projects/bio-bwa/files/bwa-0.5.9.tar.bz2/download
+[hamster@gphd-vm33 bwa]$ tar -jxvf bwa-0.5.9.tar.bz2
+
+2)compile bwa 
+[hamster@gphd-vm33 bwa]$ cd bwa-0.5.9
+[hamster@gphd-vm33 bwa-0.5.9]$ make
+after make, *bwa* will be created.
+
+3)index for hg19.fa
+[hamster@gphd-vm33 data]$ pwd
+/home/hamster/bwa/data
+
+[hamster@gphd-vm33 data]$ ../bwa-0.5.9/bwa index ./hg19.fa 
+[bwa_index] Pack FASTA... 29.39 sec
+[bwa_index] Reverse the packed sequence... 13.25 sec
+[bwa_index] Construct BWT for the packed sequence...
+[bwa_index] 22.99 seconds elapse.
+[bwa_index] Construct BWT for the reverse packed sequence...
+[bwa_index] 29.83 seconds elapse.
+[bwa_index] Update BWT... 12.98 sec
+[bwa_index] Update reverse BWT... 12.99 sec
+[bwa_index] Construct SA from BWT and Occ... 18.96 sec
+[bwa_index] Construct SA from reverse BWT and Occ... 19.05 sec
+
+[hamster@gphd-vm33 data]$ ll
+total 30712928
+-rw-r--r-- 1 hamster hamster  3157607965 Mar  2 19:15 hg19.fa
+-rw-rw-r-- 1 hamster hamster        6659 Mar  2 19:20 hg19.fa.amb
+-rw-rw-r-- 1 hamster hamster         871 Mar  2 19:20 hg19.fa.ann
+-rw-rw-r-- 1 hamster hamster  1160885292 Mar  2 19:21 hg19.fa.bwt
+-rw-rw-r-- 1 hamster hamster   773923497 Mar  2 19:20 hg19.fa.pac
+-rw-rw-r-- 1 hamster hamster  1160885292 Mar  2 19:21 hg19.fa.rbwt
+-rw-rw-r-- 1 hamster hamster   773923497 Mar  2 19:20 hg19.fa.rpac
+-rw-rw-r-- 1 hamster hamster   386961772 Mar  2 19:22 hg19.fa.rsa
+-rw-rw-r-- 1 hamster hamster   386961772 Mar  2 19:22 hg19.fa.sa
+-rw-r--r-- 1 hamster hamster 11809046086 Mar  2 19:10 SRR099960_1.filt.fastq
+-rw-r--r-- 1 hamster hamster 11809046086 Mar  2 19:13 SRR099960_2.filt.fastq
+hg19.fa.amb, hg19.fa.ann, hg19.fa.bwt, hg19.fa.pac, hg19.fa.rbwt,  hg19.fa.rpac, hg19.fa.rsa, hg19.fa.sa will be created.
+----------------------------------------------------------------
+4. put all data to HDFS NFS server 
+----------------------------------------------------------------
+[hamster@gphd-vm33 bwa]$ pwd
+/home/hamster/bwa
+[hamster@gphd-vm33 bwa]$ mkdir /hdfs_nfs/bwadata
+[hamster@gphd-vm33 bwa]$ cp data/* /hdfs_nfs/bwadata/
+
+----------------------------------------------------------------
+5. download and compile pBWA
+----------------------------------------------------------------
+[hamster@gphd-vm33 bwa]$ pwd
+/home/hamster/bwa
+[hamster@gphd-vm33 bwa]$ wget http://sourceforge.net/projects/pbwa/files/latest/download
+[hamster@gphd-vm33 bwa]$ unzip pBWA_0.5.9-1.21009.zip
+[hamster@gphd-vm33 bwa]$ cd pBWA_1.21009/
+[hamster@gphd-vm33 pBWA_1.21009]$ make
+
+After make, pBWA will be created.
+
+----------------------------------------------------------------
+6. submit job with hamster
+----------------------------------------------------------------
+hamster -v -mem 30000 -s /home/hamster/bwa/pBWA_1.21009/pBWA -np 8 pBWA aln -t 8 -f /hdfs_nfs/aln_output /hdfs_nfs/bwadata/hg19.fa /hdfs_nfs/bwadata/SRR099960_1.filt.fastq /hdfs_nfs/bwadata/SRR099960_2.filt.fastq 
+
+
+hamster -v -mem 30000 -s /home/hamster/bwa/pBWA/pBWA -np 8 pBWA aln -t 8 -f /hdfs_nfs/aln_output /hdfs_nfs/bwadata/hg19.fa /hdfs_nfs/bwadata/SRR099960_1.filt.fastq /hdfs_nfs/bwadata/SRR099960_2.filt.fastq 
+
+
+
+----------------------------------------------------------------
+7. chec
+----------------------------------------------------------------
+[root@gphd-vm33 hdfs_nfs]# mpirun -bynode -hostfile ~/orte_hosts -np 10 ./pBWA aln -t 4 -f /hdfs_nfs/output /hdfs_nfs/bwadata/hg19.fa /hdfs_nfs/bwadata/SRR099960_1.filt.fastq /hdfs_nfs/bwadata/SRR099960_2.filt.fastq 
+Broadcasting BWT (this may take a while)... done!
+Proc 1: [bwa_aln_core] calculate SA coordinate...
+[gphd-vm32:27046] *** Process received signal ***
+Proc 5: [bwa_aln_core] calculate SA coordinate...
+Proc 6: [bwa_aln_core] calculate SA coordinate...
+[gphd-vm27:24507] *** Process received signal ***
+Proc 3: [bwa_aln_core] calculate SA coordinate...
+[gphd-vm30:26056] *** Process received signal ***
+[gphd-vm30:26056] Signal: Segmentation fault (11)
+[gphd-vm30:26056] Signal code: Address not mapped (1)
+[gphd-vm30:26056] Failing at address: 0x7f78422f9fec
+Proc 4: [bwa_aln_core] calculate SA coordinate...
+Proc 8: [bwa_aln_core] calculate SA coordinate...
+[gphd-vm29:26318] *** Process received signal ***
+Proc 2: [bwa_aln_core] calculate SA coordinate...
+[gphd-vm31:26865] *** Process received signal ***
+[gphd-vm31:26865] Signal: Segmentation fault (11)
+[gphd-vm31:26865] Signal code: Address not mapped (1)
+[gphd-vm31:26865] Failing at address: 0x7fab63210fe8
+Proc 7: [bwa_aln_core] calculate SA coordinate...
+[gphd-vm26:26590] *** Process received signal ***
+Proc 0: [bwa_aln_core] calculate SA coordinate...
+Proc 9: [bwa_aln_core] calculate SA coordinate...
+[gphd-vm24:24408] *** Process received signal ***
+[gphd-vm24:24408] Signal: Segmentation fault (11)
+[gphd-vm24:24408] Signal code: Address not mapped (1)
+[gphd-vm24:24408] Failing at address: 0x7fc1a9aa6fe0
+
+
+
+
+[hamster@gphd-vm33 pBWA_1.21009]$ hamster -s /home/hamster/soft/pBWA_1.21009/pBWA -np 4 pBWA aln -f /hdfs_nfs/Aln /hdfs_nfs/bwa/hg19.fa /hdfs_nfs/bwa/SRR099960_1.filt.fastq /hdfs_nfs/bwa/SRR099960_2.filt.fastq
+
+[hamster@gphd-vm33 pBWA_1.21009]$ hamster -p gl -mem 16000 -s /home/hamster/soft/pBWA_1.21009/pBWA -np 4 pBWA aln -f /hdfs_nfs/Aln /hdfs_nfs/bwa/hg19.fa /hdfs_nfs/bwa/SRR099960_1.filt.fastq /hdfs_nfs/bwa/SRR099960_2.filt.fastq
+
+
+sqsub -q mpi -n 240 -r 1h --mpp 4G ./pBWA aln -n 2 -f Aln Index/hg18.fa Reads/Read_1.fq Reads/Read_2.fq
+sqsub -q mpi -n 240 -r 1h --mpp 4G ./pBWA sampe -f Aln Index/hg18.fa Aln Aln Reads/Read_1.fq Reads/Read_2.fq 
+
+----------------------------------------------------------------
+----------------------------------------------------------------
+
+mpirun -np 4 /hdfs_nfs/pBWA aln -f /hdfs_nfs/Aln /hdfs_nfs/bwadata/hg18.fa /hdfs_nfs/bwadata/SRR099960_1.filt.fastq /hdfs_nfs/bwadata/SRR099960_2.filt.fastq
+
+mpirun -np 4 /hdfs_nfs/pBWA aln -f /hdfs_nfs/Aln /hdfs_nfs/bwadata/hg18 /hdfs_nfs/bwadata/SRR099960_1.filt.fastq /hdfs_nfs/bwadata/SRR099960_2.filt.fastq
+----------------------------------------------------------------
+----------------------------------------------------------------
+mpirun -np 4 /hdfs_nfs/pBWA aln -f /hdfs_nfs/Aln /hdfs_nfs/bwatest/pcdh10iso3.fasta /hdfs_nfs/bwatest/myfile.fastq
+----------------------------------------------------------------
+----------------------------------------------------------------
+----------------------------------------------------------------
+----------------------------------------------------------------
+----------------------------------------------------------------
+----------------------------------------------------------------
+----------------------------------------------------------------
+----------------------------------------------------------------
+----------------------------------------------------------------
+----------------------------------------------------------------
+----------------------------------------------------------------
+----------------------------------------------------------------
+----------------------------------------------------------------
+----------------------------------------------------------------
+----------------------------------------------------------------
+----------------------------------------------------------------
+----------------------------------------------------------------
+----------------------------------------------------------------
+http://rowley.mit.edu/dropbox/Biol2Bioinfo/
+http://rowley.mit.edu/dropbox/Biol2Bioinfo/pcdh10iso3.fasta
+http://rowley.mit.edu/dropbox/Biol2Bioinfo/SAM/BT20_1.fastq
+----------------------------------------------------------------
+----------------------------------------------------------------
+----------------------------------------------------------------
+----------------------------------------------------------------
+----------------------------------------------------------------
+----------------------------------------------------------------
+----------------------------------------------------------------
+----------------------------------------------------------------
+----------------------------------------------------------------
+----------------------------------------------------------------
+----------------------------------------------------------------
+----------------------------------------------------------------
+----------------------------------------------------------------
+----------------------------------------------------------------
+----------------------------------------------------------------
+----------------------------------------------------------------
+----------------------------------------------------------------
+----------------------------------------------------------------
+----------------------------------------------------------------
+----------------------------------------------------------------
+----------------------------------------------------------------
+----------------------------------------------------------------

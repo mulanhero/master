@@ -1,0 +1,50 @@
+------------------------------------------------------------------------------
+xhpl
+------------------------------------------------------------------------------
+[root@gphd-vm33 Linux64]# time mpirun -bynode -np 1000 /home/hamster/program/test/hpl-2.1/bin/Linux64/xhpl 
+[root@gphd-vm33 Linux64]# time mpirun -byslot -np 1000 /home/hamster/program/test/hpl-2.1/bin/Linux64/xhpl 
+[hamster@gphd-vm33 Linux64]$ hamster -s /home/hamster/program/test/hpl-2.1/bin/Linux64/HPL.dat -np 1000 /home/hamster/program/test/hpl-2.1/bin/Linux64/xhpl
+[hamster@gphd-vm33 Linux64]$ hamster -p cl -s /home/hamster/program/test/hpl-2.1/bin/Linux64/HPL.dat -np 1000 /home/hamster/program/test/hpl-2.1/bin/Linux64/xhpl
+[hamster@gphd-vm33 Linux64]$ hamster -min-ppn 1 -max-ppn 65 -s /home/hamster/program/test/hpl-2.1/bin/Linux64/HPL.dat -np 50 /home/hamster/program/test/hpl-2.1/bin/Linux64/xhpl
+------------------------------------------------------------------------------
+graphlab als
+------------------------------------------------------------------------------
+CLEANUP:
+hadoop fs -rm hdfs://gphd-vm33:9000/users/hamster/gl/medwiki/out*
+----------
+MPIRUN: (use root)
+time mpirun -x CLASSPATH=`sh /root/data/get_hadoop_env.sh` --bynode -np 20 \
+/home/hamster/graphlab/release/toolkits/collaborative_filtering/als \
+--ncpus=8 \
+--matrix hdfs://gphd-vm33:9000/users/hamster/gl/medwiki/medwiki \
+--D=20 --lambda=0.065 --max_iter=5 \
+--predictions=hdfs://gphd-vm33:9000/users/hamster/gl/medwiki/out \
+2>&1 > vm33_np20_als_med_mpirun_j.out
+------------
+Hamster:
+time hamster -max-ppn 1 -mem 16000 --bynode -np 20 \
+/home/hamster/graphlab/release/toolkits/collaborative_filtering/als \
+--ncpus=8 \
+--matrix hdfs://gphd-vm33:9000/users/hamster/gl/medwiki/medwiki \
+--D=20 --lambda=0.065 --max_iter=5 \
+--predictions=hdfs://gphd-vm33:9000/users/hamster/gl/medwiki/out
+------------
+
+
+
+
+
+
+
+----------------------
+tips
+----------------------
+1. 	http://node0851.ic.analyticsworkbench.com:8088/proxy/application_1377679391629_0014/  get Rank0's container
+2. 	[root@node0851 userlogs]# cat *0014/*0541/stdout
+3. 	[root@gphd-vm33 userlogs]# vi *0011/*01/stderr  //get HNP container's log
+	[root@gphd-vm33 userlogs]# ll *0011/*/stdout  	//to check 
+	[root@gphd-vm33 userlogs]# massh mycluster verbose killall -9 mpirun
+4. 	org.apache.hadoop.yarn.server.resourcemanager.scheduler.capacity.CapacityScheduler
+	org.apache.hadoop.yarn.server.resourcemanager.scheduler.fair.FairScheduler
+	yarn.scheduler.fair.assignmultiple
+	

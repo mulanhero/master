@@ -1,0 +1,16 @@
+=====2.0.3===========================================================================
+[hadoop@node1 etc]$ sudo vi /etc/hadoop/core-site.xml
+<configuration>
+        <property>
+                <name>fs.defaultFS</name>
+                <value>hdfs://node1:8020</value>
+        </property>
+</configuration>
+=====0.21===========================================================================
+[hadoop@node14 conf]$ cat core-site.xml  
+    <configuration>  
+        <property>  
+            <name>fs.default.name</name>  
+            <value>hdfs://node14:9000</value>  
+        </property>  
+</configuration> 

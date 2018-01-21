@@ -1,0 +1,20 @@
+1. why m-n = 0 when n=200 or n =500? (num_of_nodes = 22)
+Because n >> number_of_nodes, the number of allocated container on each nodes is always larger than 2, 
+Thus no container needed to be returned.
+
+2. why opal_output(0, ) on console?
+Because log fetcher will not fetch such info from  HNP log on HDFS if the job is successfully finished.
+So we have to check the output from HNP log on HDFS.
+
+3. Why we can not get the MPI job's output using 'tail -f /tmp/logs/...' from HNP's containers log?
+Because a) the the MPI job's output is printed by rank = 0
+        b) there is no IOF between rank=0 and HNP, so HNP will not print the output
+        c) rank = 0 's output and HNP's output will uploaded to HDFS
+
+4. 	hamster mpirun -np 12 hello  //will abort
+	hamster mpirun -np 12 /root/program/mpi/hello 
+	
+5.
+
+[root@node1 openmpi-1.6.4]# cat configure_and_install.sh
+./configure --prefix=/root/program/orte --disable-mpi-f77 --with-devel-headers --enable-debug --enable-mem-debug --enable-memchecker  && make -j8 install

@@ -1,0 +1,34 @@
+S1: create a repo in github without readme
+
+S2: under your local project
+touch README.md //if there is README, then step over 
+git init
+git add README.md //if there is README, then 'git add -A'
+git commit -m "first commit"
+git remote add origin https://github.com/jimmycao/****.git
+git push origin master
+	###you will be asked for username and passwd
+
+===========================
+Push an existing repository on your disk to remote repo from the command line
+	git remote add origin https://jimmycao@github.com/jimmycao/mpi.git
+	git push -u origin master	
+	
+	
+==================important===================
+[caoj7@cnencaoj7mbp1 ztry]$git remote remove origin
+[caoj7@cnencaoj7mbp1 ztry]$git remote -v
+	
+=================================================	
+Create a new repository on the command line
+
+touch README.md
+git init
+git add README.md
+git commit -m "first commit"
+git remote add origin https://github.com/jimmycao/ztry.git
+git push -u origin master
+===========================================
+Push an existing repository from the command line
+git remote add origin https://github.com/jimmycao/ztry.git
+git push -u origin master

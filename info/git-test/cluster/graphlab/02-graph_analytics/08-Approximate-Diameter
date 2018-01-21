@@ -1,0 +1,39 @@
+------------------------------------------------------------------------
+3. hamster on cluster-node1 with input graph
+------------------------------------------------------------------------
+[root@node1 graph_analytics]# cat input.adj     (total 4 vertex)
+1 2 2 5
+7 2 7 1
+5 1 7
+-------------
+./approximate_diameter --graph=[graph prefix] --format=[format]
+hamster -v -np 2 /root/program/graphlab/release/toolkits/graph_analytics/approximate_diameter --graph=/root/program/graphlab/release/toolkits/graph_analytics/input.adj --format=adj
+-------------
+Approximate graph diameter
+
+GRAPHLAB_SUBNET_ID/GRAPHLAB_SUBNET_MASK environment variables not defined.
+Using default values
+Subnet ID: 0.0.0.0
+Subnet Mask: 0.0.0.0
+Will find first IPv4 non-loopback address matching the subnet
+Loading graph in format: adj
+Updates: 4
+1-th hop: 9 vertex pairs are reached
+Updates: 4
+2-th hop: 13 vertex pairs are reached
+Updates: 4
+3-th hop: 13 vertex pairs are reached
+converge
+graph calculation time is 0 sec
+The approximate diameter is 2
+
+------------------------------------------------------------------------
+4. hamster on with HDFS
+------------------------------------------------------------------------
+hamster -v -np 2 \
+/usr/local/hamster/graphlab/release/toolkits/graph_analytics/approximate_diameter \
+--graph=hdfs://10.37.7.101:8020/user/root/graphlab/ga/input.adj \
+--format=adj
+
+
+[root@node1 ga]# hadoop fs -rm /user/root/graphlab/ga/out*

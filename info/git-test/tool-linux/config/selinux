@@ -1,0 +1,120 @@
+How to Check SELinux Status on RHEL 6
+
+In this post, i will share on how to check Security-Enhanced Linux (SELinux) status on Red Hat Enterprise Linux 6 (RHEL 6). SELinux is a Linux feature that provides a mechanism for supporting access control security policies in the Linux kernel. First method to check the SELinux status is using sestatus command. The sestatus command returns the SELinux status and the SELinux policy being used on Linux RHEL 6 server as per below example :
+
+1. Simply run this command to check the SELinux status on your RHEL 6 :
+
+[root@rhel6 ~]# /usr/sbin/sestatus
+SELinux status:                 disabled
+or
+
+[root@rhel6 ~]# sestatus
+SELinux status:                 disabled
+2. Alternatively, you can run this command :
+
+[root@rhel6 ~]# cat /etc/selinux/config
+
+# This file controls the state of SELinux on the system.
+# SELINUX= can take one of these three values:
+#     enforcing - SELinux security policy is enforced.
+#     permissive - SELinux prints warnings instead of enforcing.
+#     disabled - No SELinux policy is loaded.
+SELINUX=disabled
+# SELINUXTYPE= can take one of these two values:
+#     targeted - Targeted processes are protected,
+#     mls - Multi Level Security protection.
+SELINUXTYPE=targeted
+In above /etc/selinux/config, SELINUX is set to SELINUX=disabled.
+
+If enable, it will be like below :
+
+[root@rhel6 ~]# cat /etc/selinux/config
+
+# This file controls the state of SELinux on the system.
+# SELINUX= can take one of these three values:
+#     enforcing - SELinux security policy is enforced.
+#     permissive - SELinux prints warnings instead of enforcing.
+#     disabled - No SELinux policy is loaded.
+SELINUX=permissive
+# SELINUXTYPE= can take one of these two values:
+#     targeted - Targeted processes are protected,
+#     mls - Multi Level Security protection.
+SELINUXTYPE=targeted
+If SELinux is enabled, it will look like SELINUX=permissive
+
+====================================================================================
+How to Check and Disable SELinux on CentOS 6.3
+
+Security-Enhanced Linux (SELinux) is a Linux feature that provides security mechanism for supporting access control security policies implemented in the kernel. SELinux checking for allowed operations after standard Linux discretionary access controls are checked. In this post i will shows on how to check SELinux status and disables SELinux on linux CentOS 6.3.
+
+1. How to check SELinux on CentOS 6.3 ?
+
+[root@centos63 ~]# sestatus
+SELinux status:                 enabled
+SELinuxfs mount:                /selinux
+Current mode:                   enforcing
+Mode from config file:          enforcing
+Policy version:                 24
+Policy from config file:        targeted
+or
+
+[root@centos63 ~]# getenforce
+Enforcing
+2. How to disable SELinux on CentOS 6.3 permanently ?
+
+[root@centos63 ~]# cat /etc/selinux/config
+
+# This file controls the state of SELinux on the system.
+# SELINUX= can take one of these three values:
+#     enforcing - SELinux security policy is enforced.
+#     permissive - SELinux prints warnings instead of enforcing.
+#     disabled - No SELinux policy is loaded.
+SELINUX=enforcing
+# SELINUXTYPE= can take one of these two values:
+#     targeted - Targeted processes are protected,
+#     mls - Multi Level Security protection.
+SELINUXTYPE=targeted
+
+
+or
+
+[root@centos63 ~]# cat /etc/sysconfig/selinux
+
+# This file controls the state of SELinux on the system.
+# SELINUX= can take one of these three values:
+#     enforcing - SELinux security policy is enforced.
+#     permissive - SELinux prints warnings instead of enforcing.
+#     disabled - No SELinux policy is loaded.
+SELINUX=enforcing
+# SELINUXTYPE= can take one of these two values:
+#     targeted - Targeted processes are protected,
+#     mls - Multi Level Security protection.
+SELINUXTYPE=targeted
+
+
+Change “SELINUX=enforcing” to “SELINUX=disabled” :
+
+
+# This file controls the state of SELinux on the system.
+# SELINUX= can take one of these three values:
+#     enforcing - SELinux security policy is enforced.
+#     permissive - SELinux prints warnings instead of enforcing.
+#     disabled - No SELinux policy is loaded.
+SELINUX=disabled
+# SELINUXTYPE= can take one of these two values:
+#     targeted - Targeted processes are protected,
+#     mls - Multi Level Security protection.
+SELINUXTYPE=targeted
+
+
+Note : This will disable SELinux on your next reboot
+
+[root@centos63 ~]# sestatus
+SELinux status:                 disabled
+3. How to disable SELinux on CentOS 6.3 immediately without reboot :
+
+[root@centos63 ~]# setenforce 0
+Check SELinux status :
+
+[root@centos63 ~]# getenforce
+Permissive

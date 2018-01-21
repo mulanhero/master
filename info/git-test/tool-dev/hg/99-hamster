@@ -1,0 +1,59 @@
+1)vi .hg/hgrc
+	[paths]
+	default = https://jimmycao@bitbucket.org/jimmycao/hamster2
+	[ui]
+	username = jimmycao <jimmycao@emc.com>
+
+2) hg status -m (-a)
+	before 'hg add', you should use 'hg status' to check changes.
+
+3) hg revert **
+	if you don't want some changes to be really happened, then 
+	hg revert orte/mca/state/yarn/Makefile.am 
+
+4) hg add  **
+	you should use 'hg add **' as specific as possible.
+	hg add orte/mca/plm/yarn/*.c orte/mca/plm/yarn/*.h orte/mca/ras/yarn/*.h orte/mca/ras/yarn/*.c orte/mca/state/yarn/*.h orte/mca/state/yarn/*.c
+	
+5) hg forget **
+	after 'hg add', if you do not want to exclude sth, you will use 'hg forget'.
+	
+6) hg commit -m "yarn in ras, plm, state"
+
+7) hg push
+
+
+8) hg pull  & hg update
+	hg pull https://jimmycao@bitbucket.org/wangda/hamster2/
+	hg update
+	
+9) hg pull & hg merge
+
+10) hg diff
+	hg diff orte/mca/state/yarn/state_yarn.c
+	
+===============================	
+hg status -a
+  805  hg status -m
+  806  hg diff orte/mca/state/yarn/state_yarn.c
+  807  hg revert test/threads/Makefile.am
+  808  hg status -a
+  809  hg status -m
+  810  hg add orte/mca/state/yarn/state_yarn.c
+  811  hg commit -m "revise on thread func's param"
+  812  hg push
+  
+  
+===============================	===============================
+[caoj7@cnencaoj7mbp2 workspace-hg]$hg clone hamster2 hamster2-testbed
+[caoj7@cnencaoj7mbp2 workspace-hg]$cd hamster2-testbed/
+[caoj7@cnencaoj7mbp2 hamster2-testbed]$vi .hg/hgrc
+[paths]
+default = https://jimmycao@bitbucket.org/jimmycao/hamster2-testbed
+[ui]
+username = jimmycao <jimmycao@emc.com>
+
+
+[caoj7@cnencaoj7mbp2 hamster2-testbed]$vi pull.sh
+#!/bin/bash
+hg pull https://jimmycao@bitbucket.org/wangda/hamster2-testbed

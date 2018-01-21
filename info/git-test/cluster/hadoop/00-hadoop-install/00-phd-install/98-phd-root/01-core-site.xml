@@ -1,0 +1,6 @@
+[root@node0851 collaborative_filtering]# cat /etc/gphd/hadoop/conf/core-site.xml 
+
+<property>
+		<name>fs.defaultFS</name>
+        <value>hdfs://hdsh080:9000</value>
+</property>

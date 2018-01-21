@@ -1,0 +1,94 @@
+配置 NFS (root 用户 )
+
+(1)在 master 上检查是否已经安装了 nfs 包
+#yum install nfs-utils.x86_64 nfs-utils-lib.x86_64 nfs-utils-lib-devel.x86_64
+# yum install portreserve.x86_64
+
+（2）在每个nfs client端 安装 [root@host30 ~]# yum install nfs-utils.x86_64  (massh slave verbose yum -y install nfs-utils.x86_64)
+--------------------------------
+[root@hadoop01 ~]# rpm -qa|grep nfs
+
+nfs -utils -1.0.6-46
+
+system-config-nfs -1.2.8-1
+
+[root@hadoop01 ~]# rpm -qa|grep portmap  //portreserve
+
+portmap-4.0-63
+
+若没有安装，可下载 rpm 包，通过 rpm –ivh ***.rpm 来安装
+
+
+
+(2)共享 master 上的/home 目录l
+
+[root@hadoop01 ~]# vi /etc/exports   //*表示对任何网段都可连接
+/home *(rw,no_root_squash,sync) //async 是异步的，速度比较慢 (no blank)
+/root *(rw,no_root_squash,sync) //async 是异步的，速度比较慢 (no blank)
+
+(3) 在 master 上启动 nfs s erver
+
+[root@hadoop01 ~]# service portmap
+
+	Service portreserve
+
+用法：/etc/init.d/portmap {start|stop|status|restart|reload|condrestart}
+
+[root@hadoop01 ~]# service portmap start
+
+[root@vm1 ~]# /etc/init.d/portreserve start
+================Note: if no portmap, then try to find portreserve
+
+
+
+[root@hadoop01 ~]# service nfs
+
+用法：nfs {start|stop|status|restart|reload|condrestart}
+
+[root@hadoop01 ~]# service nfs start
+
+或者 [root@hadoop01 ~]# /etc/init.d/nfs start
+
+
+
+[root@hadoop01 ~]# service nfslock start
+
+(4) 在 master 上设置开机自动启动 nfs
+
+# chkconfig --level 2345 nfs on
+
+//可以把 chkconfig 理解为开关，不过这个开关主要是用来设置系统启动时，各服务在0-6 运行级别下的开启状态的。
+
+(5) 在 slave 端以 root 用户在 hadoop02~hadoop08 上设置开机自动挂载/home
+
+编辑 /etc/fstab
+
+hadoop01:/home          /home              nfs defaults 00
+
+或者在/etc/rc.d/rc.local 中添加
+
+命令行模式：# mount -t nfs hadoop01:/home /home
+
+-------------------------------------------------------------
+
+To reload the NFS server configuration file without restarting the service, as root, type:
+service nfs reload
+---------------------------
+
+(6) 排错
+
+如果出现mount: mount to NFS server 'node1' failed: System Error: No route to host. 则可能是防火墙惹的祸。
+
+        通过setup把防火墙关掉，应该就可以了。
+        
+1）如果/etc/init.d/nfs restart 不能成功， 那么reboot试一下 !!!!!!! 
+(2) if, just restart rpcbind  
+--------------------
+gphd-vm32 : mount.nfs: rpc.statd is not running but is required for remote locking.
+gphd-vm32 : mount.nfs: Either use '-o nolock' to keep locks local, or start statd.
+gphd-vm32 : mount.nfs: an incorrect mount option was specified
+------------------------
+[root@gphd-vm33 ~]# chkconfig --list|grep rpcbind
+rpcbind        	0:off	1:off	2:on	3:on	4:on	5:on	6:off
+[root@gphd-vm33 ~]# massh slave22 verbose /etc/init.d/rpcbind restart
+

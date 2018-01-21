@@ -1,0 +1,51 @@
+----------------------------------------------------------------------
+ftp
+----------------------------------------------------------------------
+ftp hdsh163.lss.emc.com     10.37.7.163
+nfs/dangerous
+--------------
+ftproot/hamster-rpm
+ftproot/vedio
+--------------------------
+wget ftp://hdsh163.lss.emc.com/buildtools/graphlab-deps/eigen_3.1.2.tar.bz2
+ssh nfs@10.37.7.163   dangerous
+/home/nfs/ftproot/dev_tools/buildtools/hamster-deps
+
+wget ftp://hdsh163.lss.emc.com/buildtools/hamster-deps/openmpi-1.7.2-1.src.rpm
+chmod 755 hamster-deps
+
+-rw-r--r-- 1 nfs nfs 12223615 2014-04-03 23:48 openmpi-1.7.2-1.src.rpm
+-rw-r--r-- 1 nfs nfs 17719934 2014-04-04 00:03 openmpi-1.7.2.tar.gz
+-rw-r--r-- 1 nfs nfs 12544952 2014-04-03 23:47 openmpi-1.7.4-1.src.rpm
+-rw-r--r-- 1 nfs nfs 18537885 2014-04-03 23:55 openmpi-1.7.4.tar.gz
+-rw-r--r-- 1 nfs nfs  2401901 2014-04-09 21:55 protobuf-2.5.0.tar.gz
+-rw-r--r-- 1 nfs nfs   500911 2014-04-09 21:55 protobuf-c-0.15.tar.gz
+----------------------------------------------------------------------
+rpm node
+----------------------------------------------------------------------
+ssh root@hdsh129.lss.emc.com            /passwd129
+
+[root@node1 rpm]# scp *.rpm root@hdsh129.lss.emc.com:/data/downloads/hamster/hamster-1.0/
+[root@hdsh129 hamster-1.0]# ll
+total 27656
+-rw-r--r-- 1 root root  1889106 Nov  4 16:16 avro-1.7.5-1.x86_64.rpm
+-rw-r--r-- 1 root root 26132313 Nov 12 10:44 hamster-core-1.0.0-1.x86_64.rpm
+-rw-r--r-- 1 root root   106956 Nov 12 10:44 hamster-ompi1.6-1.0.0-1.x86_64.rpm
+-rw-r--r-- 1 root root   138170 Nov 12 10:44 hamster-ompi1.7-1.0.0-1.x86_64.rpm
+
+----------------------------------------------------------------------
+www
+----------------------------------------------------------------------
+http://hdsh020.lss.emc.com/hamster/
+ssh http@hdsh020.lss.emc.com
+P@ssw0rd
+put to ~/hamster/mtt
+
+
+
+static_subdirs = util attr basic datatype coll comm errhan group info init \
+                 pt2pt rma topo errors manual perf
+all_lang_subdirs = f77 cxx f90 
+
+
+topo

@@ -1,0 +1,42 @@
+0.  autotools
+	m4 => autoconf => automake => libtool => flex 
+1. 	compile and install orte
+        1) ./autogen.pl -no-ompi //if -no-ompi, there will no mpicc, mpirun, etc. and no ompi lib 
+        2) configure
+        		 ./configure --prefix=/root/program/orte --with-devel-headers --with-pbc
+        	
+                a)linux:
+                ./configure --prefix=/root/program/orte --with-platform=contrib/platform/greenplum/slurm/linux --with-devel-headers --with-pbc --with-slurm 
+                
+                b)mac:
+                ./configure --prefix=/Users/caoj7/orte --with-platform=contrib/platform/greenplum/slurm/mac --with-devel-headers --with-pbc 	--with-slurm
+        3) cd orte
+        	make && make install
+        4) set env 
+                *)LD_LIBRARY_PATH
+                        $install_path/lib  
+                        $install_path/lib/open-rte //./autogen.pl -no-ompi  //only install opal and orte 
+                        $install_path/lib/openmpi  //./autogen.pl  //install all of opal, orte, and ompi
+                *)export PATH=/home/caoj7/orte/bin:$PATH
+                
+        #orte
+		export PATH=/root/program/orte/bin:$PATH
+		export LD_LIBRARY_PATH=/root/program/orte/lib:/root/program/orte/lib/openmpi:$LD_LIBRARY_PATH
+    
+
+2. compile orte/mca/ras/slurm
+        make
+        make install
+
+3. compile orte/test/system
+        make  / make clean
+4.
+        rsync orte/mca/ras/slurm/ras_slurm_module.c vm1:~/ompi-slurm/orte/mca/ras/slurm/ras_slurm_module.c
+    
+        rsync orte/test/system/zz.c vm1:~/ompi-slurm/orte/test/system/zz.c
+        
+        
+        
+        
+        
+        

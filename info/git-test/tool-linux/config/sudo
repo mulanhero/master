@@ -1,0 +1,6 @@
+Sudo without password on Mac
+
+sudo visudo
+Add this line at the end (change “jerome” to your username):
+
+jerome ALL=(ALL) NOPASSWD: ALL

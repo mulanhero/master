@@ -1,0 +1,294 @@
+----------------------------------------------------------------------------------------
+1. install OpenCV
+----------------------------------------------------------------------------------------
+1.1 prerequisites:
+GCC 4.4.x or later. This can be installed with:
+	sudo apt-get install build-essential
+CMake 2.6 or higher;
+Git;
+GTK+2.x or higher, including headers (libgtk2.0-dev);
+----
+[root@node1 yum.repos.d]# massh all verbose yum -y install gtk2.x86_64  gtk2-devel.x86_64 
+----
+pkgconfig;
+-------
+[root@node1 yum.repos.d]# massh all verbose yum -y install pkgconfig.x86_64
+-------
+Python 2.6 or later and Numpy 1.5 or later with developer packages (python-dev, python-numpy);
+-------------
+[root@node1 opencv-2.4.7]# massh all verbose yum -y install python.x86_64  python-devel.x86_64
+[root@node1 opencv-2.4.7]# massh all verbose yum -y install  numpy.x86_64 numpy-f2py.x86_64  
+-------------
+ffmpeg or libav development packages: libavcodec-dev, libavformat-dev, libswscale-dev;
+----
+[root@node1 build]# massh all verbose yum -y install ffmpeg-spice-devel.x86_64 ffmpeg-spice-libs.x86_64
+----
+massh all verbose yum -y install libtiff.x86_64 libjpeg.x86_64 libpng.x86_64 jasper-libs.x86_64  
+massh all verbose yum -y install libtiff-devel.x86_64 libjpeg-devel.x86_64 jasper-devel.x86_64 libpng-devel.x86_64
+**************#!if problem occurs. "/usr/lib64/libgdk-x11-2.0.so.0: undefined symbol: _XGetRequest"*************
+[root@node1 build]# massh all verbose yum -y install  libX11.x86_64 libX11-devel.x86_64    
+----
+[optional] libdc1394 2.x;
+[optional] libjpeg-dev, libpng-dev, libtiff-dev, libjasper-dev.
+----------------------------------------------------------------------------------------
+1.2 build and install
+download opencv from http://sourceforge.net/projects/opencvlibrary/
+-----------
+mkdir build; cd build
+cmake -D CMAKE_BUILD_TYPE=RELEASE -D CMAKE_INSTALL_PREFIX=/usr/local ..
+-----------
+make
+sudo make install
+----------------------------------------------------------------------------------------
+1.3 config
+$ vim /etc/ld.so.conf
+/usr/local/lib  #add to end
+$ ldconfig
+----------or
+sudo gedit /etc/ld.so.conf.d/opencv.conf
+/usr/local/lib
+sudo ldconfig
+----------or
+export LD_LIBRARY_PATH=/usr/local/lib
+----------------------------------------------------------------------------------------
+1.4 test  drawing.c
+#ifdef _CH_  
+#pragma package <opencv>  
+#endif  
+  
+#define CV_NO_BACKWARD_COMPATIBILITY  
+  
+#ifndef _EiC  
+#include "cv.h"  
+#include "highgui.h"  
+#include <stdlib.h>  
+#include <stdio.h>  
+#endif  
+  
+#define NUMBER 100  
+#define DELAY 5  
+char wndname[] = "Drawing Demo";  
+  
+CvScalar random_color(CvRNG* rng)  
+{  
+    int icolor = cvRandInt(rng);  
+    return CV_RGB(icolor&255, (icolor>>8)&255, (icolor>>16)&255);  
+}  
+  
+int main( int argc, char** argv )  
+{  
+    int line_type = CV_AA; // change it to 8 to see non-antialiased graphics  
+    int i;  
+    CvPoint pt1,pt2;  
+    double angle;  
+    CvSize sz;  
+    CvPoint  ptt[6];  
+    CvPoint* pt[2];  
+    int  arr[2];  
+    CvFont font;  
+    CvRNG rng;  
+    int width = 1000, height = 700;  
+    int width3 = width*3, height3 = height*3;  
+    CvSize text_size;  
+    int ymin = 0;  
+    // Load the source image  
+    IplImage* image = cvCreateImage( cvSize(width,height), 8, 3 );  
+    IplImage* image2;  
+  
+    // Create a window  
+    cvNamedWindow(wndname, 1 );  
+    cvZero( image );  
+    cvShowImage(wndname,image);  
+    cvWaitKey(DELAY);  
+  
+    rng = cvRNG((unsigned)-1);  
+    pt[0] = &(ptt[0]);  
+    pt[1] = &(ptt[3]);  
+  
+    arr[0] = 3;  
+    arr[1] = 3;  
+  
+    for (i = 0; i< NUMBER; i++)  
+    {  
+        pt1.x=cvRandInt(&rng) % width3 - width;  
+        pt1.y=cvRandInt(&rng) % height3 - height;  
+        pt2.x=cvRandInt(&rng) % width3 - width;  
+        pt2.y=cvRandInt(&rng) % height3 - height;  
+  
+        cvLine( image, pt1, pt2, random_color(&rng), cvRandInt(&rng)%10, line_type, 0 );  
+        cvShowImage(wndname,image);  
+        if(cvWaitKey(DELAY) >= 0) return 0;  
+    }  
+  
+    for (i = 0; i< NUMBER; i++)  
+    {  
+        pt1.x=cvRandInt(&rng) % width3 - width;  
+        pt1.y=cvRandInt(&rng) % height3 - height;  
+        pt2.x=cvRandInt(&rng) % width3 - width;  
+        pt2.y=cvRandInt(&rng) % height3 - height;  
+  
+        cvRectangle( image,pt1, pt2, random_color(&rng), cvRandInt(&rng)%10-1, line_type, 0 );  
+        cvShowImage(wndname,image);  
+        if(cvWaitKey(DELAY) >= 0) return 0;  
+    }  
+  
+    for (i = 0; i< NUMBER; i++)  
+    {  
+        pt1.x=cvRandInt(&rng) % width3 - width;  
+        pt1.y=cvRandInt(&rng) % height3 - height;  
+        sz.width =cvRandInt(&rng)%200;  
+        sz.height=cvRandInt(&rng)%200;  
+        angle = (cvRandInt(&rng)%1000)*0.180;  
+  
+        cvEllipse( image, pt1, sz, angle, angle - 100, angle + 200,  
+                   random_color(&rng), cvRandInt(&rng)%10-1, line_type, 0 );  
+        cvShowImage(wndname,image);  
+        if(cvWaitKey(DELAY) >= 0) return 0;  
+    }  
+  
+    for (i = 0; i< NUMBER; i++)  
+    {  
+        pt[0][0].x=cvRandInt(&rng) % width3 - width;  
+        pt[0][0].y=cvRandInt(&rng) % height3 - height;  
+        pt[0][1].x=cvRandInt(&rng) % width3 - width;  
+        pt[0][1].y=cvRandInt(&rng) % height3 - height;  
+        pt[0][2].x=cvRandInt(&rng) % width3 - width;  
+        pt[0][2].y=cvRandInt(&rng) % height3 - height;  
+        pt[1][0].x=cvRandInt(&rng) % width3 - width;  
+        pt[1][0].y=cvRandInt(&rng) % height3 - height;  
+        pt[1][1].x=cvRandInt(&rng) % width3 - width;  
+        pt[1][1].y=cvRandInt(&rng) % height3 - height;  
+        pt[1][2].x=cvRandInt(&rng) % width3 - width;  
+        pt[1][2].y=cvRandInt(&rng) % height3 - height;  
+  
+        cvPolyLine( image, pt, arr, 2, 1, random_color(&rng), cvRandInt(&rng)%10, line_type, 0 );  
+        cvShowImage(wndname,image);  
+        if(cvWaitKey(DELAY) >= 0) return 0;  
+    }  
+  
+    for (i = 0; i< NUMBER; i++)  
+    {  
+        pt[0][0].x=cvRandInt(&rng) % width3 - width;  
+        pt[0][0].y=cvRandInt(&rng) % height3 - height;  
+        pt[0][1].x=cvRandInt(&rng) % width3 - width;  
+        pt[0][1].y=cvRandInt(&rng) % height3 - height;  
+        pt[0][2].x=cvRandInt(&rng) % width3 - width;  
+        pt[0][2].y=cvRandInt(&rng) % height3 - height;  
+        pt[1][0].x=cvRandInt(&rng) % width3 - width;  
+        pt[1][0].y=cvRandInt(&rng) % height3 - height;  
+        pt[1][1].x=cvRandInt(&rng) % width3 - width;  
+        pt[1][1].y=cvRandInt(&rng) % height3 - height;  
+        pt[1][2].x=cvRandInt(&rng) % width3 - width;  
+        pt[1][2].y=cvRandInt(&rng) % height3 - height;  
+  
+        cvFillPoly( image, pt, arr, 2, random_color(&rng), line_type, 0 );  
+        cvShowImage(wndname,image);  
+        if(cvWaitKey(DELAY) >= 0) return 0;  
+    }  
+  
+    for (i = 0; i< NUMBER; i++)  
+    {  
+        pt1.x=cvRandInt(&rng) % width3 - width;  
+        pt1.y=cvRandInt(&rng) % height3 - height;  
+  
+        cvCircle( image, pt1, cvRandInt(&rng)%300, random_color(&rng),  
+                  cvRandInt(&rng)%10-1, line_type, 0 );  
+        cvShowImage(wndname,image);  
+        if(cvWaitKey(DELAY) >= 0) return 0;  
+    }  
+  
+    for (i = 1; i< NUMBER; i++)  
+    {  
+        pt1.x=cvRandInt(&rng) % width3 - width;  
+        pt1.y=cvRandInt(&rng) % height3 - height;  
+  
+        cvInitFont( &font, cvRandInt(&rng) % 8,  
+                    (cvRandInt(&rng)%100)*0.05+0.1, (cvRandInt(&rng)%100)*0.05+0.1,  
+                    (cvRandInt(&rng)%5)*0.1, cvRound(cvRandInt(&rng)%10), line_type );  
+  
+        cvPutText( image, "Testing text rendering!", pt1, &font, random_color(&rng));  
+        cvShowImage(wndname,image);  
+        if(cvWaitKey(DELAY) >= 0) return 0;  
+    }  
+  
+    cvInitFont( &font, CV_FONT_HERSHEY_COMPLEX, 3, 3, 0.0, 5, line_type );  
+  
+    cvGetTextSize( "OpenCV forever!", &font, &text_size, &ymin );  
+  
+    pt1.x = (width - text_size.width)/2;  
+    pt1.y = (height + text_size.height)/2;  
+    image2 = cvCloneImage(image);  
+  
+    for( i = 0; i < 255; i++ )  
+    {  
+        cvSubS( image2, cvScalarAll(i), image, 0 );  
+        cvPutText( image, "OpenCV forever!", pt1, &font, CV_RGB(255,i,i));  
+        cvShowImage(wndname,image);  
+        if(cvWaitKey(DELAY) >= 0) return 0;  
+    }  
+  
+    // Wait for a key stroke; the same function arranges events processing  
+    cvWaitKey(0);  
+    cvReleaseImage(&image);  
+    cvReleaseImage(&image2);  
+    cvDestroyWindow(wndname);  
+  
+    return 0;  
+}  
+  
+#ifdef _EiC  
+main(1,"drawing.c");  
+#endif  
+-----------
+$g++ `pkg-config opencv --libs --cflags opencv` drawing.c -o drawing
+$./drawing
+----------------------------------------------------------------------------------------
+2. make ParallelHoughTransform 
+----------------------------------------------------------------------------------------
+git clone https://github.com/thejo11/ParallelHoughTransform.git
+
+
+make
+----------------------------------------------------------------------------------------
+3. 
+----------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------

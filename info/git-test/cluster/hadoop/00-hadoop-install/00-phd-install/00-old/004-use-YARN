@@ -1,0 +1,95 @@
+1. Start/Stop YARN daemons
+YARN also includes three services: ResourceManager(RM for short), 
+NodeManager(NM for short), MapReduce HistoryManager(MRHM for short).
+
+Before start the daemons, make sure the user yarn has the write 
+permission on related folders, which are configured in yarn-site.xml.
+
+Note: Since the hadoop-yarn already created the data folder 
+"/var/lib/gphd/hadoop-yarn-<version>" and log folder 
+"/var/log/gphd/hadoop-yarn-<version>" with owner "yarn:hadoop", 
+so we can skip this step here. However, if the user specifies a 
+new one, please create it and change the owner to yarn:hadoop first.
+
+1.1 Create working directories on HDFS
+We also need to create some directories on HDFS which are need 
+by hadoop-yarn and hadoop-mapreduce.
+
+// create yarn.nodemanager.remote-app-log-dir
+# sudo -u hdfs hdfs dfs -mkdir -p /var/log/gphd/hadoop-yarn
+# sudo -u hdfs hdfs dfs -chown yarn:hadoop /var/log/gphd/hadoop-yarn
+ 
+// create yarn.app.mapreduce.am.staging-dir staging directory
+# sudo -u hdfs hdfs dfs -mkdir -p /user
+ 
+// create history folder under staging directory
+# sudo -u hdfs hdfs dfs -mkdir -p /user/history
+# sudo -u hdfs hdfs dfs -chown mapred:hadoop /user/history
+# sudo -u hdfs hdfs dfs -chmod -R 1777 /user/history
+
+1.2 Verify the HDFS File Structure
+# sudo -u hdfs hdfs dfs -ls -R /
+You should see:
+
+drwxrwxrwx   - hdfs  supergroup          0 2012-11-22 15:44 /tmp
+drwxr-xr-x   - hdfs  supergroup          0 2012-11-22 17:13 /user
+drwxrwxrwt   - mapred hadoop             0 2012-11-22 16:18 /user/history
+drwxr-xr-x   - hdfs   supergroup         0 2012-06-29 10:56 /var
+drwxr-xr-x   - hdfs   supergroup         0 2012-06-29 10:56 /var/log
+drwxr-xr-x   - hdfs   supergroup         0 2012-06-29 10:56 /var/log/gphd
+drwxr-xr-x   - yarn   hadoop             0 2012-11-22 15:23 /var/log/gphd/hadoop-yarn
+
+=====================================
+2 Starting YARN Daemons  (with root)
+2.1 Starting ResourceManager
+Now start the ResourceManager daemon only on the master node:
+
+# /etc/init.d/hadoop-yarn-resourcemanager start
+When RM is started, you can visit its dashboard at: http://resourcemanager-host:8088/
+
+2.2 Starting NodeManager
+Start the NodeManager daemon on all hosts that will be used as working nodes:
+
+# /etc/init.d/hadoop-yarn-nodemanager start
+
+2.3 Start MapReduce HistoryServer
+MapReduce HistoryServer only need to be run on the server that are 
+meant to be the history server.
+
+To start MR HistoryServer:
+
+# /etc/init.d/hadoop-mapreduce-historyserver start
+When the MR HistoryServer is started, you can visit its dashboard at: 
+http://historyserver-host:19888/
+
+=====================================
+3 Using YARN/MapReduce
+After ResourceManager and NodeManager are started, you can now submit 
+YARN applications.
+
+Note: please make sure HDFS daemons are running, and create the home 
+directory "/user/${user.name}" for each MapReduce user on hdfs. 
+Here we use the user "hadoop"
+
+# sudo -u hdfs hdfs dfs -mkdir -p /user/hadoop
+# sudo -u hdfs hdfs dfs -chown hadoop:hadoop /user/hadoop
+For simplicity，here we will submit an example MapReduce job.
+
+# su - hadoop
+$ hadoop jar /usr/lib/gphd/hadoop-mapreduce/hadoop-mapreduce-examples-*.jar pi 2 10000
+This will run the PI generation example. You can track the progress of this 
+job at the RM dashboard: http://resourcemanager-host:8088/ and Job History at 
+MR HistoryServer dashboard: http://historyserver-host:19888/
+=====================================
+4. Stop YARN (with root)
+We can stop the YARN daemons manually by using the following commands.
+
+Stop the MapReduce HistoryServer Daemon
+# /etc/init.d/hadoop-mapreduce-historyserver stop
+Stop the NodeManager Daemon
+# /etc/init.d/hadoop-yarn-nodemanager stop
+Stop the ResourceManager Daemon:
+# /etc/init.d/hadoop-yarn-resourcemanager stop
+
+
+

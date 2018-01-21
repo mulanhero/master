@@ -1,0 +1,24 @@
+The standard tool for listing symbols is nm, you can use it simply like this:
+
+nm -g yourLib.so
+If you want to see symbols of a C++ library, add the "-C" option which demangle the symbols (it's far more readable demangled).
+
+nm -gC yourLib.so
+If your .so file is in elf format, you will have to use readelf program to extract symbol information from the binary.
+
+readelf -Ws /usr/lib/libexample.so
+You only should extract those that are defined in this .so file, not in the libraries referenced by it. Seventh column should contain a number in this case. You can extract the corresponding lines with awk:
+
+readelf -Ws /usr/lib/libstdc++.so.6 | awk '{print $8}';
+Update: Thanks to Pavel Shved and Gaspin, I've updated the answer
+
+
+
+
+#=====================================================================
+[root@node1 lib]# nm -g libopen-rte.so.4.0.3|grep hdclient
+0000000000062cc0 T orte_hdclient_connect_to_am
+0000000000062ec0 T orte_hdclient_init_pb_env
+000000000034ddb8 B orte_hdclient_pb_env
+00000000000629c0 T orte_hdclient_recv_message
+0000000000062ba0 T orte_hdclient_send_message_and_delete

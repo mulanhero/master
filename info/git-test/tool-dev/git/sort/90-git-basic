@@ -1,0 +1,41 @@
+1. Set user.name and user.email
+[caoj7@vm1 ~]$ git config --global user.name "jimmycao"
+[caoj7@vm1 ~]$ git config --global user.email "jimmy.cao@emc.com"
+
+6. Add changes
+[caoj7@vm1 slurm]$ git add .
+[caoj7@vm1 slurm]$ git status 
+Or
+Git add 
+
+====================
+git add -A stages All
+git add . stages new and modified, without deleted
+git add -u stages modified and deleted, without new (update)
+====================
+
+7. commit
+[caoj7@vm1 slurm]$ git commit -m 'make dynalloc as a plugin in src/plugins/sched/dynalloc'
+
+8. Push (Notice: add username@ in your remote url)
+[caoj7@vm1 slurm]$ git remote set-url origin https://jimmycao@github.com/jimmycao/slurm.git
+[caoj7@vm1 slurm]$ git push
+Password: 
+Counting objects: 24, done.
+Delta compression using up to 4 threads.
+Compressing objects: 100% (18/18), done.
+Writing objects: 100% (18/18), 15.20 KiB, done.
+Total 18 (delta 7), reused 0 (delta 0)
+To https://jimmycao@github.com/jimmycao/slurm.git
+   07c428a..5f86e2a  master -> master
+
+9. Pull new changes
+git pull
+
+
+===solve the git problem================================
+[caoj7@vm1 slurm]$ git --version
+git version 1.7.1
+[caoj7@vm1 slurm]$ git remote -v
+origin	https://github.com/jimmycao/slurm.git (fetch)
+origin	https://github.com/jimmycao/slurm.git (push)

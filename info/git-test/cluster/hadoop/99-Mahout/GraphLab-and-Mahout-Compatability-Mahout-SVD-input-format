@@ -1,0 +1,143 @@
+In the last couple of months, we are working on increasing compatibility of GraphLab large scale machine learning project, with Apache Mahout large scale machine learning project. 
+About 3 months ago, as a first step, we decided to change GraphLab license to Apache license to allow for better interaction between the projects.
+
+This week I wrote some Java code, to allow translation of Mahout Hadoop sequence files using in Mahout's SVD solver into GraphLab's format and back. 
+This will allow users of Mahout that rely on Hadoop infrastructure, to pre-process the matrix factorization problem as before, 
+but change the actual solver used from Mahout SVD to GraphLab. The advantage, is that for problems which fit into memory, GraphLab run about x50 faster.
+
+Here is the Java code:
+
+import java.io.*;
+import java.util.Iterator;
+
+import org.apache.mahout.math.SequentialAccessSparseVector;
+import org.apache.mahout.math.Vector;
+import org.apache.mahout.math.VectorWritable;
+import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.fs.FileSystem;
+import org.apache.hadoop.fs.Path;
+import org.apache.hadoop.io.IntWritable;
+import org.apache.hadoop.io.SequenceFile;
+
+/**
+ * Code for converting Mahout SequenceFile containing SequentialAccessSparseVector to GraphLab format
+ * @author bickson
+ *
+ */
+
+public class SeqFile2GraphLab {
+
+
+   public static int Cardinality;
+
+        /**
+         * 
+         * @param args[0] - input svd file
+         * @param args[2] - output csv file
+         */
+
+  static void writeFloat(DataOutputStream dos, float a) throws java.io.IOException{
+    int floatBits = Float.floatToIntBits(a);
+    byte floatBytes[] = new byte[4];
+    floatBytes[3] = (byte)(floatBits >> 24);
+    floatBytes[2] = (byte)(floatBits >> 16);
+    floatBytes[1] = (byte)(floatBits >> 8);
+    floatBytes[0] = (byte)(floatBits);
+    dos.write(floatBytes);
+  }
+  static void writeInt(DataOutputStream dos, int a) throws java.io.IOException{
+    byte floatBytes[] = new byte[4];
+    floatBytes[3] = (byte)(a >> 24);
+    floatBytes[2] = (byte)(a >> 16);
+    floatBytes[1] = (byte)(a >> 8);
+    floatBytes[0] = (byte)(a);
+    dos.write(floatBytes);
+  }
+
+
+
+  public static void main(String[] args){
+
+    if (args.length < 6){
+      System.err.println("Usage: java SeqFile2GraphLab [input seq file name] [output graphlab file name] [M - number of users] [N - number of movies] [K - number of time bins ] [ e - number of edges] [ OPTIONAL: transpose = false]");
+      System.exit(1);
+    }
+
+    String inputfile = args[0];
+    String outputfile = args[1];
+   int M = Integer.parseInt(args[2]);
+    int N = Integer.parseInt(args[3]);
+    int K = Integer.parseInt(args[4]);
+    int e = Integer.parseInt(args[5]);
+    if (M < 1 || N < 1 || K< 1 || e<1){
+       System.err.println("wrong input. M,N,K,e should be >=1");
+       System.exit(1);
+    }
+    boolean transpose = false;
+    if (args.length >= 7)
+       transpose = new Boolean(args[6]).booleanValue();
+
+    try {
+        final Configuration conf = new Configuration();
+        final FileSystem fs = FileSystem.get(conf);
+        final SequenceFile.Reader reader = new SequenceFile.Reader(fs, new Path(inputfile), conf);
+        DataOutputStream dos = new DataOutputStream(new BufferedOutputStream(new FileOutputStream(outputfile)));
+        writeInt(dos,M);
+        writeInt(dos,N);
+        writeInt(dos,K);
+        writeInt(dos,e);
+        System.out.println("Writing a matrix of size: " + M + " users, " + N + " movies, " + K + " time bins " + e + " edges.");
+        IntWritable key = new IntWritable();
+        VectorWritable vec = new VectorWritable();
+        int edges = 0;
+
+        while (reader.next(key, vec)) {
+           SequentialAccessSparseVector vect = (SequentialAccessSparseVector)vec.get();
+           //System.out.println("key " + key + " value: " + vect);
+           Iterator<Vector.Element> iter = vect.iterateNonZero();
+
+           while(iter.hasNext()){
+
+              Vector.Element element = iter.next();
+              if (!transpose){
+                assert(element.index() < M);
+                assert(key.get() < N);
+                writeFloat(dos,element.index()+1);
+                writeFloat(dos,key.get()+1+M);
+              }
+              else {
+                assert(element.index() < N);
+                assert(key.get() < M);
+                writeFloat(dos,key.get()+1);
+                writeFloat(dos,element.index()+1+M);
+              }
+              writeFloat(dos,1);
+              writeFloat(dos,(float)vect.getQuick(element.index()));
+              //System.out.println("col: " + key.get() + " row: " + element.index() + " val: " + vect.getQuick(element.index()));
+              edges++;
+
+              if (edges % 1000000 == 0)
+                 System.out.println("edges: " + edges);
+           }
+        }
+        if (edges != e){
+           System.err.println("Wrong number of edges in file. Should be " + e + " in practice we have : " + edges);
+        }
+        reader.close();
+        dos.close();
+        System.out.println("Done writing !" + e + " edges");
+    } catch(Exception ex){
+       ex.printStackTrace();
+    }
+
+  }
+}
+
+Compilation:
+
+javac -cp /mnt/bigbrofs/usr7/bickson/hadoop-0.20.2/lib/core-3.1.1.jar:/mnt/bigbrofs/usr7/bickson/mahout-0.4/taste-web/target/mahout-taste-webapp-0.5-SNAPSHOT/WEB-INF/lib/mahout-core-0.5-SNAPSHOT.jar:/mnt/bigbrofs/usr7/bickson/mahout-0.4/taste-web/target/mahout-taste-webapp-0.5-SNAPSHOT/WEB-INF/lib/mahout-math-0.5-SNAPSHOT.jar:/mnt/bigbrofs/usr7/bickson/hadoop-0.20.2/lib/commons-cli-1.2.jar:/mnt/bigbrofs/usr7/bickson/hadoop-0.20.2/hadoop-0.20.2-core.jar *.java
+
+Example run, for converting netflix data, from Mahout's format into GraphLab's:
+
+run2:
+        java -cp .:/mnt/bigbrofs/usr7/bickson/hadoop-0.20.2/lib/core-3.1.1.jar:/mnt/bigbrofs/usr7/bickson/mahout-0.4/taste-web/target/mahout-taste-webapp-0.5-SNAPSHOT/WEB-INF/lib/mahout-core-0.5-SNAPSHOT.jar:/mnt/bigbrofs/usr7/bickson/mahout-0.4/taste-web/target/mahout-taste-webapp-0.5-SNAPSHOT/WEB-INF/lib/mahout-math-0.5-SNAPSHOT.jar:/mnt/bigbrofs/usr7/bickson/hadoop-0.20.2/lib/commons-cli-1.2.jar:/mnt/bigbrofs/usr7/bickson/hadoop-0.20.2/hadoop-0.20.2-core.jar:/mnt/bigbrofs/usr7/bickson/hadoop-0.20.2/lib/commons-logging-1.0.4.jar:/mnt/bigbrofs/usr7/bickson/hadoop-0.20.2/lib/commons-logging-api-1.0.4.jar:/mnt/bigbrofs/usr7/bickson/mahout-0.4/taste-web/target/mahout-taste-webapp-0.5-SNAPSHOT/WEB-INF/lib/commons-collections-3.2.1.jar:/mnt/bigbrofs/usr7/bickson/mahout-0.4/taste-web/target/mahout-taste-webapp-0.5-SNAPSHOT/WEB-INF/lib/google-collections-1.0-rc2.jar  SeqFile2GraphLab netflix.seq netflix 480189 17770 27 1408395

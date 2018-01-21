@@ -1,0 +1,106 @@
+----------------------------------------------------------------------------------------------
+1. 动态load：cr_run 
+----------------------------------------------------------------------------------------------
+cr_run your_executable [args]
+'cr_run' loads the BLCR library into your application at startup time
+cr_run 无法动态链接到可执行程序；
+----------------------------------------------------------------------------------------------
+2. 链接
+----------------------------------------------------------------------------------------------
+[root@node1 soft]# ll /usr/local/blcr-0.8.5/lib/
+total 204
+drwxr-xr-x 3 root root   4096 Dec  8 05:52 blcr
+-rwxr-xr-x 1 root root    925 Dec  8 05:52 libcr.la
+-rwxr-xr-x 1 root root    945 Dec  8 05:52 libcr_omit.la
+lrwxrwxrwx 1 root root     19 Dec  8 05:52 libcr_omit.so -> libcr_omit.so.0.5.5
+lrwxrwxrwx 1 root root     19 Dec  8 05:52 libcr_omit.so.0 -> libcr_omit.so.0.5.5
+-rwxr-xr-x 1 root root  15546 Dec  8 05:52 libcr_omit.so.0.5.5
+-rwxr-xr-x 1 root root    939 Dec  8 05:52 libcr_run.la
+lrwxrwxrwx 1 root root     18 Dec  8 05:52 libcr_run.so -> libcr_run.so.0.5.5
+lrwxrwxrwx 1 root root     18 Dec  8 05:52 libcr_run.so.0 -> libcr_run.so.0.5.5
+-rwxr-xr-x 1 root root  16425 Dec  8 05:52 libcr_run.so.0.5.5
+lrwxrwxrwx 1 root root     14 Dec  8 05:52 libcr.so -> libcr.so.0.5.5
+lrwxrwxrwx 1 root root     14 Dec  8 05:52 libcr.so.0 -> libcr.so.0.5.5
+-rwxr-xr-x 1 root root 154485 Dec  8 05:52 libcr.so.0.5.5
+----------------------------------------------------------------------------------------------
+2.1 cr_run
+----------------------------------------------------------------------------------------------
+[root@node1 test]# gcc test.c -o test
+[root@node1 test]# cr_run ./test
+[root@node1 test]# cr_checkpoint -p $PID
+[root@node1 test]# cr_restart context.$PID
+----------------------------------------------------------------------------------------------
+2.2 link with libcr_run  
+----------------------------------------------------------------------------------------------
+[root@node1 test]# gcc  -o goodbye goodbye.c -L/usr/local/blcr-0.8.5/lib -lcr_run -u cr_run_link_me
+!! disallow the application any sort of control over what gets checkpointed
+----------------------------------------------------------------------------------------------
+2.3 link with libcr
+----------------------------------------------------------------------------------------------
+[root@node1 test]# gcc -o goodbye goodbye.c -L/usr/local/blcr-0.8.5/lib/ -lcr
+./test_cr
+cr_checkpoint -p $PID
+cr_restart context.$PID
+----------------------------------------------------------------------------------------------
+2.4 link with lib 
+----------------------------------------------------------------------------------------------
+(which use BLCR, e.g., MPI lib with BLCR-aware, then just mpicc is enough)
+----------------------------------------------------------------------------------------------
+2.5 dynamically link  (dlopen)
+----------------------------------------------------------------------------------------------
+This mechanism can be used for building applications or libraries that must work both with 
+and without BLCR present on a system.
+----------------------------------------------------------------------------------------------
+2.6 LD_PRELOAD  (This is essentially how 'cr_run' works.)
+----------------------------------------------------------------------------------------------
+gcc -o test test.c  // no necessary to link the blcr lib, just load dynamically with LD_PRELOAD
+[root@node1 test]# env LD_PRELOAD=/usr/local/blcr-0.8.5/lib/libcr_run.so.0 ./test
+----------------------------------------------------------------------------------------------
+2.7 cr_omit  (disappear from a checkpoint)
+----------------------------------------------------------------------------------------------
+[root@node1 test]# gcc -o goodbye goodbye.c -L/usr/local/blcr-0.8.5/lib -lcr_omit -u cr_omit_link_me  
+./goodbye
+[root@node1 ~]# cr_checkpoint -p 2400
+Checkpoint failed: no processes checkpointed
+----------------------------------------------------------------------------------------------
+3. cr_checkpoint
+----------------------------------------------------------------------------------------------
+[root@node1 test]# gcc -o goodbye goodbye.c -L/usr/local/blcr-0.8.5/lib/ -lcr
+./test_cr
+[root@node1 ~]# ps -ef|grep goodbye
+root      2500  2315  0 21:38 pts/0    00:00:00 ./goodbye
+root      2504  2354  0 21:39 pts/1    00:00:00 grep goodbye
+[root@node1 ~]# cr_checkpoint -p 2500
+[root@node1 ~]# cr_checkpoint --term 2500
+'SIGTERM' signal to be sent to the process at the end of the checkpoint
+-------------------------------------------------
+cr_checkpoint -p $PID 能够checkpoint一个进程(可能多线程、可能还有子进程等)
+---------------------------------------------------
+% cr_checkpoint --pgid PGID 		//a process group, pid of the process group leader 
+% cr_checkpoint --sid SID			//a session, pid of session leader
+% cr_checkpoint --tree PID			// a process tree (the default)
+all the pipes among the processes are saved and restored
+Pipes to/from processes not within the checkpoint scope are not saved 
+(these will be replaced at restart time by the stdin or stdout of the 'cr_restart' process).
+ps -j 可查看pgid和sid
+在restart时候，不能回复pgid和sid；而是会继承'cr_restart'的pgid和sid
+----------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------

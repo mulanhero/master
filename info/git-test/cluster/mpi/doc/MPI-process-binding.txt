@@ -1,0 +1,188 @@
+1. 介绍
+我们常通过CPU 进程绑定（binding or affinity）的方法来提高MPI 程序的性能。通过CPU 进
+程绑定，可以避免进程在CPU 核之间切换带来的开销，可以减轻cache 争抢现象。特别是当
+进程数为CPU 总核数一半左右时，有时会发现测试结果不稳定，时好时坏，很可能是因为
+进程切换造成的，这时不妨尝试进行进程CPU 绑定。
+MPI 程序的进程CPU 绑定可以通过两种方式实现，一是使用MPI 发行版自带的进程绑定功
+能，二是通过操作系统层的工具，如numactl 实现。第一种实现方式使用起来比较简单，第
+二种的可靠性更高。本文简单总结常用的一些MPI 发行版实现CPU 进程绑定的方法，包括
+OpenMPI、MPICH2、MVAPICH、MVAPICH2、Intel MPI 和HP MPI，MPICH 暂没找到实现进程
+绑定的方法。
+2. OpenMPI
+OpenMPI 实现进程CPU 绑定的方法很多，基本上实现方式越复杂，绑定的可靠性越高，可
+以根据情况选用。
+2.1. 通过MCA 参数“mpi_paffinity_alone”，打开隐性CPU 绑定支持，即自动绑定
+mpirun ‐np <N> ‐machinefile <machinefile> ‐‐mca mpi_paffinity_alone 1 <executable>
+2.2. 通过mpirun 的“‐‐bind‐to‐core”或“‐‐bind‐to‐socket”参数，实现不同的绑定方式
+本方法适用于1.4 以上版本。
+mpirun ‐np <N> ‐machinefile <machinefile> ‐‐bind‐to‐core ‐‐bycore <executable>
+将进程绑定到CPU 核上，绑定顺序按照CPU 核连续分布。
+mpirun ‐np <N> ‐machinefile <machinefile> ‐‐bind‐to‐core ‐‐bysocket <executable>
+将进程绑定到CPU 核上，绑定顺序按照物理CPU 分布，即分散到各物理CPU，这种绑定方
+式能减轻cache 争抢。
+mpirun ‐np <N> ‐machinefile <machinefile> ‐‐bind‐to‐socket ‐‐bysocket <executable>
+只将进程绑定到socket，即物理CPU 上。
+另外，给mpirun 加上“‐‐report‐bindings”参数，可以输出绑定信息。
+
+2.3. 通过mpirun 的“‐‐slot‐list”参数，按照指定CPUID 号进行绑定
+mpirun ‐np 4 ‐‐slot‐list 0,4,8,12 <executable>
+上面的例子中，一台4 路4 核机器上运行4 个进程，分别绑定到每个物理CPU 的第一个核
+上。
+2.4. 通过mpirun 的“‐‐rankfile”参数，限定每个进程的绑定方式
+mpirun ‐np 4 ‐‐rankfile <myrank> <executable>
+cat myrank
+rank 0=node1 slot=0
+rank 1=node2 slot=4
+rank 2=node3 slot=4‐7
+rank 3=node4 slot=0:0,1
+上面的例子中，第1 个进程绑定到node1 的第一个核上；第二个进程绑定到node2 的4 号
+CPU 核上；第三个进程绑定到node3 的4 到7 号CPU 核上,；第四个进程绑定到node4 的0
+号socket 的第0 和1 号核上（等同于node4 的前两个核）。
+2.5. 通过操作系统numactl 调用MPI 程序，实现更可靠的绑定
+通过mpirun 的“appfile”功能实现。举例说明，比如需要两节点、4 进程运行一个MPI 程
+序/home/test/a.out，分别绑定到每个节点的0 和4 号CPU 核上。
+mpirun ‐‐appfile <myapp>
+cat myapp
+‐np 1 ‐host node1 /home/test/1.sh
+‐np 1 ‐host node1 /home/test/2.sh
+‐np 1 ‐host node2 /home/test/3.sh
+‐np 1 ‐host node2 /home/test/4.sh
+或者
+mpirun ‐np 1 ‐host node1 /home/test/1.sh : ‐np 1 ‐host node1 /home/test/2.sh : ‐np 1 ‐host
+node2 /home/test/3.sh : ‐np 1 ‐host node2 /home/test/4.sh
+[1‐4].sh 的内容如下：
+chmod +x 1.sh; cat 1.sh
+#!/bin/sh
+numactl ‐‐localalloc ‐‐physcpubind 0 /home/test/a.out
+chmod +x 2.sh; cat 2.sh
+#!/bin/sh
+numactl ‐‐localalloc ‐‐physcpubind 4 /home/test/a.out
+chmod +x 3.sh; cat 3.sh
+#!/bin/sh
+numactl ‐‐localalloc ‐‐physcpubind 0 /home/test/a.out
+chmod +x 4.sh; cat 4.sh
+#!/bin/sh
+
+numactl ‐‐localalloc ‐‐physcpubind 4 /home/test/a.out
+3. MPICH2
+MPICH2 自身不支持进程CPU 绑定功能，但可以通过调用系统的numactl 实现。
+举例说明，比如需要两节点、4 进程运行一个MPI 程序/home/test/a.out，分别绑定到每个节
+点的0 和4 号CPU 核上。
+mpiexec ‐configfile <myconfigfile>
+cat myconfigfile
+‐n 1 ‐host node1 /home/test/1.sh
+‐n 1 ‐host node1 /home/test/2.sh
+‐n 1 ‐host node2 /home/test/3.sh
+‐n 1 ‐host node2 /home/test/4.sh
+或者
+mpiexec ‐n 1 ‐host node1 /home/test/1.sh : ‐n 1 ‐host node1 /home/test/2.sh : ‐n 1 ‐host node2
+/home/test/3.sh : ‐n 1 ‐host node2 /home/test/4.sh
+[1‐4].sh 的内容如下：
+chmod +x 1.sh; cat 1.sh
+#!/bin/sh
+numactl ‐‐localalloc ‐‐physcpubind 0 /home/test/a.out
+chmod +x 2.sh; cat 2.sh
+#!/bin/sh
+numactl ‐‐localalloc ‐‐physcpubind 4 /home/test/a.out
+chmod +x 3.sh; cat 3.sh
+#!/bin/sh
+numactl ‐‐localalloc ‐‐physcpubind 0 /home/test/a.out
+chmod +x 4.sh; cat 4.sh
+#!/bin/sh
+numactl ‐‐localalloc ‐‐physcpubind 4 /home/test/a.out
+4. MVAPICH
+MVAPICH 默认已经打开隐性的进程CPU 绑定， 这个默认行为可以通过环境变量
+VIADEV_USE_AFFINITY 设置
+export VIADEV_USE_AFFINITY=1（默认已打开）
+export VIADEV_USE_AFFINITY=0（对于MPI+OpenMP 程序，需要关闭默认绑定，否则多个线
+程会绑到同一CPU 核上）
+显式指定CPU 核进行绑定，可以通过环境变量VIADEV_CPU_MAPPING 实现。
+
+mpirun_rsh ‐ssh ‐np <N> ‐hostfile <hostfile> <executable> VIADEV_CPU_MAPPING=0,4,8,12
+将进程按顺序绑定到每节点的0,4,8,12 号CPU 核上，当实际进程数超过指定绑定核数时，按
+照轮循方式进行绑定。
+5. MVAPICH2
+MVAPICH2 默认已经打开隐性的进程CPU 绑定，这个默认行为可以通过环境变量
+MV2_ENABLE_AFFINITY 设置
+export MV2_ENABLE_AFFINITY=1（默认已打开）
+export MV2_ENABLE_AFFINITY=0（对于MPI+OpenMP 程序，需要关闭默认绑定，否则多个线
+程会绑到同一CPU 核上）
+5.1. 通过环境变量MV2_CPU_MAPPING 实现绑定
+指定CPU 核进行绑定，可以通过环境变量MV2_CPU_MAPPING 实现。
+mpiexec ‐genv MV2_CPU_MAPPING=0:4:8:12 ‐n <N> <executable>
+将进程按顺序绑定到每节点的0,4,8,12 号CPU 核上，当实际进程数超过指定绑定核数时，按
+照轮循方式进行绑定。
+5.2. 通过操作系统numactl 调用MPI 程序，实现更可靠的绑定
+与MPICH2 的调用方法完全一样，参见第3 节。
+6. Intel MPI
+Intel MPI 是在MVAPICH2 基础上开发的，默认已经打开隐性的进程CPU 绑定。这个默认行为
+可以通过环境变量I_MPI_PIN 设置
+export I_MPI_PIN=1（默认已打开）
+export I_MPI_PIN=0（关闭）
+对于MPI+OpenMP 程序，需要关闭默认绑定功能，否则多个线程会绑到同一CPU 核上，Intel
+MPI 可以设置I_MPI_PIN_DOMAIN=omp，来屏蔽默认的进程绑定功能。
+6.1. 通过环境变量I_MPI_PIN_PROCESSOR_LIST 实现绑定
+mpirun ‐r ssh ‐f <machinefile> ‐genv I_MPI_PIN_PROCESSOR_LIST 0,4,8,12 ‐n <N> <executable>
+将进程按顺序绑定到每节点的0,4,8,12 号CPU 核上，当实际进程数超过指定绑定核数时，按
+照轮循方式进行绑定。
+mpirun ‐r ssh ‐f <machinefile> ‐genv I_MPI_PIN_PROCESSOR_LIST bunch ‐n <N> <executable>
+绑定顺序：尽可能绑定到相同物理CPU 上
+mpirun ‐r ssh ‐f <machinefile> ‐genv I_MPI_PIN_PROCESSOR_LIST scatter ‐n <N> <executable>
+
+绑定顺序：尽可能分散到不同物理CPU 上
+另外，设置环境变量参数“‐genv I_MPI_DEBUG 4”，可以输出绑定信息。
+6.2. 通过操作系统numactl 调用MPI 程序，实现更可靠的绑定
+通过“configfile”功能实现，与MPICH2 和MVAPICH2 的使用方法一样。
+举例说明，比如需要两节点、4 进程运行一个MPI 程序/home/test/a.out，分别绑定到每个节
+点的0 和4 号CPU 核上。
+mpirun ‐r ssh ‐f <machinefile> ‐configfile <myconfigfile>
+cat myconfigfile
+‐n 1 ‐host node1 /home/test/1.sh
+‐n 1 ‐host node1 /home/test/2.sh
+‐n 1 ‐host node2 /home/test/3.sh
+‐n 1 ‐host node2 /home/test/4.sh
+或者
+mpirun ‐r ssh ‐f <machinefile> ‐n 1 ‐host node1 /home/test/1.sh : ‐n 1 ‐host node1
+/home/test/2.sh : ‐n 1 ‐host node2 /home/test/3.sh : ‐n 1 ‐host node2 /home/test/4.sh
+[1‐4].sh 的内容如下：
+chmod +x 1.sh; cat 1.sh
+#!/bin/sh
+numactl ‐‐localalloc ‐‐physcpubind 0 /home/test/a.out
+chmod +x 2.sh; cat 2.sh
+#!/bin/sh
+numactl ‐‐localalloc ‐‐physcpubind 4 /home/test/a.out
+chmod +x 3.sh; cat 3.sh
+#!/bin/sh
+numactl ‐‐localalloc ‐‐physcpubind 0 /home/test/a.out
+chmod +x 4.sh; cat 4.sh
+#!/bin/sh
+numactl ‐‐localalloc ‐‐physcpubind 4 /home/test/a.out
+7. HP MPI
+7.1. HP MPI 自带的绑定功能
+HP MPI 的进程CPU 绑定可以以下方式实现。
+mpirun ‐np <N> ‐hostfile <hostfile> ‐cpu_bind=v ‐cpu_bind=MAP_CPU:0,4,8,12 <executable>
+或者
+mpirun ‐np <N> ‐hostfile <hostfile> ‐cpu_bind=v ‐e MPI_BIND_MAP=0,4,8,12 <executable>
+其中，“‐cpu_bind=v”用于输出绑定信息。
+7.2. 通过操作系统numactl 调用MPI 程序，实现更可靠的绑定
+通过mpirun 的“appfile”功能实现。举例说明，比如需要两节点、4 进程运行一个MPI 程
+序/home/test/a.out，分别绑定到每个节点的0 和4 号CPU 核上。
+mpirun ‐f <myapp>
+cat myapp
+‐np 1 ‐h node1 /home/test/1.sh
+‐np 1 ‐h node1 /home/test/2.sh
+‐np 1 ‐h node2 /home/test/3.sh
+‐np 1 ‐h node2 /home/test/4.sh
+[1‐4].sh 的内容如下：
+chmod +x 1.sh; cat 1.sh
+#!/bin/sh
+numactl ‐‐localalloc ‐‐physcpubind 0 /home/test/a.out
+chmod +x 2.sh; cat 2.sh
+#!/bin/sh
+numactl ‐‐localalloc ‐‐physcpubind 4 /home/test/a.out
+chmod +x 3.sh; cat 3.sh
+#!/bin/sh
+numactl ‐‐localalloc ‐‐physcpubind 0 /home/test/a.out
+chmod +x 4.sh; cat 4.sh
+#!/bin/sh
+numactl ‐‐localalloc ‐‐physcpubind 4 /home/test/a.out

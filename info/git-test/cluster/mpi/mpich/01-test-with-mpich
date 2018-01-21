@@ -1,0 +1,129 @@
+---------------------------------------------------------------------------------
+1. build test
+---------------------------------------------------------------------------------
+[root@gphd-vm33 mpi]# which mpirun
+/usr/local/hamster/mpich215-home/bin/mpirun
+[root@gphd-vm33 mpi]# pwd
+/usr/local/hamster/mpi-testsuite/second/mpich2-1.5/test/mpi
+[root@gphd-vm33 mpi]# ./configure --with-mpi=/usr/local/hamster/mpich215-home/ --enable-strictmpi --disable-cxx
+[root@gphd-vm33 mpi]# make
+------------
+when ./configure, --disable-spawn can be added if you do not want *spawn* related included.
+------------
+---------------------------------------------------------------------------------
+2. Batch Systems to run test suite
+---------------------------------------------------------------------------------
+-------------------
+2.1 revise testlist to choose the range
+-------------------
+[root@gphd-vm33 mpi]# cat testlist   
+# The next item ensures that the support routines are built first
+!util:all
+attr 
+##########basic
+#coll
+#comm
+#datatype
+#errhan
+#group
+#info
+#init
+#pt2pt
+#rma
+#spawn
+#topo
+############
+#io
+#f77
+############
+#f90
+#
+-------------------
+2.2 to create the test cripsts
+-------------------
+[root@gphd-vm33 mpi]# export MPITEST_BATCHDIR=`pwd`/btest  // [root@gphd-vm33 mpi]# ./runtests -batch -mpiexec=hamster -tests=testlist 
+[root@gphd-vm33 mpi]# ./runtests -batch -mpiexec=mpiexec -tests=testlist
+	'./runtests -batch' to create a script file that can be edited and submitted to the batch system.
+[root@gphd-vm33 mpi]# ll btest/
+-rw-r--r-- 1 root root    3225 Dec  5 01:21 runtests.batch
+... edit btest/runtests.batch to make it a value batch submissions script
+... run that script and wait for the batch job to complete
+-------------------
+2.3 run the test batch
+-------------------
+[root@gphd-vm33 btest]# chmod +x runtests.batch
+[root@gphd-vm33 btest]# ./runtests.batch 
+-------------------
+2.4 check test result
+cd btest && ../checktests --ignorebogus
+-------------------
+[root@gphd-vm33 btest]# ../checktests -ignorebogus
+Tests passed: 19; test failed: 0
+---------------------------------------------------------------------------------
+3. some notes:
+---------------------------------------------------------------------------------
+1) the *teslist* lists some dirs including the test cases
+2) under each dir (e.g., coll/testlist) there is a *testlist* defining the 'program #np ....'
+3) [root@gphd-vm33 mpi]# find . -name "testlist"|xargs grep -in 'arg='
+timeLimit=n : Use a timelimit of n seconds
+
+arg=string  : Run the program with string as an argument to the program
+
+mpiexecarg=string  : Run the program with string as an argument to mpiexec
+
+env=name=value : Run the program with environment variable "name" given the
+                 value "value"
+
+mpiversion=x.y : Build and run the program only if the MPI version is at
+                 least x.y.  For example,
+
+                distgraph1 4 mpiversion=2.2
+
+        will build and run distgraph1 with 4 MPI processes only
+        if the MPI version is at least 2.2.
+
+strict=bool : If bool is false, only build and run the program if
+              --enable-strictmpi was not used in configuring the test suite.
+          That is, a line such as
+
+              neighb_coll 4 strict=false
+
+              Says that this test is not valid for a strict MPI implementation;
+              it contains extensions to the standard, or in the case of some
+          MPICH2 development, MPIX routines
+
+resultTest=proc : This is used to change the way in which the success or
+                  failure of a test is evaluated.  proc is one of several
+                  Perl subroutines defined within the runtest program.  These
+                  are primarily used within the testsuite for tests programs
+                  exit with expected status values or that timeouts are
+                  in fact handled.
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------

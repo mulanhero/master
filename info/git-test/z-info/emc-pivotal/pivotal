@@ -1,0 +1,119 @@
+----------------------------------------------
+1. Pivotal EMAIL
+----------------------------------------------
+jcao
+Passwd: MyLin!p1
+------
+group
+jcao@gopivotal.com
+MyLin!1
+----------------------------------------------
+1. AWB
+----------------------------------------------
+caoj7
+MyLin!
+----------------------------------------------
+2. Phone
+----------------------------------------------
+ID: 37767
+PW:3565
+----------------------------------------------
+3.Pivotal proxy and K2
+----------------------------------------------
+proxy
+http://pac.zscaler.net/gopivotal.com/pivotal-EC.pac
+--------------------------- 
+ssh caoj7@access4
+Passwd: FirstFullPasswdOfMyMacBook  (MyLin!)
+
+ssh hee3@access4  
+Password
+-----------------
+ControlMaster auto
+ControlPath ~/.ssh/%r@%h:%p
+ 
+Host access4
+    Hostname acs04.analyticsworkbench.com
+    Port 45326
+    DynamicForward 8080
+ 
+Host name* node* job* hbase* mon* web* dil* *utils* build*
+    ProxyCommand ssh -oCiphers=arcfour,blowfish-cbc -oClearAllForwardings=yes access4 nc %h %p
+----------------------------------------------
+4.Git 
+----------------------------------------------
+jcao@gopivotal.com
+FirstFullPasswdOfMyMacBook  (MyLin!)
+----------
+copy .ssh/id_rsa.pub to dashboard
+
+----------------------------------------------------------------
+5. stash
+----------------------------------------------------------------
+caoj7   
+NTPASSWD: (see in EMC NT)
+copy .ssh/id_rsa.pub to ....
+----------------------------------------------------------------
+6. Jeckins
+----------------------------------------------------------------
+caoj7   
+changeme
+----------------------------------------------
+5. JIRA/Confluence
+----------------------------------------------
+UserName: caoj7
+Passwd: EMC NT(MyLin!4)
+----------------------------------------------
+6. options
+----------------------------------------------
+134640/ljlin/amao.chj@gmail.com
+https://onesource.ubs.com/CEFSWebApp/home_page.do?bookCode=PVTL
+UBS: www.ubs.com/onesource/pvtl
+----------------------------------------------------------------
+
+----------------------------------------------------------------
+
+
+----------------------------------------------------------------
+7. GPCloud
+----------------------------------------------------------------
+https://gpcloud.greenplum.com/cloud/org/hd
+ username: jcao
+ password: Phou9tee
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+4. Firefox bookmark keeping
+amao.chj@qq.com/passwd
+My Recovery Key:
+y-58t78-sh9te-eq29p-iqsqz-nkxii

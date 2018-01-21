@@ -1,0 +1,22 @@
+1. hg init -- create a repo in your local disk
+[caoj7@cnencaoj7mbp2 workspace-z]$mkdir hg-test
+[caoj7@cnencaoj7mbp2 workspace-z]$cd hg-test
+[caoj7@cnencaoj7mbp2 hg-test]$hg init
+[caoj7@cnencaoj7mbp2 hg-test]$ll -a
+total 0
+drwxr-xr-x  3 caoj7  720748206  102 Apr  9 06:45 .
+drwxr-xr-x  5 caoj7  720748206  170 Apr  9 06:44 ..
+drwxr-xr-x  5 caoj7  720748206  170 Apr  9 06:45 .hg
+--------
+you will find a dir named .hg here.
+
+2. hg add -- add files, they won't be actually added until you commit
+[caoj7@cnencaoj7mbp2 hg-test]$touch first.txt
+[caoj7@cnencaoj7mbp2 hg-test]$hg add
+adding first.txt
+[caoj7@cnencaoj7mbp2 hg-test]$hg status
+A first.txt
+-------
+A denotes Added.
+
+3. hg commit -- save your added file to repo

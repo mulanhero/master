@@ -1,0 +1,19 @@
+1. gfortran  (on each node)
+[root@node1 BLAS]# yum search gfortran
+
+[root@node1 BLAS]# yum install gcc-gfortran.x86_64
+[root@node1 BLAS]# yum install libgfortran.x86_64
+[root@node1 BLAS]# yum install patchy-gfortran.x86_64
+[root@node1 BLAS]# yum install compat-libgfortran-41.x86_64
+
+
+2. 
+[root@node1 BLAS]# make
+
+
+3. 
+#for BLAS
+export LD_LIBRARY_PATH=/root/program/test/BLAS:$LD_LIBRARY_PATH
+
+---------------for /home/hamster
+export LD_LIBRARY_PATH=/home/hamster/hamster-hpl/BLAS:$LD_LIBRARY_PATH

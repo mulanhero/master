@@ -1,0 +1,34 @@
+[caoj7@vm2 ~]$ sstat --help
+sstat [<OPTION>] -j <job(.stepid)>                                          
+    Valid <OPTION> values are:                                              
+      -a, --allsteps:                                                       
+                   Print all steps for the given job(s) when no step is     
+                   specified.                                               
+      -e, --helpformat:                                                     
+	           Print a list of fields that can be specified with the    
+	           '--format' option                                        
+     -h, --help:   Print this description of use.                           
+     -i, --pidformat:                                                       
+                   Predefined format to list the pids running for each      
+                   job step.  (JobId,Nodes,Pids)                            
+     -j, --jobs:                                                            
+	           Format is <job(.step)>. Stat this job step               
+                   or comma-separated list of job steps. This option is     
+                   required.  The step portion will default to lowest step  
+                   running if not specified, unless the --allsteps flag is  
+                   set where not specifying a step will result in all       
+                   running steps to be displayed.  A step id of 'batch'     
+                   will display the information about the batch step.       
+     -n, --noheader:                                                        
+	           No header will be added to the beginning of output.      
+                   The default is to print a header.                        
+     -o, --format:                                                          
+	           Comma separated list of fields. (use "--helpformat"    
+                   for a list of available fields).                         
+     -p, --parsable: output will be '|' delimited with a '|' at the end     
+     -P, --parsable2: output will be '|' delimited without a '|' at the end 
+     --usage:      Display brief usage message.                             
+     -v, --verbose:                                                         
+	           Primarily for debugging purposes, report the state of    
+                   various variables during processing.                     
+     -V, --version: Print version.   

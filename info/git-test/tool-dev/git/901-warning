@@ -1,0 +1,6 @@
+出现错误：(gnome-ssh-askpass:2878): Gtk-WARNING **: cannot open display: localhost:10.0 
+error: unable to read askpass response from '/usr/libexec/openssh/gnome-ssh-askpass'，但提示输入用户名、密码，输入后，提交成功。
+
+解决报错：http://stackoverflow.com/questions/16077971/git-push-produces-gtk-warning
+
+echo 'unset SSH_ASKPASS' >> ~/.bashrc && source ~/.bashrc

@@ -1,0 +1,36 @@
+[root@gphd-vm33 userlogs]# cat log.sh 
+#!/bin/bash
+
+PWD=`pwd`
+
+echo $PWD 
+
+if [ $# -ne 3 ]; then
+    echo "Usage: $PWD/`basename $0` inputfile outputfile desc"
+    echo "Usage: ./`basename $0` inputfile outputfile desc"
+    exit 1
+fi
+
+#################################
+#  prepare                      #
+#################################
+INPUTFILE=$1
+OUTPUTFILE=$2
+DESC=$3
+
+if [ ! -f $INPUTFILE ]; then
+    echo "$INPUTFILE does not exist!"
+    exit 1
+fi
+
+if [ ! -f $OUTFILE ]; then
+    touch $OUTFILE
+fi
+
+#################################
+#  prepare                      #
+#################################
+echo "" >> $OUTPUTFILE
+echo "================ $DESC =====================" >> $OUTPUTFILE
+cat $INPUTFILE | grep 'STATISTIC:' >> $OUTPUTFILE 
+echo "===========================================" >> $OUTPUTFILE

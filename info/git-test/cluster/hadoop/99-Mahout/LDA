@@ -1,0 +1,66 @@
+---------------------------------------------------------------------------------
+bin/mahout cvb \
+    -i <input path for document vectors> \
+    -dict <path to term-dictionary file(s) , glob expression supported> \
+    -o <output path for topic-term distributions>
+    -dt <output path for doc-topic distributions> \
+    -k <number of latent topics> \
+    -nt <number of unique features defined by input document vectors> \
+    -mt <path to store model state after each iteration> \
+    -maxIter <max number of iterations> \
+    -mipd <max number of iterations per doc for learning> \
+    -a <smoothing for doc topic distributions> \
+    -e <smoothing for term topic distributions> \
+    -seed <random seed> \
+    -tf <fraction of data to hold for testing> \
+    -block <number of iterations per perplexity check, ignored unless test_set_percentage>0>
+---------------------------------------------------------------------------------
+bin/mahout cvb \
+    -i <input path for document vectors> \
+    -dict <path to term-dictionary file(s) , glob expression supported> \
+    -o <output path for topic-term distributions>
+    -dt <output path for doc-topic distributions> \
+    -k <number of latent topics> \
+    -nt <number of unique features defined by input document vectors> \
+    -mt <path to store model state after each iteration> \
+    -maxIter <max number of iterations> \
+    -mipd <max number of iterations per doc for learning> \
+    -a <smoothing for doc topic distributions> \
+    -e <smoothing for term topic distributions> \
+    -seed <random seed> \
+    -tf <fraction of data to hold for testing> \
+    -block <number of iterations per perplexity check, ignored unless test_set_percentage>0>
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+
+---------------------------------------------------------------------------------
+bin/mahout ldatopics \
+    -i <input vectors directory> \
+    -d <input dictionary file> \
+    -w <optional number of words to print> \
+    -o <optional output working directory. Default is to console> \
+    -h <print out help> \
+    -dt <optional dictionary type (text|sequencefile). Default is text>
+    
+---------------------------------------------------------------------------------
+mahout ldatopics \
+    -i /usr/local/hamster/lda_input \
+    -d <input dictionary file> \
+    -w <optional number of words to print> \
+    -o <optional output working directory. Default is to console> \
+    -h <print out help> \
+    -dt <optional dictionary type (text|sequencefile). Default is text>
+---------------------------------------------------------------------------------
+    
+    
+    
+    

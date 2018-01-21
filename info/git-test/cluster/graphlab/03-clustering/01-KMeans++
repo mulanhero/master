@@ -1,0 +1,83 @@
+1. make
+------------------------------------------------------------------------
+[root@node1 clustering]# pwd
+/root/program/graphlab/release/toolkits/clustering
+[root@node1 clustering]# make -j 2
+After compiling,  generate_synthetic/graph_laplacian_for_sc/kmeans/spectral_clustering are produced.
+------------------------------------------------------------------------
+2.  Synthetic Data
+------------------------------------------------------------------------
+./generate_synthetic [Number of Clusters] [Number of Dimensions] [Number of datapoints]
+
+[root@node1 clustering]# ./generate_synthetic 2 3 10
+Usage: generate_synthetic [NClusters] [Dimensions] [Ndata]
+Center 0 at: -0.616165	-0.191916	-4.91161	
+Center 1 at: -7.62074	-1.46971	-6.24134	
+[root@node1 clustering]# cat synthetic.txt 
+-8.84065	-3.14724	-6.82248	
+0.0749123	0.0565844	-6.22267	
+-7.19212	-3.18497	-7.00419	
+0.570506	-0.689673	-4.45276	
+-7.63038	-0.412985	-8.16489	
+-5.30134	-1.48634	-4.1734	
+-1.22183	1.53283	-3.65798	
+-7.9514	-1.25952	-6.7134	
+-7.22959	-2.39543	-7.03078	
+-7.8068	-2.4664	-5.75625
+------------------------------------------------------------------------
+3. kmeans with hamster
+------------------------------------------------------------------------
+./kmeans --data=[data prefix] --cluster=[N cluster] --output-clusters=[cluster output file]
+hamster -v -np 2 /root/program/graphlab/release/toolkits/clustering/kmeans --data=/root/program/graphlab/release/toolkits/clustering/synthetic.txt --clusters=2 --output-clusters=/root/program/graphlab/release/toolkits/clustering/cluster.txt --output-data=/root/program/graphlab/release/toolkits/clustering/data.txt
+[root@node1 clustering]# cat cluster.txt 
+-0.192137 0.299914 -4.7778 
+-7.42175 -2.05041 -6.52363 
+[root@node1 clustering]# cat data.txt_1_of_2             	//process 1's output
+-8.84065	-3.14724	-6.82248	1				 		//the point belongs to cluster #1
+-7.19212	-3.18497	-7.00419	1
+0.570506	-0.689673	-4.45276	0						//the point belongs to cluster #0		
+-7.9514	-1.25952	-6.7134	1
+-7.8068	-2.4664	-5.75625	1
+[root@node1 clustering]# cat data.txt_2_of_2 				//process 2's output
+0.0749123	0.0565844	-6.22267	0
+-7.63038	-0.412985	-8.16489	1
+-5.30134	-1.48634	-4.1734	1
+-1.22183	1.53283	-3.65798	0
+-7.22959	-2.39543	-7.03078	1
+
+------------------------------------------------------------------------
+4. kmeans with hamster vs. mahout
+------------------------------------------------------------------------
+hamster -v -np 8 /usr/local/hamster/graphlab/release/toolkits/clustering/kmeans --data=/usr/local/hamster/synthetic_control.data --clusters=10 --output-clusters=/tmp/hamster-output/cluster.txt --output-data=/tmp/hamster-output/data.txt
+
+------------------------------------------------------------------------
+4. hamster with HDFS
+------------------------------------------------------------------------
+hamster -v -np 2 \
+/usr/local/hamster/graphlab/release/toolkits/clustering/kmeans \
+--data=hdfs://10.37.7.101:8020/user/root/graphlab/clustering/synthetic.txt \
+--clusters=2 \
+--output-clusters=hdfs://10.37.7.101:8020/user/root/graphlab/clustering/out_cluster.txt \
+--output-data=hdfs://10.37.7.101:8020/user/root/graphlab/clustering/out_data.txt
+
+[root@node1 clustering]# hadoop fs -rm /user/root/graphlab/clustering/out*
+------------------------------------------------------------------------
+5. hamster with HDFS on AWB   (failed but can not check)
+------------------------------------------------------------------------
+caoj7@access4:~
+05:31:47 $ hadoop fs -ls /yarn/apps/caoj7/graphlab_data/clustering/
+Found 3 items
+-rw-r--r--   3 caoj7 hadoop        281 2013-12-17 06:31 /yarn/apps/caoj7/graphlab_data/clustering/sc_data.txt
+-rw-r--r--   3 caoj7 hadoop        281 2013-12-17 06:31 /yarn/apps/caoj7/graphlab_data/clustering/spectral.txt
+-rw-r--r--   3 caoj7 hadoop        342 2013-12-17 06:31 /yarn/apps/caoj7/graphlab_data/clustering/synthetic.txt
+------------------------------------------------------------------------
+hamster -v -mem 4096 -np 2 \
+/usr/local/graphlab2.2/clustering/kmeans \
+--data=hdfs://mst1.ic.analyticsworkbench.com:8020/yarn/apps/caoj7/graphlab_data/clustering/synthetic.txt \
+--clusters=2 \
+--output-clusters=hdfs://mst1.ic.analyticsworkbench.com:8020/yarn/apps/caoj7/graphlab_data/clustering/out_cluster.txt \
+--output-data=hdfs://mst1.ic.analyticsworkbench.com:8020/yarn/apps/caoj7/graphlab_data/clustering/out_data.txt
+
+
+
+hdfs://mst1.ic.analyticsworkbench.com:8020/yarn/apps/caoj7/graphlab_data/cf/smallnetflix

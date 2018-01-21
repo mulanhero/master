@@ -1,0 +1,2 @@
+gcc -g -Wall -o out –I/usr/local/include/slurm -L/usr/local/lib -lslurm –static
+

@@ -1,0 +1,19 @@
+1) 
+To generate docs, run "doxygen" in the graphlabapi/ directory
+Doxygen >= 1.8 recommended
+
+after run 'doxygen', 
+[caoj7@cncqcaoj7mbp1 graphlab]$ll doc/
+total 8
+-rw-r--r--   1 caoj7  CORP\Domain Users   90 Jul 29 10:30 README
+drwxr-xr-x   3 caoj7  CORP\Domain Users  102 Jul 29 10:49 doxygen
+drwxr-xr-x  24 caoj7  CORP\Domain Users  816 Jul 29 10:30 images
+
+------------------
+doxygen will created under ./doc/.
+
+2)
+goto /Users/caoj7/workspace-c/graphlab/doc/doxygen/html and click index.html.
+
+3)
+

@@ -1,0 +1,40 @@
+1. srun -N2 sleep 300 &
+2.
+====================on vm3============================
+[root@vm3 ~]# squeue
+             JOBID PARTITION     NAME     USER  ST       TIME  NODES NODELIST(REASON)
+                14   compute    sleep     root   S       3:47      2 vm[3-4]
+                
+[root@vm3 ~]# cat /cgroup/freezer/slurm/uid_0/job_14/step_0/tasks 
+31702
+
+[root@vm3 ~]# cat /cgroup/freezer/slurm/uid_0/job_14/step_0/freezer.state 
+THAWED
+
+[root@vm3 ~]# scontrol suspend 14
+
+[root@vm3 ~]# cat /cgroup/freezer/slurm/uid_0/job_14/step_0/freezer.state 
+FROZEN
+
+[root@vm3 ~]# ps -ef f| tail -n 2
+root     31698     1  0 02:44 ?        Sl     0:00 slurmstepd: [14.0]             
+root     31702 31698  0 02:44 ?        T      0:00  \_ /bin/sleep 300  ##31702 is above
+
+[root@vm3 ~]# scontrol resume 14
+[root@vm3 ~]# cat /cgroup/freezer/slurm/uid_0/job_14/step_0/freezer.state 
+THAWED
+
+[root@vm3 ~]# ps -ef f | tail -n 2
+root     31698     1  0 02:44 ?        Sl     0:00 slurmstepd: [14.0]             
+root     31702 31698  0 02:44 ?        D      0:00  \_ /bin/sleep 300  ##
+
+====================on vm4============================
+[root@vm4 ~]# ps -ef f | tail -n 2
+root     31044     1  0 02:44 ?        Sl     0:00 slurmstepd: [14.0]             
+root     31048 31044  0 02:44 ?        D      0:00  \_ /bin/sleep 300
+
+[root@vm4 ~]# cat /cgroup/freezer/slurm/uid_0/job_14/step_0/tasks 
+31048
+
+[root@vm4 ~]# cat /cgroup/freezer/slurm/uid_0/job_14/step_0/freezer.state
+FROZEN

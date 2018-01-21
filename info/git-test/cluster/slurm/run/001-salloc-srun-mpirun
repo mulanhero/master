@@ -1,0 +1,33 @@
+[caoj7@node001 mpi]$ salloc -N 1 mpirun -np 3  hello
+salloc: Granted job allocation 246
+Hellow, world! 1th of totalTaskNum = 3 on node001
+Hellow, world! 2th of totalTaskNum = 3 on node001
+Hellow, world! 0th of totalTaskNum = 3 on node001
+salloc: Relinquishing job allocation 246
+[caoj7@node001 mpi]$ salloc -N 1 srun -n 1 hello
+salloc: Granted job allocation 247
+Hellow, world! 0th of totalTaskNum = 1 on node001
+salloc: Relinquishing job allocation 247
+[caoj7@node001 mpi]$ salloc -N 1 srun -n 3 hello
+salloc: Granted job allocation 248
+srun: error: Unable to create job step: More processors requested than permitted
+salloc: Relinquishing job allocation 248
+
+[caoj7@node001 mpi]$ srun -N1 -n1 hello
+Hellow, world! 0th of totalTaskNum = 1 on node001
+By default, srun invoke salloc first, and then process launch 
+
+
+Step
+	Allocate resource
+	Spawn multiple job steps 
+		srun
+		mpi*
+E.g.,
+	salloc –N5 srun –n10 myprogram
+	Salloc –N2 sbcast run.sh /tmp/bakup.sh
+	Salloc –N2 srun ls /tmp/
+	Salloc –N2 srun rm /temp/run.bakup.sh
+	Salloc –N2 srun ls /tmp/
+	Salloc –n2 bash
+		Salloc: granted job allocation 26  //can use squeue to check 

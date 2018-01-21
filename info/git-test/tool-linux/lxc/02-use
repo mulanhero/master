@@ -1,0 +1,40 @@
+1. lxc-create / lxc-destroy
+[root@node001 sbin]# lxc-create -n foo
+'foo' created
+[root@node001 sbin]# lxc-destroy -n foo
+
+2. start / stop
+-----------------------
+lxc-execute  is  for  running  an application
+lxc-start is better suited for running a system.
+-----------------------
+lxc-execute -n foo [-f config] /bin/bash
+lxc-start -n foo [-f config] [/bin/bash]
+ lxc-stop -n foo 
+-----------------------
+[root@node001 ~]# lxc-execute -n foo /root/my.sh
+lxc-execute: No such file or directory - failed to create symlink for kmsg
+lxc-execute: failed to setup kmsg for 'foo'
+lxc-execute: failed to setup the container
+lxc-execute: invalid sequence number 1. expected 2
+lxc-execute: failed to spawn 'foo'
+-----------------------
+
+
+3. lxc-ls /  lxc-info
+[root@node001 ~]# lxc-ls
+foo
+[root@node001 ~]# lxc-info -n foo
+state:   STOPPED
+pid:
+
+
+4. lxc-monitor
+[root@node4 ~]# lxc-monitor -n "foo"
+'foo' changed state to [STARTING]
+'foo' changed state to [RUNNING]
+========
+when you input "[root@node4 cgroup2]# lxc-start -n foo" in another shell 
+you will see the state change of this container
+
+5. 

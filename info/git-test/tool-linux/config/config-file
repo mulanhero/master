@@ -1,0 +1,113 @@
+  1.  访问文件
+
+           /etc/host.conf : 告诉网络域名服务器在查找主机名或IP时，去找哪一个文件， 通常是/etc/hosts，如果在这个文件中找不到，则
+
+                                    到名称服务器查找。
+
+           /etc/hosts:     包含已知主机的一个列表文件。如果系统的IP不是动态生成，就可以使用它。对于简单的主机名解析(点分表示法),
+
+                                  在请求DNS或NIS网络名称服务器之前， /etc/host.conf通常会告诉解析程序先查看这里。
+
+            /etc/resolv.conf:  配置DNS服务器;
+
+           /etc/hosts.allow:  设置允许访问的主机列表
+
+           /etc/hosts.deny:   拒绝访问的主机列表.
+
+        2. 引导和登录/注销
+
+            /etc/issue  & /etc/issue.net: 这些文件由Mingetty请取,用来向从终端(issue)或通过telnet 会话(issue.net)连接的用户显示一
+
+                                       个"welcome"字符串,以及相关的信息,它们由rc.local使用.
+
+           /etc/rc.d/rc : 通常在所有运行级别运行,级别作为参数传递.
+
+                                  例如要以图形模式引导机器,请在命令行运行下面的命令:
+
+                                     #init  5             // 0: halt the system     1,2: 调试模式   3:命令模式  5:图形模式  6:reboot the system
+
+ 
+
+          /etc/rc.d/rc.local:  非正式的,可以从rc. rc.sysinit或/etc/initab调用
+
+          /etc/rc.d/rc.sysinit:  通常是所在运行 级别的第一个脚本.用来初始化系统.
+
+          /etc/rc.d/rc/rcX.d:  从rc运行的脚本(  X表示1---5 之间的数字)
+
+ 
+
+         3. 文件系统
+
+             /proc :  作为一个独立,但虚拟的文件系统,提供显示内核的一些数据结构,包括使用的中断,初始化的设备和内存统计信息之类的系统
+
+                         参数.
+
+             /etc/mtab:    这将随/proc/mount文件的改变而改变.
+
+             /etc/fstab:    列出当时前"可以安装"的文件系统. 在引导时将运行"mount -a"命令,该命令负责安装fstab的倒数第二列中带有"1"
+
+                                 标记的每一个文件系统.
+
+             /etc/mtools.conf: POS类型的文件系统上所在操作的配置.
+
+         4.  系统管理
+
+              /etc/group: 包含有效的组名称和指定组中包括的用户
+
+              /etc/nologin: 如果这个文件存在,login(1)将只允许ROOT用户进行访问,它将对其它用户显示此文件的内容并拒绝登录
+
+              /etc/passwd: 包含一些用户帐户信息,包括密码(如果未被shadow程序加密过)
+
+              /etc/shadow: 用户密码文件
+
+              /etc/shells:    包含系统可用的"shell"列表.
+
+ 
+
+           5  联网
+
+                /etc/gated.conf: gated的配置,只能被gated守护进程使用
+
+               /etc/protocols: 列出当前可用的协议
+
+              /etc/resolv.conf:    在程序请求解析一个IP地址时告诉内核应查询哪个名称服务器.
+
+               /etc/services: 将网络服务名转换为端口号/协议
+
+               /etc/inetd.conf:  inetd的配置文件.
+
+           6  系统命令
+
+              /etc/lilo.conf: 包含系统的缺省引导命令行参数,还有启动时使用的不同映象.在LILI引导提示时,按Tab銉可看到这个列表
+
+ 
+
+            7 守护进程
+
+               /etc/httpd.conf:  web服务器apache的配置文件,它也有可能在/usr/local/http/conf或/etc/httpd/conf/中
+
+           8  内核参数
+
+               /proc/sys/kernel/目录中的文件:
+
+                     thread_max:   内核可运行 的最大任务数
+
+                     hostname:  系统的主机名
+
+                     domainname: 域名
+
+                      modprobe: 指定modprobe是否应该在启动时自动运行并加载必要的模块
+
+            9  用户配置文件:  (点)文件和rc文件
+
+                 ~/.bash_login:  如果~/.bash_profile这个文件不存在,则Bash将把这个文件作为~/.bash_profile处理.
+
+                 ~/.bash_logout:  在退出时由bash登录shell引用
+
+                 ~/.bash_profile:   由bash登录shell 引用. 在/etc/profile之后引用.
+
+                 ~/.bash_history:  历史命令列表
+
+                 ~/.bashrc:            由bash非登录交互式shell引用,除非设置了BAHS_ENV或ENV,非交互式shell不引用任何文件
+
+                 ~/.profile:             如果~/.bash_profile和~/.bash_login文件都不存在,bash将把它作为~/.bash_profile处理.

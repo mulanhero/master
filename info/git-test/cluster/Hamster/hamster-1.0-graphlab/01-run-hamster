@@ -1,0 +1,45 @@
+---------------------------------------------------------------------------------------
+1. upload data set (hamster)
+---------------------------------------------------------------------------------------
+[root@hdsh180 hdfs_nfs]# su - hamster
+---------------------------------------------------------------------------------------
+[hamster@hdsh180 hdfs_nfs]$ hadoop fs -put /hdfs_nfs/graphlab_data  /user/hamster/
+[hamster@hdsh180 hdfs_nfs]$ hadoop fs -ls /user/hamster/graphlab_data
+Found 7 items
+drwxr-xr-x   - hamster supergroup          0 2014-07-17 11:07 /user/hamster/graphlab_data/cf
+drwxr-xr-x   - hamster supergroup          0 2014-07-17 11:08 /user/hamster/graphlab_data/clustering
+drwxr-xr-x   - hamster supergroup          0 2014-07-17 11:08 /user/hamster/graphlab_data/computer_vision
+drwxr-xr-x   - hamster supergroup          0 2014-07-17 11:08 /user/hamster/graphlab_data/ga
+drwxr-xr-x   - hamster supergroup          0 2014-07-17 11:08 /user/hamster/graphlab_data/graphical_model
+drwxr-xr-x   - hamster supergroup          0 2014-07-17 11:08 /user/hamster/graphlab_data/linear_solver
+drwxr-xr-x   - hamster supergroup          0 2014-07-17 11:08 /user/hamster/graphlab_data/topic
+---------------------------------------------------------------------------------------
+2. als
+---------------------------------------------------------------------------------------
+hamster -v -x LD_LIBRARY_PATH=/usr/java/jdk1.7.0_15/jre/lib/amd64/server/ -mem 4096 -np 4 \
+/usr/local/graphlab2.2/collaborative_filtering/als \
+--matrix hdfs://hdsh180:9000/user/hamster/graphlab_data/cf/smallnetflix \
+--D=20 --lambda=0.065 --max_iter=5 \
+--predictions=hdfs://hdsh180:9000/user/hamster/graphlab_data/cf/smallnetflix/out
+---------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------
+
+
+hamster -v -x LD_LIBRARY_PATH=/usr/java/jdk1.7.0_15/jre/lib/amd64/server/ -mem 4096 -np 4 \
+/usr/local/graphlab2.2/collaborative_filtering/als \
+--matrix hdfs://hdsh180:9000/graphlab_data/cf/smallnetflix \
+--D=20 --lambda=0.065 --max_iter=5 \
+--predictions=hdfs://hdsh180:9000/graphlab_data/cf/smallnetflix/out

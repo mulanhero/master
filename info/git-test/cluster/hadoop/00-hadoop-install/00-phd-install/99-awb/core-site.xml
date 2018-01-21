@@ -1,0 +1,54 @@
+09:08:40 $ cat /etc/gphd/hadoop/conf/core-site.xml 
+<configuration>
+
+
+<property>
+    <name>io.file.buffer.size</name>
+    <value>131072</value>
+</property>
+
+
+<property>
+    <name>fs.uss.impl</name>
+    <value>com.greenplum.hd.uss.USSProtocolTranslator</value>
+</property>
+
+
+<property>
+    <name>ipc.client.connection.maxidletime</name>
+    <value>3600000</value>
+</property>
+
+
+<property>
+    <name>hadoop.tmp.dir</name>
+    <value>/tmp/gphdtmp</value>
+</property>
+
+
+<property>
+    <name>io.compression.codecs</name>
+    <value>org.apache.hadoop.io.compress.GzipCodec,org.apache.hadoop.io.compress.DefaultCodec,org.apache.hadoop.io.compress.SnappyCodec,org.apache.hadoop.io.compress.BZip2Codec</value>
+</property>
+
+
+<property>
+    <name>fs.trash.interval</name>
+    <value>1440</value>
+</property>
+
+
+<property>
+    <name>fs.defaultFS</name>
+    <value>hdfs://mst1.ic.analyticsworkbench.com:8020</value>
+</property>
+
+
+<property>
+    <name>io.seqfile.local.dir</name>
+    <value>/data1/phd/io/local,/data2/phd/io/local,/data3/phd/io/local,/data4/phd/io/local,/data5/phd/io/local,/data6/phd/io/local,/data7/phd/io/local,/data8/phd/io/local,/data9/phd/io/local,/data10/phd/io/local</value>
+</property>
+
+
+
+</configuration>

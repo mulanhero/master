@@ -1,0 +1,9 @@
+===========================================	
+
+Create a project and commit
+
+$ hg init (project-directory)
+$ cd (project-directory)
+$ (add some files)
+$ hg add
+$ hg commit -m 'Initial commit'

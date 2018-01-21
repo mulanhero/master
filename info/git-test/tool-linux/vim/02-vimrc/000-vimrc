@@ -1,0 +1,60 @@
+[caoj7@cncqcaoj7mbp1 ~]$cat ~/.vimrc
+syntax on
+set pastetoggle=<F10>
+set hlsearch
+set nu
+set autoindent
+set cindent
+
+set ts=4
+========================================
+autoindent 
+就是自动缩进的意思，当你在输入状态用回车键插入一个新行，或者在 normal 状态用 o 
+或者 O 插入一个新行时，autoindent 会自动地将当前行的缩进拷贝到新行，也就是
+"自动对齐”，当然了，如果你在新行没有输入任何字符，那么这个缩进将自动删除。 
+
+cindent 
+就不同了，它会按照 C 语言的语法，自动地调整缩进的长度，比如，当你输入了半条语句
+然后回车时，缩进会自动增加一个 TABSTOP 值，当你键入了一个右花括号时，会自动减少
+一个 TABSTOP 值。
+
+=======================================
+To turn off autoindent when you paste code, there's a special "paste" mode.
+
+Type
+
+:set paste
+Then paste your code. Note that the text in the tooltip now says -- INSERT (paste) --.
+
+After you pasted your code, turn off the paste-mode, so that auto-indenting when you type works correctly again.
+
+:set nopaste
+
+==========
+A useful command to have in your .vimrc is set pastetoggle=<F10> or some other button, to easily toggle between paste and nopaste.
+=======================================
+[root@node1 openmpi-172-rpm]# cat ~/.vimrc 
+set fileencodings=utf-8,cp936,big5,euc-jp,euc-kr,latin1,ucs-bom
+set termencoding=utf-8
+set fileformats=unix
+set encoding=utf-8
+set nu
+set hlsearch
+syntax on
+set autoindent
+set expandtab
+set tabstop=4
+set shiftwidth=4
+colorscheme zellner
+set nocompatible
+set history=4000
+set nrformats=hex
+set ruler
+set tags+=~/.vim/systags
+set showmatch
+set wildmenu
+filetype plugin on
+set formatoptions+=mM
+set backspace=indent,eol,start
+set pastetoggle=<F10>
+set cindent

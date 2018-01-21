@@ -1,0 +1,24 @@
+Incompatibility between mahout and hadoop 
+1.
+apache hadoop
+ 
+org.apache.hadoop.utils.ProgramDriver.driver return type is void
+ 
+cloudera cdh-4.* (hadoop version >= 2.0)
+ 
+return type is int
+ 
+while mahout (version <=0.7) depends on hadoop-1.0.4
+ 
+when run bin/mahout on cdh4
+ 
+Exception in thread "main" java.lang.NoSuchMethodError: org.apache.hadoop.util.ProgramDriver.driver([Ljava/lang/String;)V
+        at org.apache.mahout.driver.MahoutDriver.main(MahoutDriver.java:123)
+        at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+        at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+        at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+        at java.lang.reflect.Method.invoke(Method.java:597)
+        at org.apache.hadoop.util.RunJar.main(RunJar.java:208)
+ 
+A walkaround method is invoke the class directly from hadoop:
+hadoop jar /home/cloudera/Development/mahout-trunk/examples/target/mahout-examples-0.8-SNAPSHOT-job.jar org.apache.mahout.utils.SplitInput

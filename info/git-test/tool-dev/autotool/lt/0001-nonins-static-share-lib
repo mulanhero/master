@@ -1,0 +1,53 @@
+I currently writing a java JNI extension used only for local "check" and
+ this library should *not* be installed. 
+
+  The problem is that I  need a shared library for dlopen using java
+
+file: TestMain.java
+=======================================================
+public abstract class TestMain extends MqS.Main {
+
+  static {
+    System.loadLibrary("javatestmsgque");
+  }
+...
+=======================================================
+
+but automake/libtool only create a *static* library even if the "_LDFLAGS"
+-module is used
+
+file: Makefile.am
+=======================================================
+noinst_LTLIBRARIES = libjavatestmsgque.la
+libjavatestmsgque_la_SOURCES =  test_java.c TestMain.h
+libjavatestmsgque_la_CFLAGS = -I$(top_srcdir)/src $(AM_CFLAGS)
+libjavatestmsgque_la_LIBADD = ../src/libmsgque.la
+libjavatestmsgque_la_LDFLAGS = -module
+=======================================================
+
+this are the "static "libraries created using the "noinst_" prefix
+
+buildsubdirectory: .libs
+=======================================================
+-rw-r--r--              libjavatestmsgque.a
+lrwxrwxrwx              libjavatestmsgque.la -> ../libjavatestmsgque.la
+-rw-r--r--              libjavatestmsgque_la-test_java.o
+=======================================================
+
+using the "pkglib_" or the "lib_" prefix I get the shared libraries
+
+subdirectory: .libs
+======================================================
+lrwxrwxrwx      libjavatestmsgque.la -> ../libjavatestmsgque.la
+-rw-r--r-- 1            libjavatestmsgque.lai
+-rw-r--r-- 1    libjavatestmsgque_la-test_java.o
+lrwxrwxrwx      libjavatestmsgque.so -> libjavatestmsgque.so.0.0.0
+lrwxrwxrwx      libjavatestmsgque.so.0 -> libjavatestmsgque.so.0.0.0
+-rwxr-xr-x 1    libjavatestmsgque.so.0.0.0
+=======================================================
+
+Question: what can I do to get a shared LTLIBRARIES using the "noinst"
+prefix ?
+
+
+every answer is welcome ...

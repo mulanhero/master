@@ -1,0 +1,40 @@
+#java-1.7
+export JAVA_HOME=/usr/java/jdk1.7.0_25
+export PATH=$JAVA_HOME/bin:$PATH
+export CLASSPATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar:$CLASSPATH
+
+#ant
+export PATH=/usr/local/common-j/apache-ant-1.9.1/bin:$PATH
+
+#maven
+export M2_HOME=/usr/local/common-j/apache-maven-3.1.1
+export PATH=$M2_HOME/bin:$PATH
+
+#protoc
+export PATH=/usr/local/bin:$PATH
+
+
+#hadoop-2.4
+#for hadoop
+export HADOOP_HOME=/nfs_share/hadoop-2.4.0
+export HADOOP_INSTALL=$HADOOP_HOME
+export HADOOP_COMMON_HOME=$HADOOP_HOME
+export HADOOP_HDFS_HOME=$HADOOP_HOME
+export HADOOP_MAPRED_HOME=$HADOOP_HOME
+export HADOOP_YARN_HOME=$HADOOP_HOME
+export YARN_HOME=$HADOOP_HOME
+export PATH=$HADOOP_HOME/bin:$HADOOP_HOME/sbin:$PATH
+
+export HADOOP_COMMMON_LIB_NATIVE_DIR=$HADOOP_HOME/lib/native
+export HADOOP_OPTS="-Djava.library.path=$HADOOP_INSTALL/lib"
+export HADOOP_CONF_DIR=${HADOOP_HOME}/etc/hadoop
+export YARN_CONF_DIR=$HADOOP_CONF_DIR
+
+#scala
+export SCALA_HOME=/nfs_share/scala-2.9.3
+export PATH=$SCALA_HOME/bin:$PATH
+
+#spark-1.1.0
+#for spark
+export SPARK_HOME=/nfs_share/spark-1.1.0-bin-hadoop2.4
+export PATH=$SPARK_HOME/bin:$SPARK_HOME/sbin:$PATH

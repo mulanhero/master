@@ -1,0 +1,125 @@
+------------------------------------------------------------------------
+1. compile
+------------------------------------------------------------------------
+[root@node1 collaborative_filtering]# pwd
+/root/program/graphlab/release/toolkits/collaborative_filtering
+
+[root@node1 collaborative_filtering]# make -j4
+after make, 'als' will be created.
+
+-rwxr-xr-x   1 caoj7  CORP\Domain Users  4935624 Jul 29 11:41 als
+-rwxr-xr-x   1 caoj7  CORP\Domain Users  4804936 Jul 29 11:41 biassgd
+-rw-r--r--   1 caoj7  CORP\Domain Users     1023 Jul 29 10:34 cmake_install.cmake
+-rwxr-xr-x   1 caoj7  CORP\Domain Users  1071888 Jul 29 11:38 make_synthetic_als_data
+-rwxr-xr-x   1 caoj7  CORP\Domain Users  4623488 Jul 29 11:41 nmf
+-rwxr-xr-x   1 caoj7  CORP\Domain Users  4804096 Jul 29 11:45 sgd
+-rwxr-xr-x   1 caoj7  CORP\Domain Users  5288104 Jul 29 11:51 sparse_als
+-rwxr-xr-x   1 caoj7  CORP\Domain Users  4925208 Jul 29 11:49 svd
+-rwxr-xr-x   1 caoj7  CORP\Domain Users  4856528 Jul 29 11:49 svdpp
+-rwxr-xr-x   1 caoj7  CORP\Domain Users  4903704 Jul 29 11:50 wals
+------------------------------------------------------------------------
+2. prepare the input data
+------------------------------------------------------------------------
+Run GraphLab ALS (alternating least squares, 交替最小二乘)
+This step runs ALS (alternating least squares) in a cluster using small netflix susbset.
+It first downloads the data fro
+web: http://www.select.cs.cmu.edu/code/graphlab/datasets/smallnetflix_mm.train
+and http://www.select.cs.cmu.edu/code/graphlab/datasets/smallnetflix_mm.validate 
+--------------
+cd release/toolkits/collaborative_filtering/
+mkdir smallnetflix
+cd smallnetflix/
+wget http://www.select.cs.cmu.edu/code/graphlab/datasets/smallnetflix_mm.train
+wget http://www.select.cs.cmu.edu/code/graphlab/datasets/smallnetflix_mm.validate
+cd ..
+------------------------------------------------------------------------
+3) hamster on Cluster-node1
+------------------------------------------------------------------------
+------------prepare the file to be predicted
+[root@node1 smallnetflix]# cat to.predict 
+200 200
+500 500
+---------hamster--------
+hamster -v -np 2 /root/program/graphlab/release/toolkits/collaborative_filtering/als --matrix /root/program/graphlab/release/toolkits/collaborative_filtering/smallnetflix --D=20 --lambda=0.065 --max_iter=3 --minval=1 --maxval=5 --predictions=/root/program/graphlab/release/toolkits/collaborative_filtering/smallnetflix/out
+--------------
+after running, combine/sort U and V
+[root@node1 smallnetflix]# cat *U* | sort -g -k 1,1 > out.U     		//each user to #D features
+[root@node1 smallnetflix]# cat *V* | sort -g -k 1,1 > out.V				//each item to #D features 
+[root@node1 smallnetflix]# cat out_* > out.result  					//combine the predict result
+[root@node1 smallnetflix]# cat out.result
+200	200	3.64938
+500	500	3.01699
+------------------------------------------------------------------------
+4) hamster on with HDFS
+------------------------------------------------------------------------
+hamster -np 4 -mem 2048 /root/program/graphlab/release/toolkits/collaborative_filtering/als --matrix hdfs://gphd-vm33:9000/user/root/data/data --D=20 --lambda=0.065 --max_iter=5 --predictions=hdfs://gphd-vm33:9000/user/root/data/data/out
+hamster -np 4 -x CLASSPATH=`sh ~/wangda/get_hadoop_env.sh` -mem 2048 /root/program/graphlab/release/toolkits/collaborative_filtering/als --matrix hdfs://gphd-vm33:9000/user/root/data/data --D=20 --lambda=0.065 --max_iter=5 --predictions=hdfs://gphd-vm33:9000/user/root/data/data/out
+
+hamster -x LD_LIBRARY_PATH=/usr/java/latest/jre/lib/amd64/server -np 4 -mem 2048 \
+/usr/local/hamster/graphlab2.2-bin/als \
+--matrix hdfs://mst1.ic.analyticsworkbench.com:8020/yarn/apps/caoj7/graphlab_data/cf/smallnetflix \
+--D=20 --lambda=0.065 --max_iter=5 \
+--predictions=hdfs://mst1.ic.analyticsworkbench.com:8020/yarn/apps/caoj7/graphlab_data/cf/smallnetflix/out 
+-----------------
+[root@gphd-vm33 ~]# cat wangda/get_hadoop_env.sh 
+cp="./*:$HADOOP_CONF_DIR:$CLASSPATH"
+for f in `ls $HADOOP_COMMON_HOME/share/hadoop/common/*.jar`
+do cp=$cp:$f
+done;
+for f in `ls $HADOOP_COMMON_HOME/share/hadoop/common/lib/*.jar`
+do cp=$cp:$f
+done;
+for f in `ls $HADOOP_COMMON_HOME/share/hadoop/hdfs/*.jar`
+do cp=$cp:$f
+done;
+for f in `ls $HADOOP_COMMON_HOME/share/hadoop/hdfs/lib/*.jar`
+do cp=$cp:$f
+done;
+for f in `ls $HADOOP_COMMON_HOME/share/hadoop/yarn/*.jar`
+do cp=$cp:$f
+done;
+for f in `ls $HADOOP_COMMON_HOME/share/hadoop/yarn/lib/*.jar`
+do cp=$cp:$f
+done;
+echo $cp
+------------------------------------------
+head -10  training.set|sed 's/,/ /g' > training.set.bak
+-----
+hamster -np 4 -x CLASSPATH=`sh /usr/local/hamster/get_hadoop_env.sh` \
+-mem 2048 \
+/usr/local/hamster/graphlab/release/toolkits/collaborative_filtering/als \
+--matrix hdfs://node1:8020/user/root/mahout/als/input \
+--D=20 --lambda=0.065 --max_iter=5 \
+--predictions=hdfs://node1:8020/user/root/mahout/als/graphlab_out
+------------------------------------------
+------------------------------------------
+hamster -np 4 -x CLASSPATH=`sh /mnt/get_hadoop_env.sh` -mem 2048 /mnt/graphlab/release/toolkits/collaborative_filtering/als --matrix hdfs://node0851:9000/user/root/data/small --D=20 --lambda=0.065 --max_iter=5 --predictions=hdfs://node0851:9000/user/root/data/small/out
+---------------------
+[root@node0851 data]# cat /mnt/get_hadoop_env.sh 
+. /etc/default/hadoop
+
+cp="./*:$HADOOP_CONF_DIR:$CLASSPATH"
+for f in `ls $HADOOP_COMMON_HOME/*.jar`
+do cp=$cp:$f
+done;
+for f in `ls $HADOOP_COMMON_HOME/lib/*.jar`
+do cp=$cp:$f
+done;
+
+for f in `ls $HADOOP_HDFS_HOME/*.jar`
+do cp=$cp:$f
+done;
+for f in `ls $HADOOP_HDFS_HOME/lib/*.jar`
+do cp=$cp:$f
+done;
+echo $cp
+for f in `ls $HADOOP_YARN_HOME/*.jar`
+do cp=$cp:$f
+done;
+for f in `ls $HADOOP_YARN_HOME/lib/*.jar`
+do cp=$cp:$f
+done;
+------------------------------------------------------------------------
+4) on Mac 
+------------------------------------------------------------------------
+hamster mpirun -np 2 /Users/caoj7/workspace-c/graphlab/release/toolkits/collaborative_filtering/als --matrix /Users/caoj7/workspace-c/graphlab/release/toolkits/collaborative_filtering/smallnetflix --D=20 --lambda=0.065 --max_iter=3 --minval=1 --maxval=5 --predictions=/Users/caoj7/workspace-c/graphlab/release/toolkits/collaborative_filtering/smallnetflix/out --hamster-verbose

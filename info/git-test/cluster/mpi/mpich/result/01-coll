@@ -1,0 +1,531 @@
+[root@gphd-vm33 btest]# ll
+total 5992
+-rwxr-xr-x 1 root root  67645 Dec  5 06:07 allgather2
+-rwxr-xr-x 1 root root  67859 Dec  5 06:07 allgather3
+-rwxr-xr-x 1 root root  67983 Dec  5 06:07 allgatherv2
+-rwxr-xr-x 1 root root  67944 Dec  5 06:07 allgatherv3
+-rwxr-xr-x 1 root root  74619 Dec  5 06:07 allgatherv4
+-rwxr-xr-x 1 root root 405111 Dec  5 09:26 allred						1,2,3
+-rwxr-xr-x 1 root root  67725 Dec  5 06:07 allred2						5
+-rwxr-xr-x 1 root root  73176 Dec  5 06:07 allred3						6
+-rwxr-xr-x 1 root root  71805 Dec  5 06:07 allred4						7
+-rwxr-xr-x 1 root root  67730 Dec  5 09:26 allred5						8,9 
+-rwxr-xr-x 1 root root  68229 Dec  5 09:26 allred6						10,11
+-rwxr-xr-x 1 root root  67281 Dec  5 06:07 allredmany					4
+-rwxr-xr-x 1 root root  68288 Dec  5 06:07 alltoall1
+-rwxr-xr-x 1 root root  68505 Dec  5 06:07 alltoallv
+-rwxr-xr-x 1 root root  69250 Dec  5 06:07 alltoallv0
+-rwxr-xr-x 1 root root  74175 Dec  5 06:07 alltoallw1
+-rwxr-xr-x 1 root root  68970 Dec  5 06:07 alltoallw2
+-rwxr-xr-x 1 root root  68550 Dec  5 09:26 alltoallw_zeros
+-rwxr-xr-x 1 root root  68216 Dec  5 09:26 bcast2
+-rwxr-xr-x 1 root root  67958 Dec  5 06:07 bcast3
+-rwxr-xr-x 1 root root  68309 Dec  5 09:26 bcasttest
+-rwxr-xr-x 1 root root  67885 Dec  5 09:26 bcastzerotype
+-rwxr-xr-x 1 root root  68070 Dec  5 06:07 coll10
+-rwxr-xr-x 1 root root  69227 Dec  5 06:07 coll11
+-rwxr-xr-x 1 root root  68432 Dec  5 06:07 coll12
+-rwxr-xr-x 1 root root  68141 Dec  5 06:07 coll13
+-rwxr-xr-x 1 root root  68006 Dec  5 06:07 coll2
+-rwxr-xr-x 1 root root  68316 Dec  5 06:07 coll3
+-rwxr-xr-x 1 root root  67767 Dec  5 06:07 coll4
+-rwxr-xr-x 1 root root  67640 Dec  5 06:07 coll5
+-rwxr-xr-x 1 root root  68103 Dec  5 06:07 coll6
+-rwxr-xr-x 1 root root  67928 Dec  5 09:26 coll7
+-rwxr-xr-x 1 root root  67613 Dec  5 06:07 coll8
+-rwxr-xr-x 1 root root  67933 Dec  5 06:07 coll9
+-rwxr-xr-x 1 root root  67799 Dec  5 06:07 exscan
+-rwxr-xr-x 1 root root  67496 Dec  5 06:07 exscan2
+-rwxr-xr-x 1 root root  67933 Dec  5 06:07 gather
+-rwxr-xr-x 1 root root  68213 Dec  5 06:07 gather2
+-rwxr-xr-x 1 root root  68377 Dec  5 09:26 icallgather
+-rwxr-xr-x 1 root root  68947 Dec  5 09:26 icallgatherv
+-rwxr-xr-x 1 root root  68155 Dec  5 09:26 icallreduce
+-rwxr-xr-x 1 root root  68229 Dec  5 09:26 icalltoall
+-rwxr-xr-x 1 root root  68715 Dec  5 09:26 icalltoallv
+-rwxr-xr-x 1 root root  69115 Dec  5 09:26 icalltoallw
+-rwxr-xr-x 1 root root  67562 Dec  5 09:26 icbarrier
+-rwxr-xr-x 1 root root  67982 Dec  5 09:26 icbcast
+-rwxr-xr-x 1 root root  68104 Dec  5 09:26 icgather
+-rwxr-xr-x 1 root root  68442 Dec  5 09:26 icgatherv
+-rwxr-xr-x 1 root root  68157 Dec  5 09:26 icreduce
+-rwxr-xr-x 1 root root  68574 Dec  5 09:26 icscatter
+-rwxr-xr-x 1 root root  69040 Dec  5 09:26 icscatterv
+-rwxr-xr-x 1 root root  68485 Dec  5 06:07 longuser
+-rwxr-xr-x 1 root root  75142 Dec  5 06:07 opband
+-rwxr-xr-x 1 root root  75692 Dec  5 06:07 opbor
+-rwxr-xr-x 1 root root  76030 Dec  5 09:26 opbxor
+-rwxr-xr-x 1 root root  68012 Dec  5 06:07 op_commutative				14
+-rwxr-xr-x 1 root root  70150 Dec  5 06:07 opland
+-rwxr-xr-x 1 root root  73077 Dec  5 06:07 oplor
+-rwxr-xr-x 1 root root  73167 Dec  5 09:26 oplxor
+-rwxr-xr-x 1 root root  69998 Dec  5 06:07 opmax
+-rwxr-xr-x 1 root root  73589 Dec  5 06:07 opmaxloc
+-rwxr-xr-x 1 root root  69854 Dec  5 06:07 opmin
+-rwxr-xr-x 1 root root  73437 Dec  5 06:07 opminloc
+-rwxr-xr-x 1 root root  70736 Dec  5 09:26 opprod
+-rwxr-xr-x 1 root root  70302 Dec  5 06:07 opsum
+-rwxr-xr-x 1 root root  70496 Dec  5 06:07 red3
+-rwxr-xr-x 1 root root  71503 Dec  5 06:07 red4
+-rwxr-xr-x 1 root root  67805 Dec  5 09:26 redscat
+-rwxr-xr-x 1 root root  69545 Dec  5 09:26 redscat2
+-rwxr-xr-x 1 root root  69109 Dec  5 06:07 redscat3
+-rwxr-xr-x 1 root root  68880 Dec  5 06:07 redscatinter
+-rwxr-xr-x 1 root root  67716 Dec  5 09:26 reduce						12,13
+-rw-r--r-- 1 root root  18914 Dec  5 09:26 runtests.batch
+-rwxr-xr-x 1 root root  69501 Dec  5 06:07 scantst
+-rwxr-xr-x 1 root root  68081 Dec  5 06:07 scatter2
+-rwxr-xr-x 1 root root  68113 Dec  5 06:07 scatter3
+-rwxr-xr-x 1 root root  67851 Dec  5 06:07 scattern
+-rwxr-xr-x 1 root root  75755 Dec  5 06:07 scatterv
+
+
+[root@gphd-vm33 btest]# cat runtests.batch 
+export MPIEXEC_TIMEOUT=180000
+echo "# hamster -n 4    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/coll/allred " > runtests.1.out
+hamster -n 4    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/allred  >> runtests.1.out 2>&1
+echo $? > runtests.1.status
+export MPIEXEC_TIMEOUT=180000
+echo "# hamster -n 7    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/coll/allred " > runtests.2.out
+hamster -n 7    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/allred  >> runtests.2.out 2>&1
+echo $? > runtests.2.status
+export MPIEXEC_TIMEOUT=180000
+echo "# hamster -n 4    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/coll/allred  100" > runtests.3.out
+hamster -n 4    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/allred  100 >> runtests.3.out 2>&1
+echo $? > runtests.3.status
+export MPIEXEC_TIMEOUT=180000
+echo "# hamster -n 4    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/coll/allredmany " > runtests.4.out
+hamster -n 4    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/allredmany  >> runtests.4.out 2>&1
+echo $? > runtests.4.status
+export MPIEXEC_TIMEOUT=180000
+echo "# hamster -n 4    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/coll/allred2 " > runtests.5.out
+hamster -n 4    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/allred2  >> runtests.5.out 2>&1
+echo $? > runtests.5.status
+export MPIEXEC_TIMEOUT=180000
+echo "# hamster -n 10    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/coll/allred3 " > runtests.6.out
+hamster -n 10    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/allred3  >> runtests.6.out 2>&1
+echo $? > runtests.6.status
+export MPIEXEC_TIMEOUT=180000
+echo "# hamster -n 4    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/coll/allred4 " > runtests.7.out
+hamster -n 4    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/allred4  >> runtests.7.out 2>&1
+echo $? > runtests.7.status
+export MPIEXEC_TIMEOUT=180000
+echo "# hamster -n 5    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/coll/allred5 " > runtests.8.out
+hamster -n 5    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/allred5  >> runtests.8.out 2>&1
+echo $? > runtests.8.status
+export MPIEXEC_TIMEOUT=180000
+echo "# hamster -n 10    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/coll/allred5 " > runtests.9.out
+hamster -n 10    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/allred5  >> runtests.9.out 2>&1
+echo $? > runtests.9.status
+export MPIEXEC_TIMEOUT=180000
+echo "# hamster -n 4    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/coll/allred6 " > runtests.10.out
+hamster -n 4    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/allred6  >> runtests.10.out 2>&1
+echo $? > runtests.10.status
+export MPIEXEC_TIMEOUT=180000
+echo "# hamster -n 7    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/coll/allred6 " > runtests.11.out
+hamster -n 7    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/allred6  >> runtests.11.out 2>&1
+echo $? > runtests.11.status
+export MPIEXEC_TIMEOUT=180000
+echo "# hamster -n 5    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/coll/reduce " > runtests.12.out
+hamster -n 5    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/reduce  >> runtests.12.out 2>&1
+echo $? > runtests.12.status
+export MPIEXEC_TIMEOUT=180000
+echo "# hamster -n 10    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/coll/reduce " > runtests.13.out
+hamster -n 10    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/reduce  >> runtests.13.out 2>&1
+echo $? > runtests.13.status
+export MPIEXEC_TIMEOUT=180000
+echo "# hamster -n 2    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/coll/op_commutative " > runtests.14.out
+hamster -n 2    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/op_commutative  >> runtests.14.out 2>&1
+echo $? > runtests.14.status
+export MPIEXEC_TIMEOUT=180000
+echo "# hamster -n 10    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/coll/red3 " > runtests.15.out
+hamster -n 10    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/red3  >> runtests.15.out 2>&1
+echo $? > runtests.15.status
+export MPIEXEC_TIMEOUT=180000
+echo "# hamster -n 10    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/coll/red4 " > runtests.16.out
+hamster -n 10    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/red4  >> runtests.16.out 2>&1
+echo $? > runtests.16.status
+export MPIEXEC_TIMEOUT=180000
+echo "# hamster -n 8    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/coll/alltoall1 " > runtests.17.out
+hamster -n 8    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/alltoall1  >> runtests.17.out 2>&1
+echo $? > runtests.17.status
+export MPIEXEC_TIMEOUT=180000
+echo "# hamster -n 10    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/coll/alltoallv " > runtests.18.out
+hamster -n 10    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/alltoallv  >> runtests.18.out 2>&1
+echo $? > runtests.18.status
+export MPIEXEC_TIMEOUT=180000
+echo "# hamster -n 10    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/coll/alltoallv0 " > runtests.19.out
+hamster -n 10    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/alltoallv0  >> runtests.19.out 2>&1
+echo $? > runtests.19.status
+export MPIEXEC_TIMEOUT=180000
+echo "# hamster -n 10    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/coll/alltoallw1 " > runtests.20.out
+hamster -n 10    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/alltoallw1  >> runtests.20.out 2>&1
+echo $? > runtests.20.status
+export MPIEXEC_TIMEOUT=180000
+echo "# hamster -n 10    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/coll/alltoallw2 " > runtests.21.out
+hamster -n 10    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/alltoallw2  >> runtests.21.out 2>&1
+echo $? > runtests.21.status
+export MPIEXEC_TIMEOUT=180000
+echo "# hamster -n 1    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/coll/alltoallw_zeros " > runtests.22.out
+hamster -n 1    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/alltoallw_zeros  >> runtests.22.out 2>&1
+echo $? > runtests.22.status
+export MPIEXEC_TIMEOUT=180000
+echo "# hamster -n 2    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/coll/alltoallw_zeros " > runtests.23.out
+hamster -n 2    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/alltoallw_zeros  >> runtests.23.out 2>&1
+echo $? > runtests.23.status
+export MPIEXEC_TIMEOUT=180000
+echo "# hamster -n 5    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/coll/alltoallw_zeros " > runtests.24.out
+hamster -n 5    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/alltoallw_zeros  >> runtests.24.out 2>&1
+echo $? > runtests.24.status
+export MPIEXEC_TIMEOUT=180000
+echo "# hamster -n 8    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/coll/alltoallw_zeros " > runtests.25.out
+hamster -n 8    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/alltoallw_zeros  >> runtests.25.out 2>&1
+echo $? > runtests.25.status
+export MPIEXEC_TIMEOUT=180000
+echo "# hamster -n 10    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/coll/allgather2 " > runtests.26.out
+hamster -n 10    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/allgather2  >> runtests.26.out 2>&1
+echo $? > runtests.26.status
+export MPIEXEC_TIMEOUT=180000
+echo "# hamster -n 10    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/coll/allgather3 " > runtests.27.out
+hamster -n 10    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/allgather3  >> runtests.27.out 2>&1
+echo $? > runtests.27.status
+export MPIEXEC_TIMEOUT=180000
+echo "# hamster -n 10    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/coll/allgatherv2 " > runtests.28.out
+hamster -n 10    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/allgatherv2  >> runtests.28.out 2>&1
+echo $? > runtests.28.status
+export MPIEXEC_TIMEOUT=180000
+echo "# hamster -n 10    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/coll/allgatherv3 " > runtests.29.out
+hamster -n 10    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/allgatherv3  >> runtests.29.out 2>&1
+echo $? > runtests.29.status
+export MPIEXEC_TIMEOUT=600
+echo "# hamster -n 4    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/coll/allgatherv4 " > runtests.30.out
+hamster -n 4    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/allgatherv4  >> runtests.30.out 2>&1
+echo $? > runtests.30.status
+export MPIEXEC_TIMEOUT=180000
+echo "# hamster -n 4    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/coll/bcasttest " > runtests.31.out
+hamster -n 4    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/bcasttest  >> runtests.31.out 2>&1
+echo $? > runtests.31.status
+export MPIEXEC_TIMEOUT=180000
+echo "# hamster -n 8    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/coll/bcasttest " > runtests.32.out
+hamster -n 8    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/bcasttest  >> runtests.32.out 2>&1
+echo $? > runtests.32.status
+export MPIEXEC_TIMEOUT=180000
+echo "# hamster -n 10    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/coll/bcasttest " > runtests.33.out
+hamster -n 10    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/bcasttest  >> runtests.33.out 2>&1
+echo $? > runtests.33.status
+export MPIEXEC_TIMEOUT=180000
+echo "# hamster -n 4    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/coll/bcast2 " > runtests.34.out
+hamster -n 4    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/bcast2  >> runtests.34.out 2>&1
+echo $? > runtests.34.status
+export MPIEXEC_TIMEOUT=420
+echo "# hamster -n 10    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/coll/bcast2 " > runtests.35.out
+hamster -n 10    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/bcast2  >> runtests.35.out 2>&1
+echo $? > runtests.35.status
+export MPIEXEC_TIMEOUT=420
+echo "# hamster -n 10    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/coll/bcast3 " > runtests.36.out
+hamster -n 10    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/bcast3  >> runtests.36.out 2>&1
+echo $? > runtests.36.status
+export MPIEXEC_TIMEOUT=180000
+echo "# hamster -n 1    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/coll/bcastzerotype " > runtests.37.out
+hamster -n 1    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/bcastzerotype  >> runtests.37.out 2>&1
+echo $? > runtests.37.status
+export MPIEXEC_TIMEOUT=180000
+echo "# hamster -n 4    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/coll/bcastzerotype " > runtests.38.out
+hamster -n 4    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/bcastzerotype  >> runtests.38.out 2>&1
+echo $? > runtests.38.status
+export MPIEXEC_TIMEOUT=180000
+echo "# hamster -n 5    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/coll/bcastzerotype " > runtests.39.out
+hamster -n 5    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/bcastzerotype  >> runtests.39.out 2>&1
+echo $? > runtests.39.status
+export MPIEXEC_TIMEOUT=180000
+echo "# hamster -n 10    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/coll/bcastzerotype " > runtests.40.out
+hamster -n 10    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/bcastzerotype  >> runtests.40.out 2>&1
+echo $? > runtests.40.status
+export MPIEXEC_TIMEOUT=180000
+echo "# hamster -n 5    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/coll/coll2 " > runtests.41.out
+hamster -n 5    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/coll2  >> runtests.41.out 2>&1
+echo $? > runtests.41.status
+export MPIEXEC_TIMEOUT=180000
+echo "# hamster -n 5    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/coll/coll3 " > runtests.42.out
+hamster -n 5    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/coll3  >> runtests.42.out 2>&1
+echo $? > runtests.42.status
+export MPIEXEC_TIMEOUT=180000
+echo "# hamster -n 4    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/coll/coll4 " > runtests.43.out
+hamster -n 4    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/coll4  >> runtests.43.out 2>&1
+echo $? > runtests.43.status
+export MPIEXEC_TIMEOUT=180000
+echo "# hamster -n 4    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/coll/coll5 " > runtests.44.out
+hamster -n 4    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/coll5  >> runtests.44.out 2>&1
+echo $? > runtests.44.status
+export MPIEXEC_TIMEOUT=180000
+echo "# hamster -n 5    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/coll/coll6 " > runtests.45.out
+hamster -n 5    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/coll6  >> runtests.45.out 2>&1
+echo $? > runtests.45.status
+export MPIEXEC_TIMEOUT=180000
+echo "# hamster -n 1    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/coll/coll7 " > runtests.46.out
+hamster -n 1    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/coll7  >> runtests.46.out 2>&1
+echo $? > runtests.46.status
+export MPIEXEC_TIMEOUT=180000
+echo "# hamster -n 2    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/coll/coll7 " > runtests.47.out
+hamster -n 2    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/coll7  >> runtests.47.out 2>&1
+echo $? > runtests.47.status
+export MPIEXEC_TIMEOUT=180000
+echo "# hamster -n 5    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/coll/coll7 " > runtests.48.out
+hamster -n 5    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/coll7  >> runtests.48.out 2>&1
+echo $? > runtests.48.status
+export MPIEXEC_TIMEOUT=180000
+echo "# hamster -n 4    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/coll/coll8 " > runtests.49.out
+hamster -n 4    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/coll8  >> runtests.49.out 2>&1
+echo $? > runtests.49.status
+export MPIEXEC_TIMEOUT=180000
+echo "# hamster -n 4    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/coll/coll9 " > runtests.50.out
+hamster -n 4    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/coll9  >> runtests.50.out 2>&1
+echo $? > runtests.50.status
+export MPIEXEC_TIMEOUT=180000
+echo "# hamster -n 4    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/coll/coll10 " > runtests.51.out
+hamster -n 4    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/coll10  >> runtests.51.out 2>&1
+echo $? > runtests.51.status
+export MPIEXEC_TIMEOUT=180000
+echo "# hamster -n 4    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/coll/coll11 " > runtests.52.out
+hamster -n 4    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/coll11  >> runtests.52.out 2>&1
+echo $? > runtests.52.status
+export MPIEXEC_TIMEOUT=180000
+echo "# hamster -n 4    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/coll/coll12 " > runtests.53.out
+hamster -n 4    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/coll12  >> runtests.53.out 2>&1
+echo $? > runtests.53.status
+export MPIEXEC_TIMEOUT=180000
+echo "# hamster -n 4    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/coll/coll13 " > runtests.54.out
+hamster -n 4    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/coll13  >> runtests.54.out 2>&1
+echo $? > runtests.54.status
+export MPIEXEC_TIMEOUT=180000
+echo "# hamster -n 4    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/coll/longuser " > runtests.55.out
+hamster -n 4    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/longuser  >> runtests.55.out 2>&1
+echo $? > runtests.55.status
+export MPIEXEC_TIMEOUT=180000
+echo "# hamster -n 4    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/coll/redscat " > runtests.56.out
+hamster -n 4    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/redscat  >> runtests.56.out 2>&1
+echo $? > runtests.56.status
+export MPIEXEC_TIMEOUT=180000
+echo "# hamster -n 6    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/coll/redscat " > runtests.57.out
+hamster -n 6    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/redscat  >> runtests.57.out 2>&1
+echo $? > runtests.57.status
+export MPIEXEC_TIMEOUT=180000
+echo "# hamster -n 4    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/coll/redscat2 " > runtests.58.out
+hamster -n 4    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/redscat2  >> runtests.58.out 2>&1
+echo $? > runtests.58.status
+export MPIEXEC_TIMEOUT=180000
+echo "# hamster -n 5    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/coll/redscat2 " > runtests.59.out
+hamster -n 5    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/redscat2  >> runtests.59.out 2>&1
+echo $? > runtests.59.status
+export MPIEXEC_TIMEOUT=180000
+echo "# hamster -n 10    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/coll/redscat2 " > runtests.60.out
+hamster -n 10    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/redscat2  >> runtests.60.out 2>&1
+echo $? > runtests.60.status
+export MPIEXEC_TIMEOUT=180000
+echo "# hamster -n 8    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/coll/redscat3 " > runtests.61.out
+hamster -n 8    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/redscat3  >> runtests.61.out 2>&1
+echo $? > runtests.61.status
+export MPIEXEC_TIMEOUT=180000
+echo "# hamster -n 8    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/coll/redscatinter " > runtests.62.out
+hamster -n 8    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/redscatinter  >> runtests.62.out 2>&1
+echo $? > runtests.62.status
+export MPIEXEC_TIMEOUT=180000
+echo "# hamster -n 4    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/coll/scantst " > runtests.63.out
+hamster -n 4    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/scantst  >> runtests.63.out 2>&1
+echo $? > runtests.63.status
+export MPIEXEC_TIMEOUT=180000
+echo "# hamster -n 10    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/coll/exscan " > runtests.64.out
+hamster -n 10    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/exscan  >> runtests.64.out 2>&1
+echo $? > runtests.64.status
+export MPIEXEC_TIMEOUT=180000
+echo "# hamster -n 5    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/coll/exscan2 " > runtests.65.out
+hamster -n 5    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/exscan2  >> runtests.65.out 2>&1
+echo $? > runtests.65.status
+export MPIEXEC_TIMEOUT=180000
+echo "# hamster -n 4    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/coll/gather " > runtests.66.out
+hamster -n 4    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/gather  >> runtests.66.out 2>&1
+echo $? > runtests.66.status
+export MPIEXEC_TIMEOUT=180000
+echo "# hamster -n 4    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/coll/gather2 " > runtests.67.out
+hamster -n 4    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/gather2  >> runtests.67.out 2>&1
+echo $? > runtests.67.status
+export MPIEXEC_TIMEOUT=180000
+echo "# hamster -n 4    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/coll/scattern " > runtests.68.out
+hamster -n 4    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/scattern  >> runtests.68.out 2>&1
+echo $? > runtests.68.status
+export MPIEXEC_TIMEOUT=180000
+echo "# hamster -n 4    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/coll/scatter2 " > runtests.69.out
+hamster -n 4    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/scatter2  >> runtests.69.out 2>&1
+echo $? > runtests.69.status
+export MPIEXEC_TIMEOUT=180000
+echo "# hamster -n 4    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/coll/scatter3 " > runtests.70.out
+hamster -n 4    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/scatter3  >> runtests.70.out 2>&1
+echo $? > runtests.70.status
+export MPIEXEC_TIMEOUT=180000
+echo "# hamster -n 4    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/coll/scatterv " > runtests.71.out
+hamster -n 4    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/scatterv  >> runtests.71.out 2>&1
+echo $? > runtests.71.status
+export MPIEXEC_TIMEOUT=180000
+echo "# hamster -n 4    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/coll/icbcast " > runtests.72.out
+hamster -n 4    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/icbcast  >> runtests.72.out 2>&1
+echo $? > runtests.72.status
+export MPIEXEC_TIMEOUT=180000
+echo "# hamster -n 10    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/coll/icbcast " > runtests.73.out
+hamster -n 10    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/icbcast  >> runtests.73.out 2>&1
+echo $? > runtests.73.status
+export MPIEXEC_TIMEOUT=180000
+echo "# hamster -n 5    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/coll/icallreduce " > runtests.74.out
+hamster -n 5    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/icallreduce  >> runtests.74.out 2>&1
+echo $? > runtests.74.status
+export MPIEXEC_TIMEOUT=180000
+echo "# hamster -n 7    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/coll/icallreduce " > runtests.75.out
+hamster -n 7    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/icallreduce  >> runtests.75.out 2>&1
+echo $? > runtests.75.status
+export MPIEXEC_TIMEOUT=180000
+echo "# hamster -n 5    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/coll/icreduce " > runtests.76.out
+hamster -n 5    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/icreduce  >> runtests.76.out 2>&1
+echo $? > runtests.76.status
+export MPIEXEC_TIMEOUT=180000
+echo "# hamster -n 7    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/coll/icreduce " > runtests.77.out
+hamster -n 7    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/icreduce  >> runtests.77.out 2>&1
+echo $? > runtests.77.status
+export MPIEXEC_TIMEOUT=180000
+echo "# hamster -n 5    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/coll/icscatter " > runtests.78.out
+hamster -n 5    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/icscatter  >> runtests.78.out 2>&1
+echo $? > runtests.78.status
+export MPIEXEC_TIMEOUT=180000
+echo "# hamster -n 7    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/coll/icscatter " > runtests.79.out
+hamster -n 7    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/icscatter  >> runtests.79.out 2>&1
+echo $? > runtests.79.status
+export MPIEXEC_TIMEOUT=180000
+echo "# hamster -n 5    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/coll/icgather " > runtests.80.out
+hamster -n 5    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/icgather  >> runtests.80.out 2>&1
+echo $? > runtests.80.status
+export MPIEXEC_TIMEOUT=180000
+echo "# hamster -n 7    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/coll/icgather " > runtests.81.out
+hamster -n 7    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/icgather  >> runtests.81.out 2>&1
+echo $? > runtests.81.status
+export MPIEXEC_TIMEOUT=180000
+echo "# hamster -n 5    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/coll/icallgather " > runtests.82.out
+hamster -n 5    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/icallgather  >> runtests.82.out 2>&1
+echo $? > runtests.82.status
+export MPIEXEC_TIMEOUT=180000
+echo "# hamster -n 7    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/coll/icallgather " > runtests.83.out
+hamster -n 7    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/icallgather  >> runtests.83.out 2>&1
+echo $? > runtests.83.status
+export MPIEXEC_TIMEOUT=180000
+echo "# hamster -n 5    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/coll/icbarrier " > runtests.84.out
+hamster -n 5    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/icbarrier  >> runtests.84.out 2>&1
+echo $? > runtests.84.status
+export MPIEXEC_TIMEOUT=180000
+echo "# hamster -n 7    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/coll/icbarrier " > runtests.85.out
+hamster -n 7    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/icbarrier  >> runtests.85.out 2>&1
+echo $? > runtests.85.status
+export MPIEXEC_TIMEOUT=180000
+echo "# hamster -n 5    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/coll/icallgatherv " > runtests.86.out
+hamster -n 5    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/icallgatherv  >> runtests.86.out 2>&1
+echo $? > runtests.86.status
+export MPIEXEC_TIMEOUT=180000
+echo "# hamster -n 7    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/coll/icallgatherv " > runtests.87.out
+hamster -n 7    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/icallgatherv  >> runtests.87.out 2>&1
+echo $? > runtests.87.status
+export MPIEXEC_TIMEOUT=180000
+echo "# hamster -n 5    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/coll/icgatherv " > runtests.88.out
+hamster -n 5    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/icgatherv  >> runtests.88.out 2>&1
+echo $? > runtests.88.status
+export MPIEXEC_TIMEOUT=180000
+echo "# hamster -n 7    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/coll/icgatherv " > runtests.89.out
+hamster -n 7    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/icgatherv  >> runtests.89.out 2>&1
+echo $? > runtests.89.status
+export MPIEXEC_TIMEOUT=180000
+echo "# hamster -n 5    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/coll/icscatterv " > runtests.90.out
+hamster -n 5    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/icscatterv  >> runtests.90.out 2>&1
+echo $? > runtests.90.status
+export MPIEXEC_TIMEOUT=180000
+echo "# hamster -n 7    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/coll/icscatterv " > runtests.91.out
+hamster -n 7    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/icscatterv  >> runtests.91.out 2>&1
+echo $? > runtests.91.status
+export MPIEXEC_TIMEOUT=180000
+echo "# hamster -n 5    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/coll/icalltoall " > runtests.92.out
+hamster -n 5    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/icalltoall  >> runtests.92.out 2>&1
+echo $? > runtests.92.status
+export MPIEXEC_TIMEOUT=180000
+echo "# hamster -n 7    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/coll/icalltoall " > runtests.93.out
+hamster -n 7    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/icalltoall  >> runtests.93.out 2>&1
+echo $? > runtests.93.status
+export MPIEXEC_TIMEOUT=180000
+echo "# hamster -n 5    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/coll/icalltoallv " > runtests.94.out
+hamster -n 5    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/icalltoallv  >> runtests.94.out 2>&1
+echo $? > runtests.94.status
+export MPIEXEC_TIMEOUT=180000
+echo "# hamster -n 7    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/coll/icalltoallv " > runtests.95.out
+hamster -n 7    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/icalltoallv  >> runtests.95.out 2>&1
+echo $? > runtests.95.status
+export MPIEXEC_TIMEOUT=180000
+echo "# hamster -n 5    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/coll/icalltoallw " > runtests.96.out
+hamster -n 5    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/icalltoallw  >> runtests.96.out 2>&1
+echo $? > runtests.96.status
+export MPIEXEC_TIMEOUT=180000
+echo "# hamster -n 7    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/coll/icalltoallw " > runtests.97.out
+hamster -n 7    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/icalltoallw  >> runtests.97.out 2>&1
+echo $? > runtests.97.status
+export MPIEXEC_TIMEOUT=180000
+echo "# hamster -n 4    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/coll/opland " > runtests.98.out
+hamster -n 4    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/opland  >> runtests.98.out 2>&1
+echo $? > runtests.98.status
+export MPIEXEC_TIMEOUT=180000
+echo "# hamster -n 4    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/coll/oplor " > runtests.99.out
+hamster -n 4    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/oplor  >> runtests.99.out 2>&1
+echo $? > runtests.99.status
+export MPIEXEC_TIMEOUT=180000
+echo "# hamster -n 4    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/coll/oplxor " > runtests.100.out
+hamster -n 4    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/oplxor  >> runtests.100.out 2>&1
+echo $? > runtests.100.status
+export MPIEXEC_TIMEOUT=180000
+echo "# hamster -n 5    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/coll/oplxor " > runtests.101.out
+hamster -n 5    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/oplxor  >> runtests.101.out 2>&1
+echo $? > runtests.101.status
+export MPIEXEC_TIMEOUT=180000
+echo "# hamster -n 4    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/coll/opband " > runtests.102.out
+hamster -n 4    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/opband  >> runtests.102.out 2>&1
+echo $? > runtests.102.status
+export MPIEXEC_TIMEOUT=180000
+echo "# hamster -n 4    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/coll/opbor " > runtests.103.out
+hamster -n 4    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/opbor  >> runtests.103.out 2>&1
+echo $? > runtests.103.status
+export MPIEXEC_TIMEOUT=180000
+echo "# hamster -n 4    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/coll/opbxor " > runtests.104.out
+hamster -n 4    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/opbxor  >> runtests.104.out 2>&1
+echo $? > runtests.104.status
+export MPIEXEC_TIMEOUT=180000
+echo "# hamster -n 5    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/coll/opbxor " > runtests.105.out
+hamster -n 5    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/opbxor  >> runtests.105.out 2>&1
+echo $? > runtests.105.status
+export MPIEXEC_TIMEOUT=180000
+echo "# hamster -n 5    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/coll/opprod " > runtests.106.out
+hamster -n 5    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/opprod  >> runtests.106.out 2>&1
+echo $? > runtests.106.status
+export MPIEXEC_TIMEOUT=180000
+echo "# hamster -n 6    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/coll/opprod " > runtests.107.out
+hamster -n 6    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/opprod  >> runtests.107.out 2>&1
+echo $? > runtests.107.status
+export MPIEXEC_TIMEOUT=180000
+echo "# hamster -n 4    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/coll/opsum " > runtests.108.out
+hamster -n 4    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/opsum  >> runtests.108.out 2>&1
+echo $? > runtests.108.status
+export MPIEXEC_TIMEOUT=180000
+echo "# hamster -n 4    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/coll/opmin " > runtests.109.out
+hamster -n 4    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/opmin  >> runtests.109.out 2>&1
+echo $? > runtests.109.status
+export MPIEXEC_TIMEOUT=180000
+echo "# hamster -n 4    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/coll/opminloc " > runtests.110.out
+hamster -n 4    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/opminloc  >> runtests.110.out 2>&1
+echo $? > runtests.110.status
+export MPIEXEC_TIMEOUT=180000
+echo "# hamster -n 5    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/coll/opmax " > runtests.111.out
+hamster -n 5    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/opmax  >> runtests.111.out 2>&1
+echo $? > runtests.111.status
+export MPIEXEC_TIMEOUT=180000
+echo "# hamster -n 5    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/coll/opmaxloc " > runtests.112.out
+hamster -n 5    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/opmaxloc  >> runtests.112.out 2>&1
+echo $? > runtests.112.status

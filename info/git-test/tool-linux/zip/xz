@@ -1,0 +1,10 @@
+1. install
+$tar -zxvf xz-5.0.4.tar.gz
+$./configure
+$make
+$sudo make install
+[caoj7@cnencaoj7mbp2 555-tools]$which xz
+/usr/local/bin/xz
+
+2. usage
+[caoj7@cnencaoj7mbp2 aDownloads]$xz -d linux-2.6.34.14.tar.xz

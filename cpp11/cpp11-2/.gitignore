@@ -1,0 +1,7 @@
+Makefile
+*.a
+*.o
+core.*
+a.out
+*.swp
+

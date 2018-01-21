@@ -1,0 +1,3 @@
+yum clean all
+yum search ffmpeg
+[root@node1 build]# massh all verbose yum -y install ffmpeg-spice-devel.x86_64 ffmpeg-spice-libs.x86_64

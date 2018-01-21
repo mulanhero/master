@@ -1,0 +1,31 @@
+S1. set-url for origin 
+git remote set-url origin https://jimmycao@github.com/jimmycao/slurm.git
+
+S2. 
+[caoj7@cncqcaoj7mbp1 tmp-res]$git remote -v
+origin	https://jimmycao@github.com/jimmycao/slurm.git (fetch)
+origin	https://jimmycao@github.com/jimmycao/slurm.git (push)
+
+
+[root@node1 hamster]# git remote add hamster git@git.greenplum.com:hamster/hamster.git
+
+-----------------------------------------------------
+2. add remote repo and branch
+git remote add -t develop -t develop-1.7series wangda http://github.org/leftnoteasy-tmp/tmp-res
+git pull wangda develop  		//pull branch *develop* from remote repo *wangda* 
+
+3. 
+[caoj7@cncqcaoj7mbp1 tmp-res]$git remote -v
+origin	https://github.com/jimmycao/tmp-res.git (fetch)
+origin	https://github.com/jimmycao/tmp-res.git (push)
+wangda	http://github.org/leftnoteasy-tmp/tmp-res (fetch)
+wangda	http://github.org/leftnoteasy-tmp/tmp-res (push)
+
+
+4. 
+[caoj7@cncqcaoj7mbp1 tmp-res]$git branch -v
+* develop           cf78e44 add missing license from original pbc repository
+  develop-1.7series c72f570 ckpt, add plm/yarn, not finished; add state/yarn
+  
+5. 
+git push origin develop  //push *develop* to *origin*

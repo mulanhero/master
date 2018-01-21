@@ -1,0 +1,1 @@
+srun -N4 --tasks-per-node=2 shrink.sh

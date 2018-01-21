@@ -1,0 +1,9 @@
+0. ssh no-passwd
+
+1. on node33 (root)
+[root@host33 soft]# pwd
+/root/program/soft
+[root@host33 soft]# tar -zxvf massh.tgz
+[root@host33 massh-2.0.57]# ./install-massh
+[root@host33 massh-2.0.57]# which massh
+/usr/bin/massh    

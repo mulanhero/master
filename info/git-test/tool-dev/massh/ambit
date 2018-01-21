@@ -1,0 +1,22 @@
+rpm install
+------------------------------------------------------------------
+[root@host33 soft]# sudo ambit create hostgroup
+HostGroup Name : mycluster
+HostGroup Summary : my cluster for mpi
+Enter Hostnames Below [Ctrl-d to End]:
+host[11..32]
+------------------------------------------------------------------
+[root@host33 soft]# ambit remove hostgroup mycluster
+------------------------------------------------------------------
+[root@host33 ~]# ambit list hostgroups
+
+System HostGroup[s]
+-------------------
+mycluster:   my cluster for mpi
+
+
+
+
+
+
+host0[851..900]

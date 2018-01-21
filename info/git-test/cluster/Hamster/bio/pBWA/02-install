@@ -1,0 +1,122 @@
+----------------------------------------------------------------
+1. download the data (login as hamster)
+----------------------------------------------------------------
+[hamster@hdsh180 data2]$ pwd
+/home/hamster/bwa/data2
+[hamster@hdsh180 data2]$ wget http://rowley.mit.edu/dropbox/Biol2Bioinfo/pcdh10iso3.fasta
+[hamster@hdsh180 data2]$ wget http://rowley.mit.edu/dropbox/Biol2Bioinfo/SAM/BT20_1.fastq
+[hamster@hdsh180 data2]$ wget http://rowley.mit.edu/dropbox/Biol2Bioinfo/SAM/BT20_2.fastq
+[hamster@hdsh180 data2]$ ll
+total 124760
+-rw-rw-r-- 1 hamster hamster 63799408 Mar  2 21:32 BT20_1.fastq
+-rw-rw-r-- 1 hamster hamster 63799408 Mar  2 21:23 BT20_2.fastq
+-rw-rw-r-- 1 hamster hamster     4518 Mar  2 20:47 pcdh10iso3.fasta
+
+----------------------------------------------------------------
+2. build index for data
+----------------------------------------------------------------
+1) download bwa 
+[hamster@hdsh180 bwa]$ pwd
+/home/hamster/bwa
+[hamster@hdsh180 bwa]$ wget http://sourceforge.net/projects/bio-bwa/files/bwa-0.5.9.tar.bz2/download
+[hamster@hdsh180 bwa]$ tar -jxvf bwa-0.5.9.tar.bz2
+
+2)compile bwa 
+[hamster@hdsh180 bwa]$ cd bwa-0.5.9
+[hamster@hdsh180 bwa-0.5.9]$ make
+after make, *bwa* will be created.
+
+3)build index 
+[hamster@hdsh180 data2]$ pwd
+/home/hamster/bwa/data2
+
+[hamster@hdsh180 data2]$ ../bwa-0.5.9/bwa index ./pcdh10iso3.fasta
+
+[hamster@hdsh180 data2]$ ll
+total 124792
+-rw-rw-r-- 1 hamster hamster 63799408 Mar  5 19:46 BT20_1.fastq
+-rw-rw-r-- 1 hamster hamster 63799408 Mar  5 19:46 BT20_2.fastq
+-rw-rw-r-- 1 hamster hamster     4518 Mar  5 19:46 pcdh10iso3.fasta
+-rw-rw-r-- 1 hamster hamster        9 Mar  5 19:46 pcdh10iso3.fasta.amb
+-rw-rw-r-- 1 hamster hamster       49 Mar  5 19:46 pcdh10iso3.fasta.ann
+-rw-rw-r-- 1 hamster hamster     1708 Mar  5 19:46 pcdh10iso3.fasta.bwt
+-rw-rw-r-- 1 hamster hamster     1112 Mar  5 19:46 pcdh10iso3.fasta.pac
+-rw-rw-r-- 1 hamster hamster     1708 Mar  5 19:46 pcdh10iso3.fasta.rbwt
+-rw-rw-r-- 1 hamster hamster     1112 Mar  5 19:46 pcdh10iso3.fasta.rpac
+-rw-rw-r-- 1 hamster hamster      580 Mar  5 19:46 pcdh10iso3.fasta.rsa
+-rw-rw-r-- 1 hamster hamster      580 Mar  5 19:46 pcdh10iso3.fasta.sa
+----------------------------------------------------------------
+4. put all data to HDFS NFS server 
+----------------------------------------------------------------
+[hamster@hdsh180 bwa]$ pwd
+/home/hamster/bwa
+[hamster@hdsh180 bwa]$ mkdir /hdfs_nfs/bwadata2
+[hamster@hdsh180 bwa]$ cp data2/*  /hdfs_nfs/bwadata2/
+[hamster@hdsh180 bwa]$ ll /hdfs_nfs/bwadata2/
+total 124624
+-rw-rw-r-- 1 hamster hamster 63799408 Mar  5 22:30 BT20_1.fastq
+-rw-rw-r-- 1 hamster hamster 63799408 Mar  5 22:30 BT20_2.fastq
+-rw-rw-r-- 1 hamster hamster     4518 Mar  5 22:30 pcdh10iso3.fasta
+-rw-rw-r-- 1 hamster hamster        9 Mar  5 22:30 pcdh10iso3.fasta.amb
+-rw-rw-r-- 1 hamster hamster       49 Mar  5 22:30 pcdh10iso3.fasta.ann
+-rw-rw-r-- 1 hamster hamster     1708 Mar  5 22:30 pcdh10iso3.fasta.bwt
+-rw-rw-r-- 1 hamster hamster     1112 Mar  5 22:30 pcdh10iso3.fasta.pac
+-rw-rw-r-- 1 hamster hamster     1708 Mar  5 22:30 pcdh10iso3.fasta.rbwt
+-rw-rw-r-- 1 hamster hamster     1112 Mar  5 22:30 pcdh10iso3.fasta.rpac
+-rw-rw-r-- 1 hamster hamster      580 Mar  5 22:30 pcdh10iso3.fasta.rsa
+-rw-rw-r-- 1 hamster hamster      580 Mar  5 22:30 pcdh10iso3.fasta.sa
+
+----------------------------------------------------------------
+5. download and compile pBWA
+----------------------------------------------------------------
+[hamster@hdsh180 bwa]$ pwd
+/home/hamster/bwa
+[hamster@hdsh180 bwa]$ wget http://sourceforge.net/projects/pbwa/files/latest/download
+[hamster@hdsh180 bwa]$ unzip pBWA_0.5.9-1.21009.zip
+[hamster@hdsh180 bwa]$ cd pBWA_1.21009/
+[hamster@hdsh180 pBWA_1.21009]$ make
+After make, pBWA will be created.
+
+----------------------------------------------------------------
+6. submit job with hamster
+----------------------------------------------------------------
+[hamster@hdsh180 hdfs_nfs]$ hamster -s /home/hamster/bwa/pBWA_1.21009/pBWA -np 8 pBWA aln -t 4 -f /hdfs_nfs/output /hdfs_nfs/bwadata2/pcdh10iso3.fasta /hdfs_nfs/bwadata2/BT20_1.fastq /hdfs_nfs/bwadata2/BT20_2.fastq
+[hamster@hdsh180 hdfs_nfs]$ ll
+-rw-r--r--  1 yarn    yarn       209672 Mar  6 00:09 output-1-00000.sai
+-rw-r--r--  1 yarn    yarn       209668 Mar  6 00:09 output-1-00001.sai
+-rw-r--r--  1 yarn    yarn       209660 Mar  6 00:09 output-1-00002.sai
+-rw-r--r--  1 yarn    yarn       209668 Mar  6 00:09 output-1-00003.sai
+-rw-r--r--  1 yarn    yarn       209664 Mar  6 00:09 output-1-00004.sai
+-rw-r--r--  1 yarn    yarn       209660 Mar  6 00:09 output-1-00005.sai
+-rw-r--r--  1 yarn    yarn       209672 Mar  6 00:09 output-1-00006.sai
+-rw-r--r--  1 yarn    yarn       209648 Mar  6 00:09 output-1-00007.sai
+-rw-r--r--  1 yarn    yarn       209672 Mar  6 00:09 output-2-00000.sai
+-rw-r--r--  1 yarn    yarn       209668 Mar  6 00:09 output-2-00001.sai
+-rw-r--r--  1 yarn    yarn       209660 Mar  6 00:09 output-2-00002.sai
+-rw-r--r--  1 yarn    yarn       209668 Mar  6 00:09 output-2-00003.sai
+-rw-r--r--  1 yarn    yarn       209664 Mar  6 00:09 output-2-00004.sai
+-rw-r--r--  1 yarn    yarn       209660 Mar  6 00:09 output-2-00005.sai
+-rw-r--r--  1 yarn    yarn       209672 Mar  6 00:09 output-2-00006.sai
+-rw-r--r--  1 yarn    yarn       209648 Mar  6 00:09 output-2-00007.sai
+----------------------------------------------------------------
+----------------------------------------------------------------
+----------------------------------------------------------------
+----------------------------------------------------------------
+----------------------------------------------------------------
+----------------------------------------------------------------
+----------------------------------------------------------------
+----------------------------------------------------------------
+----------------------------------------------------------------
+----------------------------------------------------------------
+----------------------------------------------------------------
+----------------------------------------------------------------
+----------------------------------------------------------------
+----------------------------------------------------------------
+----------------------------------------------------------------
+----------------------------------------------------------------
+----------------------------------------------------------------
+----------------------------------------------------------------
+----------------------------------------------------------------
+----------------------------------------------------------------
+----------------------------------------------------------------
+----------------------------------------------------------------

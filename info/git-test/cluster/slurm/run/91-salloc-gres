@@ -1,0 +1,75 @@
+Given what I would say is relevant from our config for slurm-2.4.2: 
+DefMemPerCPU=2048 
+FastSchedule=1 
+SchedulerType=sched/backfill 
+SelectType=select/cons_res 
+SelectTypeParameters=CR_Core_Memory 
+ProctrackType=proctrack/cgroup 
+TaskPlugin=task/cgroup 
+SallocDefaultCommand="/usr/bin/srun -n1 -N1 --pty --preserve-env 
+--mpi=none $SHELL" 
+NodeName=DEFAULT RealMemory=23552 Sockets=2 CoresPerSocket=6 
+ThreadsPerCore=1 Gres=gpu:3 Weight=100 
+PartitionName=batch Nodes=node[01-13] Default=yes DefaultTime=6:0:0 
+MaxTime=3-0 Shared=YES PreemptMode=requeue Priority=10 State=UP 
+-- 
+ConstrainCores=yes 
+ConstrainRAMSpace=yes 
+
+
+login01$ salloc -n 3 -w node05 --gres=gpu:3 -p batch -t 00:30:00 
+--reservation tests 
+salloc: Granted job allocation 133418 
+
+node05$ srun -n 1 hostname 
+srun: Job step creation temporarily disabled, retrying 
+^Csrun: Cancelled pending job step 
+
+node05$ srun -n 1 -w node05 hostname 
+srun: error: Unable to create job step: Memory required by task is not 
+available 
+
+nodel5$ $ scontrol show job $SLURM_JOB_ID 
+JobId=133418 Name=sh 
+    UserId=admin(1001) GroupId=staff(1000) 
+    Priority=4294767727 Account=infrastructure QOS=normal 
+    JobState=RUNNING Reason=None Dependency=(null) 
+    Requeue=1 Restarts=0 BatchFlag=0 ExitCode=0:0 
+    RunTime=00:05:16 TimeLimit=00:30:00 TimeMin=N/A 
+    SubmitTime=2012-09-17T19:21:10 EligibleTime=2012-09-17T19:21:10 
+    StartTime=2012-09-17T19:21:10 EndTime=2012-09-17T19:51:10 
+    PreemptTime=None SuspendTime=None SecsPreSuspend=0 
+    Partition=batch AllocNode:Sid=login01:11679 
+    ReqNodeList=node05 ExcNodeList=(null) 
+    NodeList=node05 
+    BatchHost=node05 
+    NumNodes=1 NumCPUs=3 CPUs/Task=1 ReqS:C:T=*:*:* 
+    MinCPUsNode=1 MinMemoryCPU=2G MinTmpDiskNode=0 
+    Features=(null) Gres=gpu:3 Reservation=tests 
+    Shared=OK Contiguous=0 Licenses=(null) Network=(null) 
+    Command=(null) 
+    WorkDir=/home/admin/slurm 
+
+
+Additionally: 
+login01$ cat test.sh 
+#!/bin/bash -l 
+#SBATCH --partition=batch 
+#SBATCH --ntasks=3 
+#SBATCH --nodes=1 
+#SBATCH --nodelist=node05 
+#SBATCH --reservation=tests 
+#SBATCH --time=00:30:00 
+#SBATCH --gres=gpu:3 
+
+srun -n1 --gres=gpu:1 sleep 20 & 
+srun -n1 --gres=gpu:1 sleep 20 & 
+srun -n1 --gres=gpu:1 sleep 20 & 
+wait 
+
+login01$ sbatch ./test.sh 
+
+
+//============================
+Try running "salloc ... bash" or modify SallocDefaultCommand to add   
+the option "--gres=gpu:0" 

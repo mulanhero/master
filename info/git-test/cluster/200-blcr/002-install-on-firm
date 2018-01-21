@@ -1,0 +1,114 @@
+----------------------------------------------------------------------------------------------
+1. compile
+----------------------------------------------------------------------------------------------
+[root@cq02-modeloff-node09.cq02.firm.com build]# pwd
+/root/soft/blcr-0.8.5/build
+---------------------
+[root@cq02-modeloff-node09.cq02.firm.com build]# \
+../configure \
+--with-system-map=/boot/System.map-2.6.32_1-15-0-0 \
+--with-linux=/usr/src/kernels/linux2-6-32_1-15-0-0_PD_BL	
+--------------
+[root@cq02-modeloff-node09.cq02.firm.com build]# make
+gcc: MAC=64: No such file or directory
+gcc: echoval: No such file or directory
+gcc: VARNAME=INCLUDES: No such file or directory
+gcc: GCC does not support -C or -CC without -E
+make64[5]: *** [/root/soft/blcr-0.8.5/build/blcr_imports/kbuild/imports.o] Error 1
+make64[4]: *** [_module_/root/soft/blcr-0.8.5/build/blcr_imports/kbuild] Error 2
+make64[4]: Leaving directory `/usr/src/kernels/linux2-6-32_1-15-0-0_PD_BL'
+make64[3]: *** [all] Error 2
+make64[3]: Leaving directory `/root/soft/blcr-0.8.5/build/blcr_imports/kbuild'
+make64[2]: *** [all-recursive] Error 1
+make64[2]: Leaving directory `/root/soft/blcr-0.8.5/build/blcr_imports'
+make64[1]: *** [all-recursive] Error 1
+make64[1]: Leaving directory `/root/soft/blcr-0.8.5/build'
+make64: *** [all] Error 2		
+----------------------------------------------------------------------------------------------
+2. config
+----------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
+2. INF build machine (SUCCESS)
+----------------------------------------------------------------------------------------------
+[public@dbl-sat-dev01 blcr-0.8.5]$ pwd
+/home/public/jimmy/blcr-0.8.5
+[public@dbl-sat-dev01 blcr-0.8.5]$
+./configure \
+--prefix=/home/public/jimmy/blcr-installed \
+--with-system-map=/boot/System.map-2.6.32_1-9-0-0 \
+--with-linux=/home/public/jimmy/linux2-6-32_1-9-0-0_PD_BL/
+[public@dbl-sat-dev01 blcr-0.8.5]$
+make && make install
+----------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
+[root@cq02-modeloff-node09.cq02.baidu.com blcr-0.8.5]# uname -r
+2.6.32_1-15-0-0
+------------------------------------------
+[root@cq02-modeloff-node09.cq02.baidu.com blcr-0.8.5]# pwd
+/root/soft/blcr-0.8.5
+------------------------------------------
+[root@cq02-modeloff-node09.cq02.baidu.com blcr-0.8.5]# \
+./configure \
+--prefix=/usr/local/blcr-0.8.5 \
+--with-system-map=/boot/System.map-2.6.32_1-15-0-0 \
+--with-linux=/usr/src/kernels/linux2-6-32_1-15-0-0_PD_BL
+------------------------------------------
+[root@cq02-modeloff-node09.cq02.baidu.com blcr-0.8.5]# make
+/usr/bin/make64 MAC=64
+/usr/bin/gmake  all-recursive
+/usr/bin/make64 MAC=64 all-recursive
+make64[1]: Entering directory `/root/soft/blcr-0.8.5'
+Making all in include
+/usr/bin/make64 MAC=64 all
+make64[2]: Entering directory `/root/soft/blcr-0.8.5/include'
+if test -d ../libcr32/include; then /usr/bin/gmake  -C ../libcr32/include all; fi
+make64[2]: Leaving directory `/root/soft/blcr-0.8.5/include'
+Making all in blcr_imports
+/usr/bin/make64 MAC=64 all
+make64[2]: Entering directory `/root/soft/blcr-0.8.5/blcr_imports'
+Making all in .
+/usr/bin/make64 MAC=64 all-am
+make64[3]: Entering directory `/root/soft/blcr-0.8.5/blcr_imports'
+make64[3]: Nothing to be done for `all-am'.
+make64[3]: Leaving directory `/root/soft/blcr-0.8.5/blcr_imports'
+Making all in kbuild
+/usr/bin/make64 MAC=64 all
+make64[3]: Entering directory `/root/soft/blcr-0.8.5/blcr_imports/kbuild'
+/usr/bin/make64 -C /usr/src/kernels/linux2-6-32_1-15-0-0_PD_BL KBUILD_EXTMOD=/root/soft/blcr-0.8.5/blcr_imports/kbuild CC="gcc"
+make64[4]: Entering directory `/usr/src/kernels/linux2-6-32_1-15-0-0_PD_BL'
+  CC [M]  /root/soft/blcr-0.8.5/blcr_imports/kbuild/imports.o
+gcc: MAC=64: No such file or directory
+gcc: echoval: No such file or directory
+gcc: VARNAME=INCLUDES: No such file or directory
+gcc: GCC does not support -C or -CC without -E
+make64[5]: *** [/root/soft/blcr-0.8.5/blcr_imports/kbuild/imports.o] Error 1
+make64[4]: *** [_module_/root/soft/blcr-0.8.5/blcr_imports/kbuild] Error 2
+make64[4]: Leaving directory `/usr/src/kernels/linux2-6-32_1-15-0-0_PD_BL'
+make64[3]: *** [all] Error 2
+make64[3]: Leaving directory `/root/soft/blcr-0.8.5/blcr_imports/kbuild'
+make64[2]: *** [all-recursive] Error 1
+make64[2]: Leaving directory `/root/soft/blcr-0.8.5/blcr_imports'
+make64[1]: *** [all-recursive] Error 1
+make64[1]: Leaving directory `/root/soft/blcr-0.8.5'
+make64: *** [all] Error 2
+------------------------------------------
+[root@cq02-modeloff-node09.cq02.baidu.com blcr-0.8.5]# gcc --version
+gcc (GCC) 4.4.6 20120305 (Red Hat 4.4.6-4)
+----------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------

@@ -1,0 +1,7 @@
+Hi guys,
+I exported a code style formatter to help you formatting code before commit and push to repository.
+You can import the attached xml file at preference->java->code style->formatter->import, the profile after import is "apache".
+In eclipse, you can simply using command+shift+f to apply style in what you selected now (if you select nothing, the 
+whole file you're viewing will be formatted). 
+And also you can select a package in project view, and right click->source->format to apply style in the whole package.
+Please feel free to let me know if you have any problem in doing this.

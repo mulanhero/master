@@ -1,0 +1,50 @@
+alias g++='g++ --std=c++11 -L/usr/lib64 -lboost_iostreams -lboost_regex'
+
+g++ batch_lr_batch_lr.o -Xlinker "-(" ../../components/output/lib/libelf.a ../../../../../../com/btest/gtest/output/lib/libgtest.a \
+  ../../../../../../com/btest/gtest/output/lib/libgtest_main.a \
+  ../../../../../../quality/autotest/reportlib/cpp/libautotest.a -ltcmalloc \
+  -pthread \
+  -lhiredis \
+  -lrclient \
+  -lrt \
+  -ldl \
+  -lutil \
+  -lnsl \
+  -lyaml-cpp \
+  -ljsoncpp \
+  -lzmq \
+  -lglog \
+  -lgflags \
+  -lboost_atomic \
+  -lboost_chrono \
+  -lboost_context \
+  -lboost_coroutine \
+  -lboost_date_time \
+  -lboost_exception \
+  -lboost_filesystem \
+  -lboost_graph \
+  -lboost_iostreams \
+  -lboost_locale \
+  -lboost_log \
+  -lboost_log_setup \
+  -lboost_math_c99 \
+  -lboost_math_c99f \
+  -lboost_math_c99l \
+  -lboost_math_tr1 \
+  -lboost_math_tr1f \
+  -lboost_math_tr1l \
+  -lboost_prg_exec_monitor \
+  -lboost_program_options \
+  -lboost_python \
+  -lboost_random \
+  -lboost_regex \
+  -lboost_serialization \
+  -lboost_signals \
+  -lboost_system \
+  -lboost_test_exec_monitor \
+  -lboost_thread \
+  -lboost_timer \
+  -lboost_unit_test_framework \
+  -lboost_wave \
+  -lboost_wserialization \
+  -L/home/caohaijun/elf_trunk/app/ecom/fcr/elf/tools/usr/lib -Xlinker "-)" -o batch_lr

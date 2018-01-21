@@ -1,0 +1,6 @@
+[root@node1 yum.repos.d]# cat gphd_sh-2_0.repo 
+[gphd_sh-2_0]
+name=*** GreenPlum - Hadoop Shanghai *** - GPHD 2.0
+baseurl=http://hdsh138.lss.emc.com/os/gphd_2_0/
+enabled=1
+gpgcheck=0

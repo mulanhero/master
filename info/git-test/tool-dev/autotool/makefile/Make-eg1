@@ -1,0 +1,9 @@
+CC=gcc
+CFLAGS=-g -Wall
+LDFLAGS=-lpthread
+
+bin_PROGRAMS=env thread
+all: $(bin_PROGRAMS)
+
+clean:
+	rm -rf $(bin_PROGRAMS) *.dSYM

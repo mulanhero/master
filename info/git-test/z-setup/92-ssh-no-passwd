@@ -1,0 +1,49 @@
+for root user
+
+[root@A ~]vi /etc/hosts
+#[IP address] [hostname]
+
+192.168.1.X A
+
+192.168.1.Y B
+
+generate authentication keys and distribute
+[root@A ~]# ssh-keygen -t rsa
+
+[root@A ~]# cp ~/.ssh/id_rsa.pub ~/.ssh/authorized_keys
+
+[root@A ~]# scp -r ~/.ssh root@B:~
+
+check
+[root@A ~]# ssh B
+
+[root@A ~]# ssh A
+
+for non-root users
+
+just like what has to do for root user
+配置ssh
+(0) 先用root检查ssh的配置文件，确保
+[root@hadoop01 ~]# vi /etc/ssh/sshd_config 
+保持以下配置
+PasswordAuthentication yes
+#AuthorizedKeysFile     .ssh/authorized_keys
+[root@hadoop01 ~]# service sshd restart
+
+(1)在master上面生产密钥和明钥
+[hadoop@hadoop01 ~]$ ssh-keygen -t dsa -P '' -f ~/.ssh/id_dsa
+[hadoop@hadoop01 ~]$ cat ~/.ssh/id_dsa.pub >> ~/.ssh/authorized_keys
+[hadoop@hadoop02 ~]$ chmod 644 .ssh/authorized_keys  //非常关键
+
+(2)在slave上面创建.ssh目录，并从master上拷贝明钥到slave上的.ssh目录
+[hadoop@hadoop02 ~]$ mkdir .ssh
+[hadoop@hadoop02 ~]$ chmod 700 .ssh  //非常关键
+[hadoop@hadoop01 ~]$ scp .ssh/authorized_keys hadoop02:/home/hadoop/.ssh/
+要输入hadoop用户在hadoop02上的密码
+
+(3) 测试 
+由master向slave发起ssh连接
+[hadoop@hadoop01 ~]$ ssh hadoop02 //无须密码了
+
+
+/home/pivotal/hamster/hamster-rte/orte/mca/odls/hamster/.libs/mca_odls_yarn.so

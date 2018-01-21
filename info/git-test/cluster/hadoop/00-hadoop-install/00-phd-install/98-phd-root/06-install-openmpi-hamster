@@ -1,0 +1,80 @@
+-------------------------------------------------------------
+1. install openmpi and mpi
+-------------------------------------------------------------
+/usr/local/hamster/orte
+/usr/local/hamster/mpi
+------------------
+[root@hdsh080 hamster]# cat /etc/bashrc
+#for java
+export JAVA_HOME=/usr/local/jdk1.6.0_21
+export PATH=$JAVA_HOME/bin:$PATH
+export CLASSPATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar:$CLASSPATH
+
+#for orte
+export PATH=/usr/local/hamster/orte/bin:$PATH
+export LD_LIBRARY_PATH=/usr/local/hamster/orte/lib:/usr/local/hamster/orte/openmpi/lib:$LD_LIBRARY_PATH
+
+#for hamster  (only on master node)
+export PATH=/usr/local/hamster/hamster-core/bin:$PATH
+
+#
+export userlog=/var/log/gphd/hadoop-yarn/logs/userlogs
+-------------------------------------------------------------
+2. install hamster-ompi-plugin/hamster-core
+-------------------------------------------------------------
+[root@hdsh080 rpm]# rpm -ivh --prefix=/usr/local/hamster/orte hamster-ompi1.7-0.8.0-1.x86_64.rpm
+[root@hdsh080 rpm]# rpm -ivh --prefix=/usr/local/hamster/hamster-core hamster-core-0.8.0-1.x86_64.rpm
+-----------------------------------
+[root@hdsh080 hamster]# which hamster
+/usr/local/hamster/hamster-core/bin/hamster
+[root@hdsh080 hamster]# cat /usr/local/hamster/hamster-core/conf/hamster-site.xml 
+-----------------------------------
+[root@hdsh080 hamster]# hamster -v -np 40 /usr/local/hamster/mpi/hello
+mpirun -bynode -hostfile ./hostfile -np 10 /usr/local/hamster/mpi/hello
+-------------------------------------------------------------
+3. uninstall 
+-------------------------------------------------------------
+rpm -q hamster-ompi1.7
+rpm -e hamster-ompi1.7 
+rpm -q hamster-ompi1.6
+rpm -e hamster-ompi1.6
+--------------
+[root@hdsh080 rpm]# rpm -e openmpi
+[root@hdsh080 rpm]# rpm -e hamster-ompi1.6
+[root@hdsh080 rpm]# rpm -e hamster-core
+================================================================================ 
+-------------------------------------------------------------
+1. install openmpi-rpm
+-------------------------------------------------------------
+rpm -ivh openmpi-1.7.2-1.x86_64.rpm  (on each node)
+rpm -ivh hamster-ompi1.7-0.8.0-1.x86_64.rpm (on each node)  
+-------------------------------------------------------------
+rpm -ivh openmpi-1.6.4-1.x86_64.rpm (on each node)
+rpm -ivh hamster-ompi1.6-0.8.0-1.x86_64.rpm  (on each node)
+-------------------------------------------------------------
+by default, all will be install /usr, 
+------------------
+[root@hdsh080 hamster]# cat /etc/bashrc
+#for java
+export JAVA_HOME=/usr/local/jdk1.6.0_21
+export PATH=$JAVA_HOME/bin:$PATH
+export CLASSPATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar:$CLASSPATH
+
+#for hamster  (only on master node)
+export PATH=/usr/local/hamster/core/bin:$PATH
+
+#
+export userlog=/var/log/gphd/hadoop-yarn/logs/userlogs
+-------------------------------------------------------------
+2. reconfiguration
+-------------------------------------------------------------
+[root@hdsh080 hamster]# which hamster
+/usr/local/hamster/core/bin/hamster
+[root@hdsh080 hamster]# cat /usr/local/hamster/core/conf/hamster-site.xml 
+<property>
+    <name>com.pivotal.hamster.ompi.home</name>
+    <value>/usr</value>
+</property>
+-------------------------------------------------------------
+
+

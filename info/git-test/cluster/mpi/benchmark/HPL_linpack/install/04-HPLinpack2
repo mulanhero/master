@@ -1,0 +1,5 @@
+[root@node1 hpl-2.1]# make arch=Linux64
+
+you will find xhpl under bin/Linux64.
+
+

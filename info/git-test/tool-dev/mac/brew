@@ -1,0 +1,23 @@
+安装命令如下：
+curl -LsSf http://github.com/mxcl/homebrew/tarball/master | sudo tar xvz -C/usr/local --strip 1
+
+当brew安装成功后，就可以随意安装自己想要的软件了，例如wget，命令如下：
+sudo brew install wget  
+
+卸载的话，命令如下：
+sudo brew uninstall wget
+
+查看安装软件的话，命令如下：
+sudo brew search /apache*/
+
+注意/apache*/是使用的正则表达式，用/分割。
+
+sudo brew install python
+
+
+
+
+ruby -e "$(curl -fsSL https://raw.github.com/Homebrew/homebrew/go/install)"
+brew doctor
+brew update
+brew search gcc

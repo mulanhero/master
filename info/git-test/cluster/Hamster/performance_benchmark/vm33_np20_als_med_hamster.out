@@ -1,0 +1,1198 @@
+stderr:
+
+Logged in as: dr.who 
+Logs for container_1380233016605_0002_01_000017
+About Apache Hadoop
+NodeManager
+Node Information
+List of Applications
+List of Containers
+Tools
+INFO:     dc_init_from_mpi.cpp(init_param_from_mpi:51): Will Listen on: 10.62.67.32:36314
+[0mINFO:     dc.cpp(distributed_control:119): Distributed Control Initialized from MPI
+[0mINFO:     dc_tcp_comm.cpp(open_listening:411): Proc 0 listening on 36314
+[0mINFO:     dc_tcp_comm.cpp(connect:432): Trying to connect from 0 -> 0 on port 36314
+[0mINFO:     dc_tcp_comm.cpp(connect:435): Destination IP = 10.62.67.32
+[0mINFO:     dc_tcp_comm.cpp(accept_handler:487): Listening thread launched.
+INFO:     dc_tcp_comm.cpp(connect:467): connection from 0 to 0 established.
+[0m[0mINFO:     dc_tcp_comm.cpp(connect:432): Trying to connect from 0 -> 1 on port 58003
+[0mINFO:     dc_tcp_comm.cpp(connect:435): Destination IP = 10.62.67.29
+[0mINFO:     dc_tcp_comm.cpp(accept_handler:493): Accepting....
+[0mINFO:     dc_tcp_comm.cpp(accept_handler:498): Accepted
+[0mINFO:     dc_tcp_comm.cpp(new_socket:375): Incoming connection from 10.62.67.18
+[0mINFO:     dc_tcp_comm.cpp(new_socket:384): Proc 0 accepted connection from machine 4
+[0mINFO:     dc_tcp_comm.cpp(accept_handler:493): Accepting....
+[0mINFO:     dc_tcp_comm.cpp(accept_handler:498): Accepted
+[0mINFO:     dc_tcp_comm.cpp(new_socket:375): Incoming connection from 10.62.67.32
+[0mINFO:     dc_tcp_comm.cpp(new_socket:384): Proc 0 accepted connection from machine 0
+[0mINFO:     dc_tcp_comm.cpp(connect:467): connection from 0 to 1 established.
+[0mINFO:     dc_tcp_comm.cpp(connect:432): Trying to connect from 0 -> 2 on port 33276
+[0mINFO:     dc_tcp_comm.cpp(connect:435): Destination IP = 10.62.67.28
+[0mINFO:     dc_tcp_comm.cpp(accept_handler:493): Accepting....
+[0mINFO:     dc_tcp_comm.cpp(accept_handler:498): Accepted
+[0mINFO:     dc_tcp_comm.cpp(new_socket:375): Incoming connection from 10.62.67.26
+[0mINFO:     dc_tcp_comm.cpp(new_socket:384): Proc 0 accepted connection from machine 18
+[0mINFO:     dc_tcp_comm.cpp(connect:467): connection from 0 to 2 established.
+[0mINFO:     dc_tcp_comm.cpp(connect:432): Trying to connect from 0 -> 3 on port 53359
+[0mINFO:     dc_tcp_comm.cpp(connect:435): Destination IP = 10.62.67.19
+[0mINFO:     dc_tcp_comm.cpp(connect:467): connection from 0 to 3 established.
+[0mINFO:     dc_tcp_comm.cpp(connect:432): Trying to connect from 0 -> 4 on port 33505
+[0mINFO:     dc_tcp_comm.cpp(connect:435): Destination IP = 10.62.67.18
+[0mINFO:     dc_tcp_comm.cpp(accept_handler:493): Accepting....
+[0mINFO:     dc_tcp_comm.cpp(accept_handler:498): Accepted
+[0mINFO:     dc_tcp_comm.cpp(new_socket:375): Incoming connection from 10.62.67.13
+[0mINFO:     dc_tcp_comm.cpp(new_socket:384): Proc 0 accepted connection from machine 11
+[0mINFO:     dc_tcp_comm.cpp(accept_handler:493): Accepting....
+[0mINFO:     dc_tcp_comm.cpp(accept_handler:498): Accepted
+[0mINFO:     dc_tcp_comm.cpp(new_socket:375): Incoming connection from 10.62.67.21
+[0mINFO:     dc_tcp_comm.cpp(new_socket:384): Proc 0 accepted connection from machine 9
+[0mINFO:     dc_tcp_comm.cpp(connect:467): connection from 0 to 4 established.
+[0mINFO:     dc_tcp_comm.cpp(connect:432): Trying to connect from 0 -> 5 on port 40926
+[0mINFO:     dc_tcp_comm.cpp(connect:435): Destination IP = 10.62.67.17
+[0mINFO:     dc_tcp_comm.cpp(connect:440): connect 0 to 5: Connection refused. Retrying...
+[0mINFO:     dc_tcp_comm.cpp(accept_handler:493): Accepting....
+[0mINFO:     dc_tcp_comm.cpp(accept_handler:498): Accepted
+[0mINFO:     dc_tcp_comm.cpp(new_socket:375): Incoming connection from 10.62.67.17
+[0mINFO:     dc_tcp_comm.cpp(new_socket:384): Proc 0 accepted connection from machine 5
+[0mINFO:     dc_tcp_comm.cpp(accept_handler:493): Accepting....
+[0mINFO:     dc_tcp_comm.cpp(accept_handler:498): Accepted
+[0mINFO:     dc_tcp_comm.cpp(new_socket:375): Incoming connection from 10.62.67.25
+[0mINFO:     dc_tcp_comm.cpp(new_socket:384): Proc 0 accepted connection from machine 16
+[0mINFO:     dc_tcp_comm.cpp(accept_handler:493): Accepting....
+[0mINFO:     dc_tcp_comm.cpp(accept_handler:498): Accepted
+[0mINFO:     dc_tcp_comm.cpp(new_socket:375): Incoming connection from 10.62.67.11
+[0mINFO:     dc_tcp_comm.cpp(new_socket:384): Proc 0 accepted connection from machine 14
+[0mINFO:     dc_tcp_comm.cpp(accept_handler:493): Accepting....
+[0mINFO:     dc_tcp_comm.cpp(accept_handler:498): Accepted
+[0mINFO:     dc_tcp_comm.cpp(new_socket:375): Incoming connection from 10.62.67.12
+[0mINFO:     dc_tcp_comm.cpp(new_socket:384): Proc 0 accepted connection from machine 17
+[0mINFO:     dc_tcp_comm.cpp(accept_handler:493): Accepting....
+[0mINFO:     dc_tcp_comm.cpp(accept_handler:498): Accepted
+[0mINFO:     dc_tcp_comm.cpp(new_socket:375): Incoming connection from 10.62.67.28
+[0mINFO:     dc_tcp_comm.cpp(new_socket:384): Proc 0 accepted connection from machine 2
+[0mINFO:     dc_tcp_comm.cpp(accept_handler:493): Accepting....
+[0mINFO:     dc_tcp_comm.cpp(accept_handler:498): Accepted
+[0mINFO:     dc_tcp_comm.cpp(new_socket:375): Incoming connection from 10.62.67.29
+[0mINFO:     dc_tcp_comm.cpp(new_socket:384): Proc 0 accepted connection from machine 1
+[0mINFO:     dc_tcp_comm.cpp(accept_handler:493): Accepting....
+[0mINFO:     dc_tcp_comm.cpp(accept_handler:498): Accepted
+[0mINFO:     dc_tcp_comm.cpp(new_socket:375): Incoming connection from 10.62.67.15
+[0mINFO:     dc_tcp_comm.cpp(new_socket:384): Proc 0 accepted connection from machine 6
+[0mINFO:     dc_tcp_comm.cpp(accept_handler:493): Accepting....
+[0mINFO:     dc_tcp_comm.cpp(accept_handler:498): Accepted
+[0mINFO:     dc_tcp_comm.cpp(new_socket:375): Incoming connection from 10.62.67.14
+[0mINFO:     dc_tcp_comm.cpp(new_socket:384): Proc 0 accepted connection from machine 13
+[0mINFO:     dc_tcp_comm.cpp(accept_handler:493): Accepting....
+[0mINFO:     dc_tcp_comm.cpp(accept_handler:498): Accepted
+[0mINFO:     dc_tcp_comm.cpp(new_socket:375): Incoming connection from 10.62.67.20
+[0mINFO:     dc_tcp_comm.cpp(new_socket:384): Proc 0 accepted connection from machine 7
+[0mINFO:     dc_tcp_comm.cpp(accept_handler:493): Accepting....
+[0mINFO:     dc_tcp_comm.cpp(accept_handler:498): Accepted
+[0mINFO:     dc_tcp_comm.cpp(new_socket:375): Incoming connection from 10.62.67.16
+[0mINFO:     dc_tcp_comm.cpp(new_socket:384): Proc 0 accepted connection from machine 8
+[0mINFO:     dc_tcp_comm.cpp(accept_handler:493): Accepting....
+[0mINFO:     dc_tcp_comm.cpp(accept_handler:498): Accepted
+[0mINFO:     dc_tcp_comm.cpp(new_socket:375): Incoming connection from 10.62.67.19
+[0mINFO:     dc_tcp_comm.cpp(new_socket:384): Proc 0 accepted connection from machine 3
+[0mINFO:     dc_tcp_comm.cpp(accept_handler:493): Accepting....
+[0mINFO:     dc_tcp_comm.cpp(accept_handler:498): Accepted
+[0mINFO:     dc_tcp_comm.cpp(new_socket:375): Incoming connection from 10.62.67.22
+[0mINFO:     dc_tcp_comm.cpp(new_socket:384): Proc 0 accepted connection from machine 10
+[0mINFO:     dc_tcp_comm.cpp(accept_handler:493): Accepting....
+[0mINFO:     dc_tcp_comm.cpp(accept_handler:498): Accepted
+[0mINFO:     dc_tcp_comm.cpp(new_socket:375): Incoming connection from 10.62.67.24
+[0mINFO:     dc_tcp_comm.cpp(new_socket:384): Proc 0 accepted connection from machine 15
+[0mINFO:     dc_tcp_comm.cpp(accept_handler:493): Accepting....
+[0mINFO:     dc_tcp_comm.cpp(accept_handler:498): Accepted
+[0mINFO:     dc_tcp_comm.cpp(new_socket:375): Incoming connection from 10.62.67.31
+[0mINFO:     dc_tcp_comm.cpp(new_socket:384): Proc 0 accepted connection from machine 12
+[0mINFO:     dc_tcp_comm.cpp(connect:467): connection from 0 to 5 established.
+[0mINFO:     dc_tcp_comm.cpp(connect:432): Trying to connect from 0 -> 6 on port 45594
+[0mINFO:     dc_tcp_comm.cpp(connect:435): Destination IP = 10.62.67.15
+[0mINFO:     dc_tcp_comm.cpp(connect:467): connection from 0 to 6 established.
+[0mINFO:     dc_tcp_comm.cpp(connect:432): Trying to connect from 0 -> 7 on port 34298
+[0mINFO:     dc_tcp_comm.cpp(connect:435): Destination IP = 10.62.67.20
+[0mINFO:     dc_tcp_comm.cpp(connect:467): connection from 0 to 7 established.
+[0mINFO:     dc_tcp_comm.cpp(connect:432): Trying to connect from 0 -> 8 on port 39166
+[0mINFO:     dc_tcp_comm.cpp(connect:435): Destination IP = 10.62.67.16
+[0mINFO:     dc_tcp_comm.cpp(connect:467): connection from 0 to 8 established.
+[0mINFO:     dc_tcp_comm.cpp(connect:432): Trying to connect from 0 -> 9 on port 41723
+[0mINFO:     dc_tcp_comm.cpp(connect:435): Destination IP = 10.62.67.21
+[0mINFO:     dc_tcp_comm.cpp(connect:467): connection from 0 to 9 established.
+[0mINFO:     dc_tcp_comm.cpp(connect:432): Trying to connect from 0 -> 10 on port 56924
+[0mINFO:     dc_tcp_comm.cpp(connect:435): Destination IP = 10.62.67.22
+[0mINFO:     dc_tcp_comm.cpp(connect:467): connection from 0 to 10 established.
+[0mINFO:     dc_tcp_comm.cpp(connect:432): Trying to connect from 0 -> 11 on port 55291
+[0mINFO:     dc_tcp_comm.cpp(connect:435): Destination IP = 10.62.67.13
+[0mINFO:     dc_tcp_comm.cpp(connect:467): connection from 0 to 11 established.
+[0mINFO:     dc_tcp_comm.cpp(connect:432): Trying to connect from 0 -> 12 on port 45011
+[0mINFO:     dc_tcp_comm.cpp(connect:435): Destination IP = 10.62.67.31
+[0mINFO:     dc_tcp_comm.cpp(connect:467): connection from 0 to 12 established.
+[0mINFO:     dc_tcp_comm.cpp(connect:432): Trying to connect from 0 -> 13 on port 60006
+[0mINFO:     dc_tcp_comm.cpp(connect:435): Destination IP = 10.62.67.14
+[0mINFO:     dc_tcp_comm.cpp(connect:467): connection from 0 to 13 established.
+[0mINFO:     dc_tcp_comm.cpp(connect:432): Trying to connect from 0 -> 14 on port 54921
+[0mINFO:     dc_tcp_comm.cpp(connect:435): Destination IP = 10.62.67.11
+[0mINFO:     dc_tcp_comm.cpp(connect:467): connection from 0 to 14 established.
+[0mINFO:     dc_tcp_comm.cpp(connect:432): Trying to connect from 0 -> 15 on port 39689
+[0mINFO:     dc_tcp_comm.cpp(connect:435): Destination IP = 10.62.67.24
+[0mINFO:     dc_tcp_comm.cpp(connect:467): connection from 0 to 15 established.
+[0mINFO:     dc_tcp_comm.cpp(connect:432): Trying to connect from 0 -> 16 on port 44817
+[0mINFO:     dc_tcp_comm.cpp(connect:435): Destination IP = 10.62.67.25
+[0mINFO:     dc_tcp_comm.cpp(connect:467): connection from 0 to 16 established.
+[0mINFO:     dc_tcp_comm.cpp(connect:432): Trying to connect from 0 -> 17 on port 47517
+[0mINFO:     dc_tcp_comm.cpp(connect:435): Destination IP = 10.62.67.12
+[0mINFO:     dc_tcp_comm.cpp(connect:467): connection from 0 to 17 established.
+[0mINFO:     dc_tcp_comm.cpp(connect:432): Trying to connect from 0 -> 18 on port 37897
+[0mINFO:     dc_tcp_comm.cpp(connect:435): Destination IP = 10.62.67.26
+[0mINFO:     dc_tcp_comm.cpp(connect:467): connection from 0 to 18 established.
+[0mINFO:     dc_tcp_comm.cpp(connect:432): Trying to connect from 0 -> 19 on port 50236
+[0mINFO:     dc_tcp_comm.cpp(connect:435): Destination IP = 10.62.67.27
+[0mINFO:     dc_tcp_comm.cpp(connect:467): connection from 0 to 19 established.
+[0mINFO:     dc_tcp_comm.cpp(accept_handler:493): Accepting....
+[0mINFO:     dc_tcp_comm.cpp(accept_handler:498): Accepted
+[0mINFO:     dc_tcp_comm.cpp(new_socket:375): Incoming connection from 10.62.67.27
+[0mINFO:     dc_tcp_comm.cpp(new_socket:384): Proc 0 accepted connection from machine 19
+[0mINFO:     dc_tcp_comm.cpp(accept_handler:548): Listening thread quitting
+[0mINFO:     dc_tcp_comm.cpp(receive_loop:588): Receive loop Started
+[0mINFO:     dc.cpp(init:552): TCP Communication layer constructed.
+[0m[1;32mINFO:     dc.cpp(init:554): Cluster of 20 instances created.
+[0mINFO:     dc_tcp_comm.cpp(send_loop:647): Send loop Started
+[0m[1;32mINFO:     distributed_graph.hpp(set_ingress_method:2902): Automatically determine ingress method: grid
+[0m13/09/27 06:52:44 WARN util.NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+[1;32mINFO:     distributed_graph.hpp(load_from_hdfs:1961): Loading graph from file: hdfs://gphd-vm33:9000/users/hamster/gl/medwiki/medwiki
+[0mINFO:     distributed_graph.hpp(load_from_stream:2938): 7911976 Lines read
+[0mINFO:     distributed_graph.hpp(load_from_stream:2938): 16361805 Lines read
+[0mINFO:     distributed_graph.hpp(load_from_stream:2938): 25207910 Lines read
+[0mINFO:     distributed_graph.hpp(load_from_stream:2938): 33845636 Lines read
+[0mINFO:     distributed_graph.hpp(load_from_stream:2938): 42205687 Lines read
+[0mINFO:     distributed_graph.hpp(load_from_stream:2938): 50742788 Lines read
+[0mINFO:     distributed_graph.hpp(load_from_stream:2938): 59292068 Lines read
+[0mINFO:     distributed_graph.hpp(load_from_stream:2938): 67864530 Lines read
+[0mINFO:     distributed_graph.hpp(load_from_stream:2938): 76322146 Lines read
+[0mINFO:     distributed_graph.hpp(load_from_stream:2938): 84756252 Lines read
+[0mINFO:     distributed_graph.hpp(load_from_stream:2938): 93305195 Lines read
+[0mINFO:     distributed_graph.hpp(load_from_stream:2938): 101761613 Lines read
+[0mINFO:     distributed_graph.hpp(load_from_stream:2938): 110209455 Lines read
+[0mINFO:     distributed_graph.hpp(load_from_stream:2938): 118510805 Lines read
+[0mINFO:     distributed_graph.hpp(load_from_stream:2938): 127010891 Lines read
+[0mINFO:     distributed_graph.hpp(load_from_stream:2938): 135516691 Lines read
+[0mINFO:     distributed_graph.hpp(load_from_stream:2938): 144110206 Lines read
+[0mINFO:     distributed_graph.hpp(load_from_stream:2938): 152635154 Lines read
+[0mINFO:     distributed_graph.hpp(load_from_stream:2938): 161172255 Lines read
+[0mINFO:     distributed_graph.hpp(load_from_stream:2938): 169836584 Lines read
+[0mINFO:     distributed_graph.hpp(load_from_stream:2938): 178162139 Lines read
+[0mINFO:     distributed_graph.hpp(load_from_stream:2938): 186558721 Lines read
+[0mINFO:     distributed_graph.hpp(load_from_stream:2938): 195172672 Lines read
+[0mINFO:     distributed_graph.hpp(load_from_stream:2938): 203659037 Lines read
+[0mINFO:     distributed_graph.hpp(load_from_stream:2938): 212126504 Lines read
+[0mINFO:     distributed_graph.hpp(load_from_stream:2938): 220676219 Lines read
+[0mINFO:     distributed_graph.hpp(load_from_stream:2938): 229182066 Lines read
+[0mINFO:     distributed_graph.hpp(load_from_stream:2938): 237721648 Lines read
+[0mINFO:     distributed_graph.hpp(load_from_stream:2938): 246078514 Lines read
+[0mINFO:     distributed_graph.hpp(load_from_stream:2938): 254521513 Lines read
+[0mINFO:     distributed_graph.hpp(load_from_stream:2938): 262931617 Lines read
+[0mINFO:     distributed_graph.hpp(load_from_stream:2938): 271373863 Lines read
+[0mINFO:     distributed_graph.hpp(load_from_stream:2938): 279848407 Lines read
+[0mINFO:     distributed_graph.hpp(load_from_stream:2938): 288013206 Lines read
+[0mINFO:     distributed_graph.hpp(load_from_stream:2938): 296289016 Lines read
+[0mINFO:     distributed_graph.hpp(load_from_stream:2938): 304757637 Lines read
+[0mINFO:     distributed_graph.hpp(load_from_stream:2938): 313163118 Lines read
+[0mINFO:     distributed_graph.hpp(load_from_stream:2938): 321455318 Lines read
+[0mINFO:     distributed_graph.hpp(load_from_stream:2938): 329748132 Lines read
+[0mINFO:     distributed_graph.hpp(load_from_stream:2938): 338074740 Lines read
+[0mINFO:     distributed_graph.hpp(load_from_stream:2938): 346505981 Lines read
+[0mINFO:     distributed_graph.hpp(load_from_stream:2938): 354920630 Lines read
+[0mINFO:     distributed_graph.hpp(load_from_stream:2938): 363249213 Lines read
+[0mINFO:     distributed_graph.hpp(load_from_stream:2938): 371555444 Lines read
+[0mINFO:     distributed_graph.hpp(load_from_stream:2938): 379812116 Lines read
+[0mINFO:     distributed_graph.hpp(load_from_stream:2938): 388262869 Lines read
+[0mINFO:     distributed_graph.hpp(load_from_stream:2938): 396628681 Lines read
+[0mINFO:     distributed_graph.hpp(load_from_stream:2938): 404940503 Lines read
+[0mINFO:     distributed_graph.hpp(load_from_stream:2938): 413214352 Lines read
+[0mINFO:     distributed_graph.hpp(load_from_stream:2938): 421441416 Lines read
+[0mINFO:     distributed_graph.hpp(load_from_stream:2938): 429742530 Lines read
+[0mINFO:     distributed_graph.hpp(load_from_stream:2938): 438002658 Lines read
+[0mINFO:     distributed_graph.hpp(load_from_stream:2938): 446156955 Lines read
+[0mINFO:     distributed_graph.hpp(load_from_stream:2938): 454302543 Lines read
+[0mINFO:     distributed_graph.hpp(load_from_stream:2938): 462513787 Lines read
+[0mINFO:     distributed_graph.hpp(load_from_stream:2938): 470809932 Lines read
+[0mINFO:     distributed_graph.hpp(load_from_stream:2938): 479055434 Lines read
+[0mINFO:     distributed_graph.hpp(load_from_stream:2938): 487379963 Lines read
+[0mINFO:     distributed_graph.hpp(load_from_stream:2938): 495755828 Lines read
+[0mINFO:     distributed_graph.hpp(load_from_stream:2938): 504030566 Lines read
+[0mINFO:     distributed_graph.hpp(load_from_stream:2938): 512546989 Lines read
+[0mINFO:     distributed_graph.hpp(finalize:694): Distributed graph: enter finalize
+[0m[1;32mINFO:     distributed_ingress_base.hpp(finalize:185): Finalizing Graph...
+[0mINFO:     memory_info.cpp(log_usage:90): Memory Info: Post Flush
+     Heap: 865.281 MB
+     Allocated: 679.779 MB
+[0mINFO:     distributed_ingress_base.hpp(finalize:232): Graph Finalize: constructing local graph
+[0mINFO:     memory_info.cpp(log_usage:90): Memory Info: Finished populating local graph.
+     Heap: 1601.16 MB
+     Allocated: 1055.33 MB
+[0mINFO:     distributed_ingress_base.hpp(finalize:277): Graph Finalize: finalizing local graph.
+[0mINFO:     dynamic_local_graph.hpp(finalize:339): Graph finalized in 2.0799 secs
+[0mINFO:     distributed_ingress_base.hpp(finalize:280): Local graph info: 
+[0m     nverts: 1826469
+[0m     nedges: 25858210
+[0mINFO:     memory_info.cpp(log_usage:90): Memory Info: Finished finalizing local graph.
+     Heap: 2784.88 MB
+     Allocated: 1518.16 MB
+[0mINFO:     memory_info.cpp(log_usage:90): Memory Info: Finished adding vertex data
+     Heap: 2784.88 MB
+     Allocated: 1517.29 MB
+[0mINFO:     memory_info.cpp(log_usage:90): Memory Info: Finihsed allocating lvid2record
+     Heap: 2784.88 MB
+     Allocated: 1600.9 MB
+[0mINFO:     memory_info.cpp(log_usage:90): Memory Info: Finished synchronizing vertex (meta)data
+     Heap: 3382.2 MB
+     Allocated: 2213.41 MB
+[0mINFO:     distributed_ingress_base.hpp(exchange_global_info:494): Graph Finalize: exchange global statistics 
+[0m[1;32mINFO:     distributed_ingress_base.hpp(exchange_global_info:519): Graph info: 
+     nverts: 7698121
+     nedges: 513883084
+     nreplicas: 40210877
+     replication factor: 5.22347
+[0mINFO:     omni_engine.hpp(omni_engine:191): Using the Synchronous engine.
+[0mINFO:     distributed_graph.hpp(finalize:694): Distributed graph: enter finalize
+[0m[1;32mINFO:     distributed_ingress_base.hpp(finalize:185): Finalizing Graph...
+[0mINFO:     memory_info.cpp(log_usage:90): Memory Info: Post Flush
+     Heap: 3382.2 MB
+     Allocated: 1761.55 MB
+[0mINFO:     distributed_ingress_base.hpp(finalize:232): Graph Finalize: constructing local graph
+[0mINFO:     memory_info.cpp(log_usage:90): Memory Info: Finished populating local graph.
+     Heap: 3382.2 MB
+     Allocated: 1761.55 MB
+[0mINFO:     distributed_ingress_base.hpp(finalize:277): Graph Finalize: finalizing local graph.
+[0mINFO:     dynamic_local_graph.hpp(finalize:339): Graph finalized in 0.081918 secs
+[0mINFO:     distributed_ingress_base.hpp(finalize:280): Local graph info: 
+[0m     nverts: 2001569
+[0m     nedges: 25858210
+[0mINFO:     memory_info.cpp(log_usage:90): Memory Info: Finished finalizing local graph.
+     Heap: 3382.2 MB
+     Allocated: 1761.56 MB
+[0mINFO:     memory_info.cpp(log_usage:90): Memory Info: Finished adding vertex data
+     Heap: 3382.2 MB
+     Allocated: 1761.56 MB
+[0mINFO:     memory_info.cpp(log_usage:90): Memory Info: Finihsed allocating lvid2record
+     Heap: 3382.2 MB
+     Allocated: 1761.56 MB
+[0mINFO:     memory_info.cpp(log_usage:90): Memory Info: Finished synchronizing vertex (meta)data
+     Heap: 3410.11 MB
+     Allocated: 2215.8 MB
+[0mINFO:     distributed_ingress_base.hpp(exchange_global_info:494): Graph Finalize: exchange global statistics 
+[0m[1;32mINFO:     distributed_ingress_base.hpp(exchange_global_info:519): Graph info: 
+     nverts: 7698121
+     nedges: 513883084
+     nreplicas: 40210877
+     replication factor: 5.22347
+[0mINFO:     memory_info.cpp(log_usage:90): Memory Info: Before Engine Initialization
+     Heap: 3410.11 MB
+     Allocated: 1761.4 MB
+[0mINFO:     memory_info.cpp(log_usage:90): Memory Info: After Engine Initialization
+     Heap: 3410.11 MB
+     Allocated: 1901.73 MB
+[0m[1;32mINFO:     synchronous_engine.hpp(start:1292): Iteration counter will only output every 5 seconds.
+[0m[1;32mINFO:     synchronous_engine.hpp(start:1307): 0: Starting iteration: 0
+[0m[1;32mINFO:     synchronous_engine.hpp(start:1356):     Active vertices: 4364328
+[0m[1;32mINFO:     synchronous_engine.hpp(start:1405):      Running Aggregators
+[0m[1;32mINFO:     synchronous_engine.hpp(start:1307): 0: Starting iteration: 1
+[0m[1;32mINFO:     synchronous_engine.hpp(start:1356):     Active vertices: 3333793
+[0m[1;32mINFO:     synchronous_engine.hpp(start:1405):      Running Aggregators
+[0m[1;32mINFO:     synchronous_engine.hpp(start:1307): 0: Starting iteration: 2
+[0m[1;32mINFO:     synchronous_engine.hpp(start:1356):     Active vertices: 4186330
+[0m[1;32mINFO:     synchronous_engine.hpp(start:1405):      Running Aggregators
+[0m[1;32mINFO:     synchronous_engine.hpp(start:1307): 0: Starting iteration: 3
+[0m[1;32mINFO:     synchronous_engine.hpp(start:1356):     Active vertices: 2734205
+[0m[1;32mINFO:     synchronous_engine.hpp(start:1405):      Running Aggregators
+[0m[1;32mINFO:     synchronous_engine.hpp(start:1307): 0: Starting iteration: 4
+[0m[1;32mINFO:     synchronous_engine.hpp(start:1356):     Active vertices: 4184490
+[0m[1;32mINFO:     synchronous_engine.hpp(start:1405):      Running Aggregators
+[0m[1;32mINFO:     synchronous_engine.hpp(start:1307): 0: Starting iteration: 5
+[0m[1;32mINFO:     synchronous_engine.hpp(start:1356):     Active vertices: 2653689
+[0m[1;32mINFO:     synchronous_engine.hpp(start:1405):      Running Aggregators
+[0m[1;32mINFO:     synchronous_engine.hpp(start:1307): 0: Starting iteration: 6
+[0m[1;32mINFO:     synchronous_engine.hpp(start:1356):     Active vertices: 4197187
+[0m[1;32mINFO:     synchronous_engine.hpp(start:1405):      Running Aggregators
+[0m[1;32mINFO:     synchronous_engine.hpp(start:1307): 0: Starting iteration: 7
+[0m[1;32mINFO:     synchronous_engine.hpp(start:1356):     Active vertices: 1858255
+[0m[1;32mINFO:     synchronous_engine.hpp(start:1405):      Running Aggregators
+[0m[1;32mINFO:     synchronous_engine.hpp(start:1307): 0: Starting iteration: 8
+[0m[1;32mINFO:     synchronous_engine.hpp(start:1356):     Active vertices: 4048410
+[0m[1;32mINFO:     synchronous_engine.hpp(start:1405):      Running Aggregators
+[0m[1;32mINFO:     synchronous_engine.hpp(start:1307): 0: Starting iteration: 9
+[0m[1;32mINFO:     synchronous_engine.hpp(start:1356):     Active vertices: 888241
+[0m[1;32mINFO:     synchronous_engine.hpp(start:1405):      Running Aggregators
+[0m[1;32mINFO:     synchronous_engine.hpp(start:1307): 0: Starting iteration: 10
+[0m[1;32mINFO:     synchronous_engine.hpp(start:1356):     Active vertices: 154157
+[0m[1;32mINFO:     synchronous_engine.hpp(start:1405):      Running Aggregators
+[0m[1;32mINFO:     synchronous_engine.hpp(start:1417): 11 iterations completed.
+[0mINFO:     synchronous_engine.hpp(start:1434): Compute Balance: 547.078 589.491 574.14 557.161 576.065 517.554 558.925 536.171 551.06 535.882 533.663 565.993 558.929 580.295 559.359 538.13 545.11 534.64 561.951 546.466 
+[0mINFO:     distributed_graph.hpp(finalize:694): Distributed graph: enter finalize
+[0m[1;32mINFO:     distributed_ingress_base.hpp(finalize:185): Finalizing Graph...
+[0mINFO:     memory_info.cpp(log_usage:90): Memory Info: Post Flush
+     Heap: 13424.2 MB
+     Allocated: 1937.72 MB
+[0mINFO:     distributed_ingress_base.hpp(finalize:232): Graph Finalize: constructing local graph
+[0mINFO:     memory_info.cpp(log_usage:90): Memory Info: Finished populating local graph.
+     Heap: 13424.2 MB
+     Allocated: 1937.72 MB
+[0mINFO:     distributed_ingress_base.hpp(finalize:277): Graph Finalize: finalizing local graph.
+[0mINFO:     dynamic_local_graph.hpp(finalize:339): Graph finalized in 0.074255 secs
+[0mINFO:     distributed_ingress_base.hpp(finalize:280): Local graph info: 
+[0m     nverts: 2001569
+[0m     nedges: 25858210
+[0mINFO:     memory_info.cpp(log_usage:90): Memory Info: Finished finalizing local graph.
+     Heap: 13424.2 MB
+     Allocated: 1937.73 MB
+[0mINFO:     memory_info.cpp(log_usage:90): Memory Info: Finished adding vertex data
+     Heap: 13424.2 MB
+     Allocated: 1937.73 MB
+[0mINFO:     memory_info.cpp(log_usage:90): Memory Info: Finihsed allocating lvid2record
+     Heap: 13424.2 MB
+     Allocated: 1937.73 MB
+[0mINFO:     memory_info.cpp(log_usage:90): Memory Info: Finished synchronizing vertex (meta)data
+     Heap: 13424.2 MB
+     Allocated: 2391.89 MB
+[0mINFO:     distributed_ingress_base.hpp(exchange_global_info:494): Graph Finalize: exchange global statistics 
+[0m[1;32mINFO:     distributed_ingress_base.hpp(exchange_global_info:519): Graph info: 
+     nverts: 7698121
+     nedges: 513883084
+     nreplicas: 40210877
+     replication factor: 5.22347
+[0mINFO:     distributed_graph.hpp(save_to_hdfs:1659): Saving to file: hdfs://gphd-vm33:9000/users/hamster/gl/medwiki/out_1_of_40
+[0mINFO:     distributed_graph.hpp(save_to_hdfs:1659): Saving to file: hdfs://gphd-vm33:9000/users/hamster/gl/medwiki/out_2_of_40
+[0mINFO:     distributed_graph.hpp(finalize:694): Distributed graph: enter finalize
+[0m[1;32mINFO:     distributed_ingress_base.hpp(finalize:185): Finalizing Graph...
+[0mINFO:     memory_info.cpp(log_usage:90): Memory Info: Post Flush
+     Heap: 13424.2 MB
+     Allocated: 1938.08 MB
+[0mINFO:     distributed_ingress_base.hpp(finalize:232): Graph Finalize: constructing local graph
+[0mINFO:     memory_info.cpp(log_usage:90): Memory Info: Finished populating local graph.
+     Heap: 13424.2 MB
+     Allocated: 1938.08 MB
+[0mINFO:     distributed_ingress_base.hpp(finalize:277): Graph Finalize: finalizing local graph.
+[0mINFO:     dynamic_local_graph.hpp(finalize:339): Graph finalized in 0.101108 secs
+[0mINFO:     distributed_ingress_base.hpp(finalize:280): Local graph info: 
+[0m     nverts: 2001569
+[0m     nedges: 25858210
+[0mINFO:     memory_info.cpp(log_usage:90): Memory Info: Finished finalizing local graph.
+     Heap: 13424.2 MB
+     Allocated: 1938.09 MB
+[0mINFO:     memory_info.cpp(log_usage:90): Memory Info: Finished adding vertex data
+     Heap: 13424.2 MB
+     Allocated: 1938.09 MB
+[0mINFO:     memory_info.cpp(log_usage:90): Memory Info: Finihsed allocating lvid2record
+     Heap: 13424.2 MB
+     Allocated: 1938.09 MB
+[0mINFO:     memory_info.cpp(log_usage:90): Memory Info: Finished synchronizing vertex (meta)data
+     Heap: 13424.2 MB
+     Allocated: 2392.04 MB
+[0mINFO:     distributed_ingress_base.hpp(exchange_global_info:494): Graph Finalize: exchange global statistics 
+[0m[1;32mINFO:     distributed_ingress_base.hpp(exchange_global_info:519): Graph info: 
+     nverts: 7698121
+     nedges: 513883084
+     nreplicas: 40210877
+     replication factor: 5.22347
+[0mINFO:     distributed_graph.hpp(save_to_hdfs:1659): Saving to file: hdfs://gphd-vm33:9000/users/hamster/gl/medwiki/out.U_1_of_40
+[0mINFO:     distributed_graph.hpp(save_to_hdfs:1659): Saving to file: hdfs://gphd-vm33:9000/users/hamster/gl/medwiki/out.U_2_of_40
+[0mINFO:     distributed_graph.hpp(finalize:694): Distributed graph: enter finalize
+[0m[1;32mINFO:     distributed_ingress_base.hpp(finalize:185): Finalizing Graph...
+[0mINFO:     memory_info.cpp(log_usage:90): Memory Info: Post Flush
+     Heap: 13424.2 MB
+     Allocated: 1938.72 MB
+[0mINFO:     distributed_ingress_base.hpp(finalize:232): Graph Finalize: constructing local graph
+[0mINFO:     memory_info.cpp(log_usage:90): Memory Info: Finished populating local graph.
+     Heap: 13424.2 MB
+     Allocated: 1938.72 MB
+[0mINFO:     distributed_ingress_base.hpp(finalize:277): Graph Finalize: finalizing local graph.
+[0mINFO:     dynamic_local_graph.hpp(finalize:339): Graph finalized in 0.045029 secs
+[0mINFO:     distributed_ingress_base.hpp(finalize:280): Local graph info: 
+[0m     nverts: 2001569
+[0m     nedges: 25858210
+[0mINFO:     memory_info.cpp(log_usage:90): Memory Info: Finished finalizing local graph.
+     Heap: 13424.2 MB
+     Allocated: 1938.73 MB
+[0mINFO:     memory_info.cpp(log_usage:90): Memory Info: Finished adding vertex data
+     Heap: 13424.2 MB
+     Allocated: 1938.73 MB
+[0mINFO:     memory_info.cpp(log_usage:90): Memory Info: Finihsed allocating lvid2record
+     Heap: 13424.2 MB
+     Allocated: 1938.73 MB
+[0mINFO:     memory_info.cpp(log_usage:90): Memory Info: Finished synchronizing vertex (meta)data
+     Heap: 13424.2 MB
+     Allocated: 2392.72 MB
+[0mINFO:     distributed_ingress_base.hpp(exchange_global_info:494): Graph Finalize: exchange global statistics 
+[0m[1;32mINFO:     distributed_ingress_base.hpp(exchange_global_info:519): Graph info: 
+     nverts: 7698121
+     nedges: 513883084
+     nreplicas: 40210877
+     replication factor: 5.22347
+[0mINFO:     distributed_graph.hpp(save_to_hdfs:1659): Saving to file: hdfs://gphd-vm33:9000/users/hamster/gl/medwiki/out.V_1_of_40
+[0mINFO:     distributed_graph.hpp(save_to_hdfs:1659): Saving to file: hdfs://gphd-vm33:9000/users/hamster/gl/medwiki/out.V_2_of_40
+[0mINFO:     dc.cpp(~distributed_control:158): Shutting down distributed control 
+[0mINFO:     dc_tcp_comm.cpp(close:247): Closing listening socket
+[0mINFO:     dc_tcp_comm.cpp(send_loop:653): Send loop Stopped
+[0mINFO:     dc_tcp_comm.cpp(close:267): Closing outgoing sockets
+[0mINFO:     dc_tcp_comm.cpp(receive_loop:594): Receive loop Stopped
+[0mINFO:     dc_tcp_comm.cpp(close:285): Closing incoming sockets
+[0mINFO:     dc.cpp(~distributed_control:186): Bytes Sent: 0
+[0mINFO:     dc.cpp(~distributed_control:187): Calls Sent: 408038
+[0mINFO:     dc.cpp(~distributed_control:188): Network Sent: 38858975962
+[0mINFO:     dc.cpp(~distributed_control:189): Bytes Received: 0
+[0mINFO:     dc.cpp(~distributed_control:190): Calls Received: 397847
+[0m
+
+
+stdout:
+---------
+GRAPHLAB_SUBNET_ID/GRAPHLAB_SUBNET_MASK environment variables not defined.
+Using default values
+Subnet ID: 0.0.0.0
+Subnet Mask: 0.0.0.0
+Will find first IPv4 non-loopback address matching the subnet
+Loading graph.
+Loading graph. Finished in 306.755
+Finalizing graph.
+Finalizing graph. Finished in 36.2479
+========== Graph statistics on proc 0 ===============
+ Num vertices: 7698121
+ Num edges: 513883084
+ Num replica: 40210877
+ Replica to vertex ratio: 5.22347
+ --------------------------------------------
+ Num local own vertices: 385018
+ Num local vertices: 2001569
+ Replica to own ratio: 5.19864
+ Num local edges: 25858210
+ Edge balance ratio: 0.0503192
+Creating engine
+Training edges: 513883084 validation edges: 0
+Running ALS
+Time in seconds: 68.5    iTraining RMSE: 0.307005
+Time in seconds: 217.1    iTraining RMSE: 0.255133
+Time in seconds: 283.9    iTraining RMSE: 0.232449
+Time in seconds: 407.8    iTraining RMSE: 0.190303
+Time in seconds: 475.5    iTraining RMSE: 0.168472
+Time in seconds: 595.3    iTraining RMSE: 0.140454
+Time in seconds: 663.1    iTraining RMSE: 0.129166
+Time in seconds: 747.8    iTraining RMSE: 0.118198
+Time in seconds: 814.2    iTraining RMSE: 0.113836
+Time in seconds: 855.2    iTraining RMSE: 0.109903
+Updates: 32603085
+----------------------------------------------------------
+Final Runtime (seconds):   856.45
+Updates executed: 32603085
+Update Rate (updates/second): 38067.7
+Final error: 
+Time in seconds: 856.8    iTraining RMSE: 0.109889
+Saving predictions
+
+hnp out:
+13/09/27 06:52:35 INFO event.AsyncDispatcher: Registering class com.pivotal.hamster.appmaster.event.HamsterEventType for class com.pivotal.hamster.appmaster.event.HamsterEventHandler
+13/09/27 06:52:35 INFO service.AbstractService: Service:Dispatcher is inited.
+13/09/27 06:52:35 INFO service.AbstractService: Service:com.pivotal.hamster.appmaster.hnp.HnpLivenessMonitor is inited.
+13/09/27 06:52:35 INFO service.AbstractService: Service:com.pivotal.hamster.appmaster.clientservice.ClientServiceImpl is inited.
+13/09/27 06:52:35 INFO service.AbstractService: Service:com.pivotal.hamster.appmaster.allocator.YarnContainerAllocator is inited.
+13/09/27 06:52:35 WARN util.NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+13/09/27 06:52:35 INFO allocator.AllocationStrategyFactory: get allocation strategy class:com.pivotal.hamster.appmaster.allocator.UserPolicyStrategy
+13/09/27 06:52:35 INFO allocator.YarnContainerAllocator: init succeed
+13/09/27 06:52:35 INFO service.AbstractService: Service:com.pivotal.hamster.appmaster.launcher.YarnContainerLauncher is inited.
+13/09/27 06:52:35 INFO launcher.YarnContainerLauncher: init succeed
+13/09/27 06:52:35 INFO hnp.HnpService: init succeed
+13/09/27 06:52:35 INFO service.AbstractService: Service:com.pivotal.hamster.appmaster.hnp.HnpService is inited.
+13/09/27 06:52:35 INFO service.AbstractService: Service:com.pivotal.hamster.appmaster.hnp.DefaultHnpLauncher is inited.
+13/09/27 06:52:35 INFO service.AbstractService: Service:com.pivotal.hamster.appmaster.HamsterAppMaster is inited.
+13/09/27 06:52:35 INFO service.AbstractService: Service:Dispatcher is started.
+13/09/27 06:52:35 INFO service.AbstractService: Service:com.pivotal.hamster.appmaster.hnp.HnpLivenessMonitor is started.
+13/09/27 06:52:35 INFO http.HttpServer: Added global filter 'safety' (class=org.apache.hadoop.http.HttpServer$QuotingInputFilter)
+13/09/27 06:52:35 INFO http.HttpServer: Added filter static_user_filter (class=org.apache.hadoop.http.lib.StaticUserWebFilter$StaticUserFilter) to context yarn
+13/09/27 06:52:35 INFO http.HttpServer: Added filter static_user_filter (class=org.apache.hadoop.http.lib.StaticUserWebFilter$StaticUserFilter) to context static
+13/09/27 06:52:35 INFO http.HttpServer: adding path spec: /yarn
+13/09/27 06:52:35 INFO http.HttpServer: adding path spec: /yarn/*
+13/09/27 06:52:35 INFO http.HttpServer: Added global filter 'guice' (class=com.google.inject.servlet.GuiceFilter)
+13/09/27 06:52:35 INFO http.HttpServer: Jetty bound to port 37071
+13/09/27 06:52:35 INFO server.Server: jetty-7.6.10.v20130312
+13/09/27 06:52:35 INFO webapp.WebInfConfiguration: Extract jar:file:/usr/lib/gphd/hadoop-yarn-2.0.5_alpha_gphd_2_0_2_0/hadoop-yarn-common-2.0.5-alpha-gphd-2.0.2.0.jar!/webapps/yarn/ to /tmp/jetty-0.0.0.0-37071-yarn-_-any-/webapp
+13/09/27 06:52:35 INFO handler.ContextHandler: started o.e.j.w.WebAppContext{/,file:/tmp/jetty-0.0.0.0-37071-yarn-_-any-/webapp/},jar:file:/usr/lib/gphd/hadoop-yarn-2.0.5_alpha_gphd_2_0_2_0/hadoop-yarn-common-2.0.5-alpha-gphd-2.0.2.0.jar!/webapps/yarn
+13/09/27 06:52:35 INFO handler.ContextHandler: started o.e.j.s.ServletContextHandler{/static,jar:file:/usr/lib/gphd/hadoop-yarn-2.0.5_alpha_gphd_2_0_2_0/hadoop-yarn-common-2.0.5-alpha-gphd-2.0.2.0.jar!/webapps/static}
+13/09/27 06:52:35 INFO server.AbstractConnector: Started SelectChannelConnector@0.0.0.0:37071
+13/09/27 06:52:35 INFO webapp.WebApps: Web app /yarn started at 37071
+13/09/27 06:52:36 INFO webapp.WebApps: Registered webapp guice modules
+13/09/27 06:52:36 INFO allocator.YarnContainerAllocator: tracking URL = 10.62.67.32:37071
+13/09/27 06:52:36 INFO service.AbstractService: Service:com.pivotal.hamster.appmaster.allocator.YarnContainerAllocator is started.
+13/09/27 06:52:36 INFO allocator.YarnContainerAllocator: start succeed
+13/09/27 06:52:36 INFO launcher.YarnContainerLauncher: start succeed
+13/09/27 06:52:36 INFO hnp.HnpService: wait for HNP connect
+13/09/27 06:52:36 INFO service.AbstractService: Service:com.pivotal.hamster.appmaster.hnp.DefaultHnpLauncher is started.
+13/09/27 06:52:36 INFO service.AbstractService: Service:com.pivotal.hamster.appmaster.HamsterAppMaster is started.
+13/09/27 06:52:36 INFO appmaster.HamsterAppMaster: waiting for signal to terminate AM
+13/09/27 06:52:36 INFO hnp.HnpService: HNP connected
+13/09/27 06:52:36 INFO hnp.HnpService: read handshake from HNP completed
+13/09/27 06:52:36 INFO hnp.HnpService: recv [REGISTER] request from HNP
+13/09/27 06:52:36 INFO hnp.HnpService: recv [ALLOCATE] request from HNP
+13/09/27 06:52:36 INFO allocator.AllocationStrategyBase: =========== ask list for round :[0] { 
+13/09/27 06:52:36 INFO allocator.AllocationStrategyBase:     resource request, host:* container_count:22
+13/09/27 06:52:36 INFO allocator.AllocationStrategyBase: }
+13/09/27 06:52:36 INFO allocator.AllocationStrategyBase: current progress is:com.pivotal.hamster.appmaster.allocator.SimpleAllocationProgress@2392d604
+13/09/27 06:52:36 INFO allocator.AllocationStrategyBase: =========== ask list for round :[1] { 
+13/09/27 06:52:36 INFO allocator.AllocationStrategyBase:     resource request, host:* container_count:22
+13/09/27 06:52:36 INFO allocator.AllocationStrategyBase: }
+13/09/27 06:52:36 INFO allocator.AllocationStrategyBase: current progress is:com.pivotal.hamster.appmaster.allocator.SimpleAllocationProgress@4c5cc942
+13/09/27 06:52:36 INFO allocator.AllocationStrategyBase: insert container to host=10.62.67.19, id=1
+13/09/27 06:52:36 INFO allocator.AllocationStrategyBase: insert container to host=10.62.67.19, id=1
+13/09/27 06:52:36 INFO allocator.AllocationStrategyBase: insert container to host=10.62.67.24, id=2
+13/09/27 06:52:36 INFO allocator.AllocationStrategyBase: insert container to host=10.62.67.24, id=2
+13/09/27 06:52:36 INFO allocator.AllocationStrategyBase: insert container to host=10.62.67.13, id=3
+13/09/27 06:52:36 INFO allocator.AllocationStrategyBase: insert container to host=10.62.67.13, id=3
+13/09/27 06:52:36 INFO allocator.AllocationStrategyBase: insert container to host=10.62.67.32, id=0
+13/09/27 06:52:36 INFO allocator.AllocationStrategyBase: insert container to host=10.62.67.20, id=4
+13/09/27 06:52:36 INFO allocator.AllocationStrategyBase: insert container to host=10.62.67.20, id=4
+13/09/27 06:52:36 INFO allocator.AllocationStrategyBase: get 5 new slots from RM, now we have 5
+13/09/27 06:52:36 INFO allocator.AllocationStrategyBase: =========== ask list for round :[2] { 
+13/09/27 06:52:36 INFO allocator.AllocationStrategyBase:     resource request, host:* container_count:17
+13/09/27 06:52:36 INFO allocator.AllocationStrategyBase: }
+13/09/27 06:52:36 INFO allocator.AllocationStrategyBase: current progress is:com.pivotal.hamster.appmaster.allocator.SimpleAllocationProgress@419c4091
+13/09/27 06:52:36 INFO allocator.YarnContainerAllocator: release containers to RM, container_id=4
+13/09/27 06:52:36 INFO allocator.YarnContainerAllocator: release containers to RM, container_id=5
+13/09/27 06:52:36 INFO allocator.YarnContainerAllocator: release containers to RM, container_id=9
+13/09/27 06:52:36 INFO allocator.YarnContainerAllocator: release containers to RM, container_id=10
+13/09/27 06:52:36 INFO allocator.YarnContainerAllocator: release containers to RM, container_id=14
+13/09/27 06:52:36 INFO allocator.YarnContainerAllocator: release containers to RM, container_id=15
+13/09/27 06:52:36 INFO allocator.YarnContainerAllocator: release containers to RM, container_id=18
+13/09/27 06:52:36 INFO allocator.YarnContainerAllocator: release containers to RM, container_id=19
+13/09/27 06:52:36 INFO allocator.YarnContainerAllocator: release containers to RM, container_id=23
+13/09/27 06:52:36 INFO allocator.YarnContainerAllocator: release containers to RM, container_id=24
+13/09/27 06:52:36 INFO allocator.AllocationStrategyBase: insert container to host=10.62.67.25, id=5
+13/09/27 06:52:36 INFO allocator.AllocationStrategyBase: insert container to host=10.62.67.25, id=5
+13/09/27 06:52:36 INFO allocator.AllocationStrategyBase: insert container to host=10.62.67.16, id=6
+13/09/27 06:52:36 INFO allocator.AllocationStrategyBase: insert container to host=10.62.67.16, id=6
+13/09/27 06:52:36 INFO allocator.AllocationStrategyBase: insert container to host=10.62.67.29, id=7
+13/09/27 06:52:36 INFO allocator.AllocationStrategyBase: insert container to host=10.62.67.29, id=7
+13/09/27 06:52:36 INFO allocator.AllocationStrategyBase: insert container to host=10.62.67.27, id=8
+13/09/27 06:52:36 INFO allocator.AllocationStrategyBase: insert container to host=10.62.67.27, id=8
+13/09/27 06:52:36 INFO allocator.AllocationStrategyBase: get 4 new slots from RM, now we have 9
+13/09/27 06:52:36 INFO allocator.AllocationStrategyBase: =========== ask list for round :[3] { 
+13/09/27 06:52:37 INFO allocator.AllocationStrategyBase:     resource request, host:* container_count:13
+13/09/27 06:52:37 INFO allocator.AllocationStrategyBase: }
+13/09/27 06:52:37 INFO allocator.AllocationStrategyBase: current progress is:com.pivotal.hamster.appmaster.allocator.SimpleAllocationProgress@3545fe3b
+13/09/27 06:52:37 INFO allocator.YarnContainerAllocator: release containers to RM, container_id=28
+13/09/27 06:52:37 INFO allocator.YarnContainerAllocator: release containers to RM, container_id=29
+13/09/27 06:52:37 INFO allocator.YarnContainerAllocator: release containers to RM, container_id=33
+13/09/27 06:52:37 INFO allocator.YarnContainerAllocator: release containers to RM, container_id=34
+13/09/27 06:52:37 INFO allocator.YarnContainerAllocator: release containers to RM, container_id=38
+13/09/27 06:52:37 INFO allocator.YarnContainerAllocator: release containers to RM, container_id=39
+13/09/27 06:52:37 INFO allocator.YarnContainerAllocator: release containers to RM, container_id=43
+13/09/27 06:52:37 INFO allocator.YarnContainerAllocator: release containers to RM, container_id=44
+13/09/27 06:52:37 INFO allocator.AllocationStrategyBase: insert container to host=10.62.67.26, id=9
+13/09/27 06:52:37 INFO allocator.AllocationStrategyBase: insert container to host=10.62.67.26, id=9
+13/09/27 06:52:37 INFO allocator.AllocationStrategyBase: insert container to host=10.62.67.31, id=10
+13/09/27 06:52:37 INFO allocator.AllocationStrategyBase: insert container to host=10.62.67.31, id=10
+13/09/27 06:52:37 INFO allocator.AllocationStrategyBase: insert container to host=10.62.67.21, id=11
+13/09/27 06:52:37 INFO allocator.AllocationStrategyBase: insert container to host=10.62.67.21, id=11
+13/09/27 06:52:37 INFO allocator.AllocationStrategyBase: insert container to host=10.62.67.11, id=12
+13/09/27 06:52:37 INFO allocator.AllocationStrategyBase: insert container to host=10.62.67.11, id=12
+13/09/27 06:52:37 INFO allocator.AllocationStrategyBase: insert container to host=10.62.67.23, id=13
+13/09/27 06:52:37 INFO allocator.AllocationStrategyBase: get 4 new slots from RM, now we have 13
+13/09/27 06:52:37 INFO util.RackResolver: Resolved 10.62.67.23 to /default-rack
+13/09/27 06:52:37 INFO allocator.AllocationStrategyBase: =========== ask list for round :[4] { 
+13/09/27 06:52:37 INFO allocator.AllocationStrategyBase:     resource request, host:/default-rack container_count:1
+13/09/27 06:52:37 INFO allocator.AllocationStrategyBase:     resource request, host:* container_count:9
+13/09/27 06:52:37 INFO allocator.AllocationStrategyBase:     resource request, host:10.62.67.23 container_count:1
+13/09/27 06:52:37 INFO allocator.AllocationStrategyBase: }
+13/09/27 06:52:37 INFO allocator.AllocationStrategyBase: current progress is:com.pivotal.hamster.appmaster.allocator.SimpleAllocationProgress@339214b1
+13/09/27 06:52:37 INFO allocator.YarnContainerAllocator: release containers to RM, container_id=48
+13/09/27 06:52:37 INFO allocator.YarnContainerAllocator: release containers to RM, container_id=49
+13/09/27 06:52:37 INFO allocator.YarnContainerAllocator: release containers to RM, container_id=53
+13/09/27 06:52:37 INFO allocator.YarnContainerAllocator: release containers to RM, container_id=54
+13/09/27 06:52:37 INFO allocator.YarnContainerAllocator: release containers to RM, container_id=58
+13/09/27 06:52:37 INFO allocator.YarnContainerAllocator: release containers to RM, container_id=59
+13/09/27 06:52:37 INFO allocator.YarnContainerAllocator: release containers to RM, container_id=63
+13/09/27 06:52:37 INFO allocator.YarnContainerAllocator: release containers to RM, container_id=64
+13/09/27 06:52:37 INFO allocator.AllocationStrategyBase: insert container to host=10.62.67.15, id=14
+13/09/27 06:52:37 INFO allocator.AllocationStrategyBase: insert container to host=10.62.67.15, id=14
+13/09/27 06:52:37 INFO allocator.AllocationStrategyBase: insert container to host=10.62.67.28, id=15
+13/09/27 06:52:37 INFO allocator.AllocationStrategyBase: insert container to host=10.62.67.28, id=15
+13/09/27 06:52:37 INFO allocator.AllocationStrategyBase: insert container to host=10.62.67.17, id=16
+13/09/27 06:52:37 INFO allocator.AllocationStrategyBase: insert container to host=10.62.67.17, id=16
+13/09/27 06:52:37 INFO allocator.AllocationStrategyBase: insert container to host=10.62.67.22, id=17
+13/09/27 06:52:37 INFO allocator.AllocationStrategyBase: get 3 new slots from RM, now we have 16
+13/09/27 06:52:37 INFO util.RackResolver: Resolved 10.62.67.22 to /default-rack
+13/09/27 06:52:37 INFO util.RackResolver: Resolved 10.62.67.23 to /default-rack
+13/09/27 06:52:37 INFO allocator.AllocationStrategyBase: =========== ask list for round :[5] { 
+13/09/27 06:52:37 INFO allocator.AllocationStrategyBase:     resource request, host:/default-rack container_count:2
+13/09/27 06:52:37 INFO allocator.AllocationStrategyBase:     resource request, host:* container_count:6
+13/09/27 06:52:37 INFO allocator.AllocationStrategyBase:     resource request, host:10.62.67.22 container_count:1
+13/09/27 06:52:37 INFO allocator.AllocationStrategyBase:     resource request, host:10.62.67.23 container_count:1
+13/09/27 06:52:37 INFO allocator.AllocationStrategyBase: }
+13/09/27 06:52:37 INFO allocator.AllocationStrategyBase: current progress is:com.pivotal.hamster.appmaster.allocator.SimpleAllocationProgress@7f42731
+13/09/27 06:52:37 INFO allocator.YarnContainerAllocator: release containers to RM, container_id=69
+13/09/27 06:52:37 INFO allocator.YarnContainerAllocator: release containers to RM, container_id=70
+13/09/27 06:52:37 INFO allocator.YarnContainerAllocator: release containers to RM, container_id=74
+13/09/27 06:52:37 INFO allocator.YarnContainerAllocator: release containers to RM, container_id=75
+13/09/27 06:52:37 INFO allocator.YarnContainerAllocator: release containers to RM, container_id=79
+13/09/27 06:52:37 INFO allocator.YarnContainerAllocator: release containers to RM, container_id=80
+13/09/27 06:52:37 INFO allocator.AllocationStrategyBase: insert container to host=10.62.67.12, id=18
+13/09/27 06:52:37 INFO allocator.AllocationStrategyBase: insert container to host=10.62.67.12, id=18
+13/09/27 06:52:37 INFO allocator.AllocationStrategyBase: insert container to host=10.62.67.18, id=19
+13/09/27 06:52:37 INFO allocator.AllocationStrategyBase: insert container to host=10.62.67.18, id=19
+13/09/27 06:52:37 INFO allocator.AllocationStrategyBase: get 2 new slots from RM, now we have 18
+13/09/27 06:52:37 INFO util.RackResolver: Resolved 10.62.67.22 to /default-rack
+13/09/27 06:52:37 INFO util.RackResolver: Resolved 10.62.67.23 to /default-rack
+13/09/27 06:52:37 INFO allocator.AllocationStrategyBase: =========== ask list for round :[6] { 
+13/09/27 06:52:37 INFO allocator.AllocationStrategyBase:     resource request, host:/default-rack container_count:2
+13/09/27 06:52:37 INFO allocator.AllocationStrategyBase:     resource request, host:* container_count:2
+13/09/27 06:52:37 INFO allocator.AllocationStrategyBase:     resource request, host:10.62.67.22 container_count:1
+13/09/27 06:52:37 INFO allocator.AllocationStrategyBase:     resource request, host:10.62.67.23 container_count:1
+13/09/27 06:52:37 INFO allocator.AllocationStrategyBase: }
+13/09/27 06:52:37 INFO allocator.AllocationStrategyBase: current progress is:com.pivotal.hamster.appmaster.allocator.SimpleAllocationProgress@21bbd3e2
+13/09/27 06:52:37 INFO allocator.YarnContainerAllocator: release containers to RM, container_id=85
+13/09/27 06:52:37 INFO allocator.YarnContainerAllocator: release containers to RM, container_id=86
+13/09/27 06:52:37 INFO allocator.YarnContainerAllocator: release containers to RM, container_id=90
+13/09/27 06:52:37 INFO allocator.YarnContainerAllocator: release containers to RM, container_id=91
+13/09/27 06:52:37 INFO allocator.YarnContainerAllocator: release containers to RM, container_id=6
+13/09/27 06:52:37 INFO util.RackResolver: Resolved 10.62.67.22 to /default-rack
+13/09/27 06:52:37 INFO util.RackResolver: Resolved 10.62.67.23 to /default-rack
+13/09/27 06:52:37 INFO allocator.AllocationStrategyBase: =========== ask list for round :[7] { 
+13/09/27 06:52:37 INFO allocator.AllocationStrategyBase:     resource request, host:/default-rack container_count:2
+13/09/27 06:52:37 INFO allocator.AllocationStrategyBase:     resource request, host:* container_count:2
+13/09/27 06:52:37 INFO allocator.AllocationStrategyBase:     resource request, host:10.62.67.22 container_count:1
+13/09/27 06:52:37 INFO allocator.AllocationStrategyBase:     resource request, host:10.62.67.23 container_count:1
+13/09/27 06:52:37 INFO allocator.AllocationStrategyBase: }
+13/09/27 06:52:37 INFO allocator.AllocationStrategyBase: current progress is:com.pivotal.hamster.appmaster.allocator.SimpleAllocationProgress@3dae160
+13/09/27 06:52:37 INFO allocator.YarnContainerAllocator: release containers to RM, container_id=16
+13/09/27 06:52:37 INFO allocator.YarnContainerAllocator: release containers to RM, container_id=20
+13/09/27 06:52:37 INFO allocator.YarnContainerAllocator: release containers to RM, container_id=25
+13/09/27 06:52:37 INFO allocator.YarnContainerAllocator: release containers to RM, container_id=30
+13/09/27 06:52:37 INFO allocator.YarnContainerAllocator: release containers to RM, container_id=35
+13/09/27 06:52:38 INFO util.RackResolver: Resolved 10.62.67.22 to /default-rack
+13/09/27 06:52:38 INFO util.RackResolver: Resolved 10.62.67.23 to /default-rack
+13/09/27 06:52:38 INFO allocator.AllocationStrategyBase: =========== ask list for round :[8] { 
+13/09/27 06:52:38 INFO allocator.AllocationStrategyBase:     resource request, host:/default-rack container_count:2
+13/09/27 06:52:38 INFO allocator.AllocationStrategyBase:     resource request, host:* container_count:2
+13/09/27 06:52:38 INFO allocator.AllocationStrategyBase:     resource request, host:10.62.67.22 container_count:1
+13/09/27 06:52:38 INFO allocator.AllocationStrategyBase:     resource request, host:10.62.67.23 container_count:1
+13/09/27 06:52:38 INFO allocator.AllocationStrategyBase: }
+13/09/27 06:52:38 INFO allocator.AllocationStrategyBase: current progress is:com.pivotal.hamster.appmaster.allocator.SimpleAllocationProgress@1edfbb43
+13/09/27 06:52:38 INFO allocator.YarnContainerAllocator: release containers to RM, container_id=40
+13/09/27 06:52:38 INFO allocator.YarnContainerAllocator: release containers to RM, container_id=45
+13/09/27 06:52:38 INFO util.RackResolver: Resolved 10.62.67.22 to /default-rack
+13/09/27 06:52:38 INFO util.RackResolver: Resolved 10.62.67.23 to /default-rack
+13/09/27 06:52:38 INFO allocator.AllocationStrategyBase: =========== ask list for round :[9] { 
+13/09/27 06:52:38 INFO allocator.AllocationStrategyBase:     resource request, host:/default-rack container_count:2
+13/09/27 06:52:38 INFO allocator.AllocationStrategyBase:     resource request, host:* container_count:2
+13/09/27 06:52:38 INFO allocator.AllocationStrategyBase:     resource request, host:10.62.67.22 container_count:1
+13/09/27 06:52:38 INFO allocator.AllocationStrategyBase:     resource request, host:10.62.67.23 container_count:1
+13/09/27 06:52:38 INFO allocator.AllocationStrategyBase: }
+13/09/27 06:52:38 INFO allocator.AllocationStrategyBase: current progress is:com.pivotal.hamster.appmaster.allocator.SimpleAllocationProgress@7f1e1bbf
+13/09/27 06:52:38 INFO allocator.YarnContainerAllocator: release containers to RM, container_id=60
+13/09/27 06:52:38 INFO allocator.YarnContainerAllocator: release containers to RM, container_id=65
+13/09/27 06:52:38 INFO util.RackResolver: Resolved 10.62.67.22 to /default-rack
+13/09/27 06:52:38 INFO util.RackResolver: Resolved 10.62.67.23 to /default-rack
+13/09/27 06:52:38 INFO allocator.AllocationStrategyBase: =========== ask list for round :[10] { 
+13/09/27 06:52:38 INFO allocator.AllocationStrategyBase:     resource request, host:/default-rack container_count:2
+13/09/27 06:52:38 INFO allocator.AllocationStrategyBase:     resource request, host:* container_count:2
+13/09/27 06:52:38 INFO allocator.AllocationStrategyBase:     resource request, host:10.62.67.22 container_count:1
+13/09/27 06:52:38 INFO allocator.AllocationStrategyBase:     resource request, host:10.62.67.23 container_count:1
+13/09/27 06:52:38 INFO allocator.AllocationStrategyBase: }
+13/09/27 06:52:38 INFO allocator.AllocationStrategyBase: current progress is:com.pivotal.hamster.appmaster.allocator.SimpleAllocationProgress@3003e926
+13/09/27 06:52:38 INFO allocator.YarnContainerAllocator: release containers to RM, container_id=71
+13/09/27 06:52:38 INFO allocator.YarnContainerAllocator: release containers to RM, container_id=76
+13/09/27 06:52:38 INFO util.RackResolver: Resolved 10.62.67.22 to /default-rack
+13/09/27 06:52:38 INFO util.RackResolver: Resolved 10.62.67.23 to /default-rack
+13/09/27 06:52:38 INFO allocator.AllocationStrategyBase: =========== ask list for round :[11] { 
+13/09/27 06:52:38 INFO allocator.AllocationStrategyBase:     resource request, host:/default-rack container_count:2
+13/09/27 06:52:38 INFO allocator.AllocationStrategyBase:     resource request, host:* container_count:2
+13/09/27 06:52:38 INFO allocator.AllocationStrategyBase:     resource request, host:10.62.67.22 container_count:1
+13/09/27 06:52:38 INFO allocator.AllocationStrategyBase:     resource request, host:10.62.67.23 container_count:1
+13/09/27 06:52:38 INFO allocator.AllocationStrategyBase: }
+13/09/27 06:52:38 INFO allocator.AllocationStrategyBase: current progress is:com.pivotal.hamster.appmaster.allocator.SimpleAllocationProgress@6295f290
+13/09/27 06:52:38 INFO allocator.YarnContainerAllocator: release containers to RM, container_id=92
+13/09/27 06:52:38 INFO allocator.YarnContainerAllocator: release containers to RM, container_id=93
+13/09/27 06:52:38 INFO util.RackResolver: Resolved 10.62.67.22 to /default-rack
+13/09/27 06:52:38 INFO util.RackResolver: Resolved 10.62.67.23 to /default-rack
+13/09/27 06:52:38 INFO allocator.AllocationStrategyBase: =========== ask list for round :[12] { 
+13/09/27 06:52:38 INFO allocator.AllocationStrategyBase:     resource request, host:/default-rack container_count:2
+13/09/27 06:52:38 INFO allocator.AllocationStrategyBase:     resource request, host:* container_count:2
+13/09/27 06:52:38 INFO allocator.AllocationStrategyBase:     resource request, host:10.62.67.22 container_count:1
+13/09/27 06:52:38 INFO allocator.AllocationStrategyBase:     resource request, host:10.62.67.23 container_count:1
+13/09/27 06:52:38 INFO allocator.AllocationStrategyBase: }
+13/09/27 06:52:38 INFO allocator.AllocationStrategyBase: current progress is:com.pivotal.hamster.appmaster.allocator.SimpleAllocationProgress@7f81497d
+13/09/27 06:52:38 INFO allocator.YarnContainerAllocator: release containers to RM, container_id=94
+13/09/27 06:52:38 INFO allocator.YarnContainerAllocator: release containers to RM, container_id=95
+13/09/27 06:52:39 INFO util.RackResolver: Resolved 10.62.67.22 to /default-rack
+13/09/27 06:52:39 INFO util.RackResolver: Resolved 10.62.67.23 to /default-rack
+13/09/27 06:52:39 INFO allocator.AllocationStrategyBase: =========== ask list for round :[13] { 
+13/09/27 06:52:39 INFO allocator.AllocationStrategyBase:     resource request, host:/default-rack container_count:2
+13/09/27 06:52:39 INFO allocator.AllocationStrategyBase:     resource request, host:* container_count:2
+13/09/27 06:52:39 INFO allocator.AllocationStrategyBase:     resource request, host:10.62.67.22 container_count:1
+13/09/27 06:52:39 INFO allocator.AllocationStrategyBase:     resource request, host:10.62.67.23 container_count:1
+13/09/27 06:52:39 INFO allocator.AllocationStrategyBase: }
+13/09/27 06:52:39 INFO allocator.AllocationStrategyBase: current progress is:com.pivotal.hamster.appmaster.allocator.SimpleAllocationProgress@22a010ba
+13/09/27 06:52:39 INFO allocator.YarnContainerAllocator: release containers to RM, container_id=96
+13/09/27 06:52:39 INFO allocator.YarnContainerAllocator: release containers to RM, container_id=97
+13/09/27 06:52:39 INFO util.RackResolver: Resolved 10.62.67.22 to /default-rack
+13/09/27 06:52:39 INFO util.RackResolver: Resolved 10.62.67.23 to /default-rack
+13/09/27 06:52:39 INFO allocator.AllocationStrategyBase: =========== ask list for round :[14] { 
+13/09/27 06:52:39 INFO allocator.AllocationStrategyBase:     resource request, host:/default-rack container_count:2
+13/09/27 06:52:39 INFO allocator.AllocationStrategyBase:     resource request, host:* container_count:2
+13/09/27 06:52:39 INFO allocator.AllocationStrategyBase:     resource request, host:10.62.67.22 container_count:1
+13/09/27 06:52:39 INFO allocator.AllocationStrategyBase:     resource request, host:10.62.67.23 container_count:1
+13/09/27 06:52:39 INFO allocator.AllocationStrategyBase: }
+13/09/27 06:52:39 INFO allocator.AllocationStrategyBase: current progress is:com.pivotal.hamster.appmaster.allocator.SimpleAllocationProgress@7c83d8be
+13/09/27 06:52:39 INFO allocator.YarnContainerAllocator: release containers to RM, container_id=98
+13/09/27 06:52:39 INFO allocator.YarnContainerAllocator: release containers to RM, container_id=99
+13/09/27 06:52:39 INFO util.RackResolver: Resolved 10.62.67.22 to /default-rack
+13/09/27 06:52:39 INFO util.RackResolver: Resolved 10.62.67.23 to /default-rack
+13/09/27 06:52:39 INFO allocator.AllocationStrategyBase: =========== ask list for round :[15] { 
+13/09/27 06:52:39 INFO allocator.AllocationStrategyBase:     resource request, host:/default-rack container_count:2
+13/09/27 06:52:39 INFO allocator.AllocationStrategyBase:     resource request, host:* container_count:2
+13/09/27 06:52:39 INFO allocator.AllocationStrategyBase:     resource request, host:10.62.67.22 container_count:1
+13/09/27 06:52:39 INFO allocator.AllocationStrategyBase:     resource request, host:10.62.67.23 container_count:1
+13/09/27 06:52:39 INFO allocator.AllocationStrategyBase: }
+13/09/27 06:52:39 INFO allocator.AllocationStrategyBase: current progress is:com.pivotal.hamster.appmaster.allocator.SimpleAllocationProgress@1f3c53a8
+13/09/27 06:52:39 INFO allocator.YarnContainerAllocator: release containers to RM, container_id=100
+13/09/27 06:52:39 INFO allocator.YarnContainerAllocator: release containers to RM, container_id=101
+13/09/27 06:52:39 INFO util.RackResolver: Resolved 10.62.67.22 to /default-rack
+13/09/27 06:52:39 INFO util.RackResolver: Resolved 10.62.67.23 to /default-rack
+13/09/27 06:52:39 INFO allocator.AllocationStrategyBase: =========== ask list for round :[16] { 
+13/09/27 06:52:39 INFO allocator.AllocationStrategyBase:     resource request, host:/default-rack container_count:2
+13/09/27 06:52:39 INFO allocator.AllocationStrategyBase:     resource request, host:* container_count:2
+13/09/27 06:52:39 INFO allocator.AllocationStrategyBase:     resource request, host:10.62.67.22 container_count:1
+13/09/27 06:52:39 INFO allocator.AllocationStrategyBase:     resource request, host:10.62.67.23 container_count:1
+13/09/27 06:52:39 INFO allocator.AllocationStrategyBase: }
+13/09/27 06:52:39 INFO allocator.AllocationStrategyBase: current progress is:com.pivotal.hamster.appmaster.allocator.SimpleAllocationProgress@37ed1dbe
+13/09/27 06:52:39 INFO allocator.YarnContainerAllocator: release containers to RM, container_id=102
+13/09/27 06:52:39 INFO allocator.YarnContainerAllocator: release containers to RM, container_id=103
+13/09/27 06:52:39 INFO util.RackResolver: Resolved 10.62.67.22 to /default-rack
+13/09/27 06:52:39 INFO util.RackResolver: Resolved 10.62.67.23 to /default-rack
+13/09/27 06:52:39 INFO allocator.AllocationStrategyBase: =========== ask list for round :[17] { 
+13/09/27 06:52:39 INFO allocator.AllocationStrategyBase:     resource request, host:/default-rack container_count:2
+13/09/27 06:52:39 INFO allocator.AllocationStrategyBase:     resource request, host:* container_count:2
+13/09/27 06:52:39 INFO allocator.AllocationStrategyBase:     resource request, host:10.62.67.22 container_count:1
+13/09/27 06:52:39 INFO allocator.AllocationStrategyBase:     resource request, host:10.62.67.23 container_count:1
+13/09/27 06:52:39 INFO allocator.AllocationStrategyBase: }
+13/09/27 06:52:39 INFO allocator.AllocationStrategyBase: current progress is:com.pivotal.hamster.appmaster.allocator.SimpleAllocationProgress@232549c4
+13/09/27 06:52:39 INFO allocator.YarnContainerAllocator: release containers to RM, container_id=104
+13/09/27 06:52:39 INFO allocator.YarnContainerAllocator: release containers to RM, container_id=105
+13/09/27 06:52:40 INFO util.RackResolver: Resolved 10.62.67.22 to /default-rack
+13/09/27 06:52:40 INFO util.RackResolver: Resolved 10.62.67.23 to /default-rack
+13/09/27 06:52:40 INFO allocator.AllocationStrategyBase: =========== ask list for round :[18] { 
+13/09/27 06:52:40 INFO allocator.AllocationStrategyBase:     resource request, host:/default-rack container_count:2
+13/09/27 06:52:40 INFO allocator.AllocationStrategyBase:     resource request, host:* container_count:2
+13/09/27 06:52:40 INFO allocator.AllocationStrategyBase:     resource request, host:10.62.67.22 container_count:1
+13/09/27 06:52:40 INFO allocator.AllocationStrategyBase:     resource request, host:10.62.67.23 container_count:1
+13/09/27 06:52:40 INFO allocator.AllocationStrategyBase: }
+13/09/27 06:52:40 INFO allocator.AllocationStrategyBase: current progress is:com.pivotal.hamster.appmaster.allocator.SimpleAllocationProgress@77485542
+13/09/27 06:52:40 INFO allocator.YarnContainerAllocator: release containers to RM, container_id=106
+13/09/27 06:52:40 INFO allocator.YarnContainerAllocator: release containers to RM, container_id=107
+13/09/27 06:52:40 INFO util.RackResolver: Resolved 10.62.67.22 to /default-rack
+13/09/27 06:52:40 INFO util.RackResolver: Resolved 10.62.67.23 to /default-rack
+13/09/27 06:52:40 INFO allocator.AllocationStrategyBase: =========== ask list for round :[19] { 
+13/09/27 06:52:40 INFO allocator.AllocationStrategyBase:     resource request, host:/default-rack container_count:2
+13/09/27 06:52:40 INFO allocator.AllocationStrategyBase:     resource request, host:* container_count:2
+13/09/27 06:52:40 INFO allocator.AllocationStrategyBase:     resource request, host:10.62.67.22 container_count:1
+13/09/27 06:52:40 INFO allocator.AllocationStrategyBase:     resource request, host:10.62.67.23 container_count:1
+13/09/27 06:52:40 INFO allocator.AllocationStrategyBase: }
+13/09/27 06:52:40 INFO allocator.AllocationStrategyBase: current progress is:com.pivotal.hamster.appmaster.allocator.SimpleAllocationProgress@2345e5a6
+13/09/27 06:52:40 INFO allocator.YarnContainerAllocator: release containers to RM, container_id=108
+13/09/27 06:52:40 INFO allocator.YarnContainerAllocator: release containers to RM, container_id=109
+13/09/27 06:52:40 INFO util.RackResolver: Resolved 10.62.67.22 to /default-rack
+13/09/27 06:52:40 INFO util.RackResolver: Resolved 10.62.67.23 to /default-rack
+13/09/27 06:52:40 INFO allocator.AllocationStrategyBase: =========== ask list for round :[20] { 
+13/09/27 06:52:40 INFO allocator.AllocationStrategyBase:     resource request, host:/default-rack container_count:2
+13/09/27 06:52:40 INFO allocator.AllocationStrategyBase:     resource request, host:* container_count:2
+13/09/27 06:52:40 INFO allocator.AllocationStrategyBase:     resource request, host:10.62.67.22 container_count:1
+13/09/27 06:52:40 INFO allocator.AllocationStrategyBase:     resource request, host:10.62.67.23 container_count:1
+13/09/27 06:52:40 INFO allocator.AllocationStrategyBase: }
+13/09/27 06:52:40 INFO allocator.AllocationStrategyBase: current progress is:com.pivotal.hamster.appmaster.allocator.SimpleAllocationProgress@683c9314
+13/09/27 06:52:40 INFO allocator.YarnContainerAllocator: release containers to RM, container_id=110
+13/09/27 06:52:40 INFO allocator.YarnContainerAllocator: release containers to RM, container_id=111
+13/09/27 06:52:40 INFO util.RackResolver: Resolved 10.62.67.22 to /default-rack
+13/09/27 06:52:40 INFO util.RackResolver: Resolved 10.62.67.23 to /default-rack
+13/09/27 06:52:40 INFO allocator.AllocationStrategyBase: =========== ask list for round :[21] { 
+13/09/27 06:52:40 INFO allocator.AllocationStrategyBase:     resource request, host:/default-rack container_count:2
+13/09/27 06:52:40 INFO allocator.AllocationStrategyBase:     resource request, host:* container_count:2
+13/09/27 06:52:40 INFO allocator.AllocationStrategyBase:     resource request, host:10.62.67.22 container_count:1
+13/09/27 06:52:40 INFO allocator.AllocationStrategyBase:     resource request, host:10.62.67.23 container_count:1
+13/09/27 06:52:40 INFO allocator.AllocationStrategyBase: }
+13/09/27 06:52:40 INFO allocator.AllocationStrategyBase: current progress is:com.pivotal.hamster.appmaster.allocator.SimpleAllocationProgress@1ac7057c
+13/09/27 06:52:40 INFO allocator.YarnContainerAllocator: release containers to RM, container_id=112
+13/09/27 06:52:40 INFO allocator.YarnContainerAllocator: release containers to RM, container_id=113
+13/09/27 06:52:40 INFO util.RackResolver: Resolved 10.62.67.22 to /default-rack
+13/09/27 06:52:40 INFO util.RackResolver: Resolved 10.62.67.23 to /default-rack
+13/09/27 06:52:40 INFO allocator.AllocationStrategyBase: =========== ask list for round :[22] { 
+13/09/27 06:52:40 INFO allocator.AllocationStrategyBase:     resource request, host:/default-rack container_count:2
+13/09/27 06:52:40 INFO allocator.AllocationStrategyBase:     resource request, host:* container_count:2
+13/09/27 06:52:40 INFO allocator.AllocationStrategyBase:     resource request, host:10.62.67.22 container_count:1
+13/09/27 06:52:40 INFO allocator.AllocationStrategyBase:     resource request, host:10.62.67.23 container_count:1
+13/09/27 06:52:40 INFO allocator.AllocationStrategyBase: }
+13/09/27 06:52:40 INFO allocator.AllocationStrategyBase: current progress is:com.pivotal.hamster.appmaster.allocator.SimpleAllocationProgress@68fc8e75
+13/09/27 06:52:40 INFO allocator.YarnContainerAllocator: release containers to RM, container_id=114
+13/09/27 06:52:40 INFO allocator.YarnContainerAllocator: release containers to RM, container_id=115
+13/09/27 06:52:41 INFO util.RackResolver: Resolved 10.62.67.22 to /default-rack
+13/09/27 06:52:41 INFO util.RackResolver: Resolved 10.62.67.23 to /default-rack
+13/09/27 06:52:41 INFO allocator.AllocationStrategyBase: =========== ask list for round :[23] { 
+13/09/27 06:52:41 INFO allocator.AllocationStrategyBase:     resource request, host:/default-rack container_count:2
+13/09/27 06:52:41 INFO allocator.AllocationStrategyBase:     resource request, host:* container_count:2
+13/09/27 06:52:41 INFO allocator.AllocationStrategyBase:     resource request, host:10.62.67.22 container_count:1
+13/09/27 06:52:41 INFO allocator.AllocationStrategyBase:     resource request, host:10.62.67.23 container_count:1
+13/09/27 06:52:41 INFO allocator.AllocationStrategyBase: }
+13/09/27 06:52:41 INFO allocator.AllocationStrategyBase: current progress is:com.pivotal.hamster.appmaster.allocator.SimpleAllocationProgress@1a5e68a
+13/09/27 06:52:41 INFO allocator.YarnContainerAllocator: release containers to RM, container_id=116
+13/09/27 06:52:41 INFO allocator.YarnContainerAllocator: release containers to RM, container_id=117
+13/09/27 06:52:41 INFO allocator.AllocationStrategyBase: insert container to host=10.62.67.14, id=20
+13/09/27 06:52:41 INFO allocator.AllocationStrategyBase: insert container to host=10.62.67.14, id=20
+13/09/27 06:52:41 INFO allocator.AllocationStrategyBase: get 1 new slots from RM, now we have 19
+13/09/27 06:52:41 INFO util.RackResolver: Resolved 10.62.67.22 to /default-rack
+13/09/27 06:52:41 INFO util.RackResolver: Resolved 10.62.67.23 to /default-rack
+13/09/27 06:52:41 INFO allocator.AllocationStrategyBase: =========== ask list for round :[24] { 
+13/09/27 06:52:41 INFO allocator.AllocationStrategyBase:     resource request, host:/default-rack container_count:2
+13/09/27 06:52:41 INFO allocator.AllocationStrategyBase:     resource request, host:* container_count:2
+13/09/27 06:52:41 INFO allocator.AllocationStrategyBase:     resource request, host:10.62.67.22 container_count:1
+13/09/27 06:52:41 INFO allocator.AllocationStrategyBase:     resource request, host:10.62.67.23 container_count:1
+13/09/27 06:52:41 INFO allocator.AllocationStrategyBase: }
+13/09/27 06:52:41 INFO allocator.AllocationStrategyBase: current progress is:com.pivotal.hamster.appmaster.allocator.SimpleAllocationProgress@7afccada
+13/09/27 06:52:41 INFO allocator.AllocationStrategyBase: insert container to host=10.62.67.22, id=17
+13/09/27 06:52:41 INFO allocator.AllocationStrategyBase: get 1 new slots from RM, now we have 20
+13/09/27 06:52:41 INFO allocator.AllocationStrategyBase: STATISTIC: Iterations = 25
+13/09/27 06:52:41 INFO allocator.UserPolicyStrategy: STATISTIC: Container Utilization = 1.0
+13/09/27 06:52:41 INFO allocator.UserPolicyStrategy: release all containers in host:10.62.67.23
+13/09/27 06:52:41 INFO allocator.AllocationStrategyBase: STATISTIC: Nodes = 20
+13/09/27 06:52:41 INFO allocator.YarnContainerAllocator: STATISTIC: allocation time is :5.254 seconds
+13/09/27 06:52:41 INFO hnp.HnpService: allocate for node:[10.62.67.29], with slot=[1]
+13/09/27 06:52:41 INFO hnp.HnpService: allocate for node:[10.62.67.28], with slot=[1]
+13/09/27 06:52:41 INFO hnp.HnpService: allocate for node:[10.62.67.19], with slot=[1]
+13/09/27 06:52:41 INFO hnp.HnpService: allocate for node:[10.62.67.18], with slot=[1]
+13/09/27 06:52:41 INFO hnp.HnpService: allocate for node:[10.62.67.17], with slot=[1]
+13/09/27 06:52:41 INFO hnp.HnpService: allocate for node:[10.62.67.15], with slot=[1]
+13/09/27 06:52:41 INFO hnp.HnpService: allocate for node:[10.62.67.20], with slot=[1]
+13/09/27 06:52:41 INFO hnp.HnpService: allocate for node:[10.62.67.16], with slot=[1]
+13/09/27 06:52:41 INFO hnp.HnpService: allocate for node:[10.62.67.21], with slot=[1]
+13/09/27 06:52:41 INFO hnp.HnpService: allocate for node:[10.62.67.22], with slot=[1]
+13/09/27 06:52:41 INFO hnp.HnpService: allocate for node:[10.62.67.13], with slot=[1]
+13/09/27 06:52:41 INFO hnp.HnpService: allocate for node:[10.62.67.31], with slot=[1]
+13/09/27 06:52:41 INFO hnp.HnpService: allocate for node:[10.62.67.32], with slot=[1]
+13/09/27 06:52:41 INFO hnp.HnpService: allocate for node:[10.62.67.14], with slot=[1]
+13/09/27 06:52:41 INFO hnp.HnpService: allocate for node:[10.62.67.11], with slot=[1]
+13/09/27 06:52:41 INFO hnp.HnpService: allocate for node:[10.62.67.24], with slot=[1]
+13/09/27 06:52:41 INFO hnp.HnpService: allocate for node:[10.62.67.25], with slot=[1]
+13/09/27 06:52:41 INFO hnp.HnpService: allocate for node:[10.62.67.12], with slot=[1]
+13/09/27 06:52:41 INFO hnp.HnpService: allocate for node:[10.62.67.26], with slot=[1]
+13/09/27 06:52:41 INFO hnp.HnpService: allocate for node:[10.62.67.27], with slot=[1]
+13/09/27 06:52:41 INFO hnp.HnpService: recv [LAUNCH] request from HNP
+13/09/27 06:52:41 INFO hnp.HnpService: map processes to allocated containers
+13/09/27 06:52:41 INFO hnp.HnpService: launch process in host:[10.62.67.29], process={0,1}
+13/09/27 06:52:41 INFO hnp.HnpService: launch process in host:[10.62.67.28], process={0,2}
+13/09/27 06:52:41 INFO hnp.HnpService: launch process in host:[10.62.67.19], process={0,3}
+13/09/27 06:52:41 INFO hnp.HnpService: launch process in host:[10.62.67.18], process={0,4}
+13/09/27 06:52:41 INFO hnp.HnpService: launch process in host:[10.62.67.17], process={0,5}
+13/09/27 06:52:41 INFO hnp.HnpService: launch process in host:[10.62.67.15], process={0,6}
+13/09/27 06:52:41 INFO hnp.HnpService: launch process in host:[10.62.67.20], process={0,7}
+13/09/27 06:52:41 INFO hnp.HnpService: launch process in host:[10.62.67.16], process={0,8}
+13/09/27 06:52:41 INFO hnp.HnpService: launch process in host:[10.62.67.21], process={0,9}
+13/09/27 06:52:41 INFO hnp.HnpService: launch process in host:[10.62.67.22], process={0,10}
+13/09/27 06:52:41 INFO hnp.HnpService: launch process in host:[10.62.67.13], process={0,11}
+13/09/27 06:52:41 INFO hnp.HnpService: launch process in host:[10.62.67.31], process={0,12}
+13/09/27 06:52:41 INFO hnp.HnpService: launch process in host:[10.62.67.14], process={0,13}
+13/09/27 06:52:41 INFO hnp.HnpService: launch process in host:[10.62.67.11], process={0,14}
+13/09/27 06:52:41 INFO hnp.HnpService: launch process in host:[10.62.67.24], process={0,15}
+13/09/27 06:52:41 INFO hnp.HnpService: launch process in host:[10.62.67.25], process={0,16}
+13/09/27 06:52:41 INFO hnp.HnpService: launch process in host:[10.62.67.12], process={0,17}
+13/09/27 06:52:41 INFO hnp.HnpService: launch process in host:[10.62.67.26], process={0,18}
+13/09/27 06:52:41 INFO hnp.HnpService: launch process in host:[10.62.67.27], process={0,19}
+13/09/27 06:52:41 INFO hnp.HnpService: after map processes to allocated containers
+13/09/27 06:52:41 INFO launcher.YarnContainerLauncher: before submit launch tasks
+13/09/27 06:52:41 INFO launcher.YarnContainerLauncher: do launch for process:{0,1}
+13/09/27 06:52:41 INFO launcher.YarnContainerLauncher: do launch for process:{0,2}
+13/09/27 06:52:41 INFO launcher.YarnContainerLauncher: do launch for process:{0,3}
+13/09/27 06:52:41 INFO launcher.YarnContainerLauncher: do launch for process:{0,4}
+13/09/27 06:52:41 INFO launcher.YarnContainerLauncher: do launch for process:{0,5}
+13/09/27 06:52:41 INFO launcher.YarnContainerLauncher: do launch for process:{0,6}
+13/09/27 06:52:41 INFO launcher.YarnContainerLauncher: do launch for process:{0,7}
+13/09/27 06:52:41 INFO launcher.YarnContainerLauncher: do launch for process:{0,8}
+13/09/27 06:52:41 INFO launcher.YarnContainerLauncher: do launch for process:{0,9}
+13/09/27 06:52:41 INFO launcher.YarnContainerLauncher: do launch for process:{0,10}
+13/09/27 06:52:41 INFO launcher.YarnContainerLauncher: after submit launch tasks
+13/09/27 06:52:41 INFO launcher.YarnContainerLauncher: before send start container request for {0,2}
+13/09/27 06:52:41 INFO launcher.YarnContainerLauncher: before send start container request for {0,4}
+13/09/27 06:52:41 INFO launcher.YarnContainerLauncher: before send start container request for {0,8}
+13/09/27 06:52:41 INFO launcher.YarnContainerLauncher: before send start container request for {0,6}
+13/09/27 06:52:41 INFO launcher.YarnContainerLauncher: before send start container request for {0,7}
+13/09/27 06:52:41 INFO launcher.YarnContainerLauncher: before send start container request for {0,1}
+13/09/27 06:52:41 INFO launcher.YarnContainerLauncher: before send start container request for {0,10}
+13/09/27 06:52:41 INFO launcher.YarnContainerLauncher: before send start container request for {0,3}
+13/09/27 06:52:41 INFO launcher.YarnContainerLauncher: before send start container request for {0,5}
+13/09/27 06:52:41 INFO launcher.YarnContainerLauncher: before send start container request for {0,9}
+13/09/27 06:52:41 INFO launcher.YarnContainerLauncher: after send start container request for {0,1}
+13/09/27 06:52:41 INFO launcher.YarnContainerLauncher: after send start container request for {0,3}
+13/09/27 06:52:41 INFO launcher.YarnContainerLauncher: after do launch for process:{0,1}
+13/09/27 06:52:41 INFO launcher.YarnContainerLauncher: after send start container request for {0,10}
+13/09/27 06:52:41 INFO launcher.YarnContainerLauncher: after send start container request for {0,5}
+13/09/27 06:52:41 INFO launcher.YarnContainerLauncher: after send start container request for {0,8}
+13/09/27 06:52:41 INFO launcher.YarnContainerLauncher: after send start container request for {0,4}
+13/09/27 06:52:41 INFO launcher.YarnContainerLauncher: after send start container request for {0,9}
+13/09/27 06:52:41 INFO launcher.YarnContainerLauncher: after do launch for process:{0,4}
+13/09/27 06:52:41 INFO launcher.YarnContainerLauncher: after send start container request for {0,6}
+13/09/27 06:52:41 INFO launcher.YarnContainerLauncher: after do launch for process:{0,8}
+13/09/27 06:52:41 INFO launcher.YarnContainerLauncher: after do launch for process:{0,5}
+13/09/27 06:52:41 INFO launcher.YarnContainerLauncher: after do launch for process:{0,10}
+13/09/27 06:52:41 INFO launcher.YarnContainerLauncher: do launch for process:{0,11}
+13/09/27 06:52:41 INFO launcher.YarnContainerLauncher: after do launch for process:{0,3}
+13/09/27 06:52:41 INFO launcher.YarnContainerLauncher: do launch for process:{0,15}
+13/09/27 06:52:41 INFO launcher.YarnContainerLauncher: do launch for process:{0,14}
+13/09/27 06:52:41 INFO launcher.YarnContainerLauncher: do launch for process:{0,13}
+13/09/27 06:52:41 INFO launcher.YarnContainerLauncher: after do launch for process:{0,6}
+13/09/27 06:52:41 INFO launcher.YarnContainerLauncher: do launch for process:{0,12}
+13/09/27 06:52:41 INFO launcher.YarnContainerLauncher: after do launch for process:{0,9}
+13/09/27 06:52:41 INFO launcher.YarnContainerLauncher: do launch for process:{0,17}
+13/09/27 06:52:41 INFO launcher.YarnContainerLauncher: do launch for process:{0,16}
+13/09/27 06:52:41 INFO launcher.YarnContainerLauncher: after send start container request for {0,7}
+13/09/27 06:52:41 INFO launcher.YarnContainerLauncher: do launch for process:{0,18}
+13/09/27 06:52:41 INFO launcher.YarnContainerLauncher: after send start container request for {0,2}
+13/09/27 06:52:41 INFO launcher.YarnContainerLauncher: before send start container request for {0,11}
+13/09/27 06:52:41 INFO launcher.YarnContainerLauncher: after do launch for process:{0,7}
+13/09/27 06:52:41 INFO launcher.YarnContainerLauncher: after do launch for process:{0,2}
+13/09/27 06:52:41 INFO launcher.YarnContainerLauncher: do launch for process:{0,19}
+13/09/27 06:52:41 INFO launcher.YarnContainerLauncher: before send start container request for {0,15}
+13/09/27 06:52:41 INFO launcher.YarnContainerLauncher: before send start container request for {0,14}
+13/09/27 06:52:41 INFO launcher.YarnContainerLauncher: before send start container request for {0,16}
+13/09/27 06:52:41 INFO launcher.YarnContainerLauncher: before send start container request for {0,13}
+13/09/27 06:52:41 INFO launcher.YarnContainerLauncher: before send start container request for {0,18}
+13/09/27 06:52:41 INFO launcher.YarnContainerLauncher: before send start container request for {0,19}
+13/09/27 06:52:41 INFO launcher.YarnContainerLauncher: before send start container request for {0,12}
+13/09/27 06:52:41 INFO launcher.YarnContainerLauncher: before send start container request for {0,17}
+13/09/27 06:52:41 INFO launcher.YarnContainerLauncher: after send start container request for {0,11}
+13/09/27 06:52:41 INFO launcher.YarnContainerLauncher: after do launch for process:{0,11}
+13/09/27 06:52:41 INFO launcher.YarnContainerLauncher: after send start container request for {0,15}
+13/09/27 06:52:41 INFO launcher.YarnContainerLauncher: after do launch for process:{0,15}
+13/09/27 06:52:41 INFO launcher.YarnContainerLauncher: after send start container request for {0,13}
+13/09/27 06:52:41 INFO launcher.YarnContainerLauncher: after do launch for process:{0,13}
+13/09/27 06:52:41 INFO launcher.YarnContainerLauncher: after send start container request for {0,16}
+13/09/27 06:52:41 INFO launcher.YarnContainerLauncher: after do launch for process:{0,16}
+13/09/27 06:52:41 INFO launcher.YarnContainerLauncher: after send start container request for {0,18}
+13/09/27 06:52:41 INFO launcher.YarnContainerLauncher: after do launch for process:{0,18}
+13/09/27 06:52:41 INFO launcher.YarnContainerLauncher: after send start container request for {0,14}
+13/09/27 06:52:41 INFO launcher.YarnContainerLauncher: after do launch for process:{0,14}
+13/09/27 06:52:41 INFO launcher.YarnContainerLauncher: after send start container request for {0,19}
+13/09/27 06:52:41 INFO launcher.YarnContainerLauncher: after do launch for process:{0,19}
+13/09/27 06:52:41 INFO launcher.YarnContainerLauncher: after send start container request for {0,12}
+13/09/27 06:52:41 INFO launcher.YarnContainerLauncher: after do launch for process:{0,12}
+13/09/27 06:52:41 INFO launcher.YarnContainerLauncher: after send start container request for {0,17}
+13/09/27 06:52:41 INFO launcher.YarnContainerLauncher: after do launch for process:{0,17}
+13/09/27 06:52:41 INFO launcher.YarnContainerLauncher: STATISTIC: launch time is :0.107 seconds
+13/09/27 06:52:41 INFO hnp.HnpService: after launch processes
+13/09/27 06:52:41 INFO hnp.HnpService: recved 19 proc to be launched from HNP
+13/09/27 06:52:41 INFO hnp.HnpService: send 19 launch results to HNP
+13/09/27 06:52:42 INFO hnp.HnpService: recv [LAUNCH] request from HNP
+13/09/27 06:52:42 INFO hnp.HnpService: map processes to allocated containers
+13/09/27 06:52:42 INFO hnp.HnpService: launch process in host:[10.62.67.32], process={1,0}
+13/09/27 06:52:42 INFO hnp.HnpService: launch process in host:[10.62.67.29], process={1,1}
+13/09/27 06:52:42 INFO hnp.HnpService: launch process in host:[10.62.67.28], process={1,2}
+13/09/27 06:52:42 INFO hnp.HnpService: launch process in host:[10.62.67.19], process={1,3}
+13/09/27 06:52:42 INFO hnp.HnpService: launch process in host:[10.62.67.18], process={1,4}
+13/09/27 06:52:42 INFO hnp.HnpService: launch process in host:[10.62.67.17], process={1,5}
+13/09/27 06:52:42 INFO hnp.HnpService: launch process in host:[10.62.67.15], process={1,6}
+13/09/27 06:52:42 INFO hnp.HnpService: launch process in host:[10.62.67.20], process={1,7}
+13/09/27 06:52:42 INFO hnp.HnpService: launch process in host:[10.62.67.16], process={1,8}
+13/09/27 06:52:42 INFO hnp.HnpService: launch process in host:[10.62.67.21], process={1,9}
+13/09/27 06:52:42 INFO hnp.HnpService: launch process in host:[10.62.67.22], process={1,10}
+13/09/27 06:52:42 INFO hnp.HnpService: launch process in host:[10.62.67.13], process={1,11}
+13/09/27 06:52:42 INFO hnp.HnpService: launch process in host:[10.62.67.31], process={1,12}
+13/09/27 06:52:42 INFO hnp.HnpService: launch process in host:[10.62.67.14], process={1,13}
+13/09/27 06:52:42 INFO hnp.HnpService: launch process in host:[10.62.67.11], process={1,14}
+13/09/27 06:52:42 INFO hnp.HnpService: launch process in host:[10.62.67.24], process={1,15}
+13/09/27 06:52:42 INFO hnp.HnpService: launch process in host:[10.62.67.25], process={1,16}
+13/09/27 06:52:42 INFO hnp.HnpService: launch process in host:[10.62.67.12], process={1,17}
+13/09/27 06:52:42 INFO hnp.HnpService: launch process in host:[10.62.67.26], process={1,18}
+13/09/27 06:52:42 INFO hnp.HnpService: launch process in host:[10.62.67.27], process={1,19}
+13/09/27 06:52:42 INFO hnp.HnpService: after map processes to allocated containers
+13/09/27 06:52:42 INFO launcher.YarnContainerLauncher: before submit launch tasks
+13/09/27 06:52:42 INFO launcher.YarnContainerLauncher: do launch for process:{1,0}
+13/09/27 06:52:42 INFO launcher.YarnContainerLauncher: do launch for process:{1,1}
+13/09/27 06:52:42 INFO launcher.YarnContainerLauncher: do launch for process:{1,2}
+13/09/27 06:52:42 INFO launcher.YarnContainerLauncher: do launch for process:{1,3}
+13/09/27 06:52:42 INFO launcher.YarnContainerLauncher: do launch for process:{1,5}
+13/09/27 06:52:42 INFO launcher.YarnContainerLauncher: do launch for process:{1,4}
+13/09/27 06:52:42 INFO launcher.YarnContainerLauncher: do launch for process:{1,7}
+13/09/27 06:52:42 INFO launcher.YarnContainerLauncher: do launch for process:{1,6}
+13/09/27 06:52:42 INFO launcher.YarnContainerLauncher: do launch for process:{1,8}
+13/09/27 06:52:42 INFO launcher.YarnContainerLauncher: do launch for process:{1,9}
+13/09/27 06:52:42 INFO launcher.YarnContainerLauncher: after submit launch tasks
+13/09/27 06:52:42 INFO launcher.YarnContainerLauncher: before send start container request for {1,5}
+13/09/27 06:52:42 INFO launcher.YarnContainerLauncher: before send start container request for {1,2}
+13/09/27 06:52:42 INFO launcher.YarnContainerLauncher: before send start container request for {1,8}
+13/09/27 06:52:42 INFO launcher.YarnContainerLauncher: before send start container request for {1,9}
+13/09/27 06:52:42 INFO launcher.YarnContainerLauncher: before send start container request for {1,0}
+13/09/27 06:52:42 INFO launcher.YarnContainerLauncher: before send start container request for {1,3}
+13/09/27 06:52:42 INFO launcher.YarnContainerLauncher: before send start container request for {1,7}
+13/09/27 06:52:42 INFO launcher.YarnContainerLauncher: before send start container request for {1,6}
+13/09/27 06:52:42 INFO launcher.YarnContainerLauncher: before send start container request for {1,4}
+13/09/27 06:52:42 INFO launcher.YarnContainerLauncher: before send start container request for {1,1}
+13/09/27 06:52:42 INFO launcher.YarnContainerLauncher: after send start container request for {1,5}
+13/09/27 06:52:42 INFO launcher.YarnContainerLauncher: after send start container request for {1,2}
+13/09/27 06:52:42 INFO launcher.YarnContainerLauncher: after do launch for process:{1,5}
+13/09/27 06:52:42 INFO launcher.YarnContainerLauncher: after send start container request for {1,8}
+13/09/27 06:52:42 INFO launcher.YarnContainerLauncher: after do launch for process:{1,2}
+13/09/27 06:52:42 INFO launcher.YarnContainerLauncher: do launch for process:{1,11}
+13/09/27 06:52:42 INFO launcher.YarnContainerLauncher: after do launch for process:{1,8}
+13/09/27 06:52:42 INFO launcher.YarnContainerLauncher: do launch for process:{1,10}
+13/09/27 06:52:42 INFO launcher.YarnContainerLauncher: do launch for process:{1,12}
+13/09/27 06:52:42 INFO launcher.YarnContainerLauncher: before send start container request for {1,11}
+13/09/27 06:52:42 INFO launcher.YarnContainerLauncher: before send start container request for {1,12}
+13/09/27 06:52:42 INFO launcher.YarnContainerLauncher: before send start container request for {1,10}
+13/09/27 06:52:42 INFO launcher.YarnContainerLauncher: after send start container request for {1,3}
+13/09/27 06:52:42 INFO launcher.YarnContainerLauncher: after do launch for process:{1,3}
+13/09/27 06:52:42 INFO launcher.YarnContainerLauncher: do launch for process:{1,13}
+13/09/27 06:52:42 INFO launcher.YarnContainerLauncher: after send start container request for {1,9}
+13/09/27 06:52:42 INFO launcher.YarnContainerLauncher: after do launch for process:{1,9}
+13/09/27 06:52:42 INFO launcher.YarnContainerLauncher: after send start container request for {1,4}
+13/09/27 06:52:42 INFO launcher.YarnContainerLauncher: do launch for process:{1,14}
+13/09/27 06:52:42 INFO launcher.YarnContainerLauncher: after do launch for process:{1,4}
+13/09/27 06:52:42 INFO launcher.YarnContainerLauncher: do launch for process:{1,15}
+13/09/27 06:52:42 INFO launcher.YarnContainerLauncher: before send start container request for {1,13}
+13/09/27 06:52:42 INFO launcher.YarnContainerLauncher: after send start container request for {1,0}
+13/09/27 06:52:42 INFO launcher.YarnContainerLauncher: after send start container request for {1,6}
+13/09/27 06:52:42 INFO launcher.YarnContainerLauncher: after do launch for process:{1,0}
+13/09/27 06:52:42 INFO launcher.YarnContainerLauncher: after send start container request for {1,7}
+13/09/27 06:52:42 INFO launcher.YarnContainerLauncher: do launch for process:{1,16}
+13/09/27 06:52:42 INFO launcher.YarnContainerLauncher: after do launch for process:{1,6}
+13/09/27 06:52:42 INFO launcher.YarnContainerLauncher: before send start container request for {1,14}
+13/09/27 06:52:42 INFO launcher.YarnContainerLauncher: after do launch for process:{1,7}
+13/09/27 06:52:42 INFO launcher.YarnContainerLauncher: do launch for process:{1,17}
+13/09/27 06:52:42 INFO launcher.YarnContainerLauncher: after send start container request for {1,1}
+13/09/27 06:52:42 INFO launcher.YarnContainerLauncher: do launch for process:{1,18}
+13/09/27 06:52:42 INFO launcher.YarnContainerLauncher: before send start container request for {1,15}
+13/09/27 06:52:42 INFO launcher.YarnContainerLauncher: after do launch for process:{1,1}
+13/09/27 06:52:42 INFO launcher.YarnContainerLauncher: do launch for process:{1,19}
+13/09/27 06:52:42 INFO launcher.YarnContainerLauncher: before send start container request for {1,16}
+13/09/27 06:52:42 INFO launcher.YarnContainerLauncher: after send start container request for {1,12}
+13/09/27 06:52:42 INFO launcher.YarnContainerLauncher: after do launch for process:{1,12}
+13/09/27 06:52:42 INFO launcher.YarnContainerLauncher: before send start container request for {1,17}
+13/09/27 06:52:42 INFO launcher.YarnContainerLauncher: after send start container request for {1,10}
+13/09/27 06:52:42 INFO launcher.YarnContainerLauncher: after do launch for process:{1,10}
+13/09/27 06:52:42 INFO launcher.YarnContainerLauncher: before send start container request for {1,18}
+13/09/27 06:52:42 INFO launcher.YarnContainerLauncher: after send start container request for {1,11}
+13/09/27 06:52:42 INFO launcher.YarnContainerLauncher: after do launch for process:{1,11}
+13/09/27 06:52:42 INFO launcher.YarnContainerLauncher: before send start container request for {1,19}
+13/09/27 06:52:42 INFO launcher.YarnContainerLauncher: after send start container request for {1,13}
+13/09/27 06:52:42 INFO launcher.YarnContainerLauncher: after send start container request for {1,14}
+13/09/27 06:52:42 INFO launcher.YarnContainerLauncher: after do launch for process:{1,13}
+13/09/27 06:52:42 INFO launcher.YarnContainerLauncher: after do launch for process:{1,14}
+13/09/27 06:52:42 INFO launcher.YarnContainerLauncher: after send start container request for {1,15}
+13/09/27 06:52:42 INFO launcher.YarnContainerLauncher: after do launch for process:{1,15}
+13/09/27 06:52:42 INFO launcher.YarnContainerLauncher: after send start container request for {1,17}
+13/09/27 06:52:42 INFO launcher.YarnContainerLauncher: after do launch for process:{1,17}
+13/09/27 06:52:42 INFO launcher.YarnContainerLauncher: after send start container request for {1,18}
+13/09/27 06:52:42 INFO launcher.YarnContainerLauncher: after do launch for process:{1,18}
+13/09/27 06:52:42 INFO launcher.YarnContainerLauncher: after send start container request for {1,16}
+13/09/27 06:52:42 INFO launcher.YarnContainerLauncher: after do launch for process:{1,16}
+13/09/27 06:52:42 INFO launcher.YarnContainerLauncher: after send start container request for {1,19}
+13/09/27 06:52:42 INFO launcher.YarnContainerLauncher: after do launch for process:{1,19}
+13/09/27 06:52:42 INFO launcher.YarnContainerLauncher: STATISTIC: launch time is :0.052 seconds
+13/09/27 06:52:42 INFO hnp.HnpService: after launch processes
+13/09/27 06:52:42 INFO hnp.HnpService: recved 20 proc to be launched from HNP
+13/09/27 06:52:42 INFO hnp.HnpService: send 20 launch results to HNP
+13/09/27 06:52:43 WARN hnp.HnpService: get a completed container but not associate to a existing process, containerid=4
+13/09/27 06:52:43 WARN hnp.HnpService: get a completed container but not associate to a existing process, containerid=5
+13/09/27 06:52:43 WARN hnp.HnpService: get a completed container but not associate to a existing process, containerid=9
+13/09/27 06:52:43 WARN hnp.HnpService: get a completed container but not associate to a existing process, containerid=10
+13/09/27 06:52:43 WARN hnp.HnpService: get a completed container but not associate to a existing process, containerid=14
+13/09/27 06:52:43 WARN hnp.HnpService: get a completed container but not associate to a existing process, containerid=15
+13/09/27 06:52:43 WARN hnp.HnpService: get a completed container but not associate to a existing process, containerid=18
+13/09/27 06:52:43 WARN hnp.HnpService: get a completed container but not associate to a existing process, containerid=19
+13/09/27 06:52:43 WARN hnp.HnpService: get a completed container but not associate to a existing process, containerid=23
+13/09/27 06:52:43 WARN hnp.HnpService: get a completed container but not associate to a existing process, containerid=24
+13/09/27 06:52:43 WARN hnp.HnpService: get a completed container but not associate to a existing process, containerid=28
+13/09/27 06:52:43 WARN hnp.HnpService: get a completed container but not associate to a existing process, containerid=29
+13/09/27 06:52:43 WARN hnp.HnpService: get a completed container but not associate to a existing process, containerid=33
+13/09/27 06:52:43 WARN hnp.HnpService: get a completed container but not associate to a existing process, containerid=34
+13/09/27 06:52:43 WARN hnp.HnpService: get a completed container but not associate to a existing process, containerid=38
+13/09/27 06:52:43 WARN hnp.HnpService: get a completed container but not associate to a existing process, containerid=39
+13/09/27 06:52:43 WARN hnp.HnpService: get a completed container but not associate to a existing process, containerid=43
+13/09/27 06:52:43 WARN hnp.HnpService: get a completed container but not associate to a existing process, containerid=44
+13/09/27 06:52:43 WARN hnp.HnpService: get a completed container but not associate to a existing process, containerid=48
+13/09/27 06:52:43 WARN hnp.HnpService: get a completed container but not associate to a existing process, containerid=49
+13/09/27 06:52:43 WARN hnp.HnpService: get a completed container but not associate to a existing process, containerid=53
+13/09/27 06:52:43 WARN hnp.HnpService: get a completed container but not associate to a existing process, containerid=54
+13/09/27 06:52:43 WARN hnp.HnpService: get a completed container but not associate to a existing process, containerid=58
+13/09/27 06:52:43 WARN hnp.HnpService: get a completed container but not associate to a existing process, containerid=59
+13/09/27 06:52:43 WARN hnp.HnpService: get a completed container but not associate to a existing process, containerid=63
+13/09/27 06:52:43 WARN hnp.HnpService: get a completed container but not associate to a existing process, containerid=64
+13/09/27 06:52:43 WARN hnp.HnpService: get a completed container but not associate to a existing process, containerid=69
+13/09/27 06:52:43 WARN hnp.HnpService: get a completed container but not associate to a existing process, containerid=70
+13/09/27 06:52:43 WARN hnp.HnpService: get a completed container but not associate to a existing process, containerid=74
+13/09/27 06:52:43 WARN hnp.HnpService: get a completed container but not associate to a existing process, containerid=75
+13/09/27 06:52:43 WARN hnp.HnpService: get a completed container but not associate to a existing process, containerid=79
+13/09/27 06:52:43 WARN hnp.HnpService: get a completed container but not associate to a existing process, containerid=80
+13/09/27 06:52:43 WARN hnp.HnpService: get a completed container but not associate to a existing process, containerid=85
+13/09/27 06:52:43 WARN hnp.HnpService: get a completed container but not associate to a existing process, containerid=86
+13/09/27 06:52:43 WARN hnp.HnpService: get a completed container but not associate to a existing process, containerid=90
+13/09/27 06:52:43 WARN hnp.HnpService: get a completed container but not associate to a existing process, containerid=91
+13/09/27 06:52:43 WARN hnp.HnpService: get a completed container but not associate to a existing process, containerid=6
+13/09/27 06:52:43 WARN hnp.HnpService: get a completed container but not associate to a existing process, containerid=16
+13/09/27 06:52:43 WARN hnp.HnpService: get a completed container but not associate to a existing process, containerid=20
+13/09/27 06:52:43 WARN hnp.HnpService: get a completed container but not associate to a existing process, containerid=25
+13/09/27 06:52:43 WARN hnp.HnpService: get a completed container but not associate to a existing process, containerid=30
+13/09/27 06:52:43 WARN hnp.HnpService: get a completed container but not associate to a existing process, containerid=35
+13/09/27 06:52:43 WARN hnp.HnpService: get a completed container but not associate to a existing process, containerid=40
+13/09/27 06:52:43 WARN hnp.HnpService: get a completed container but not associate to a existing process, containerid=45
+13/09/27 06:52:43 WARN hnp.HnpService: get a completed container but not associate to a existing process, containerid=60
+13/09/27 06:52:43 WARN hnp.HnpService: get a completed container but not associate to a existing process, containerid=65
+13/09/27 06:52:43 WARN hnp.HnpService: get a completed container but not associate to a existing process, containerid=71
+13/09/27 06:52:43 WARN hnp.HnpService: get a completed container but not associate to a existing process, containerid=76
+13/09/27 06:52:43 WARN hnp.HnpService: get a completed container but not associate to a existing process, containerid=92
+13/09/27 06:52:43 WARN hnp.HnpService: get a completed container but not associate to a existing process, containerid=93
+13/09/27 06:52:43 WARN hnp.HnpService: get a completed container but not associate to a existing process, containerid=94
+13/09/27 06:52:43 WARN hnp.HnpService: get a completed container but not associate to a existing process, containerid=95
+13/09/27 06:52:43 WARN hnp.HnpService: get a completed container but not associate to a existing process, containerid=96
+13/09/27 06:52:43 WARN hnp.HnpService: get a completed container but not associate to a existing process, containerid=97
+13/09/27 06:52:43 WARN hnp.HnpService: get a completed container but not associate to a existing process, containerid=98
+13/09/27 06:52:43 WARN hnp.HnpService: get a completed container but not associate to a existing process, containerid=99
+13/09/27 06:52:43 WARN hnp.HnpService: get a completed container but not associate to a existing process, containerid=100
+13/09/27 06:52:43 WARN hnp.HnpService: get a completed container but not associate to a existing process, containerid=101
+13/09/27 06:52:43 WARN hnp.HnpService: get a completed container but not associate to a existing process, containerid=102
+13/09/27 06:52:43 WARN hnp.HnpService: get a completed container but not associate to a existing process, containerid=103
+13/09/27 06:52:43 WARN hnp.HnpService: get a completed container but not associate to a existing process, containerid=104
+13/09/27 06:52:43 WARN hnp.HnpService: get a completed container but not associate to a existing process, containerid=105
+13/09/27 06:52:43 WARN hnp.HnpService: get a completed container but not associate to a existing process, containerid=106
+13/09/27 06:52:43 WARN hnp.HnpService: get a completed container but not associate to a existing process, containerid=107
+13/09/27 06:52:43 WARN hnp.HnpService: get a completed container but not associate to a existing process, containerid=108
+13/09/27 06:52:43 WARN hnp.HnpService: get a completed container but not associate to a existing process, containerid=109
+13/09/27 06:52:43 WARN hnp.HnpService: get a completed container but not associate to a existing process, containerid=110
+13/09/27 06:52:43 WARN hnp.HnpService: get a completed container but not associate to a existing process, containerid=111
+13/09/27 06:52:43 WARN hnp.HnpService: get a completed container but not associate to a existing process, containerid=112
+13/09/27 06:52:43 WARN hnp.HnpService: get a completed container but not associate to a existing process, containerid=113
+13/09/27 06:52:43 WARN hnp.HnpService: get a completed container but not associate to a existing process, containerid=114
+13/09/27 06:52:43 WARN hnp.HnpService: get a completed container but not associate to a existing process, containerid=115
+13/09/27 06:52:43 WARN hnp.HnpService: get a completed container but not associate to a existing process, containerid=116
+13/09/27 06:52:43 WARN hnp.HnpService: get a completed container but not associate to a existing process, containerid=117
+Sep 27, 2013 6:52:45 AM com.google.inject.servlet.InternalServletModule$BackwardsCompatibleServletContextProvider get
+WARNING: You are attempting to use a deprecated API (specifically, attempting to @Inject ServletContext inside an eagerly created singleton. While we allow this for backwards compatibility, be warned that this MAY have unexpected behavior if you have more than one injector (with ServletModule) running in the same JVM. Please consult the Guice documentation at http://code.google.com/p/google-guice/wiki/Servlets for more information.
+13/09/27 06:52:46 INFO allocator.YarnContainerAllocator: release containers to RM, container_id=121
+13/09/27 06:52:46 INFO allocator.YarnContainerAllocator: release containers to RM, container_id=66
+13/09/27 06:52:47 WARN hnp.HnpService: get a completed container but not associate to a existing process, containerid=121
+13/09/27 06:52:47 WARN hnp.HnpService: get a completed container but not associate to a existing process, containerid=66
+13/09/27 06:52:51 INFO allocator.YarnContainerAllocator: release containers to RM, container_id=122
+13/09/27 06:52:51 INFO allocator.YarnContainerAllocator: release containers to RM, container_id=123
+13/09/27 06:52:52 WARN hnp.HnpService: get a completed container but not associate to a existing process, containerid=122
+13/09/27 06:52:52 WARN hnp.HnpService: get a completed container but not associate to a existing process, containerid=123
+13/09/27 07:14:48 INFO hnp.HnpService: recv [FINISH] request from HNP
+13/09/27 07:14:48 INFO hnp.HnpService: HNP report succeed
+13/09/27 07:14:48 INFO hnp.HnpService: HNP reported succeed, terminate job
+13/09/27 07:14:48 INFO event.HamsterEventHandler: received [SUCCEED] event
+13/09/27 07:14:48 INFO event.HamsterEventHandler: complete job
+13/09/27 07:14:48 INFO appmaster.HamsterAppMaster: HamsterAppMaster received a signal to stop
+13/09/27 07:14:48 INFO hnp.DefaultHnpLauncher: stop hnp launcher
+13/09/27 07:14:48 INFO launcher.YarnContainerLauncher: stop succeed
+13/09/27 07:14:48 INFO allocator.YarnContainerAllocator: stop succeed
+13/09/27 07:14:48 INFO service.AbstractService: Service:com.pivotal.hamster.appmaster.hnp.HnpLivenessMonitor is stopped.
+13/09/27 07:14:48 INFO util.AbstractLivelinessMonitor: com.pivotal.hamster.appmaster.hnp.HnpLivenessMonitor thread interrupted
+
+total:
+real    22m15.182s
+user    0m12.213s
+sys    0m2.760s
+
+

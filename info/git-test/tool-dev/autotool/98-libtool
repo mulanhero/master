@@ -1,0 +1,26 @@
+1. and  'ACLOCAL_AMFLAGS = -I m4'  in root Makefile.am
+
+2. add the followings in configure.ac
+AC_PROG_LIBTOOL
+LT_INIT
+#if we will create lib
+AC_PROG_RANLIB
+
+3. add m4 dir and files  (add aclocal.m4, not sure) 
+
+
+/***********************************************\
+lib example
+\***********************************************/
+1. example Makefile.am
+lib_LTLIBRARIES = libcommon.la
+libcommon_la_SOURCES = 	argv.c	\
+						argv.h	\
+						constants.h	
+2. use lib**.la
+##AM_CPPFLAGS = -arch x86_64 -I/usr/local/include
+AM_CPPFLAGS = -I../util
+LDADD = -L../util -lcommon
+
+bin_PROGRAMS = argv-main
+argv_main_SOURCES = argv_main.c		

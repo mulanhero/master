@@ -1,0 +1,34 @@
+1. 
+$ edit hello.c
+$ git rm goodbye.c
+$ git add hello.c
+$ git commit
+
+2. 
+$ edit hello.c
+$ rm goodbye.c
+$ git commit -a
+
+3. 
+After staging changes to many files, you can alter the order the changes are recorded in, by giving pathnames to git commit. When pathnames are given, the command makes a commit that only records the changes made to the named paths:
+
+$ edit hello.c hello.h
+$ git add hello.c hello.h
+$ edit Makefile
+$ git commit Makefile
+This makes a commit that records the modification to Makefile. The changes staged for hello.c and hello.h are not included in the resulting commit. However, their changes are not lost — they are still staged and merely held back. After the above sequence, if you do:
+
+$ git commit
+this second commit would record the changes to hello.c and hello.h as expected.
+
+//======================
+Adds content from all *.txt files under Documentation directory and its subdirectories:
+
+$ git add Documentation/\*.txt
+Note that the asterisk * is quoted from the shell in this example; this lets the command include the files from subdirectories of Documentation/ directory.
+
+Considers adding content from all git-*.sh scripts:
+
+$ git add git-*.sh
+Because this example lets the shell expand the asterisk (i.e. you are listing the files explicitly), it does not consider subdir/git-foo.sh.
+

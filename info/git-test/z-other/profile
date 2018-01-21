@@ -1,0 +1,139 @@
+export CLICOLOR=1
+alias grep='grep --color=auto'
+alias vi='vim'
+alias ll='ls -l'
+
+alias rm='rm -i'
+alias cp='cp -i'
+alias mv='mv -i'
+alias hh='history'
+
+export pp=/Users/caoj7/workspace-j/pandora
+
+PS1='[\u@\h \W]\$'
+
+export PATH=/Users/caoj7/workspace-j/pandora/target/pandora-0.0.1-SNAPSHOT-bin/bin:$PATH
+
+#boost
+#export BOOST_ROOT=/Users/caoj7/program/common-c/boost-1.55.0
+#export DYLD_LIBRARY_PATH=$BOOST_ROOT/lib:$DYLD_LIBRARY_PATH
+#export C_INCLUDE_PATH=$BOOST_ROOT/include:$C_INCLUDE_PATH
+
+#libxml2
+#export PATH=/Users/caoj7/program/common-c/libxml2-2.6.30/bin:$PATH
+#export DYLD_LIBRARY_PATH=/Users/caoj7/program/common-c/libxml2-2.6.30/lib:$DYLD_LIBRARY_PATH
+#export C_INCLUDE_PATH=/Users/caoj7/program/common-c/libxml2-2.6.30/include:$C_INCLUDE_PATH
+
+#kerberos
+#export PATH=/Users/caoj7/program/common-c/kerberos/bin:/Users/caoj7/program/common-c/kerberos/sbin:$PATH
+#export DYLD_LIBRARY_PATH=/Users/caoj7/program/common-c/kerberos/lib:$DYLD_LIBRARY_PATH
+#export C_INCLUDE_PATH=/Users/caoj7/program/common-c/kerberos/include:$C_INCLUDE_PATH
+
+#uuid
+#export DYLD_LIBRARY_PATH=/Users/caoj7/program/common-c/libuuid/lib:$DYLD_LIBRARY_PATH
+#export C_INCLUDE_PATH=/Users/caoj7/program/common-c/libuuid/include:$C_INCLUDE_PATH
+
+
+#gsasl
+#export GSASL_LIBRARIES=/Users/caoj7/program/common-c/libgsasl/lib
+#export GSASL_INCLUDE_DIR=/Users/caoj7/program/common-c/libgsasl/include
+#export DYLD_LIBRARY_PATH=/Users/caoj7/program/common-c/libgsasl/lib:$DYLD_LIBRARY_PATH
+#export C_INCLUDE_PATH=/Users/caoj7/program/common-c/libgsasl/include:$C_INCLUDE_PATH
+#----------------------------------------------------------------------------
+
+#sid
+export PATH=/Users/caoj7/program/common-c/ersatz-setsid:$PATH
+
+#tomcat
+export CATALINA_HOME=/Users/caoj7/program/apache-tomcat-8.0.5
+export PATH=$CATALINA_HOME/bin:$PATH
+export CLASSPATH=$CATALINA_HOME/lib:$CLASSPATH
+
+
+#autotools, cmake
+#m4 => autoconf => automake => libtool => flex 
+export PATH=/Users/caoj7/program/common-c/bin:$PATH
+export DYLD_LIBRARY_PATH=/Users/caoj7/program/common-c/lib:$DYLD_LIBRARY_PATH
+export C_INCLUDE_PATH=/Users/caoj7/program/common-c/include:$C_INCLUDE_PATH
+
+
+
+#protobuf-2.5.0
+#export PATH=/Users/caoj7/program/common-c/protobuf-2.5.0/bin:$PATH
+#export DYLD_LIBRARY_PATH=/Users/caoj7/program/common-c/protobuf-2.5.0/lib:$DY_LIBRARY_PATH
+#export C_INCLUDE_PATH=/Users/caoj7/program/common-c/protobuf-2.5.0/include:$C_INCLUDE_PATH
+
+
+#protobuf-c
+export PATH=/Users/caoj7/program/common-c/protobuf-c-0.15/bin:$PATH
+export DYLD_LIBRARY_PATH=/Users/caoj7/program/common-c/protobuf-c-0.15/lib:$DY_LIBRARY_PATH
+export C_INCLUDE_PATH=/Users/caoj7/program/common-c/protobuf-c-0.15/include:$C_INCLUDE_PATH
+
+
+#orte
+export HRTE_HOME=/Users/caoj7/program/orte
+export PATH=$HRTE_HOME/bin:$PATH
+export DYLD_LIBRARY_PATH=$HRTE_HOME/lib:$HRTE_HOME/lib/openmpi:$DYLD_LIBRARY_PATH
+export C_INCLUDE_PATH=$HRTE_HOME/include:$C_INCLUDE_PATH
+
+
+#export OMPI_MCA_rmaps_base_display_map=1
+
+#export OMPI_MCA_ras_base_verbose=5
+#export OMPI_MCA_plm_base_verbose=5
+#export OMPI_MCA_odls_base_verbose=5
+#export OMPI_MCA_state_base_verbose=5
+
+#export OMPI_MCA_rte_base_verbose=5
+#export OMPI_MCA_pubsub_base_verbose=5
+#export OMPI_MCA_dpm_base_verbose=5
+#export OMPI_MCA_errmgr_base_verbose=5
+#export OMPI_MCA_rmaps_base_verbose=5
+#export OMPI_MCA_nidmap_verbose=10
+#export OMPI_MCA_ess_base_verbose=5
+#export OMPI_MCA_routed_base_verbose=5
+#export OMPI_MCA_grpcomm_base_verbos=5
+#export OMPI_MCA_rml_base_verbose=5
+#export OMPI_MCA_dfs_base_verbose=5
+#export OMPI_MCA_orte_default_hostfile=~/orte_hosts
+#export OMPI_MCA_mrplus_jobclient_verbose=5
+
+
+#OMPI_MCA_state=yarn
+#OMPI_MCA_ras=yarn
+#OMPI_MCA_plm=yarn
+#OMPI_MCA_odls=yarn
+
+###############################################################
+#JAVA_HOME
+export JAVA_HOME=$(/usr/libexec/java_home)
+
+#ant
+export PATH=/Users/caoj7/program/common-j/apache-ant-1.9.1/bin:$PATH
+
+#maven
+export PATH=/Users/caoj7/program/common-j/apache-maven-3.0.5/bin:$PATH
+
+#hadoop
+export HADOOP_HOME=/Users/caoj7/program/hadoop-2.2.1
+#export HADOOP_HOME=/hdfs_nfs/hadoop-2.2.0
+export HADOOP_COMMON_HOME=$HADOOP_HOME
+export HADOOP_HDFS_HOME=$HADOOP_HOME
+export HADOOP_MAPRED_HOME=$HADOOP_HOME
+export HADOOP_YARN_HOME=$HADOOP_HOME
+export PATH=$HADOOP_HOME/bin:$HADOOP_HOME/sbin:$PATH
+
+export HADOOP_CONF_DIR=${HADOOP_HOME}/etc/hadoop
+export YARN_CONF_DIR=$HADOOP_CONF_DIR
+#userlogs
+export userlogs=$HADOOP_HOME/logs/userlogs
+export logs=$HADOOP_HOME/logs
+
+#hamster2.0
+export HAMSTER_HOME=/Users/caoj7/workspace/hamster/hamster-core/target/hamster-core-1.1.0-SNAPSHOT-bin
+export PATH=$HAMSTER_HOME/bin:$PATH
+
+#mahout
+export MAHOUT_HOME=/Users/caoj7/program/mahout-distribution-0.8
+export MAHOUT_LOCAL=/Users/caoj7/program/mahout-distribution-0.8
+export PATH=$MAHOUT_HOME/bin:$PATH

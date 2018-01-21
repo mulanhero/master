@@ -1,0 +1,108 @@
+用户信息
+
+所有了Linux程序，除了init之外，都是由其他程序或用户启动的。我们将会在第11章中了解更多的如何运行程序，或进程，交互等内容。用户通常由一个负责命令的shell来启动程序。我们已经看到，程序可以通过检测其环境变量以及读取系统时钟来确定其环境信息。一个程序也可以查看正使用他的用户信息。
+
+当一个用户登陆进Linux系统时，他就有一个用户名与密码。如果这些通过验证，系统就会用户提供一个shell。通常，用户具有一个称之为UID的唯一的用户标识。Linux运行的所有程序都是运行在用户的行为以及与其相关的UID上的。
+
+我们可以设置一个程序的运行，使其看起来就像是另一个用户启动的。当一个程序具有其UID的权限集合时，他的运行看起来就像是可执行文件的拥有者启动的。当执行su命令时，程序的运行看起来就像是超级用户启动的。然后他会验证用户的访问权限，将其UID改变为目标用户的UID，然后执行目标用户的登陆shell。这会允许一个程序的运行看起来就像是另一个不同的用户启动的，而这通常为系统管理员用来执行维护任务。
+
+因为UID是用户标识的关键，我们就从这里开始讨论。
+
+UID有其自己的类型--uid_t--在sys/types.h中进行了定义。他通常是一个小整数。一些是由系统预先定义的；另一个些是当有新用户要添加到系统时，由系统管理员创建的。通常，用户的UID值大于100。
+
+#include <sys/types.h>
+#include <unistd.h>
+uid_t getuid(void);
+char *getlogin(void);
+
+getuid函数会返回与程序相关的UID值。这通常是启动程序的用户的UID值。
+
+getlogin函数会返回与当前用户相关联的登陆名。
+
+系统文件/etc/passwd包含一个处理用户帐户的数据库。每个用户一行，其中包含用户名，加密密码，用户标识UID，组标识GID，全名，主目录，以及默认的shell。下面是其中的一个例子：
+
+neil:zBqxfqedfpk:500:100:Neil Matthew:/home/neil:/bin/bash
+
+如果我们要编写一个程序来确定启动程序的用户UID，我们会对其进行扩展来查看密码文件以查找用户的登陆名与全名。我们并不推荐这样做，因为现在的类Unix系统都由使用简单的密码文件迁移到加强的系统安全。许多系统，包括Linux，有一个选项可以使用影子密码(shadwo password)文件，其中根本就不包含任何有用的加密密码信息(这通常存放在用户不可读取的/etc/shadow中)。正是因为这个原因，系统定义了一系列函数来为用户信息提供标准而高效的程序接口：
+
+#include <sys/types.h>
+#include <pwd.h>
+struct passwd *getpwuid(uid_t uid);
+struct passwd *getpwnam(const char *name);
+
+密码数据库结构，passwd，定义在pwd.h中，包含下列成员：
+
+成员        描述
+char *pw_name    用户登陆名
+uid_t pw_uid    UID值
+gid_t pw_gid    GID值
+char *pw_dir    用户主目录
+char *pw_gecos    用户全名
+char *pw_shell    用户默认shell
+
+一些Unix系统会使用一个不同的名字来表示用户全名域：在一些系统上例如Linux为pw_gecos，而在另一个系统上为pw_comment。这就意味着我们并不推荐使用这个域。
+
+getpwuid与getpwnam函数都会返回一个指向对应于一个用户的密码结构指针。对于getpwuid函数，用户是由UID标识的，而对于getpwnam函数，用户是由登陆来标识的。如果出错，他们都会返回一个空指针并且设置errno变量。
+
+试验－－用户信息
+
+这里有一个程序,user.c,这会由密码数据库中得到一些用户信息：
+
+#include <sys/types.h>
+#include <pwd.h>
+#include <stdio.h>
+#include <unistd.h>
+int main()
+{
+    uid_t uid;
+    gid_t gid;
+    struct passwd *pw;
+    uid = getuid();
+    gid = getgid();
+    printf(“User is %s/n”, getlogin());
+    printf(“User IDs: uid=%d, gid=%d/n”, uid, gid);
+    pw = getpwuid(uid);
+    printf(“UID passwd entry:/n name=%s, uid=%d, gid=%d, home=%s, shell=%s/n”,
+        pw->pw_name, pw->pw_uid, pw->pw_gid, pw->pw_dir, pw->pw_shell);
+    pw = getpwnam(“root”);
+    printf(“root passwd entry:/n”);
+    printf(“name=%s, uid=%d, gid=%d, home=%s, shell=%s/n”,
+        pw->pw_name, pw->pw_uid, pw->pw_gid, pw->pw_dir, pw->pw_shell);
+    exit(0);
+}
+
+其程序输出如下所示，也许在不同的系统上其输出结果会略有不同：
+
+$ ./user
+User is neil
+User IDs: uid=500, gid=100
+UID passwd entry:
+ name=neil, uid=500, gid=100, home=/home/neil, shell=/bin/bash
+root passwd entry:
+name=root, uid=0, gid=0, home=/root, shell=/bin/bash
+
+工作原理
+
+这个程序会调用getuid函数来得到当前用户的UID值。这个UID会用在getpwuid函数中来得到详细的密码文件信息。作为一个对照，我们演示了如何在getpwnam函数中指定用户名root来得到用户信息。
+
+要遍历密码文件信息，我们可以使用getpwent函数。这会取得连续的文件实体：
+
+#include <pwd.h>
+#include <sys/types.h>
+void endpwent(void);
+struct passwd *getpwent(void);
+void setpwent(void);
+
+getpwent函数会依次返回每个用户信息。当到达文件结尾时，他会返回一个空指针。一旦搜索完毕所有的有效实体，我们可以使用endpwent函数来结束处理过程。setpwent函数可以在密码文件中重新设置指针使其指向文件的开头，这样当下次调用getpwent函数时可以重新开始遍历。这些函数的操作与我们在第3章所讨论的目录遍历函数opendir,readdir,closedir相类似。
+
+用户与组标识可由其他的一个通常不用的函数来得到：
+
+#include <sys/types.h>
+#include <unistd.h>
+uid_t geteuid(void);
+gid_t getgid(void);
+gid_t getegid(void);
+int setuid(uid_t uid);
+int setgid(gid_t gid);
+
+我们可以查看系统手册页来得到关于组标识与有效用户标识的更为详细的内容，尽管我们会发现我们根本就不需要来操作这些函数。

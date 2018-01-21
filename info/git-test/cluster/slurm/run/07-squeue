@@ -1,0 +1,14 @@
+[root@vm3 ~]# squeue
+             JOBID PARTITION     NAME     USER  ST       TIME  NODES NODELIST(REASON)
+                15   compute     srun     root   R       6:01      1 vm3
+                
+                
+E.g.,
+	squeue
+	squeue –u root -l
+other
+	ST (job state)
+	R: Runing
+	PD: pending
+	Reason: resource / priority
+                

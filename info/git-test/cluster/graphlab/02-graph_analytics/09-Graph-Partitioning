@@ -1,0 +1,47 @@
+------------------------------------------------------------------------
+1. 
+------------------------------------------------------------------------
+This program can partition a graph by using normalized cut.
+This program uses svd in Graphlab Collaborative Filtering Toolkit and kmeans in Graphlab Clustering Toolkit. 
+The paths to the directories are specified by -svd-dir and -kmeans-dir, respectively.
+------------------------------------------------------------------------
+2. input1
+------------------------------------------------------------------------
+[root@node1 graph_analytics]# cat input.weight 
+1 2 4.0
+2 3 1.0
+3 4 5.0
+4 5 2.0
+5 3 3.0
+---------------
+./partitioning --graph=input --format=weight
+------------------------------------------------------------------------
+3. input2
+------------------------------------------------------------------------
+[root@node1 graph_analytics]# cat input.adj     (total 4 vertex)
+1 2 2 5
+7 2 7 1
+5 1 7
+-------------
+./partitioning --graph=input/input.adj --format=adj 
+------------------------------------------------------------------------
+4. mpirun
+------------------------------------------------------------------------  
+mpirun -np 2 ./partitioning --graph=./input/in --format=weight
+mpirun -np 2 /usr/local/hamster/graphlab/debug/toolkits/graph_analytics/partitioning --graph=/usr/local/hamster/graphlab/debug/toolkits/graph_analytics/input/in --format=weight
+mpirun -np 2 /root/program/graphlab/release/toolkits/graph_analytics/partitioning --graph=/root/program/graphlab/release/toolkits/graph_analytics/input.adj --format=adj --svd-dir=/root/program/graphlab/release/toolkits/collaborative_filtering/ --kmeans-dir=/root/program/graphlab/release/toolkits/clustering/
+------------------------------------------------------------------------
+4. hamster
+------------------------------------------------------------------------
+hamster -v -np 2 /root/program/graphlab/release/toolkits/graph_analytics/partitioning --graph=/root/program/graphlab/release/toolkits/graph_analytics/input.adj --format=adj --svd-dir=/root/program/graphlab/release/toolkits/collaborative_filtering/ --kmeans-dir=/root/program/graphlab/release/toolkits/clustering/ --add-file graph_laplacian
+
+
+------------------------------------------------------------------------
+4. hamster on with HDFS  (succeed, 1. need to revise the hard-coded cmd 2. need bin/hamster on each node 3. partitining is not a mpi program)
+------------------------------------------------------------------------
+/usr/local/hamster/graphlab/release/toolkits/graph_analytics/partitioning \
+--graph=/usr/local/hamster/writable_dir/input.adj \
+--format=adj \
+--svd-dir=/usr/local/hamster/graphlab/release/toolkits/collaborative_filtering/ \
+--kmeans-dir=/usr/local/hamster/graphlab/release/toolkits/clustering/ \
+--mpi-args="-np 2"

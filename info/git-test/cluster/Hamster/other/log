@@ -1,0 +1,4 @@
+hadoop fs -cat /tmp/logs/root/logs/application_1368554146814_0104/node2.pivotal.com_42272 > tmp
+
+vi /root/program/hadoop-2.0.2-alpha/logs/hadoop-root-datanode-node2.pivotal.com.log  
+

@@ -1,0 +1,154 @@
+----------------------------------------------------------------
+1. put training_doc_set to hdfs
+----------------------------------------------------------------
+[root@node1 hamster-tmp]# hadoop fs -put training_doc_set /user/root/
+----------------------------------------------------------------
+2. seqdirectory
+----------------------------------------------------------------
+[root@node1 hamster-tmp]# mahout seqdirectory --input /user/root/training_doc_set --output /user/root/seqdir --charset UTF-8
+[root@node1 hamster-tmp]# hadoop fs -ls /user/root/seqdir
+Found 1 items
+-rw-r--r--   3 root supergroup   16578140 2013-09-14 00:57 /user/root/seqdir/chunk-0
+---------------------on Mac (Set MAHOUT_LOCAL)
+mahout seqdirectory --input /Users/caoj7/zzz/training_doc_set --output /Users/caoj7/zzz/seqdir --charset UTF-8
+[caoj7@cncqcaoj7mbp1 training_doc_set]$ll /Users/caoj7/zzz/seqdir/
+total 8
+-rwxrwxrwx  1 caoj7  720748206  655 Sep 16 07:25 chunk-0
+---------------------
+ --input (-i) input                             Path to job input directory.
+  --output (-o) output                           The directory pathname for
+                                                 output.
+  --overwrite (-ow)                              If present, overwrite the
+                                                 output directory before
+                                                 running job
+  --chunkSize (-chunk) chunkSize                 The chunkSize in MegaBytes.
+                                                 Defaults to 64
+  --fileFilterClass (-filter) fileFilterClass    The name of the class to use
+                                                 for file parsing. Default:
+                                                 org.apache.mahout.text.PrefixAd
+                                                 ditionFilter
+  --keyPrefix (-prefix) keyPrefix                The prefix to be prepended to
+                                                 the key
+  --charset (-c) charset                         The name of the character
+                                                 encoding of the input files.
+                                                 Default to UTF-8
+  --help (-h)                                    Print out help
+  --tempDir tempDir                              Intermediate output directory
+  --startPhase startPhase                        First phase to run
+  --endPhase endPhase                            Last phase to run
+----------------------------------------------------------------
+3. seq2sparse  (MapReduce Job)
+----------------------------------------------------------------
+[root@node1 hamster-tmp]# mahout seq2sparse -i /user/root/seqdir -o /user/root/vec -ow -wt tf
+--------result
+[root@node1 hamster-tmp]# hadoop fs -ls /user/root/vec
+Found 4 items
+-rw-r--r--   3 root supergroup    1045562 2013-09-14 01:11 /user/root/vec/dictionary.file-0
+drwxr-xr-x   - root supergroup          0 2013-09-14 01:12 /user/root/vec/tf-vectors          //?????????
+drwxr-xr-x   - root supergroup          0 2013-09-14 01:11 /user/root/vec/tokenized-documents
+drwxr-xr-x   - root supergroup          0 2013-09-14 01:11 /user/root/vec/wordcount
+------------------------------on mac
+mahout seq2sparse -i /Users/caoj7/zzz/seqdir -o /Users/caoj7/zzz/vec -ow -wt tf
+[caoj7@cncqcaoj7mbp1 training_doc_set]$ll /Users/caoj7/zzz/vec
+total 8
+-rwxrwxrwx  1 caoj7  720748206  349 Sep 16 07:28 dictionary.file-0
+drwxr-xr-x  6 caoj7  720748206  204 Sep 16 07:28 tf-vectors
+drwxr-xr-x  6 caoj7  720748206  204 Sep 16 07:28 tokenized-documents
+drwxr-xr-x  6 caoj7  720748206  204 Sep 16 07:28 wordcount
+------------------------------
+--minSupport (-s) minSupport        (Optional) Minimum Support. Default
+                                      Value: 2
+  --analyzerName (-a) analyzerName    The class name of the analyzer
+  --chunkSize (-chunk) chunkSize      The chunkSize in MegaBytes. 100-10000 MB
+  --output (-o) output                The output directory
+  --input (-i) input                  input dir containing the documents in
+                                      sequence file format
+  --minDF (-md) minDF                 The minimum document frequency.  Default
+                                      is 1
+  --maxDFPercent (-x) maxDFPercent    The max percentage of docs for the DF.
+                                      Can be used to remove really high
+                                      frequency terms. Expressed as an integer
+                                      between 0 and 100. Default is 99.
+  --weight (-wt) weight               The kind of weight to use. Currently TF
+                                      or TFIDF
+  --norm (-n) norm                    The norm to use, expressed as either a
+                                      float or "INF" if you want to use the
+                                      Infinite norm.  Must be greater or equal
+                                      to 0.  The default is not to normalize
+  --minLLR (-ml) minLLR               (Optional)The minimum Log Likelihood
+                                      Ratio(Float)  Default is 1.0
+  --numReducers (-nr) numReducers     (Optional) Number of reduce tasks.
+                                      Default Value: 1
+  --maxNGramSize (-ng) ngramSize      (Optional) The maximum size of ngrams to
+                                      create (2 = bigrams, 3 = trigrams, etc)
+                                      Default Value:1
+  --overwrite (-ow)                   If set, overwrite the output directory
+  --help (-h)                         Print out help
+  --sequentialAccessVector (-seq)     (Optional) Whether output vectors should
+                                      be SequentialAccessVectors. If set true
+                                      else false
+  --namedVector (-nv)                 (Optional) Whether output vectors should
+                                      be NamedVectors. If set true else false
+  --logNormalize (-lnorm)             (Optional) Whether output vectors should
+                                      be logNormalize. If set true else false
+----------------------------------------------------------------
+4. lda
+----------------------------------------------------------------
+mahout lda -i /user/root/vec/tf-vectors -o /user/root/lda-out --numTopics 3 --numWords 60000
+----------------- on node1
+FAQ:
+The vectors might be empty as there may be a problem in their creation. 
+Check if your vectors are successfully created in their folders (have not a file size of 
+0 bytes). This error may occur if you are input folder is missing some files. 
+In that case, these two steps will work although not create a valid output.
+-----------------------------on mac
+mahout lda -i /Users/caoj7/zzz/vec/tf-vectors -o /Users/caoj7/zzz/lda-out --numTopics 2 --numWords 100
+
+13/09/16 07:30:36 ERROR driver.MahoutDriver: : Try the new Collapsed Variation Bayes LDA, try bin/mahout cvb or bin/mahout cvb0_local
+
+---------------
+mahout cvb -i /Users/caoj7/zzz/vec/tf-vectors -o /Users/caoj7/zzz/lda-out --num_topics 2 --maxIter 20 --num_terms 1000 \
+-dict /Users/caoj7/zzz/vec/dictionary.file-0 -dt /Users/caoj7/zzz/seqdir/chunk-0  --topic_model_temp_dir  /Users/caoj7/zzz/tmp
+
+------------------
+mahout cvb -i path/to/tf-vectors -o output_dir/lda_output -k <num_topics>
+-x <num_iterations> -a <smoothing alpha param> -e <smoothing eta param>
+-dict path/to/dictionary.file-0 -dt <"sequencefile" or "text">
+--topic_model_temp_dir path/to/store/temp_state
+
+num_iterations can be something like 20-30, and it's not too sensitive to
+alpha or eta, but they should be pretty small (0.01 or so seems be the
+right order of magnitude for both of them, often, but you have to play with
+it, we don't learn the hyperparameters in this impl).
+-----------------------------
+--input (-i) input                      Path to job input directory.
+  --output (-o) output                    The directory pathname for output.
+  --overwrite (-ow)                       If present, overwrite the output
+                                          directory before running job
+  --numTopics (-k) numTopics              The total number of topics in the
+                                          corpus
+  --numWords (-v) numWords                The total number of words in the
+                                          corpus (can be approximate, needs to
+                                          exceed the actual value)
+  --topicSmoothing (-a) topicSmoothing    Topic smoothing parameter. Default is
+                                          50/numTopics.
+  --maxIter (-x) maxIter                  The maximum number of iterations.
+  --help (-h)                             Print out help
+  --tempDir tempDir                       Intermediate output directory
+  --startPhase startPhase                 First phase to run
+  --endPhase endPhase                     Last phase to run 
+----------------------------------------------------------------
+----------------------------------------------------------------
+----------------------------------------------------------------
+----------------------------------------------------------------
+----------------------------------------------------------------
+----------------------------------------------------------------
+----------------------------------------------------------------
+----------------------------------------------------------------
+----------------------------------------------------------------
+----------------------------------------------------------------
+----------------------------------------------------------------
+----------------------------------------------------------------
+----------------------------------------------------------------
+----------------------------------------------------------------
+----------------------------------------------------------------

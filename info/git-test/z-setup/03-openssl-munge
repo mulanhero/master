@@ -1,0 +1,51 @@
+1. install openssl  （caoj7）
+sudo yum search openssl
+sudo yum install openssl openssl-devel (mandatory!!!)
+
+2. install munge  （root）
+a）no-passwd by .ssh
+
+b）./configure --prefix=/usr/local --sysconfdir=/etc --localstatedir=/var && make && make install
+
+c） modify the file characteristics
+[root@vm5 munge-0.5.10]# chown -R root /etc/munge
+[root@vm5 munge-0.5.10]# chown -R root /var/lib/munge
+[root@vm5 munge-0.5.10]# chown -R root /var/log/munge
+[root@vm5 munge-0.5.10]# chown -R root /var/run/munge
+
+d） revise the user
+[root@vm5 munge-0.5.10]# vi /etc/sysconfig/munge
+USER="root"
+
+e） munge.key
+
+produce munge.key on vm1
+
+dd if=/dev/urandom bs=1 count=1024 > /etc/munge/munge.key 
+chmod 0700 /etc/munge/munge.key
+
+copy key to other nodes
+[root@vm1 ~]# scp /etc/munge/munge.key vm5:/etc/munge/
+
+f）startup
+/etc/init.d/munge start 
+
+[root@vm5 munge-0.5.10]# munge -n
+munge: Error: Unable to access "/var/run/munge/munge.socket.2": No such file or directory
+
+if above problem occurs, then /etc/init.d/munge stop，then restart will be ok.
+
+munge -n
+
+munge -n|unmunge
+
+munge -n|ssh vm1 unmunge
+
+remunge
+
+=================================================
+3. 
+
+#for general(openssl, munge)
+export PATH=/usr/bin:/usr/local/bin:$PATH
+export LD_LIBRARY_PATH=/usr/lib:/usr/lib64:/usr/local/lib:$LD_LIBRARY_PATH

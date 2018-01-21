@@ -1,0 +1,65 @@
+The procedure of launching apps:
+
+1) plm/yarn (HNP)
+	a)register a ORTE_RML_TAG_YARN_SYNC_REQUEST's callback 'yarn_hnp_sync_recv'
+	b) xcast to each orted with a buffer, 'command = ORTE_DAEMON_ADD_LOCAL_PROCS;'
+		orte_grpcomm.xcast(ORTE_PROC_MY_NAME->jobid, buffer, ORTE_RML_TAG_DAEMON)  in  orte_plm_base_launch_apps
+
+2) ORTED 
+	case ORTE_DAEMON_ADD_LOCAL_PROCS:
+        if (orte_debug_daemons_flag) {
+            opal_output(0, "%s orted_cmd: received add_local_procs",
+                        ORTE_NAME_PRINT(ORTE_PROC_MY_NAME));
+        }
+        /* launch the processes */
+        if (ORTE_SUCCESS != (ret = orte_odls.launch_local_procs(buffer))) {
+            OPAL_OUTPUT_VERBOSE((1, orte_debug_output,
+                                 "%s orted:comm:add_procs failed to launch on error %s",
+                                 ORTE_NAME_PRINT(ORTE_PROC_MY_NAME), ORTE_ERROR_NAME(ret)));
+        }
+        break;
+        
+3) odls/yarn (ORTED)
+	a) register a ORTE_RML_TAG_YARN_SYNC_RESPONSE's callback 'yarn_daemon_sync_recv'
+	b) send the ORTE_RML_TAG_YARN_SYNC_REQUEST to HNP
+		orte_rml.send_buffer_nb(ORTE_PROC_MY_HNP, msg, ORTE_RML_TAG_YARN_SYNC_REQUEST, 0,
+                                          orte_rml_send_callback, NULL)
+
+4) plm/yarn (HNP) 1.a)
+	a)accept the ORTE_RML_TAG_YARN_SYNC_REQUEST and invoke its callback 'yarn_hnp_sync_recv'
+	b) if all daemon are already synced, plm/yarn will xcast the ORTE_RML_TAG_YARN_SYNC_RESPONSE to each orted
+	c) actually launch app processes by NM via AM (multi-threading)
+	
+	
+	 /* we got all daemons synced */
+    if (daemons->num_procs == num_sync_daemons) {
+        OPAL_OUTPUT_VERBOSE((5, orte_plm_globals.output,
+                        "%s plm:yarn:yarn_hnp_sync_recv: we got all daemons sync, will launch proc in NM",
+                        ORTE_NAME_PRINT(ORTE_PROC_MY_NAME)));
+
+        msg = OBJ_NEW(opal_buffer_t);
+        if (ORTE_SUCCESS != (rc = orte_grpcomm.xcast(ORTE_PROC_MY_NAME->jobid, msg, ORTE_RML_TAG_YARN_SYNC_RESPONSE))) { 
+            ORTE_ERROR_LOG(rc);
+            opal_output(0, "%s plm:yarn:yarn_hnp_sync_recv: failed to send sync response to daemon processes.",
+                ORTE_NAME_PRINT(ORTE_PROC_MY_NAME));
+            jdata->state = ORTE_JOB_STATE_FAILED_TO_LAUNCH;
+            ORTE_ACTIVATE_JOB_STATE(jdata, ORTE_JOB_STATE_FAILED_TO_LAUNCH);
+            OBJ_RELEASE(msg);
+        }
+        OBJ_RELEASE(msg);
+
+        /* here, we actually launch procs */
+        plm_yarn_actual_launch_procs(jdata);   ////launch app process by NM via AM
+    }
+    
+    
+ 5) odls/yarn (ORTED) 3.a)
+ 	in ORTE_RML_TAG_YARN_SYNC_RESPONSE's callback 'yarn_daemon_sync_recv', periodically check process's status in /tmp/hamster-pid/....
+ 	mon = OBJ_NEW(yarn_local_procs_monitor_t);
+    mon->jobid = jobid;
+    opal_event_evtimer_set(orte_event_base, &mon->ev, local_process_state_monitor_cb, mon);
+    opal_event_evtimer_add(&mon->ev, &tv);
+    
+    
+6)
+	

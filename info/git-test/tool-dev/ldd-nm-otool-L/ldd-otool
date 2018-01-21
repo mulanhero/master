@@ -1,0 +1,9 @@
+on linux:
+ldd /bin/ls
+
+on mac:
+[caoj7@cnencaoj7mbp2 hadoop-2.0.2-alpha]$otool -L /bin/ls
+/bin/ls:
+	/usr/lib/libncurses.5.4.dylib (compatibility version 5.4.0, current version 5.4.0)
+	/usr/lib/libutil.dylib (compatibility version 1.0.0, current version 1.0.0)
+	/usr/lib/libSystem.B.dylib (compatibility version 1.0.0, current version 159.1.0)

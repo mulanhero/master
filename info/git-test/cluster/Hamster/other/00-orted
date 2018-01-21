@@ -1,0 +1,33 @@
+(1)HNP
+mpirun -bynode -np 1000 /root/program/mpi/hello param1
+
+(2) orted （ess_jobid是daemon job的jobid， orte_ess_vpid）
+orted --daemonize -mca ess env -mca orte_ess_jobid 2381316096 -mca orte_ess_vpid 1 -mca orte_ess_num_procs 23 -mca orte_hnp_uri 2381316096.0;tcp://10.62.67.33:37582 -mca oob tcp -mca plm rsh -mca orte_default_hostfile /root/program/orte_hosts -mca ras simulator -mca rmaps_base_bynode 1
+orted --daemonize -mca ess env -mca orte_ess_jobid 2381316096 -mca orte_ess_vpid 2 -mca orte_ess_num_procs 23 -mca orte_hnp_uri 2381316096.0;tcp://10.62.67.33:37582 -mca oob tcp -mca plm rsh -mca orte_default_hostfile /root/program/orte_hosts -mca ras simulator -mca rmaps_base_bynode 1
+orted --daemonize -mca ess env -mca orte_ess_jobid 2381316096 -mca orte_ess_vpid 3 -mca orte_ess_num_procs 23 -mca orte_hnp_uri 2381316096.0;tcp://10.62.67.33:37582 -mca oob tcp -mca plm rsh -mca orte_default_hostfile /root/program/orte_hosts -mca ras simulator -mca rmaps_base_bynode 1
+
+orte-1.7.2
+[root@node1 program]# massh mycluster verbose ps -ef |grep orted
+node2 : root      8739  8737  1 18:02 ?        00:00:00 orted -mca ess env -mca orte_ess_jobid 589365248 -mca orte_ess_vpid 1 -mca orte_ess_num_procs 4 -mca orte_hnp_uri 589365248.0;tcp://10.37.7.101:58561 --tree-spawn -mca oob tcp -mca plm rsh -mca orte_default_hostfile /root/orte_hosts
+node2 : root      8746  8739  0 18:02 ?        00:00:00 /usr/bin/ssh -x node4  orted -mca ess env -mca orte_ess_jobid 589365248 -mca orte_ess_vpid 3 -mca orte_ess_num_procs 4 -mca orte_parent_uri "589365248.1;tcp://10.37.7.102:60866" -mca orte_hnp_uri "589365248.0;tcp://10.37.7.101:58561" -mca oob tcp -mca orte_default_hostfile /root/orte_hosts -mca plm rsh --tree-spawn
+node3 : root      5584  5582  1 17:57 ?        00:00:00 orted -mca ess env -mca orte_ess_jobid 589365248 -mca orte_ess_vpid 2 -mca orte_ess_num_procs 4 -mca orte_hnp_uri 589365248.0;tcp://10.37.7.101:58561 --tree-spawn -mca oob tcp -mca plm rsh -mca orte_default_hostfile /root/orte_hosts
+node4 : root      3243  3241  1 18:02 ?        00:00:00 orted -mca ess env -mca orte_ess_jobid 589365248 -mca orte_ess_vpid 3 -mca orte_ess_num_procs 4 -mca orte_parent_uri 589365248.1;tcp://10.37.7.102:60866 -mca orte_hnp_uri 589365248.0;tcp://10.37.7.101:58561 -mca oob tcp -mca orte_default_hostfile /root/orte_hosts -mca plm rsh --tree-spawn
+(3)
+/root/program/mpi/hello param1
+
+
+
+=============================================
+orted --daemonize 
+-mca ess env 
+-mca orte_ess_jobid 4050583552 
+-mca orte_ess_vpid 1 
+-mca orte_ess_num_procs 22 
+-mca orte_hnp_uri 4050583552.0;tcp://10.62.67.32:46049 
+-mca oob tcp 
+-mca plm rsh 
+-mca orte_default_hostfile /root/program/orte_hosts 
+-mca ras simulator
+
+
+

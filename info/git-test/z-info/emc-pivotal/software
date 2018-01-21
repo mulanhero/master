@@ -1,0 +1,8 @@
+1.
+office: smb://cnsh2fp1/
+	Shared
+
+2. EAS
+EAS: smb://cnsh2fp1
+	apps/EAS
+	\\cnsh2fp1\app\eas

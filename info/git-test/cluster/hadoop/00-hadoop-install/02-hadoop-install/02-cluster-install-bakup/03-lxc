@@ -1,0 +1,94 @@
+================================================================================
+1. under -Dcontainer-executor.conf.dir=/etc/hadoop/
+--------------------------------------------------------------------------------
+2. /etc/hadoop/container-executor.cfg 
+(1) add group
+[hadoop@node1 mapreduce]$ sudo vi /etc/hadoop/container-executor.cfg
+yarn.nodemanager.linux-container-executor.group=hadoop
+(2) permission
+conf/container-executor.cfg		root:hadoop		r-------- (0400)
+-------------so
+[hadoop@node1 hadoop]$ pwd
+/etc/hadoop
+[hadoop@node1 hadoop]$ sudo chgrp hadoop container-executor.cfg
+[hadoop@node1 hadoop]$ sudo chmod 0400 container-executor.cfg
+--------------------------------------------------------------------------------
+3. under $HADOOP_YRAN_HOME/bin, a executable
+container-executor	root:hadoop	--Sr-s---  (6050)
+-------------so
+[hadoop@node1 bin]$ pwd
+/home/hadoop/program/hadoop-2.0.3-alpha/bin
+[hadoop@node1 bin]$ sudo chown root container-executor
+[hadoop@node1 bin]$ sudo chmod 6050 container-executor
+--------------------------------------------------------------------------------
+4. /etc/hadoop/yarn-site.xml
+[hadoop@node1 mapreduce]$ sudo vi /etc/hadoop/yarn-site.xml
+
+<!-- for linux container-->
+<property>
+    <name>yarn.nodemanager.linux-container-executor.group</name>
+    <value>hadoop</value>
+</property>
+================================================================================ 
+5. /etc/hadoop/yarn-site.xml
+
+<property>
+    <name>yarn.nodemanager.container-executor.class</name>
+    <value>org.apache.hadoop.yarn.server.nodemanager.LinuxContainerExecutor</value>
+</property>
+
+<!--linux-container-executor.path, here is the point!!!! !!!!!!!!-->
+<property>
+    <name>yarn.nodemanager.linux-container-executor.path</name>
+    <value>/home/hadoop/program/hadlloop-2.0.3-alpha/bin</value>
+</property>
+
+<property>
+    <name>yarn.nodemanager.linux-container-executor.resources-handler.class</name>
+    <value>org.apache.hadoop.yarn.server.nodemanager.util.DefaultLCEResourcesHandler</value>
+</property>
+--------------
+<property>
+    <name>yarn.nodemanager.linux-container-executor.resources-handler.class</name>
+    <value>org.apache.hadoop.yarn.server.nodemanager.util.CgroupsLCEResourcesHandler</value>
+</property>
+--------------
+
+<property>
+    <name>yarn.nodemanager.linux-container-executor.cgroups.hierarchy</name>
+    <value>/hadoop-lxc</value>
+</property>
+
+<property>
+    <name>yarn.nodemanager.linux-container-executor.cgroups.mount</name>
+    <value>true</value>
+</property>
+
+<!--mount-path-->
+<property>
+    <name>yarn.nodemanager.linux-container-executor.cgroups.mount-path</name>
+    <value>/cgroup2</value>
+</property>
+
+<!--from cloudear ???????????????-->
+<property>
+    <name>yarn.scheduler.minimum-allocation-vcores</name>
+    <value>1</value>
+</property>
+
+<property>
+    <name>yarn.scheduler.maximum-allocation-vcores</name>
+    <value>2</value>
+</property>
+
+<property>
+    <name>yarn.nodemanager.resource.cpu-cores</name>
+    <value>2</value>
+</property>
+
+<property>
+    <name>yarn.nodemanager.vcores-pcores-ratio</name>
+    <value>??</value>
+</property>
+
+

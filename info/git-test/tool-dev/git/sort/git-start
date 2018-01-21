@@ -1,0 +1,44 @@
+1. Fork a repo from repo-server on github
+
+2. Set user.name and user.email
+[caoj7@vm1 ~]$ git config --global user.name "jimmycao"
+[caoj7@vm1 ~]$ git config --global user.email "jimmy.cao@emc.com"
+
+3. Clone the code from github
+[caoj7@vm1 ~]$ git clone https://github.com/jimmycao/slurm.git
+git clone https://github.com/jimmycao/Spoon-Knife.git
+
+3. Add upstream and fetch from upstream
+[caoj7@cnencaoj7mbp1 test]$cd Spoon-Knife/
+[caoj7@cnencaoj7mbp1 Spoon-Knife]$git remote add upstream https://github.com/octocat/Spoon-Knife.git
+
+4. Pull in upstream changes  //get upstream's changes and merge into my local disk
+[caoj7@cnencaoj7mbp1 Spoon-Knife]$git fetch upstream
+[caoj7@cnencaoj7mbp1 Spoon-Knife]$git merge upstream/master
+
+5. Push  commit  //local disk push to my git repo
+git add hello.c
+git commit –m 'first commit'
+git push origin master
+
+
+
+
+6. Pull vs fetch/merge
+[caoj7@cnencaoj7mbp1 Spoon-Knife]$git pull upstrem
+
+7. Create branch
+[caoj7@cnencaoj7mbp1 Spoon-Knife]$git branch mybranch
+[caoj7@cnencaoj7mbp1 Spoon-Knife]$git checkout mybranch   //make mybranch active
+
+Operation
+
+[caoj7@cnencaoj7mbp1 Spoon-Knife]$git checkout master    //make master active
+[caoj7@cnencaoj7mbp1 Spoon-Knife]$git merge mybranch    //merge mybranch into master
+
+[caoj7@cnencaoj7mbp1 Spoon-Knife]$git branch -d mybranch  //delete mybranch
+
+8. PULL request
+
+
+

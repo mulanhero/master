@@ -1,0 +1,2 @@
+LDFLAGS="-L/Users/caoj7/program/orte/lib" LIBS="-lopen-rte" 
+CPPFLAGS="-I/Users/caoj7/program/orte/include/openmpi -I/Users/caoj7/program/orte/include/openmpi/opal/mca/event/libevent2019/libevent/include -I/Users/caoj7/program/orte/include/openmpi/opal/mca/event/libevent2019/libevent -I/Users/caoj7/program/orte/include/openmpi/opal/mca/hwloc/hwloc152/hwloc/include"

@@ -1,0 +1,29 @@
+------------------------------------------------------------------------
+3. hamster on cluster-node1 with input graph
+------------------------------------------------------------------------
+[root@node1 graph_analytics]# cat input.adj     (total 4 vertex)
+1 2 2 5
+7 2 7 1
+5 1 7
+-------------
+hamster -v -np 2 /root/program/graphlab/release/toolkits/graph_analytics/directed_triangle_count --graph=/root/program/graphlab/release/toolkits/graph_analytics/input.adj --format=adj
+-------------
+[root@node1 userlogs]# cat *017/*/stdout
+Collecting results ... 
+Updates: 4
+0 In triangles
+0 Out triangles
+0 Through triangles
+3 Cycle triangles
+Metrics server stopping.
+This program counts the exact number of triangles in the provided graph.
+
+
+------------------------------------------------------------------------
+4. hamster on with HDFS
+------------------------------------------------------------------------
+hamster -v -np 2 \
+/usr/local/hamster/graphlab/release/toolkits/graph_analytics/directed_triangle_count \
+--graph=hdfs://10.37.7.101:8020/user/root/graphlab/ga/input.adj \
+--format=adj \
+--per_vertex=hdfs://10.37.7.101:8020/user/root/graphlab/ga/out

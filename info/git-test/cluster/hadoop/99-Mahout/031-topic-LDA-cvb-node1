@@ -1,0 +1,147 @@
+Since Mahout v0.6 lda has been implemented as Collapsed Variable Bayes (cvb).
+----------------------------------------------------------------
+0. env   
+----------------------------------------------------------------
+node1
+PHD-1.0.2
+MAHOUT-0.7
+----------------------------------------------------------------
+1. put the small_training_docset to hdfs /user/root/mahout/cvb
+----------------------------------------------------------------
+[root@node1 hamster]# hadoop fs -mkdir /user/root/mahout/cvb
+[root@node1 hamster]# hadoop fs -put ./small_training_docset /user/root/mahout/cvb/
+[root@node1 hamster]# hadoop fs -ls /user/root/mahout/cvb
+drwxr-xr-x   - root supergroup          0 2013-09-16 23:37 /user/root/mahout/cvb/small_training_docset
+----------------------------------------------------------------
+2-1. seqdirectory
+----------------------------------------------------------------
+mahout seqdirectory \
+    -i /user/root/mahout/cvb/small_training_docset \
+    -o /user/root/mahout/cvb/seqdir \
+    --charset UTF-8
+------result
+[root@node1 hamster]# hadoop fs -ls /user/root/mahout/cvb/seqdir
+-rw-r--r--   3 root supergroup      28095 2013-09-16 23:38 /user/root/mahout/cvb/seqdir/chunk-0
+----------------------------------------------------------------
+2-2. seq2sparse  (Several MapReduce Jobs)
+----------------------------------------------------------------
+mahout seq2sparse -i /user/root/mahout/cvb/seqdir \
+    -o /user/root/mahout/cvb/sparseVectors \
+    --namedVector \
+    -wt tf
+------result
+[root@node1 hamster]# hadoop fs -ls -R /user/root/mahout/cvb/sparseVectors
+-rw-r--r--   3 root supergroup      10169 2013-09-16 23:39 /user/root/mahout/cvb/sparseVectors/dictionary.file-0
+drwxr-xr-x   - root supergroup          0 2013-09-16 23:40 /user/root/mahout/cvb/sparseVectors/tf-vectors
+-rw-r--r--   3 root supergroup          0 2013-09-16 23:40 /user/root/mahout/cvb/sparseVectors/tf-vectors/_SUCCESS
+-rw-r--r--   3 root supergroup      13942 2013-09-16 23:40 /user/root/mahout/cvb/sparseVectors/tf-vectors/part-r-00000
+drwxr-xr-x   - root supergroup          0 2013-09-16 23:39 /user/root/mahout/cvb/sparseVectors/tokenized-documents
+-rw-r--r--   3 root supergroup          0 2013-09-16 23:39 /user/root/mahout/cvb/sparseVectors/tokenized-documents/_SUCCESS
+-rw-r--r--   3 root supergroup      21228 2013-09-16 23:39 /user/root/mahout/cvb/sparseVectors/tokenized-documents/part-m-00000
+drwxr-xr-x   - root supergroup          0 2013-09-16 23:39 /user/root/mahout/cvb/sparseVectors/wordcount
+-rw-r--r--   3 root supergroup          0 2013-09-16 23:39 /user/root/mahout/cvb/sparseVectors/wordcount/_SUCCESS
+-rw-r--r--   3 root supergroup      12374 2013-09-16 23:39 /user/root/mahout/cvb/sparseVectors/wordcount/part-r-00000
+----------------------------------------------------------------
+2-3. rowid
+----------------------------------------------------------------
+mahout rowid \
+    -i /user/root/mahout/cvb/sparseVectors/tf-vectors \
+    -o /user/root/mahout/cvb/matrix
+--------
+[root@node1 hamster]# hadoop fs -ls -R /user/root/mahout/cvb/matrix
+-rw-r--r--   3 root supergroup       1112 2013-09-16 23:58 /user/root/mahout/cvb/matrix/docIndex
+-rw-r--r--   3 root supergroup       5144 2013-09-16 23:58 /user/root/mahout/cvb/matrix/matrix
+----------------------------------------------------------------
+3. cvb
+----------------------------------------------------------------
+mahout cvb \
+    --input /user/root/mahout/cvb/matrix/matrix \
+    --output /user/root/mahout/cvb/cvb_output \
+    --maxIter 3 \
+    --overwrite \
+    --num_topics 2 \
+    --dictionary /user/root/mahout/cvb/sparseVectors/dictionary.file-0 \
+    --doc_topic_output /user/root/mahout/cvb/topic_out \
+    --topic_model_temp_dir /user/root/mahout/cvb/temp
+------------------------
+ [--input <input> --output <output> --maxIter <maxIter> --convergenceDelta      
+<convergenceDelta> --overwrite --num_topics <num_topics> --num_terms            
+<num_terms> --doc_topic_smoothing <doc_topic_smoothing> --term_topic_smoothing  
+<term_topic_smoothing> --dictionary <dictionary> --doc_topic_output             
+<doc_topic_output> --topic_model_temp_dir <topic_model_temp_dir>                
+--iteration_block_size <iteration_block_size> --random_seed <random_seed>       
+--test_set_fraction <test_set_fraction> --num_train_threads <num_train_threads> 
+--num_update_threads <num_update_threads> --max_doc_topic_iters                 
+<max_doc_topic_iters> --num_reduce_tasks <num_reduce_tasks>                     
+--backfill_perplexity --help --tempDir <tempDir> --startPhase <startPhase>      
+--endPhase <endPhase>]                                                          
+------------------------create model by each iteration
+[root@node1 hamster]# hadoop fs -ls /user/root/mahout/cvb/temp
+drwxr-xr-x   - root supergroup          0 2013-09-17 00:15 /user/root/mahout/cvb/temp/model-1
+drwxr-xr-x   - root supergroup          0 2013-09-17 00:15 /user/root/mahout/cvb/temp/model-2
+drwxr-xr-x   - root supergroup          0 2013-09-17 00:16 /user/root/mahout/cvb/temp/model-3
+------------------------
+[root@node1 hamster]# hadoop fs -ls /user/root/mahout/cvb/cvb_output
+Found 11 items
+-rw-r--r--   3 root supergroup          0 2013-09-17 00:16 /user/root/mahout/cvb/cvb_output/_SUCCESS
+-rw-r--r--   3 root supergroup       4480 2013-09-17 00:16 /user/root/mahout/cvb/cvb_output/part-m-00000
+-rw-r--r--   3 root supergroup       4480 2013-09-17 00:16 /user/root/mahout/cvb/cvb_output/part-m-00001
+-rw-r--r--   3 root supergroup         97 2013-09-17 00:16 /user/root/mahout/cvb/cvb_output/part-m-00002
+-rw-r--r--   3 root supergroup         97 2013-09-17 00:16 /user/root/mahout/cvb/cvb_output/part-m-00003
+-rw-r--r--   3 root supergroup         97 2013-09-17 00:16 /user/root/mahout/cvb/cvb_output/part-m-00004
+-rw-r--r--   3 root supergroup         97 2013-09-17 00:16 /user/root/mahout/cvb/cvb_output/part-m-00005
+-rw-r--r--   3 root supergroup         97 2013-09-17 00:16 /user/root/mahout/cvb/cvb_output/part-m-00006
+-rw-r--r--   3 root supergroup         97 2013-09-17 00:16 /user/root/mahout/cvb/cvb_output/part-m-00007
+-rw-r--r--   3 root supergroup         97 2013-09-17 00:16 /user/root/mahout/cvb/cvb_output/part-m-00008
+-rw-r--r--   3 root supergroup         97 2013-09-17 00:16 /user/root/mahout/cvb/cvb_output/part-m-00009
+------------------------
+[root@node1 hamster]# hadoop fs -ls /user/root/mahout/cvb/topic_out
+-rw-r--r--   3 root supergroup          0 2013-09-17 00:16 /user/root/mahout/cvb/topic_out/_SUCCESS
+-rw-r--r--   3 root supergroup        697 2013-09-17 00:16 /user/root/mahout/cvb/topic_out/part-m-00000
+---------------------------------------------------------------- 
+4. vectordump
+----------------------------------------------------------------
+mahout vectordump \
+    -i /user/root/mahout/cvb/topic_out \
+    -d /user/root/mahout/cvb/sparseVectors/dictionary.file-0 \
+    --dictionaryType sequencefile \
+    --output /usr/local/hamster/cvb_topic_result_dump.txt
+------------
+here, we don't specify -sort, otherwise, when sorting, java.lang.OutOfMemoryError: Requested array size exceeds VM limit
+------------
+[root@node1 hamster]# cat cvb_topic_result_dump.txt
+{0:0.15758241861850855,1:0.8424175813814915}
+{0:0.28092364668080655,1:0.7190763533191934}
+{0:0.5895757928128414,1:0.41042420718715855}
+{0:0.549025340171794,1:0.45097465982820595}
+{0:0.5230570792612541,1:0.4769429207387459}
+{0:0.41388412092260735,1:0.5861158790773928}
+{0:0.703645958547037,1:0.296354041452963}
+{0:0.5218169218457047,1:0.4781830781542952}
+{0:0.13596668384898233,1:0.8640333161510176}
+{0:0.30049338676721765,1:0.6995066132327824}
+{0:0.6198257105477307,1:0.38017428945226933}
+{0:0.3809393307824285,1:0.6190606692175716}
+{0:0.6039204438171487,1:0.39607955618285134}
+{0:0.7124175826585603,1:0.28758241734143963}
+{0:0.1146098710366589,1:0.885390128963341}
+{0:0.9111691200615047,1:0.0888308799384952}
+{0:0.4382334972089086,1:0.5617665027910913}
+{0:0.3920191032288972,1:0.6079808967711027}
+{0:0.3952829049205927,1:0.6047170950794073}
+{0:0.47962630297998954,1:0.5203736970200104}
+----------------------------------------------------------------
+mahout vectordump \
+    -i /user/root/mahout/cvb/cvb_output \
+    -d /user/root/mahout/cvb/sparseVectors/dictionary.file-0 \
+    --dictionaryType sequencefile \
+    --output /usr/local/hamster/cvb_result_dump.txt
+    --vectorSize 10 \
+    -sort true \
+--------------
+we only choose top 10 words to each topic.
+--------------
+[root@node1 hamster]# cat cvb_result_dump.txt 
+{i:18.855952774302256,you:16.379149974848076,does:9.140048729172017,has:9.001565346138563,have:8.5457296294972,situation:8.345633132130505,we:8.023690035459602,game:7.98326919448173,runs:7.974812740775816,how:7.3488107818283845}
+{up:15.330760996825603,runs:14.025187259224186,game:11.016730805518272,you:9.620850025151926,i:9.14404722569774,team:8.626885355574494,player:8.548293851532723,have:8.454270370502798,how:7.6511892181716155,would:6.761935077826086}
+----------------------------------------------------------------

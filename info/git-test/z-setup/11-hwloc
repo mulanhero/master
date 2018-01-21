@@ -1,0 +1,8 @@
+install hwloc(root in /root nfs)
+	./configure --prefix=/root/program/common-c/hwloc
+	make
+	make install
+	============================
+	#hwloc
+	export PATH=/root/program/common-c/hwloc/bin:$PATH
+	export LD_LIBRARY_PATH=/root/program/common-c/hwloc/lib:$LD_LIBRARY_PATH

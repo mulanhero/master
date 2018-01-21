@@ -1,0 +1,53 @@
+CgroupMountpoint=/cgroup
+CgroupAutomount=yes
+#CgroupReleaseAgentDir="/etc/slurm/cgroup"
+CgroupReleaseAgentDir="/root/slurmhome/etc"
+
+
+ConstrainCores=yes
+TaskAffinity=yes    #rely on HWLOC
+
+ConstrainRAMSpace=yes
+ConstrainSwapSpace=yes
+
+#ConstrainDevices=yes
+#AllowedDevicesFile="/root/slurmhome/etc/allowed_devices.conf"
+
+
+#CgroupSubsystems=cpuset,memory,freezer,device,net_cls
+
+#3. TaskPlugin
+#3.1 task/cgrpup for cpuset
+#ConstrainCores=yes  #above
+#TaskAffinity=yes	 #above
+#3.2 task/cgroup for memory
+#AllowedRAMSpace=95
+#AllowedSwapSpace=5
+#ConstrainRAMSpace=yes  #above
+#ConstrainSwapSpace=yes #above
+#MaxRAMPercent=100
+#MaxSwapPercent=100
+#MinRAMSpace=30
+
+#ConstrainDevices=yes
+#AllowedDevicesFile="/root/slurmhome/etc/cgroup_allowed_devices_file.conf"
+
+#CgroupSubsystems=         #cpuset,memory,freezer, device
+###########not verify
+#CgroupReleaseAgent
+#TaskAffinityBindType=threads
+============================current workable=============================
+CgroupMountpoint=/cgroup
+CgroupAutomount=yes
+#CgroupReleaseAgentDir="/etc/slurm/cgroup"
+CgroupReleaseAgentDir="/root/slurmhome/etc"
+
+
+ConstrainCores=yes
+TaskAffinity=yes    #rely on HWLOC
+
+ConstrainRAMSpace=yes
+ConstrainSwapSpace=yes
+
+#ConstrainDevices=yes
+#AllowedDevicesFile="/root/slurmhome/etc/allowed_devices.conf"

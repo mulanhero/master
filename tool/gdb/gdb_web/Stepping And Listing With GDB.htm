@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<!-- saved from url=(0065)http://rsquared.sdf.org/gdb/maits.html#steppingthroughyourprogram -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Stepping And Listing With GDB</title>
+<meta name="description" content="Various ways of listing sourcecode with gdb, as well as how to step through a program.">
+<meta charset="UTF-8">
+<link rel="STYLESHEET" type="text/css" href="./Stepping And Listing With GDB_files/style.css">
+<link rel="STYLESHEET" type="text/css" href="./Stepping And Listing With GDB_files/print.css" media="print">
+</head>
+
+<body>
+<div id="pagemargin">
+	<div id="gnu">
+            <a href="http://www.gnu.org/software/gdb/mascot/">
+            <img src="./Stepping And Listing With GDB_files/archer.png" alt="Image of GDB Mascot | Link to page about GDB Mascot" style="width:200px;height:125px">
+            </a>
+	</div>
+<div id="title">Using The GNU GDB Debugger:</div>
+<h1 id="subtitle">Moving Around In The Sourcecode</h1>
+<div id="topnav-p">
+<span id="author">By Peter Jay Salzman</span>
+      <ul id="top-nav">
+        <li class="left">Previous: <a href="http://rsquared.sdf.org/gdb/iacv.html">Inspecting And Changing Variables</a></li>
+        <li class="right">Next: <a href="http://rsquared.sdf.org/gdb/darp.html">Debugging A Running Process</a></li>
+      </ul><br>
+ </div>
+<h2><a id="steppingthroughyourprogram">Stepping through your program</a></h2>
+
+<p>One thing that is good to know is the exact sequence of execution of your program, especially through loops and conditional
+branches. If the program is not too large, you can follow it easily by executing one line at a time.</p>
+
+<p>There are two commands used to step through your program:</p>
+
+<dl>
+<dt><b>step</b>:
+</dt><dd>Execute a single line in the program.  If the current statement calls a function, the function is single stepped.
+</dd><dt><b>next</b>:
+</dt><dd>Execute a single line in the program but treat function calls as a single line.  This command is used to skip over function calls.
+</dd></dl>
+
+<p>Since C statements like <code>printf()</code> and <code>scanf()</code> are functions themselves, if you <i>step</i> through all your
+program (as opposed to <i>next</i>, you'll find yourself stepping through glibc, the standard C library (which is probably
+<i>not</i> what you want!).  Good debugging makes use of <code>next</code> mostly.  If you really want to step through a function
+call, it's best to set a breakpoint there and then you can use <code>next</code> from inside the function.</p>
+
+<p>To execute the next statement, type:</p>
+
+<pre class="demo">	step
+</pre>
+
+<p>Each time you type a <i>step</i> command, gdb will then list the line that it is about to execute, with the line number on
+the left, so you can see what's about to happen before it happens.</p>
+
+<h2><a id="findingoutwhereyouareandlistingsourcecode">Finding out where you are and listing source code</a></h2>
+
+<p>To find out where you are at any time, type the command:</p>
+
+<pre class="demo">	where</pre>
+
+<p>This will show you the current line number.  For example, a line like this:</p>
+
+<pre class="demo">	#0  foo () at foo.f:12</pre>
+
+<p>shows that the execution of our program is currently at a location that corresponds to line 12 in the Fortran
+source file, foo.f.</p>
+
+<p>You can display a few lines of your source program around the current location by using the command:</p>
+
+<pre class="demo">	list</pre>
+
+<p>This will list 10 lines of source roughly centred on your current line number.  If you haven't started to debug yet, it will
+list the first 10 lines of source code.  If you type list again, it'll print the next 10 lines of source code.  You can also
+type:</p>
+
+<pre class="demo">	list 25</pre>
+
+<p>and this will list 10 lines of source code centred on line 25.  Typing list again will list the next 10 lines of source code.
+You can also specify a range of lines to be listed. For example, to list lines 10 through 24 in the current program, you'd
+type:</p>
+
+<pre class="demo">	list 10,24</pre>
+
+<p>If there is a function in your program named <code>endpoints()</code>, you can list 10 lines centred on the start of
+<code>endpoints()</code> by:</p>
+
+<pre class="demo">	list endpoints</pre>
+
+<p>If you're listing lines and decide you want to see the 10 lines previous to the 10 lines you just displayed:</p>
+
+<pre class="demo">	list -</pre>
+
+<p>Suppose you set a breakpoint:</p>
+
+<pre class="demo">	break 55</pre>
+
+<p>and gdb responds with:</p>
+
+<pre class="demo">	Breakpoint 1 at 0x8048540: file program3.c, line 55.</pre>
+
+<p>You can list the lines centred around that address by specifying the asterisk (for address).  It will list the 10 lines
+centred around the source code line containing that address.</p>
+
+<pre class="demo">	list *0x8048540</pre>
+<p>&nbsp;</p>
+<div id="bottomnav-p">
+      <ul id="bottom-nav">
+        <li class="left">Previous: <a href="http://rsquared.sdf.org/gdb/iacv.html">Inspecting And Changing Variables</a></li>
+        <li class="right">Next: <a href="http://rsquared.sdf.org/gdb/darp.html">Debugging A Running Process</a></li>
+      </ul>
+      <div id="bottom-nav-center"><a href="http://rsquared.sdf.org/gdb/">Up</a> to the TOC</div>
+    <a href="http://validator.w3.org/check?uri=referer">
+    <img src="./Stepping And Listing With GDB_files/valid-html5-blue.png" alt="Valid HTML 5" style="width:88px;height:31px"></a>
+    <a href="http://jigsaw.w3.org/css-validator/check/referer?profile=css3">
+    <img src="./Stepping And Listing With GDB_files/vcss-blue.gif" alt="Valid CSS!" style="width:88px;height:31px;"></a>
+</div>
+</div>
+
+
+</body></html>

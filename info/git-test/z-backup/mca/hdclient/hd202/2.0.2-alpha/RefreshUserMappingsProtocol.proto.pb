@@ -1,0 +1,11 @@
+
+Û
+!RefreshUserMappingsProtocol.proto")
+'RefreshUserToGroupsMappingsRequestProto"*
+(RefreshUserToGroupsMappingsResponseProto"1
+/RefreshSuperUserGroupsConfigurationRequestProto"2
+0RefreshSuperUserGroupsConfigurationResponseProto2¥
+"RefreshUserMappingsProtocolServicer
+refreshUserToGroupsMappings(.RefreshUserToGroupsMappingsRequestProto).RefreshUserToGroupsMappingsResponseProtoŠ
+#refreshSuperUserGroupsConfiguration0.RefreshSuperUserGroupsConfigurationRequestProto1.RefreshSuperUserGroupsConfigurationResponseProtoBP
+%org.apache.hadoop.hdfs.protocol.protoB!RefreshUserMappingsProtocolProtosˆ 

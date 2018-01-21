@@ -1,0 +1,36 @@
+---------------------------------------------------------------------------------------
+001 Virtual destructors
+---------------------------------------------------------------------------------------
+whenever you are dealing with inheritance, you should make your destructors virtual
+---------------------------------------------------------------------------------------
+002 Late binding
+---------------------------------------------------------------------------------------
+Function Pointer is a kind of Late Binding
+---------------------------------------------------------------------------------------
+003 vtable: virtual function/method table
+---------------------------------------------------------------------------------------
+every class that uses virtual functions (or is derived from a class that uses virtual 
+functions) is given it's own virtual table.
+---------------------------------------------------------------------------------------
+004 pure virtual function(abstract function)  vs. abstract base class
+---------------------------------------------------------------------------------------
+a pure virtual function (or abstract function) that has no body at all! A pure virtual 
+function simply acts as a placeholder that is meant to be redefined by derived classes.
+---------
+firstly, any class with one or more pure virtual functions becomes an abstract base class, 
+which means that it can not be instantiated!
+Second, any derived class must define a body for this function, or that derived class 
+will be considered an abstract base class as well.
+---------------------------------------------------------------------------------------
+005 Interface
+---------------------------------------------------------------------------------------
+An interface class is a class that has no members variables, and where all of the 
+functions are pure virtual!
+---------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------

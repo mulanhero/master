@@ -1,0 +1,91 @@
+0. make /root as NFS server and mount
+1. autotools
+2. openssl and munge 
+3. install hwloc(root) /root/program/hwloc
+[root@node1 hwloc-1.6.2]# ./configure --prefix=/root/program/hwloc
+
+4. if GLIB and GTK problem，then sudo yum search glib / sudo yum search gtk
+	yum install glib2.x86_64
+	yum install glib2-devel.x86_64
+	yum install gtk2.x86_64
+	yum install gtk2-devel.x86_64
+5. install(root)
+==============================
+./autogen.sh
+./configure --prefix=/root/slurmhome --sysconfdir=/root/slurmhome/etc \
+	--with-munge=/usr/local --with-hwloc=/root/hwloc \
+	--enable-debug --enable-memory-leak-debug --enable-dynamic-allocation
+//Note: --with-hwloc=/usr seems not take effect
+make
+make install
+==============================
+#for slurm
+export PATH=/root/slurmhome/bin:/root/slurmhome/sbin:$PATH
+export LD_LIBRARY_PATH=/root/slurmhome/lib:/root/slurmhome/lib/slurm:$LD_LIBRARY_PATH
+========================================
+6. Slurm.conf (If revised, slurmctld and slurmd need to reboot)
+Use doc/html/configurator.html to createslurm.conf
+======================================
+7. Startup
+–Master
+slurmctld -Dvvvvvv
+If/var/run/slurmctld.pid is removed, use vi to re-createit
+-Slave
+slurmd -Dvvvvvv
+If/var/run/slurmd.pid is removed, use vi to re-createit
+
+5. Error
+Slurmctld error: authentication: expiredcredential
+–Timer isnot sync.
+–Date –s “2012-9-3 14:27:00”
+–Reboot munge and slurm
+
+Ifnode002 can’t register to master
+–Might becausessh
+–Try  sshmasternode(e.g., node001) fromnode002
+
+salloc 出错
+[caoj7@vm2mpi]$salloc -N2
+•-bash:./salloc: /lib/ld-linux.so.2: bad ELFinterpreter: No such file ordirectory
+–[caoj7@vm1 mpi]$ ldd /usr/local/bin/salloc
+–  linux-vdso.so.1 =>  (0x00007fff0ebff000)
+–  libdl.so.2 =>/lib64/libdl.so.2 (0x0000003d3f000000)
+–  libpthread.so.0 =>/lib64/libpthread.so.0 (0x0000003d6e000000)
+–  libc.so.6 => /lib64/libc.so.6(0x0000003d6dc00000)
+–  /lib64/ld-linux-x86-64.so.2(0x0000003d6d400000)
+
+•[caoj7@vm1mpi]$ cd /lib
+•[caoj7@vm1lib]$ln -s/lib64/ld-linux-x86-64.so.2 ld-linux.so.2
+但后来又出错了，unlink后正确
+
+------------------------------------------------------------------
+重启
+1. 启动munge
+[caoj7@vm5 ~]$ sudo /etc/init.d/munge start
+
+2. 启动slurmctld或者slurmd
+[caoj7@vm5 ~]$ slurmd -D vvvvvv
+slurmd: slurmd version 2.4.4 started
+slurmd: error: Unable to open pidfile `/var/run/slurmd.pid':Permission denied
+slurmd: slurmd started on Fri 30 Nov 2012 09:57:55 +0000
+slurmd: CPUs=4 Sockets=4 Cores=1 Threads=1 Memory=15949 TmpDisk=21851 Uptime=846
+^Cslurmd: error: Unable to remove pidfile `/var/run/slurmd.pid': No such file or directory
+slurmd: Slurmd shutdown completing
+
+[caoj7@vm5 ~]$ sudo touch /var/run/slurmd.pid
+[caoj7@vm5 ~]$ sudo chown caoj7:caoj7 /var/run/slurmd.pid
+
+[caoj7@vm5 ~]$ slurmd -D vvvvvv
+slurmd: slurmd version 2.4.4 started
+slurmd: error: Possible corrupt pidfile `/var/run/slurmd.pid'
+slurmd: slurmd started on Fri 30 Nov 2012 09:58:48 +0000
+slurmd: CPUs=4 Sockets=4 Cores=1 Threads=1 Memory=15949 TmpDisk=21851 Uptime=899
+^Cslurmd: error: Unable to remove pidfile `/var/run/slurmd.pid': Permission denied
+slurmd: Slurmd shutdown completing
+
+[caoj7@vm5 ~]$ touch /var/run/slurmd.pid 
+
+[caoj7@vm5 ~]$ slurmd -D vvvvvv
+slurmd: slurmd version 2.4.4 started
+slurmd: slurmd started on Fri 30 Nov 2012 09:59:14 +0000
+slurmd: CPUs=4 Sockets=4 Cores=1 Threads=1 Memory=15949 TmpDisk=21851 Uptime=925

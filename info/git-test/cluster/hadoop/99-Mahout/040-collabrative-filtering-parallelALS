@@ -1,0 +1,99 @@
+----------------------------------------------------------------
+0. env   
+----------------------------------------------------------------
+node1
+PHD-1.0.2
+MAHOUT-0.7
+---------
+MovieLens 100k - Consists of 100,000 ratings from 1000 users on 1700 movies.
+MovieLens 1M - Consists of 1 million ratings from 6000 users on 4000 movies.
+MovieLens 10M - Consists of 10 million ratings and 100,000 tag applications applied to 10,000 movies by 72,000 users.
+----------------------------------------------------------------
+1. put the ratings to hdfs /user/root/mahout/als/input
+----------------------------------------------------------------
+[root@node1 hamster]# hadoop fs -mkdir -p /user/root/mahout/als/input
+[root@node1 hamster]# wget http://www.grouplens.org/system/files/ml-1m.zip
+http://www.grouplens.org/node/73
+[root@node1 hamster]# unzip ml-1m.zip 
+[root@node1 hamster]# cd ml-1m
+[root@node1 ml-1m]# cat ratings.dat |sed -e s/::/,/g| cut -d, -f1,2,3 > ratings.csv 
+[root@node1 hamster]# hadoop fs -put ./ml-1m/ratings.csv /user/root/mahout/als/input
+----------------------------------------------------------------
+2. create a 90% percent training set and a 10% probe set  (some MapReduce jobs)
+----------------------------------------------------------------
+mahout splitDataset \
+--input /user/root/mahout/als/input/ratings.csv \
+--output /user/root/mahout/als/split_out \
+--trainingPercentage 0.9 --probePercentage 0.1
+-------------
+[root@node1 hamster]# hadoop fs -ls -R /user/root/mahout/als/split_out
+drwxr-xr-x   - root supergroup          0 2013-09-17 15:28 /user/root/mahout/als/split_out/probeSet
+-rw-r--r--   3 root supergroup          0 2013-09-17 15:28 /user/root/mahout/als/split_out/probeSet/_SUCCESS
+-rw-r--r--   3 root supergroup    1150118 2013-09-17 15:28 /user/root/mahout/als/split_out/probeSet/part-m-00000
+drwxr-xr-x   - root supergroup          0 2013-09-17 15:27 /user/root/mahout/als/split_out/trainingSet
+-rw-r--r--   3 root supergroup          0 2013-09-17 15:27 /user/root/mahout/als/split_out/trainingSet/_SUCCESS
+-rw-r--r--   3 root supergroup   10403338 2013-09-17 15:27 /user/root/mahout/als/split_out/trainingSet/part-m-00000
+----------------------------------------------------------------
+3. parallelALS
+----------------------------------------------------------------
+mahout parallelALS \
+--input /user/root/mahout/als/split_out/trainingSet \
+--output /user/root/mahout/als/training_out \
+--numFeatures 20 \
+--numIterations 5 \
+--lambda 0.065 \
+--tempDir /user/root/mahout/als/tmp
+-------------
+13/09/17 22:27:49 INFO driver.MahoutDriver: Program took 254394 ms (Minutes: 4.2399)
+13 MapReduce jobs
+-------------
+[root@node1 hamster]# hadoop fs -ls -R  /user/root/mahout/als/training_out
+drwxr-xr-x   - root supergroup          0 2013-09-17 15:40 /user/root/mahout/als/training_out/M
+-rw-r--r--   3 root supergroup          0 2013-09-17 15:40 /user/root/mahout/als/training_out/M/_SUCCESS
+-rw-r--r--   3 root supergroup     648123 2013-09-17 15:40 /user/root/mahout/als/training_out/M/part-m-00000
+drwxr-xr-x   - root supergroup          0 2013-09-17 15:39 /user/root/mahout/als/training_out/U
+-rw-r--r--   3 root supergroup          0 2013-09-17 15:39 /user/root/mahout/als/training_out/U/_SUCCESS
+-rw-r--r--   3 root supergroup    1061117 2013-09-17 15:39 /user/root/mahout/als/training_out/U/part-m-00000
+drwxr-xr-x   - root supergroup          0 2013-09-17 15:33 /user/root/mahout/als/training_out/userRatings
+-rw-r--r--   3 root supergroup          0 2013-09-17 15:33 /user/root/mahout/als/training_out/userRatings/_SUCCESS
+-rw-r--r--   3 root supergroup    8303162 2013-09-17 15:33 /user/root/mahout/als/training_out/userRatings/part-r-00000
+----------------------------------------------------------------
+4. probe: evaluateFactorization
+----------------------------------------------------------------
+mahout evaluateFactorization \
+--input /user/root/mahout/als/split_out/probeSet \
+--userFeatures /user/root/mahout/als/training_out/U \
+--itemFeatures /user/root/mahout/als/training_out/M \
+--output /user/root/mahout/als/rmse_out \
+--tempDir /user/root/mahout/als/tmp
+------------
+[root@node1 ~]# hadoop fs -ls /user/root/mahout/als/rmse_out
+-rw-r--r--   3 root supergroup         18 2013-09-17 17:13 /user/root/mahout/als/rmse_out/rmse.txt
+[root@node1 ~]# hadoop fs -cat /user/root/mahout/als/rmse_out/rmse.txt
+0.8548314142038833
+----------------------------------------------------------------
+5. compute recommendations: Compute recommendations using the factorization of a rating matrix
+----------------------------------------------------------------
+mahout recommendfactorized \
+--input /user/root/mahout/als/training_out/userRatings/ \
+--output /user/root/mahout/als/recommend_out \
+--userFeatures /user/root/mahout/als/training_out/U \
+--itemFeatures /user/root/mahout/als/training_out/M \
+--numRecommendations 6 --maxRating 5 \
+--tempDir /user/root/mahout/als/tmp
+------------
+[root@node1 ~]# hadoop fs -ls /user/root/mahout/als/recommend_out
+-rw-r--r--   3 root supergroup          0 2013-09-17 17:21 /user/root/mahout/als/recommend_out/_SUCCESS
+-rw-r--r--   3 root supergroup     508360 2013-09-17 17:21 /user/root/mahout/als/recommend_out/part-m-00000
+[root@node1 ~]# hadoop fs -get /user/root/mahout/als/recommend_out/part-m-00000 .
+[root@node1 ~]# head -10 part-m-00000 //for each user, recommend 6 movies
+1	[572:5.0,1397:4.7889404,356:4.636104,318:4.6266685,1659:4.6061697,73:4.604832]
+2	[572:4.883338,3092:4.617108,527:4.586882,953:4.5493155,37:4.387874,1035:4.347922]
+3	[572:5.0,3867:4.9150395,110:4.910374,2023:4.6915083,2913:4.675474,848:4.663214]
+4	[1207:5.0,615:5.0,912:5.0,913:5.0,1203:5.0,3030:5.0]
+5	[1423:4.7462707,841:4.4839363,3171:4.37078,854:4.3659964,1232:4.3445992,3089:4.343548]
+6	[572:5.0,3092:4.968051,3585:4.705877,2101:4.5534196,920:4.547169,539:4.5168834]
+7	[3338:4.8778954,1198:4.842884,1262:4.785631,3062:4.7807236,1201:4.763128,3508:4.755605]
+8	[47:4.906637,3949:4.781792,50:4.77369,318:4.768363,3338:4.7336664,593:4.7182612]
+9	[260:4.3440647,858:4.334331,1198:4.3142858,1136:4.2601576,1196:4.243157,356:4.218294]
+10	[572:5.0,3092:5.0,1812:4.9204764,2197:4.914782,3612:4.759659,37:4.723417]

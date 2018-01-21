@@ -1,0 +1,35 @@
+------------------------------------------------
+2013-8-19 (1) day day up!
+0. Done is better than perfect; Practice makes perfect.
+1. adjust the code structure on internal git
+	(1) in master 
+		git merge develop
+		git branch -d develop //delte a local branch
+		git push origin :develop | git push origin --delete develop //delete a remote branch
+	(2) clean old code, and new code structure
+		git rm -r openmpi-1.6.4
+		git rm -r openmpi-1.7.2
+		git commit -m "cleanup all ompi codes"
+		git push 
+		------------
+		add new code
+		git commit -m "add new code structure for ompi-plugin"
+		git push
+	(3) create new branch hamster-0.8 and trunk
+		git checkout -b hamster-0.8
+		git checkout -b trunk
+2. 'make dist' and verified on linux
+3. mpirun --version to check if openmpi is installed or not
+4. m4 version check	
+------------------------------------------------
+2013-8-20 (2) day day up!
+0. Done is better than perfect; Practice makes perfect.
+1. rpm check 
+2. prepare the demo environment
+3. options
+4. 
+------------------------------------------------
+2013-8-21 (3) day day up!
+0. Done is better than perfect; Practice makes perfect.
+------------------------------------------------
+	

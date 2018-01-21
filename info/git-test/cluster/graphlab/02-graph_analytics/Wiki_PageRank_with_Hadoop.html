@@ -1,0 +1,1041 @@
+<!DOCTYPE html>
+<html lang="en-US">
+   
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+		<title>Wiki PageRank with Hadoop | Xebia Blog</title>
+		
+		<link rel="pingback" href="http://blog.xebia.com/xmlrpc.php" />
+
+		<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Open+Sans:400italic,400,300,700">		<link rel="stylesheet" href="http://blog.xebia.com/wp-content/themes/rework/css/font-awesome.min.css">
+        <!--[if IE 7]>
+        <link rel="stylesheet" href="http://blog.xebia.com/wp-content/themes/rework/css/font-awesome-ie7.min.css">
+        <![endif]-->
+		<!-- scripts and wp_head() here -->
+		<link rel="alternate" type="application/rss+xml" title="Xebia Blog &raquo; Feed" href="http://blog.xebia.com/feed/" />
+<link rel="alternate" type="application/rss+xml" title="Xebia Blog &raquo; Comments Feed" href="http://blog.xebia.com/comments/feed/" />
+<link rel="alternate" type="application/rss+xml" title="Xebia Blog &raquo; Wiki PageRank with Hadoop Comments Feed" href="http://blog.xebia.com/2011/09/27/wiki-pagerank-with-hadoop/feed/" />
+<link rel='stylesheet' id='pe_theme_rework_flexslider-css'  href='http://blog.xebia.com/wp-content/themes/rework/css/flexslider.css?ver=1357905606' type='text/css' media='all' />
+<link rel='stylesheet' id='pe_theme_rework_styles-css'  href='http://blog.xebia.com/wp-content/themes/rework/css/style.css?ver=1369835131' type='text/css' media='all' />
+<link rel='stylesheet' id='pe_theme_init-css'  href='http://blog.xebia.com/wp-content/themes/rework/style.css?ver=1357905606' type='text/css' media='all' />
+<script type='text/javascript' src='http://blog.xebia.com/wp-includes/js/jquery/jquery.js?ver=1.8.3'></script>
+<script type='text/javascript' src='http://blog.xebia.com/wp-content/themes/rework/js/jQuery.BlackAndWhite.min.js?ver=1357905606'></script>
+<script type='text/javascript' src='http://blog.xebia.com/wp-content/themes/rework/js/jquery.easing-1.3.min.js?ver=1357905606'></script>
+<script type='text/javascript' src='http://blog.xebia.com/wp-content/themes/rework/js/jquery.flexslider-min.js?ver=1357905606'></script>
+<script type='text/javascript' src='http://blog.xebia.com/wp-content/themes/rework/js/jquery.isotope.min.js?ver=1357905606'></script>
+<script type='text/javascript' src='http://blog.xebia.com/wp-content/themes/rework/js/jquery.jcarousel.min.js?ver=1357905606'></script>
+<script type='text/javascript' src='http://blog.xebia.com/wp-content/themes/rework/js/jquery.fitvid.js?ver=1357905606'></script>
+<script type='text/javascript' src='http://blog.xebia.com/wp-content/themes/rework/js/respond.min.js?ver=1357905606'></script>
+<script type='text/javascript' src='http://blog.xebia.com/wp-content/themes/rework/js/selectnav.min.js?ver=1357905606'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var peContactForm = {"url":"http%3A%2F%2Fblog.xebia.com%2Fwp-admin%2Fadmin-ajax.php"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://blog.xebia.com/wp-content/themes/rework/framework/js/pe/jquery.pixelentity.contactForm.js?ver=1357905606'></script>
+<script type='text/javascript' src='http://blog.xebia.com/wp-content/themes/rework/framework/js/pe/jquery.pixelentity.widgets.js?ver=1357905606'></script>
+<script type='text/javascript' src='http://blog.xebia.com/wp-content/themes/rework/framework/js/pe/jquery.pixelentity.widgets.contact.js?ver=1357905606'></script>
+<script type='text/javascript' src='http://blog.xebia.com/wp-content/themes/rework/framework/js/pe/jquery.pixelentity.twitter.js?ver=1357905606'></script>
+<script type='text/javascript' src='http://blog.xebia.com/wp-content/themes/rework/framework/js/pe/jquery.pixelentity.widgets.twitter.js?ver=1357905606'></script>
+<script type='text/javascript' src='http://blog.xebia.com/wp-content/themes/rework/framework/js/pe/jquery.pixelentity.flickr.js?ver=1357905606'></script>
+<script type='text/javascript' src='http://blog.xebia.com/wp-content/themes/rework/framework/js/pe/jquery.pixelentity.widgets.flickr.js?ver=1357905606'></script>
+<script type='text/javascript' src='http://blog.xebia.com/wp-content/themes/rework/framework/js/pe/jquery.pixelentity.widgets.gmap.js?ver=1357905606'></script>
+<script type='text/javascript' src='http://blog.xebia.com/wp-content/themes/rework/js/init.js?ver=1357905606'></script>
+<script type='text/javascript' src='http://blog.xebia.com/wp-content/themes/rework/js/custom.js?ver=1357905606'></script>
+<script type='text/javascript' src='http://blog.xebia.com/wp-includes/js/comment-reply.min.js?ver=3.5.2'></script>
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://blog.xebia.com/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://blog.xebia.com/wp-includes/wlwmanifest.xml" /> 
+<link rel='prev' title='Eat your failure cake! Learn from your mistakes.' href='http://blog.xebia.com/2011/09/27/eat-your-failure-cake-learn-from-your-mistakes/' />
+<link rel='next' title='Don&#8217;t even think of a metrics dashboard!' href='http://blog.xebia.com/2011/09/30/dont-even-think-of-a-metrics-dashboard/' />
+<meta name="generator" content="WordPress 3.5.2" />
+<link rel='canonical' href='http://blog.xebia.com/2011/09/27/wiki-pagerank-with-hadoop/' />
+<link rel='shortlink' href='http://blog.xebia.com/?p=7573' />
+<link type="text/css" rel="stylesheet" href="http://blog.xebia.com/wp-content/plugins/simple-pull-quote/css/simple-pull-quote.css" />
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-9457407-3']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script><style type="text/css" id="syntaxhighlighteranchor"></style>
+		<!--[if (gte IE 6)&(lte IE 8)]><script type="text/javascript" src="http://blog.xebia.com/wp-content/themes/rework/js/selectivizr-min.js"></script><![endif]-->
+
+		<style type="text/css">body,p,input[type="text"],textarea,input[type="submit"],input[type="reset"],input[type="button"],button,.button,#navigation a{font-family:'Open Sans';}h1{font-family:'Open Sans';}h2{font-family:'Open Sans';}h3{font-family:'Open Sans';}h4{font-family:'Open Sans';}h5{font-family:'Open Sans';}h6{font-family:'Open Sans';}</style>		<style type="text/css">a:hover{color:#6a205e;}a>*:hover{color:#6a205e;}#navigation a:hover{color:#6a205e;}#navigation .hover>a{color:#6a205e;}#navigation .current>a{color:#6a205e;}#navigation ul{background-color:#6a205e;}#back-top a:hover{background-color:#6a205e;}.page-title-inner .accent{color:#6a205e;}.blog-carousel .comments:hover{color:#6a205e;}.jcarousel-prev:hover{background-color:#6a205e;}.jcarousel-prev:focus{background-color:#6a205e;}.jcarousel-prev:active{background-color:#6a205e;}#project-wrapper-alt .jcarousel-next:hover{background-color:#6a205e;}#project-wrapper-alt .jcarousel-next:focus{background-color:#6a205e;}#project-wrapper-alt .jcarousel-next:active{background-color:#6a205e;}.work-more a:hover{color:#6a205e;}.team-member:hover{border-bottom-color:#6a205e;}.member-info h4{color:#6a205e;}.member-social-links a:hover{color:#6a205e;}.service-icon{background-color:#6a205e;}.pricing-table-extended .level-max .header {background-color:#6a205e;}.pricing-table-simple .level-max h2{color:#6a205e;}.pricing-table-simple .level-max h2 span{color:#6a205e;}.on a{color:#6a205e;}#tabs li a:hover{border-top-color:#6a205e;}#tabs li.active a{border-top-color:#6a205e;}#tabs li.active a:hover{color:#6a205e;}.error{background-color:#6a205e;}blockquote .person .accent{color:#6a205e;}.post-meta .author a{color:#6a205e;}.post-meta .date a:hover{color:#6a205e;}.post-meta .tags a:hover{color:#6a205e;}.post-meta .comments a:hover{color:#6a205e;}.post-entry a{color:#6a205e;}.pagination .current{background-color:#6a205e;}.pagination a:hover{color:#6a205e;}.comment .author .reply:hover{color:#6a205e;}.post-block{background-color:#6a205e;}.post-more a:hover{color:#6a205e;}.project-feed-filter a:hover{color:#6a205e;}.project-feed-filter .current{color:#6a205e;}.project-item .overlay{background-color:#6a205e;background-color:rgba(106,32,94,0.75);}.project-item:hover .project-title{background-color:#6a205e;}.project-nav .prev:hover{background-color:#6a205e;}.project-nav .next:hover{background-color:#6a205e;}.project-nav .back:hover{background-color:#6a205e;}.widget.widget_categories li a:hover{color:#6a205e;}#footer .widget_categories li a:hover{color:#6a205e;}#footer .widget_recent_entries a:hover{color:#6a205e;}.twitter-feed a:hover{color:#6a205e;}#sidebar .twitter-feed a{color:#6a205e;}.photo-stream a:hover{outline-color:#6a205e;}#footer a:hover{color:#6a205e;}#footer .twitter-feed a:hover{color:#6a205e;}.flexslider:hover .flex-next:hover{background-color:#6a205e;}.flexslider:hover .flex-prev:hover{background-color:#6a205e;}#lang_sel ul ul li:hover a{background-color:#6a205e;}#lang_sel_list a:hover span{color:#6a205e;}#navigation ul a{color:#c7a7d4;}.post-block .post-entry h2:hover{color:#c7a7d4;}.post-block .post-entry p{color:#c7a7d4;}.post-block a:hover{color:#c7a7d4;}.project-item .overlay p{color:#c7a7d4;}</style>
+						
+		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.min.js"></script>
+
+	</head>
+
+
+	<body class="single single-post postid-7573 single-format-standard">
+
+		<!-- Main Container -->
+<div id="body-wrapper">
+
+    <!-- Header -->
+    <div id="header" class="container clearfix">
+		
+        <h1 id="logo"><a href="http://blog.xebia.com" id="logoLink">Xebia</a></h1>
+		
+		<div id="search">
+            <script type="text/javascript">
+/* <![CDATA[ */
+$(function() {
+	var input = document.createElement("input");
+    if(('placeholder' in input)==false) { 
+		$('[placeholder]').focus(function() {
+			var i = $(this);
+			if(i.val() == i.attr('placeholder')) {
+				i.val('').removeClass('placeholder');
+				if(i.hasClass('password')) {
+					i.removeClass('password');
+					this.type='password';
+				}			
+			}
+		}).blur(function() {
+			var i = $(this);	
+			if(i.val() == '' || i.val() == i.attr('placeholder')) {
+				if(this.type=='password') {
+					i.addClass('password');
+					this.type='text';
+				}
+				i.addClass('placeholder').val(i.attr('placeholder'));
+			}
+		}).blur().parents('form').submit(function() {
+			$(this).find('[placeholder]').each(function() {
+				var i = $(this);
+				if(i.val() == i.attr('placeholder'))
+					i.val('');
+			})
+		});
+	}
+});
+/* ]]> */
+</script>
+
+
+<form class="form-inline" action="http://blog.xebia.com/" id="searchform" method="get" role="search">
+	<input name="s" id="s" type="text" class="search" placeholder="Search!"  />
+</form>         </div>
+		
+		<div id="rss-feed"><a href="http://blog.xebia.com/2011/09/27/wiki-pagerank-with-hadoop/feed/" target="_blank"><i class="icon-rss icon-large"></i></a></div>
+		
+		<!--main nav-->
+		<ul id="navigation"><li id="menu-item-10608" class="menu-home menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-10608"><a href="http://blog.xebia.com">Home</a></li>
+<li id="menu-item-10623" class="menu-agile menu-item menu-item-type-taxonomy menu-item-object-category menu-item-10623"><a href="http://blog.xebia.com/category/agile/">Agile</a></li>
+<li id="menu-item-10630" class="menu-development menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor current-menu-parent current-post-parent menu-item-10630"><a href="http://blog.xebia.com/category/development/">Development</a></li>
+<li id="menu-item-10624" class="menu-architecture menu-item menu-item-type-taxonomy menu-item-object-category menu-item-10624"><a href="http://blog.xebia.com/category/architecture/">Architecture</a></li>
+</ul>		
+		<!--wpml lang selection-->
+		
+    </div>
+    <!-- /Header -->
+
+
+    <!-- Content -->
+    <div id="content" class="container clearfix">
+		
+
+<h1>
+
+	 
+</h1>
+
+<!-- Main Content -->
+<div id="main">
+
+
+<!--post-->
+<div class="post single clearfix">
+	<div class="post-header">
+		<div class="post-title"><a href="http://blog.xebia.com/2011/09/27/wiki-pagerank-with-hadoop/"><h2>Wiki PageRank with Hadoop</h2></a></div>
+		<div class="post-avatar"><img src="http://blog.xebia.com/wp-content/uploads/userphoto/3073.jpg" alt="Alexander Bij" title="Alexander Bij" /></div>
+	</div>
+    <ul class="post-meta">
+		<li class="author">By  <a href="#">Alexander Bij</a></li>
+		<li class="date">September 27, 2011</li>
+				<li class="comments"><a href="http://blog.xebia.com/2011/09/27/wiki-pagerank-with-hadoop/">14 Comments </a></li>
+		<li class="share-buttons">
+			<div class="share-button"><a class="shareFB" href="http://www.facebook.com/sharer.php?u=http://blog.xebia.com/2011/09/27/wiki-pagerank-with-hadoop/&t=Wiki+PageRank+with+Hadoop" target="_blank"><i class="icon-facebook"></i></a></div>
+			<div class="share-button"><a class="shareGplus" href="https://plus.google.com/share?url=http://blog.xebia.com/2011/09/27/wiki-pagerank-with-hadoop/" target="_blank"><i class="icon-google-plus-sign"></i></a></div>
+<div class="share-button"><a class="shareTwit" href="http://twitter.com/share?text=Wiki+PageRank+with+Hadoop&url=http://blog.xebia.com/2011/09/27/wiki-pagerank-with-hadoop/" target="_blank"><i class="icon-twitter"></i></a></div>
+<div class="share-button"><a class="shareLinkedin" href="http://www.linkedin.com/shareArticle?mini=true&url=http://blog.xebia.com/2011/09/27/wiki-pagerank-with-hadoop/" target="_blank"><i class="icon-linkedin"></i></a></div>
+		</li>
+	</ul>
+	<div class="post-entry">
+				<p>In this tutorial we are going to create a PageRanking for Wikipedia with the use of Hadoop. This was a good hands-on excercise to get started with Hadoop. The page ranking is not a new thing, but a suitable usecase and way cooler than a word counter! The Wikipedia (en) has 3.7M articles at the moment and is still growing. Each article has many links to other articles. With those incomming and outgoing links we can determine which page is more important than others, which basically is what PageRanking does.<br />
+<span id="more-7573"></span></p>
+<p><strong>PageRanking</strong><br />
+Larry Page came up with the algoritm to determine the page ranking and build a search engine around it in 1996 and named it Google. He is now the CEO at Google, but only earns 1 dollar a year. I will try to explain the page ranking algorithm and how we will implement it.</p>
+<p>In this example I will use 4 pages: A, B, C and D an non-existing page. This is a page that has not been created yet, but is being links to from C. In wikipedia you recongnize those pages as red and underlined. The links between the pages are as follows:</p>
+<p><a href="http://blog.xebia.com/wp-content/uploads/2011/10/wiki-links.png"><img class="alignnone size-full wp-image-7747" title="wiki-links" alt="wiki links relationship" src="http://blog.xebia.com/wp-content/uploads/2011/10/wiki-links.png" width="284" height="227" /></a></p>
+<p>Rank of A is highest, because it will get points from B and C.<br />
+PageRank of page A = &#8216;share&#8217; of the PageRank of the pages linking to A.</p>
+<p>The formula of calculating the points is as following:<br />
+<img class="alignnone" title="PageRank formula" alt="PageRank formula" src="http://upload.wikimedia.org/math/8/0/1/80125f33d12ceb608fdb9daec09d9c10.png" width="302" height="55" /></p>
+<p>The formula can be simplified to this:</p>
+<p><em>PR(A) = (1-d) + d( PR(B) / Cout(B) + &#8230; + PR(C) / Cout(C) )</em></p>
+<p>The d in the formula is the damping factor to simulate &#8216;a random surfer&#8217; and is usualy set to 0.85. If you are very interested in the details please visit the <a title="wiki PageRank" href="http://en.wikipedia.org/wiki/PageRank" target="_blank">wiki pageranking page</a> or the <a title="PageRank explained" href="http://www.webworkshop.net/pagerank.html" target="_blank">pageranking explained</a> page.</p>
+<p>If you apply the formula to our example:<br />
+<em>PageRank of A = 0.15 + 0.85 * ( PageRank(B)/outgoing links(B) + PageRank(&#8230;)/outgoing link(&#8230;) )</em></p>
+<p>Calculation of A with initial ranking 1.0 per page:<br />
+<a href="http://blog.xebia.com/wp-content/uploads/2011/10/wiki-links-calculation.png"><img class="alignnone size-full wp-image-7754" title="wiki-links-calculation" alt="" src="http://blog.xebia.com/wp-content/uploads/2011/10/wiki-links-calculation.png" width="284" height="227" /></a></p>
+<p>If we use the initial rank value 1.0 for A, B and C we would have the following output:<br />
+I have skipped page D in the result, because it is not an existing page.<br />
+A: 1.425<br />
+B: 0.15<br />
+C: 0.15</p>
+<p>Calculation of A with ranking from ITERATION-1:<br />
+<a href="http://blog.xebia.com/wp-content/uploads/2011/10/wiki-links-calculation-2.png"><img class="alignright size-full wp-image-7759" title="wiki-links-calculation-2" alt="" src="http://blog.xebia.com/wp-content/uploads/2011/10/wiki-links-calculation-2.png" width="284" height="227" /></a></p>
+<p>If we use these ranks as input and calculate it again:<br />
+A: 0.34125<br />
+B: 0.15<br />
+C: 0.15</p>
+<p>We see that the page rank of page A is reduced. The PageRank is based on previous calculations and will get more accurate after more runs. You can add new pages, new links in the future and calculate the new rankings. This is one of the tools which search engines use to create there index. We are going to do this with a set of wikipedia pages.</p>
+<h2>Hadoop Setup</h2>
+<p>In this tutorial I will not explain how to setup Hadoop, because I cannot explain it better than the very good <a href="http://developer.yahoo.com/hadoop/tutorial/">yahoo-hadoop-tutorial</a> and <a href="http://ebiquity.umbc.edu/Tutorials/Hadoop/00%20-%20Intro.html">ebiquity-Hadoop-tutorial</a> with screen shots. I will be using the current stable version hadoop 0.20.2. Note: The eclipse plugin didn&#8217;t work for me, I used the latest version instead.</p>
+<p>So I assume you have setup an Hadoop configuration with HDFS and an Eclipse environment where you can upload files into the cluster and execute jobs against your files.</p>
+<h2>The Plan</h2>
+<p>We will split the work in three different Hadoop jobs: parsing, calculating and ordering.</p>
+<p>Parse the big wiki xml into articles in Hadoop Job 1.<br />
+In the Hadoop mapping phase, get the article&#8217;s name and its outgoing links.<br />
+In the Hadoop reduce phase, get for each wikipage the links to other pages.<br />
+Store the page, initial rank and outgoing links.</p>
+<p><a href="http://blog.xebia.com/wp-content/uploads/2011/10/Hadoop-job1.png"><img class="aligncenter size-full wp-image-7763" title="Hadoop-job1" alt="" src="http://blog.xebia.com/wp-content/uploads/2011/10/Hadoop-job1.png" width="525" height="240" /></a></p>
+<p>Hadoop Job 2 will calculate the new pageRank.<br />
+In the mapping phase, map each outgoing link to the page with its rank and total outgoing links.<br />
+In the reduce phase calculate the new page rank for the pages.<br />
+Store the page, new rank and outgoing links.<br />
+Repeat these steps for more accurate results.</p>
+<p><a href="http://blog.xebia.com/wp-content/uploads/2011/10/Hadoop-job2.png"><img class="aligncenter size-full wp-image-7764" title="Hadoop-job2" alt="" src="http://blog.xebia.com/wp-content/uploads/2011/10/Hadoop-job2.png" width="610" height="173" /></a></p>
+<p>Hadoop Job 3 will map the rank and page<br />
+Store the rank and page (ordered on rank)<br />
+See the top 10 pages!</p>
+<p><a href="http://blog.xebia.com/wp-content/uploads/2011/10/Hadoop-job3.png"><img class="aligncenter size-full wp-image-7765" title="Hadoop-job3" alt="job3" src="http://blog.xebia.com/wp-content/uploads/2011/10/Hadoop-job3.png" width="465" height="232" /></a></p>
+<h2>Hadoop API</h2>
+<p>If you use the code in your IDE, you will notice lots of the classes are marked as depricated. In this example I use the old API prior to 0.20.x. There is the new API (org.hadoop.mapreduce.*) and the old API (org.hadoop.mapred.*). Most examples I found on internet were based on the old API. Thats why I used the old API here. The changes can be found in the <a title="new-in-apache-hadoop-0-21" href="http://www.cloudera.com/blog/2010/08/what%E2%80%99s-new-in-apache-hadoop-0-21/">new hadoop api 0.21</a>. It should not be very difficult to <a title="Change to new API" href="http://sonerbalkir.blogspot.com/2010/01/new-hadoop-api-020x.html">change to new API</a>.</p>
+<h2>Hadoop Job 1: Parse the XML to Page with Links</h2>
+<p>Lets take a look at the structure of a page. A page can be downloaded as a xml file by adding Special:Export to the URL. E.g. to get the XML forthe wiki page about Hilversum:<br />
+<a href="http://en.wikipedia.org/wiki/Special:Export/Hilversum">http://en.wikipedia.org/wiki/Special:Export/Hilversum</a></p>
+<pre class="brush: xml; title: Hilversum.xml; notranslate" title="Hilversum.xml">
+&lt;mediawiki xmlns=&quot;http://www.mediawiki.org/xml/export-0.5/&quot;
+xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+xsi:schemaLocation=&quot;http://www.mediawiki.org/xml/export-0.5/
+
+http://www.mediawiki.org/xml/export-0.5.xsd&quot;
+
+version=&quot;0.5&quot; xml:lang=&quot;en&quot;&gt;
+&lt;siteinfo&gt;
+	&lt;sitename&gt;Wikipedia&lt;/sitename&gt;
+	&lt;base&gt;http://en.wikipedia.org/wiki/Main_Page&lt;/base&gt;
+	&lt;generator&gt;MediaWiki 1.17wmf1&lt;/generator&gt;
+	&lt;case&gt;first-letter&lt;/case&gt;
+	&lt;namespaces&gt;
+	&lt;namespace key=&quot;-2&quot; case=&quot;first-letter&quot;&gt;Media&lt;/namespace&gt;
+	...
+	&lt;/namespaces&gt;
+&lt;/siteinfo&gt;
+&lt;page&gt;
+	&lt;title&gt;Hilversum&lt;/title&gt;
+	&lt;id&gt;13686&lt;/id&gt;
+	&lt;revision&gt;
+		&lt;id&gt;449460543&lt;/id&gt;
+		&lt;timestamp&gt;2011-09-10T06:42:48Z&lt;/timestamp&gt;
+		&lt;contributor&gt;
+		&lt;username&gt;Archengigi&lt;/username&gt;
+		&lt;id&gt;7283012&lt;/id&gt;
+		&lt;/contributor&gt;
+		&lt;comment&gt;Hilversum vlag.svg&lt;/comment&gt;
+		&lt;text xml:space=&quot;preserve&quot; bytes=&quot;13996&quot;&gt;
+		... the page latest revision content with [[LINKS]],
+links can point to other pages, files, external sites etc...
+		&lt;/text&gt;
+	&lt;/revision&gt;
+&lt;/page&gt;
+&lt;/mediawiki&gt;
+</pre>
+<p>It is a fairly simple xml structure with some siteinfo metadata and the page with the latest revision. The main part we are interested in is within the title and the text tags. Download the xml and place it in your HDFS in /user/[hostname]/[user]/wiki/in dir. When you run the job you will see the location where the file should be placed, so you can put the files in the correct directory later, after the first run.<br />
+<span style="color: red;"><br />
+11/09/19 12:02:08 INFO jvm.JvmMetrics: Initializing JVM Metrics with processName=JobTracker, sessionId=<br />
+11/09/19 12:02:08 WARN mapred.JobClient: Use GenericOptionsParser for parsing the arguments. Applications should implement Tool for the same.<br />
+Exception in thread &#8220;main&#8221; org.apache.hadoop.mapred.InvalidInputException: Input path does not exist: hdfs://192.168.88.128:54310<b>/user/alexanderlaptop/alexander/wiki/in</b><br />
+at org.apache.hadoop.mapred.FileInputFormat.listStatus(FileInputFormat.java:190)<br />
+</span></p>
+<p>Lets create the classes in our project for Job 1. The first class we need is the main class that we can run against the hadoop cluster. I called it the WikiPageRanking. It will contain all the jobs later, but for now it only contains the first job.<br />
+<code>Note: you can view and fetch the source from github here <a title="github" href="https://github.com/abij/hadoop-wiki-pageranking">abij/hadoop-wiki-pageranking</a></code></p>
+<pre class="brush: java; title: WikiPageRanking.java; notranslate" title="WikiPageRanking.java">
+public class WikiPageRanking {
+
+    public static void main(String[] args) throws Exception {
+        WikiPageRanking pageRanking = new WikiPageRanking();
+
+        //In and Out dirs in HDFS
+        pageRanking.runXmlParsing(&quot;wiki/in&quot;, &quot;wiki/ranking/iter00&quot;);
+    }
+
+    public void runXmlParsing(String inputPath, String outputPath) throws IOException {
+        JobConf conf = new JobConf(WikiPageRanking.class);
+
+        FileInputFormat.setInputPaths(conf, new Path(inputPath));
+        // Mahout class to Parse XML + config
+        conf.setInputFormat(XmlInputFormat.class);
+        conf.set(XmlInputFormat.START_TAG_KEY, &quot;&lt;page&gt;&quot;);
+        conf.set(XmlInputFormat.END_TAG_KEY, &quot;&lt;/page&gt;&quot;);
+        // Our class to parse links from content.
+        conf.setMapperClass(WikiPageLinksMapper.class);
+
+        FileOutputFormat.setOutputPath(conf, new Path(outputPath));
+        conf.setOutputFormat(TextOutputFormat.class);
+        conf.setOutputKeyClass(Text.class);
+        conf.setOutputValueClass(Text.class);
+        // Our class to create initial output
+        conf.setReducerClass(WikiLinksReducer.class);
+
+        JobClient.runJob(conf);
+    }
+</pre>
+<p>The main class that can run against your hadoop cluster, we will add more jobs later. You can debug your code (Mapper and Reducer) when you start the program as Debug As..</p>
+<p>The normal InputFormat class is the TextInputFormat that will read line by line as values for the map. We want parts of the whole xml to be our input. I chose to use the <a title="Mahout XmlInputFormat" href="http://github.com/apache/mahout/blob/ad84344e4055b1e6adff5779339a33fa29e1265d/examples/src/main/java/org/apache/mahout/classifier/bayes/XmlInputFormat.java" target="_blank">Mahout XmlInputFormat</a> to get nice input for the mapper interface. It will chop the xml into little parts within the given start and end tag &lt;Page&gt;. From the Hilversum.xml we will get the value between the page tags.</p>
+<pre class="brush: java; title: WikiPageLinksMapper.java; notranslate" title="WikiPageLinksMapper.java">&quot;]
+public class WikiPageLinksMapper extends MapReduceBase implements Mapper&lt;LongWritable, Text, Text, Text&gt; {
+
+    private static final Pattern wikiLinksPattern = Pattern.compile(&quot;\\[.+?\\]&quot;);
+
+    public void map(LongWritable key, Text value, OutputCollector&lt;Text, Text&gt; output, Reporter reporter) throws IOException {
+        // Returns  String[0] = &lt;title&gt;[TITLE]&lt;/title&gt;
+        //          String[1] = &lt;text&gt;[CONTENT]&lt;/text&gt;
+        // !! without the &lt;tags&gt;.
+        String[] titleAndText = parseTitleAndText(value);
+
+        String pageString = titleAndText[0];
+        Text page = new Text(pageString.replace(' ', '_'));
+
+        Matcher matcher = wikiLinksPattern.matcher(titleAndText[1]);
+
+        //Loop through the matched links in [CONTENT]
+        while (matcher.find()) {
+            String otherPage = matcher.group();
+            //Filter only wiki pages.
+            //- some have [[realPage|linkName]], some single [realPage]
+            //- some link to files or external pages.
+            //- some link to paragraphs into other pages.
+            otherPage = getWikiPageFromLink(otherPage);
+            if(otherPage == null || otherPage.isEmpty())
+                continue;
+
+            // add valid otherPages to the map.
+            output.collect(page, new Text(otherPage));
+        }
+    }
+
+    //... the impl of parsePageAndText(..)
+    //... the impl of getWikiPageFromLink(..)
+    }
+}
+</pre>
+<p>The mapper class that will parse the chunks of xml to key page and value outLinks tuples. In this implementation all links are added to the map, even if they appear multiple times on the page.</p>
+<pre class="brush: java; title: WikiLinksReducer.java; notranslate" title="WikiLinksReducer.java">
+public class WikiLinksReducer extends MapReduceBase implements Reducer&lt;Text, Text, Text, Text&gt; {
+    public void reduce(Text key, Iterator&lt;Text&gt; values, OutputCollector&lt;Text, Text&gt; output, Reporter reporter) throws IOException {
+        String pagerank = &quot;1.0\t&quot;;
+
+        boolean first = true;
+        while(values.hasNext()){
+            if(!first) pagerank += &quot;,&quot;;
+
+            pagerank += values.next().toString();
+            first = false;
+        }
+
+        output.collect(key, new Text(pagerank));
+    }
+}
+</pre>
+<p>The reducer class that will store the page with the initial PageRank and the outgoing links. This output format is used as input format for the next job. Key&lt;tab&gt;rank&lt;tab&gt;CommaSeparatedList-of-linksOtherPages.</p>
+<p>First Run result:<br />
+<code><br />
+Hilversum 1.0 Country,Netherlands,Province,North_Holland,Mayor,Democrats_66,A...<br />
+</code></p>
+<p>Get a bigger file! The <a title="500Mb latest dutch Wiki" href="http://dumps.wikimedia.org/nlwiki/latest/nlwiki-latest-pages-articles.xml.bz2">500Mb latest Dutch Wiki</a> is a sufficient start. Extracted the big xml is around 2.3 Gb.</p>
+<p>Upload the file to your HFDS in the wiki/in folder and remove the old result folder &#8216;ranking&#8217;. Hadoop will throw an exception if you are about to overwrite existing results. It would be a pitty if your job ran for 3 days and another job overwrites the results without notice.</p>
+<h2>Hadoop Job 2: Calculate new Page rank</h2>
+<p>This job calculates the new ranking and generates the same output format as the input, so this job can run multiple times. We will run this job after Job 1. The PageRank will become more accurate after multiple runs, so we will execute the job a few times.</p>
+<h3>Mapper</h3>
+<p>This job has its own mapper and reducer classes:</p>
+<p><code>sample input:<br />
+---------------------------------------<br />
+Page_A 1.0<br />
+Page_B 1.0 Page_A<br />
+Page_C 1.0 Page_A,Page_D</code></p>
+<pre class="brush: java; title: Mapper; notranslate" title="Mapper">
+public class RankCalculateMapper extends MapReduceBase implements Mapper&lt;LongWritable, Text, Text, Text&gt;{
+
+    @Override
+    public void map(LongWritable key, Text value, OutputCollector&lt;Text, Text&gt; output, Reporter reporter) throws IOException {
+        int pageTabIndex = value.find(&quot;\t&quot;);
+        int rankTabIndex = value.find(&quot;\t&quot;, pageTabIndex+1);
+
+        String page = Text.decode(value.getBytes(), 0, pageTabIndex);
+        String pageWithRank = Text.decode(value.getBytes(), 0, rankTabIndex+1);
+
+        // Mark page as an Existing page (ignore red wiki-links)
+        output.collect(new Text(page), new Text(&quot;!&quot;));
+
+        // Skip pages with no links.
+        if(rankTabIndex == -1) return;
+
+        String links = Text.decode(value.getBytes(), rankTabIndex+1, value.getLength()-(rankTabIndex+1));
+        String[] allOtherPages = links.split(&quot;,&quot;);
+        int totalLinks = allOtherPages.length;
+
+        for (String otherPage : allOtherPages){
+            Text pageRankTotalLinks = new Text(pageWithRank + totalLinks);
+            output.collect(new Text(otherPage), pageRankTotalLinks);
+        }
+
+        // Put the original links of the page for the reduce output
+        output.collect(new Text(page), new Text(&quot;|&quot;+links));
+    }
+}
+</pre>
+<p>Some links point to wikipages that do not exist (yet). In the browser you see them as red links. In the result I want to skip the non-existing pages. I chose to mark the page with an explanetion mark to indicate this page is an actual wiki page. The reducer-class will use only these pages to generate output.</p>
+<p>For each link there is an output with the combined value page, rank and totalLink.</p>
+<p>The last output of the mapper is the page and the origional links. We need the link so the reducer is be able to produce the correct output.</p>
+<p><code>sample output:<br />
+---------------------------------------<br />
+Page_A !<br />
+Page_C |Page_A<br />
+Page_B !<br />
+Page_B |Page_A<br />
+Page_A Page_B 1.0 1<br />
+Page_C !<br />
+Page_A Page_C 1.0 2<br />
+Page_D Page_C 1.0 2<br />
+</code></p>
+<h3>Recuder</h3>
+<p>The reducer will receive the key, values ordered by key. In a distributed environment the map is cut in slices and all nodes will get a share. The reducer will calculate the new pageRank and write it to output for the existing pages with the origional links.</p>
+<p><code>sample input (sorted on key):<br />
+---------------------------------------<br />
+Page_A !<br />
+Page_A Page_C 1.0 2<br />
+Page_A Page_B 1.0 1<br />
+Page_B !<br />
+Page_B |Page_A<br />
+Page_C !<br />
+Page_C |Page_A<br />
+Page_D Page_C 1.0 2<br />
+</code></p>
+<pre class="brush: java; title: Reducer; notranslate" title="Reducer">
+public class RankCalculateReduce extends MapReduceBase implements Reducer&lt;Text, Text, Text, Text&gt; {
+
+    private static final float damping = 0.85F;
+
+    @Override
+    public void reduce(Text key, Iterator&lt;Text&gt; values, OutputCollector&lt;Text, Text&gt; out, Reporter reporter) throws IOException {
+        boolean isExistingWikiPage = false;
+        String[] split;
+        float sumShareOtherPageRanks = 0;
+        String links = &quot;&quot;;
+        String pageWithRank;
+
+        // For each otherPage:
+        // - check control characters
+        // - calculate pageRank share &lt;rank&gt; / count(&lt;links&gt;)
+        // - add the share to sumShareOtherPageRanks
+        while(values.hasNext()){
+            pageWithRank = values.next().toString();
+
+            if(pageWithRank.equals(&quot;!&quot;)) {
+                isExistingWikiPage = true;
+                continue;
+            }
+
+            if(pageWithRank.startsWith(&quot;|&quot;)){
+                links = &quot;\t&quot;+pageWithRank.substring(1);
+                continue;
+            }
+
+            split = pageWithRank.split(&quot;\\t&quot;);
+
+            float pageRank = Float.valueOf(split[0]);
+            int countOutLinks = Integer.valueOf(split[1]);
+
+            sumShareOtherPageRanks += (pageRank/countOutLinks);
+        }
+
+        if(!isExistingWikiPage) return;
+        float newRank = damping * sumShareOtherPageRanks + (1-damping);
+
+        out.collect(key, new Text(newRank + links));
+    }
+}
+</pre>
+<p>The output of the reducer contains the new pageRank for the existing pages with the links on those pages.</p>
+<p><code>sample output:<br />
+Page_A 1.425<br />
+Page_B 0.15 Page_A<br />
+Page_C 0.15 Page_A,Page_D</code></p>
+<p>We need to configure the main class so the new job is executed for a couple of times after the xml-parsing job. I have commented out the last job for now, we will create it after in the next paragraph.</p>
+<pre class="brush: java; title: ; notranslate" title="">
+public class WikiPageRanking {
+
+    private static NumberFormat nf = new DecimalFormat(&quot;00&quot;);
+
+    public static void main(String[] args) throws Exception {
+        WikiPageRanking pageRanking = new WikiPageRanking();
+
+        //Job 1: Parse XML
+        pageRanking.runXmlParsing(&quot;wiki/in&quot;, &quot;wiki/ranking/iter00&quot;);
+
+        int runs = 0;
+        for (; runs &lt; 5; runs++) {
+            //Job 2: Calculate new rank
+            pageRanking.runRankCalculation(&quot;wiki/ranking/iter&quot;+nf.format(runs), &quot;wiki/ranking/iter&quot;+nf.format(runs + 1));
+        }
+
+        //Job 3: Order by rank
+        //pageRanking.runRankOrdering(&quot;wiki/ranking/iter&quot;+nf.format(runs), &quot;wiki/result&quot;);
+
+    }
+
+    public void runXmlParsing(String inputPath, String outputPath) throws IOException {
+        JobConf conf = new JobConf(WikiPageRanking.class);
+
+        conf.set(XmlInputFormat.START_TAG_KEY, &quot;&lt;page&gt;&quot;);
+        conf.set(XmlInputFormat.END_TAG_KEY, &quot;&lt;/page&gt;&quot;);
+
+        // Input / Mapper
+        FileInputFormat.setInputPaths(conf, new Path(inputPath));
+        conf.setInputFormat(XmlInputFormat.class);
+        conf.setMapperClass(WikiPageLinksMapper.class);
+
+        // Output / Reducer
+        FileOutputFormat.setOutputPath(conf, new Path(outputPath));
+        conf.setOutputFormat(TextOutputFormat.class);
+        conf.setOutputKeyClass(Text.class);
+        conf.setOutputValueClass(Text.class);
+        conf.setReducerClass(WikiLinksReducer.class);
+
+        JobClient.runJob(conf);
+    }
+
+    private void runRankCalculation(String inputPath, String outputPath) throws IOException {
+        JobConf conf = new JobConf(WikiPageRanking.class);
+
+        conf.setOutputKeyClass(Text.class);
+        conf.setOutputValueClass(Text.class);
+
+        conf.setInputFormat(TextInputFormat.class);
+        conf.setOutputFormat(TextOutputFormat.class);
+
+        FileInputFormat.setInputPaths(conf, new Path(inputPath));
+        FileOutputFormat.setOutputPath(conf, new Path(outputPath));
+
+        conf.setMapperClass(RankCalculateMapper.class);
+        conf.setReducerClass(RankCalculateReduce.class);
+
+        JobClient.runJob(conf);
+    }
+
+/*
+    private void runRankOrdering(String inputPath, String outputPath) throws IOException {
+        JobConf conf = new JobConf(WikiPageRanking.class);
+
+        conf.setOutputKeyClass(FloatWritable.class);
+        conf.setOutputValueClass(Text.class);
+        conf.setInputFormat(TextInputFormat.class);
+        conf.setOutputFormat(TextOutputFormat.class);
+
+        FileInputFormat.setInputPaths(conf, new Path(inputPath));
+        FileOutputFormat.setOutputPath(conf, new Path(outputPath));
+
+        conf.setMapperClass(RankingMapper.class);
+
+        JobClient.runJob(conf);
+    }
+*/
+}
+</pre>
+<p>I have added a loop around the execution of Job 2. It will take the input from wiki/ranking/iter00 for the first run and create output in wiki/ranking/iter01. For the next run the dir iter01 is considered the input directoy. When the loop is finished the Job 3 will get the last iterXX dir as input for the final job the ordering.</p>
+<h2>Job 3: Order last run on PageRank</h2>
+<p>This is a simple job that uses the input to get the page and rank. And map the key: rank to value: page. Hadoop will do the sorting on key for us. We don&#8217;t need to implement a reducer. THe mapper and sorting is enough for our result, the ordered list.</p>
+<p><code>sample input:<br />
+---------------------------------------<br />
+Page_A 1.425<br />
+Page_B 0.15 Page_A<br />
+Page_C 0.15 Page_A,Page_D</code></p>
+<pre class="brush: java; title: ; notranslate" title="">
+public class RankingMapper extends MapReduceBase implements Mapper&lt;LongWritable, Text, FloatWritable, Text&gt; {
+
+    @Override
+    public void map(LongWritable key, Text value, OutputCollector&lt;FloatWritable, Text&gt; output, Reporter arg3) throws IOException {
+        String[] pageAndRank = getPageAndRank(key, value);
+
+        float parseFloat = Float.parseFloat(pageAndRank[1]);
+
+        Text page = new Text(pageAndRank[0]);
+        FloatWritable rank = new FloatWritable(parseFloat);
+
+        output.collect(rank, page);
+    }
+
+    private String[] getPageAndRank(LongWritable key, Text value) throws CharacterCodingException {
+        String[] pageAndRank = new String[2];
+        int tabPageIndex = value.find(&quot;\t&quot;);
+        int tabRankIndex = value.find(&quot;\t&quot;, tabPageIndex + 1);
+
+        // no tab after rank (when there are no links)
+        int end;
+        if (tabRankIndex == -1) {
+            end = value.getLength() - (tabPageIndex + 1);
+        } else {
+            end = tabRankIndex - (tabPageIndex + 1);
+        }
+
+        pageAndRank[0] = Text.decode(value.getBytes(), 0, tabPageIndex);
+        pageAndRank[1] = Text.decode(value.getBytes(), tabPageIndex + 1, end);
+
+        return pageAndRank;
+    }
+
+}
+</pre>
+<p>The sorting on the key is ascending. So at the bottom is the highest rank page. Preferably the job should order descending. For now the result is ordered and that is good enough. Now we can uncomment Job 3 in the main class and execute all jobs together against the big dataset.</p>
+<p><code>sample output:<br />
+---------------------------------------<br />
+1.425 Page_A<br />
+0.15 Page_B<br />
+0.15 Page_C</code></p>
+<h2>Running the big dataset (1 node)</h2>
+<p>On my laptop I used a virtual machine for the hadoop setup. The parsing of the XML, calculating 5 times and ordering took in total:</p>
+<p>Time: 15 minutes<br />
+Input file: ~2,3 Gb<br />
+Each rank file: 238 Mb<br />
+Result file: 22 Mb</p>
+<p>I will not spoil you with the actual results, you should see it for yourself after some heavy data crunching!</p>
+<p>It would be nice to execute it on a cluster with multiple nodes and experience the speed, loadbalancing and failover. That&#8217;s something for the next blog. When I have used a bigger cluster I will update the post.</p>
+<p>You can view/download the source files from <a title="github" href="https://github.com/abij/hadoop-wiki-pageranking">github</a>.</p>
+	</div>
+	
+	
+</div>
+<!--end post-->
+<!-- Comments -->
+<div id="comments">
+
+	<h4>Comments (14)</h4>
+
+	<ol class="comments-list">		<li class="comment even thread-even depth-1 parent" id="comment-111830">
+		
+		<!--comment body-->
+		<div id="div-comment-111830">
+			
+			<div class="comment-meta">
+				<h5 class="author">
+			 Ajay  - <a class='reply comment-reply-link' href='/2011/09/27/wiki-pagerank-with-hadoop/?replytocom=111830#respond' onclick='return addComment.moveForm("div-comment-111830", "111830", "respond", "7573")'>Reply</a>				</h5>
+				<p class="date">October 13, 2011 at 4:34 am</p>
+							</div>
+			<div class="comment-entry">
+				<p>Hi,<br />
+I didn&#8217;t understand whats the content of the dataset you have provided. Can you explain about it.</p>
+			</div>
+
+		</div>
+<ul class='children'>
+		<li class="comment byuser comment-author-abij bypostauthor odd alt depth-2" id="comment-112001">
+		
+		<!--comment body-->
+		<div id="div-comment-112001">
+			
+			<div class="comment-meta">
+				<h5 class="author">
+			 abij  - <a class='reply comment-reply-link' href='/2011/09/27/wiki-pagerank-with-hadoop/?replytocom=112001#respond' onclick='return addComment.moveForm("div-comment-112001", "112001", "respond", "7573")'>Reply</a>				</h5>
+				<p class="date">October 14, 2011 at 4:52 pm</p>
+							</div>
+			<div class="comment-entry">
+				<p>He Ajay,</p>
+<p>Eventually I want the links on the wiki-pages to other wiki pages. These links are part of the text on every wiki-page.</p>
+<p>The content of the dataset is the text on all wiki-pages for a given language. All pages are stored in the wiki-dump-xml. For each wiki page there is a page-tag in the big xml. The content of the page is located between the text-tag inside the page-tag.</p>
+<p>I hope this makes it more clear.</p>
+			</div>
+
+		</div>
+</li>
+</ul>
+</li>
+		<li class="comment even thread-odd thread-alt depth-1 parent" id="comment-115500">
+		
+		<!--comment body-->
+		<div id="div-comment-115500">
+			
+			<div class="comment-meta">
+				<h5 class="author">
+			 Anca  - <a class='reply comment-reply-link' href='/2011/09/27/wiki-pagerank-with-hadoop/?replytocom=115500#respond' onclick='return addComment.moveForm("div-comment-115500", "115500", "respond", "7573")'>Reply</a>				</h5>
+				<p class="date">December 17, 2011 at 2:51 pm</p>
+							</div>
+			<div class="comment-entry">
+				<p>Hi Abij.</p>
+<p> I have some question regarding the execution of the 3 jobs?<br />
+  1. Did you run the jobs simultaneously?<br />
+  2. Have you split the 2 GB input file in smaller files before the jobs execution?<br />
+  3. Did you run the program on a single node? How many map tasks did you used?</p>
+<p>Thanks,<br />
+Anca</p>
+			</div>
+
+		</div>
+<ul class='children'>
+		<li class="comment byuser comment-author-abij bypostauthor odd alt depth-2 parent" id="comment-116579">
+		
+		<!--comment body-->
+		<div id="div-comment-116579">
+			
+			<div class="comment-meta">
+				<h5 class="author">
+			 abij  - <a class='reply comment-reply-link' href='/2011/09/27/wiki-pagerank-with-hadoop/?replytocom=116579#respond' onclick='return addComment.moveForm("div-comment-116579", "116579", "respond", "7573")'>Reply</a>				</h5>
+				<p class="date">January 6, 2012 at 2:35 pm</p>
+							</div>
+			<div class="comment-entry">
+				<p>He Anca,</p>
+<p>1: No, the jobs are dependent on each other. The Job-1 runs only once to create the input and output format for the second job.<br />
+Job-2 runs iterative using the previously calculated results.<br />
+Job-3 is ordering the final results wich is the last job that is also executed once.<br />
+Because of this order the jobs cannot run simultaniously.<br />
+2: No, I have used 1 big file.<br />
+3: Yes, I have used my own PC, I think I used the defaults I dont know the number of tasks excactly.</p>
+<p>If you are interested in the performance you can run the job yourself with source, or I can make you the job jar.</p>
+			</div>
+
+		</div>
+<ul class='children'>
+		<li class="comment even depth-3" id="comment-117896">
+		
+		<!--comment body-->
+		<div id="div-comment-117896">
+			
+			<div class="comment-meta">
+				<h5 class="author">
+			 Kai  - <a class='reply comment-reply-link' href='/2011/09/27/wiki-pagerank-with-hadoop/?replytocom=117896#respond' onclick='return addComment.moveForm("div-comment-117896", "117896", "respond", "7573")'>Reply</a>				</h5>
+				<p class="date">February 12, 2012 at 11:17 pm</p>
+							</div>
+			<div class="comment-entry">
+				<p>Hi abij, can you send me please the jar file, I want to run the job on my own PC (k.elloumi@gmail.com)<br />
+Thanks<br />
+Kai</p>
+			</div>
+
+		</div>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+		<li class="comment odd alt thread-even depth-1" id="comment-116969">
+		
+		<!--comment body-->
+		<div id="div-comment-116969">
+			
+			<div class="comment-meta">
+				<h5 class="author">
+			 <a href='http://www.net-voyance.fr' rel='external nofollow' class='url'>Allan Kardec</a>  - <a class='reply comment-reply-link' href='/2011/09/27/wiki-pagerank-with-hadoop/?replytocom=116969#respond' onclick='return addComment.moveForm("div-comment-116969", "116969", "respond", "7573")'>Reply</a>				</h5>
+				<p class="date">January 18, 2012 at 5:12 pm</p>
+							</div>
+			<div class="comment-entry">
+				<p>Sure it&#8217;s an excellent analysis that I disagree with all of your views. Do not they say that differences of opinion make a difference? I am delighted to have found your site through Google and will not fail to add to my bookmarks.</p>
+			</div>
+
+		</div>
+</li>
+		<li class="pingback even thread-odd thread-alt depth-1" id="comment-117820">
+		
+		<!--comment body-->
+		<div id="div-comment-117820">
+			
+			<div class="comment-meta">
+				<h5 class="author">
+			 <a href='http://www.wikieno.com/?p=250' rel='external nofollow' class='url'>小e的分享 | 独乐乐不如众乐乐 &raquo; 迭代式MapReduce解决方案（一）</a>  - <a class='reply comment-reply-link' href='/2011/09/27/wiki-pagerank-with-hadoop/?replytocom=117820#respond' onclick='return addComment.moveForm("div-comment-117820", "117820", "respond", "7573")'>Reply</a>				</h5>
+				<p class="date">February 10, 2012 at 5:18 pm</p>
+							</div>
+			<div class="comment-entry">
+				<p>[...] 我现在能想到的，再参考了网上的实现方式，基本上都是将静态数据与动态数据合并成一个文件，同时读入(mapper)-&gt;写出(mapper)-&gt;传输(reducer)-&gt;写出(reducer)。 [...]</p>
+			</div>
+
+		</div>
+</li>
+		<li class="comment odd alt thread-even depth-1" id="comment-118897">
+		
+		<!--comment body-->
+		<div id="div-comment-118897">
+			
+			<div class="comment-meta">
+				<h5 class="author">
+			 Fadi  - <a class='reply comment-reply-link' href='/2011/09/27/wiki-pagerank-with-hadoop/?replytocom=118897#respond' onclick='return addComment.moveForm("div-comment-118897", "118897", "respond", "7573")'>Reply</a>				</h5>
+				<p class="date">March 21, 2012 at 9:01 pm</p>
+							</div>
+			<div class="comment-entry">
+				<p>Hi abij,<br />
+Excellent tutorial, the information flows smoothly. But i couldn&#8217;t find the data set, the link is broke?<br />
+can you send me please the jar file, I want to run the job on my own PC (fadi20052002@gmail.com)<br />
+ Thanks<br />
+ Fad</p>
+			</div>
+
+		</div>
+</li>
+		<li class="comment even thread-odd thread-alt depth-1" id="comment-122936">
+		
+		<!--comment body-->
+		<div id="div-comment-122936">
+			
+			<div class="comment-meta">
+				<h5 class="author">
+			 Anca  - <a class='reply comment-reply-link' href='/2011/09/27/wiki-pagerank-with-hadoop/?replytocom=122936#respond' onclick='return addComment.moveForm("div-comment-122936", "122936", "respond", "7573")'>Reply</a>				</h5>
+				<p class="date">May 28, 2012 at 1:25 pm</p>
+							</div>
+			<div class="comment-entry">
+				<p>Hi Abij,</p>
+<p> I ran the page rank job for the same data input twice and got different results?<br />
+Is this possible? I am missing something?</p>
+<p>Thanks,<br />
+Anca</p>
+			</div>
+
+		</div>
+</li>
+		<li class="pingback odd alt thread-even depth-1" id="comment-126803">
+		
+		<!--comment body-->
+		<div id="div-comment-126803">
+			
+			<div class="comment-meta">
+				<h5 class="author">
+			 <a href='http://www.quora.com/Algorithms/How-is-pagerank-distributed#ans1623913' rel='external nofollow' class='url'>Algorithms: How is pagerank distributed? - Quora</a>  - <a class='reply comment-reply-link' href='/2011/09/27/wiki-pagerank-with-hadoop/?replytocom=126803#respond' onclick='return addComment.moveForm("div-comment-126803", "126803", "respond", "7573")'>Reply</a>				</h5>
+				<p class="date">October 14, 2012 at 8:36 pm</p>
+							</div>
+			<div class="comment-entry">
+				<p>[...] use Map Reduce. The blog below explains a simpler version by considering only the Wikipedia links.<a href="http://blog.xebia.com/2011/09/27" rel="nofollow">http://blog.xebia.com/2011/09/27</a>&#8230;Embed QuoteComment Loading&#8230; &bull; Share &bull; Embed &bull; Just now &nbsp;Add [...]</p>
+			</div>
+
+		</div>
+</li>
+		<li class="comment even thread-odd thread-alt depth-1 parent" id="comment-130285">
+		
+		<!--comment body-->
+		<div id="div-comment-130285">
+			
+			<div class="comment-meta">
+				<h5 class="author">
+			 Athresh  - <a class='reply comment-reply-link' href='/2011/09/27/wiki-pagerank-with-hadoop/?replytocom=130285#respond' onclick='return addComment.moveForm("div-comment-130285", "130285", "respond", "7573")'>Reply</a>				</h5>
+				<p class="date">December 30, 2012 at 1:10 am</p>
+							</div>
+			<div class="comment-entry">
+				<p>Hey,</p>
+<p>Have you tried using the Amazon Elastic Map Reduce to compute the pagerank? If yes, how did you go about doing it?</p>
+			</div>
+
+		</div>
+<ul class='children'>
+		<li class="comment byuser comment-author-abij bypostauthor odd alt depth-2" id="comment-130292">
+		
+		<!--comment body-->
+		<div id="div-comment-130292">
+			
+			<div class="comment-meta">
+				<h5 class="author">
+			 Alexander Bij  - <a class='reply comment-reply-link' href='/2011/09/27/wiki-pagerank-with-hadoop/?replytocom=130292#respond' onclick='return addComment.moveForm("div-comment-130292", "130292", "respond", "7573")'>Reply</a>				</h5>
+				<p class="date">December 30, 2012 at 9:44 pm</p>
+							</div>
+			<div class="comment-entry">
+				<p>He Athresh,</p>
+<p>No I have not. But that&#8217;s interesting to see if the same results are being calculated.<br />
+This page-ranking algorithm was my own implementation of the formula. I could compare this the amazone elestic map-reduce implementation for any differences.</p>
+<p>In the beginning of new year I&#8217;ll pick-up bigdata again and post some new things related to this.<br />
+greetz + happy nw</p>
+			</div>
+
+		</div>
+</li>
+</ul>
+</li>
+		<li class="comment even thread-even depth-1 parent" id="comment-130818">
+		
+		<!--comment body-->
+		<div id="div-comment-130818">
+			
+			<div class="comment-meta">
+				<h5 class="author">
+			 hobbit  - <a class='reply comment-reply-link' href='/2011/09/27/wiki-pagerank-with-hadoop/?replytocom=130818#respond' onclick='return addComment.moveForm("div-comment-130818", "130818", "respond", "7573")'>Reply</a>				</h5>
+				<p class="date">February 26, 2013 at 1:00 pm</p>
+							</div>
+			<div class="comment-entry">
+				<p>hi everyone&#8230;i have a prob in execution&#8230;<br />
+       I installed hadoop on single node cluster and i m running job1(linksmapper.java reducer.java xmlinput.java  and WikiPageranking.java ).i created a pagerank.jar using above 4 files and compiled the above files.first 3 java files executed well.my prob with WikiPageRanking.java<br />
+import WikiPageLinksMapper;<br />
+import WikiMapReducer;<br />
+import Xmlinput;<br />
+this is my code(file names are not exactly correct)<br />
+my errors are<br />
+expecting &#8216;.&#8217; at import import WikiPageLinksMapper ;<br />
+                                                                                  ^<br />
+expecting &#8216;;&#8217; at import import WikiPageLinksMapper ;<br />
+                                                                                     ^<br />
+for 3 files import&#8230;.<br />
+can anyone please help me<br />
+thanx in advance&#8230;</p>
+			</div>
+
+		</div>
+<ul class='children'>
+		<li class="comment odd alt depth-2" id="comment-130819">
+		
+		<!--comment body-->
+		<div id="div-comment-130819">
+			
+			<div class="comment-meta">
+				<h5 class="author">
+			 Alexander Bij  - <a class='reply comment-reply-link' href='/2011/09/27/wiki-pagerank-with-hadoop/?replytocom=130819#respond' onclick='return addComment.moveForm("div-comment-130819", "130819", "respond", "7573")'>Reply</a>				</h5>
+				<p class="date">March 14, 2013 at 12:47 pm</p>
+							</div>
+			<div class="comment-entry">
+				<p>Make sure the single-node cluster is of the same Hadoop version (0.20.204.0).<br />
+I should update to code and dependencies to the latest version.</p>
+			</div>
+
+		</div>
+</li>
+</ul>
+</li>
+</ol>		<div id="respond">
+	
+	<h4>Add a Comment <a class="reply comment-reply-link" rel="nofollow" id="cancel-comment-reply-link" href="/2011/09/27/wiki-pagerank-with-hadoop/#respond" style="display:none;"> - Cancel Reply</a></h4>
+
+	<form method="post" action="http://blog.xebia.com/wp-comments-post.php" id="comments-form">
+						<input type="text" value="Name" id="author" name="author" default-value="Name" />
+		<input type="text" value="Email" id="email" name="email" default-value="Email" />
+				<textarea cols="88" rows="6" id="comment" name="comment" default-value="Message">Message</textarea>
+		<input type="submit" value="Add Comment" class="red" />
+		<input type='hidden' name='comment_post_ID' value='7573' id='comment_post_ID' />
+<input type='hidden' name='comment_parent' id='comment_parent' value='0' />
+	</form>
+	</div>
+
+</div>
+<!-- /Comments -->
+
+</div><!-- /Main Content -->
+
+<!-- Sidebar -->
+<div id="sidebar">
+<!-- Sidebar -->
+<div id="sidebar">
+	</div>
+<!-- /Sidebar -->
+
+
+</div>
+<!-- /Sidebar -->
+
+
+ </div>
+    <!-- /Content -->
+
+    <!-- Footer -->
+    <div id="footer">
+        <div class="container clearfix">
+			<div class="one-fourth footer"><div class="widget widget_links"><h3>Xebia Sites</h3>
+	<ul class='xoxo blogroll'>
+<li><a href="http://www.xebia.com" rel="me">Xebia Corporate</a></li>
+<li><a href="http://www.xebia.fr" rel="me">Xebia France</a></li>
+<li><a href="http://www.xebiaindia.com" rel="me">Xebia India</a></li>
+<li><a href="http://training.xebia.com" title="www.xebiatraining.com">Xebia Training</a></li>
+<li><a href="http://www.xebicon.nl" rel="me" title="XebiCon 2012" target="_blank">XebiCon 2013</a></li>
+
+	</ul>
+</div></div>
+<div class="one-fourth footer"><div class="widget widget_meta"><h3>Login</h3>			<ul>
+						<li><a href="http://blog.xebia.com/wp-login.php">Log in</a></li>
+			<li><a href="http://blog.xebia.com/feed/" title="Syndicate this site using RSS 2.0">Entries <abbr title="Really Simple Syndication">RSS</abbr></a></li>
+			<li><a href="http://blog.xebia.com/comments/feed/" title="The latest comments to all posts in RSS">Comments <abbr title="Really Simple Syndication">RSS</abbr></a></li>
+			<li><a href="http://wordpress.org/" title="Powered by WordPress, state-of-the-art semantic personal publishing platform.">WordPress.org</a></li>
+			<li><a href="http://blog.xebia.com/post_notification_header-2/">Subscribe to Posts</a></li>			</ul>
+</div></div>        </div>
+
+        <div class="clear"></div>
+
+        <div class="info container clearfix">
+
+            <!-- Copyright -->
+            <ul class="copyright">
+                <li>© 2013 Xebia. All rights reserved</li>
+				            </ul>
+            <!-- /Copyright -->
+
+            <!-- Social Links -->
+            <ul class="social-links">
+				<li class="Xebia"><a href="Xebia.com">Xebia</a></li>            </ul>
+            <!-- /Social Links -->
+
+        </div>
+    </div>
+    <!-- /Footer -->
+
+</div>
+<!-- /Main Container -->
+
+<!-- Back to Top -->
+<div id="back-top"><a href="#top"></a></div>
+<!-- /Back to Top -->
+
+<script type='text/javascript' src='http://blog.xebia.com/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shCore.js?ver=3.0.83c'></script>
+<script type='text/javascript' src='http://blog.xebia.com/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shBrushXml.js?ver=3.0.83c'></script>
+<script type='text/javascript' src='http://blog.xebia.com/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/scripts/shBrushJava.js?ver=3.0.83c'></script>
+<script type='text/javascript'>
+	(function(){
+		var corecss = document.createElement('link');
+		var themecss = document.createElement('link');
+		var corecssurl = "http://blog.xebia.com/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shCore.css?ver=3.0.83c";
+		if ( corecss.setAttribute ) {
+				corecss.setAttribute( "rel", "stylesheet" );
+				corecss.setAttribute( "type", "text/css" );
+				corecss.setAttribute( "href", corecssurl );
+		} else {
+				corecss.rel = "stylesheet";
+				corecss.href = corecssurl;
+		}
+		document.getElementsByTagName("head")[0].insertBefore( corecss, document.getElementById("syntaxhighlighteranchor") );
+		var themecssurl = "http://blog.xebia.com/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shThemeDefault.css?ver=3.0.83c";
+		if ( themecss.setAttribute ) {
+				themecss.setAttribute( "rel", "stylesheet" );
+				themecss.setAttribute( "type", "text/css" );
+				themecss.setAttribute( "href", themecssurl );
+		} else {
+				themecss.rel = "stylesheet";
+				themecss.href = themecssurl;
+		}
+		//document.getElementById("syntaxhighlighteranchor").appendChild(themecss);
+		document.getElementsByTagName("head")[0].insertBefore( themecss, document.getElementById("syntaxhighlighteranchor") );
+	})();
+	SyntaxHighlighter.config.strings.expandSource = '+ expand source';
+	SyntaxHighlighter.config.strings.help = '?';
+	SyntaxHighlighter.config.strings.alert = 'SyntaxHighlighter\n\n';
+	SyntaxHighlighter.config.strings.noBrush = 'Can\'t find brush for: ';
+	SyntaxHighlighter.config.strings.brushNotHtmlScript = 'Brush wasn\'t configured for html-script option: ';
+	SyntaxHighlighter.defaults['pad-line-numbers'] = false;
+	SyntaxHighlighter.defaults['toolbar'] = false;
+	SyntaxHighlighter.all();
+</script>
+
+</body>
+</html>
+<!-- This Quick Cache file was built for (  blog.xebia.com/2011/09/27/wiki-pagerank-with-hadoop/ ) in 0.46836 seconds, on Aug 2nd, 2013 at 9:40 am UTC. -->
+<!-- This Quick Cache file will automatically expire ( and be re-built automatically ) on Aug 2nd, 2013 at 10:40 am UTC -->
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+<!-- Quick Cache Is Fully Functional :-) ... A Quick Cache file was just served for (  blog.xebia.com/2011/09/27/wiki-pagerank-with-hadoop/ ) in 0.00050 seconds, on Aug 2nd, 2013 at 10:03 am UTC. -->

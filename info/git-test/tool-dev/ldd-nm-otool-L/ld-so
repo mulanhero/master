@@ -1,0 +1,56 @@
+ 使用的函数包括： dlopen , dlsym, dlclose.
+
+         以下为调用过程：
+
+     void *  dllModule;
+     char *error;
+     void (*errmsg)(void);
+     dllModule = dlopen(strDll.c_str(),  RTLD_LAZY );
+     if( dllModule ==NULL )
+     {
+        strerror = dlerror();
+        return NULL;
+    }
+
+    MyFun* fun = dlsym(hmodule, strFunction.c_str());
+
+   if( fun == NULL)
+
+    {
+
+        strerror = dlerror();
+        return NULL;
+
+    }
+     dlclose(hModule);
+
+ 
+
+       但在调用中可能会出现一个错误：cannot restore segment prot after reloc
+
+       这个错误是由于SELinux导致的，因此，我们应该把SELinux关闭,以下是在网上找到的解决方案，共有两个步骤：
+
+        （1） 编辑/etc/selinux/config，找到这段：
+                    # This file controls the state of SELinux on the system.
+                    # SELINUX= can take one of these three values:
+                    # enforcing - SELinux security policy is enforced.
+                    # permissive - SELinux prints warnings instead of enforcing.
+                    # disabled - SELinux is fully disabled.
+                    SELINUX=enforcing
+
+                    把 SELINUX=enforcing 注释掉：#SELINUX=enforcing ，然后新加一行为：SELINUX=disabled
+                    编辑/etc/sysconfig/selinux，找到:
+                    # This file controls the state of SELinux on the system.
+                    # SELINUX= can take one of these three values:
+                    # enforcing - SELinux security policy is enforced.
+                    # permissive - SELinux prints warnings instead of enforcing.
+                    # disabled - SELinux is fully disabled.
+                    SELINUX=enforcing
+
+                    如果SELINUX已经是 SELINUX=disabled，那么就不用改了，否则就把SELINUX=enforcing 注释掉，新加一行：
+                    SELINUX=disabled
+
+        （2） 在你保证SElinux 被disable后.还执行下
+                        chcon -t texrel_shlib_t /home/myproject/mylib.so
+
+                    如: chcon -t texrel_shlib_t /路径/路径/名字.so (这个文件视具体执行文件.)

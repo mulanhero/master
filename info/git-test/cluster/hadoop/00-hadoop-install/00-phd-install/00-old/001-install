@@ -1,0 +1,74 @@
+1. [root@node1 ~]# vi /etc/yum.repos.d/gphd_sh-2_0.repo
+[gphd_sh-2_0]
+name=*** GreenPlum - Hadoop Shanghai *** - GPHD 2.0
+baseurl=http://hdsh138.lss.emc.com/os/gphd_2_0/
+enabled=1
+gpgcheck=0
+
+[root@node1 ~]# scp /etc/yum.repos.d/gphd_sh-2_0.repo node2:/etc/yum.repos.d/ (node3,node4)
+
+2. Hadoop
+GPHD 2.0 Hadoop will install 2 main components: HDFS and YARN.
+
+2.1 Prerequisites
+To install GPHD 2.0 Hadoop, we need to install the dependent 
+packages on all the cluster nodes first:
+
+# yum install nc
+# yum install bigtop-utils
+# yum install zookeeper
+
+2.2 Core Pacakge
+Install the Hadoop Core package on all the nodes:
+
+# yum install hadoop
+
+3. HDFS
+3.1 Namenode
+Install HDFS core package with Namenode daemon package and 
+dependencies on HDFS Namenode machine:
+
+# yum install bigtop-jsvc
+# yum install hadoop-hdfs
+# yum install hadoop-hdfs-namenode
+
+3.2 SecondaryNamenode
+Install HDFS core package with SecondaryNamenode daemon package and 
+dependencies on HDFS SecondaryNamenode machine:
+
+# yum install bigtop-jsvc
+# yum install hadoop-hdfs
+# yum install hadoop-hdfs-secondarynamenode
+
+3.3. Datanode
+Install HDFS core package with Datanode daemon package and dependencies 
+on all the HDFS Datanode machines:
+
+# yum install bigtop-jsvc
+# yum install hadoop-hdfs
+# yum install hadoop-hdfs-datanode
+
+4. YARN
+4.1 ResourceManager
+Install YARN core package and Mapreduce core package with ResourceManager 
+daemon package on YARN ResourceManager machine:
+
+# yum install hadoop-yarn
+# yum install hadoop-yarn-resourcemanager
+# yum install hadoop-mapreduce
+
+4.2 NodeManager
+Install YARN core package and Mapreduce core package with NodeManager daemon 
+package on all the YARN NodeManager machines:
+
+# yum install hadoop-yarn
+# yum install hadoop-yarn-nodemanager
+# yum install hadoop-mapreduce
+
+4.3 Mapreduce HistoryServer
+Install YARN core package and Mapreduce core package with Mapreduce Historyserver 
+daemon package on YARN Mapreduce History Manager machine:
+
+# yum install hadoop-yarn
+# yum install hadoop-mapreduce
+# yum install hadoop-mapreduce-historyserver

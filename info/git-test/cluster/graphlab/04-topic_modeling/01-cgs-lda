@@ -1,0 +1,128 @@
+------------------------------------------------------------------------
+1. compile
+------------------------------------------------------------------------
+[root@node1 topic_modeling]# pwd
+/root/program/graphlab/release/toolkits/topic_modeling
+[root@node1 topic_modeling]# make -j 2
+[root@node1 topic_modeling]# ll
+total 68744
+-rwxr-xr-x 1 root root 32499198 Aug  6 22:57 cgs_lda
+-rwxr-xr-x 1 root root 32348116 Aug  6 22:57 cgs_lda_mimno_experimental
+drwxr-xr-x 5 root root     4096 Aug  2 19:15 CMakeFiles
+-rw-r--r-- 1 root root     1177 Aug  2 19:15 cmake_install.cmake
+-rw-r--r-- 1 root root      313 Aug  2 19:15 CTestTestfile.cmake
+-rwxr-xr-x 1 root root  5513304 Aug  6 22:57 lda_sequential_cgs
+-rw-r--r-- 1 root root    11782 Aug  2 19:15 Makefile
+------------------------------------------------------------------------
+2.get doc corpus
+------------------------------------------------------------------------
+https://code.google.com/p/graphlabapi/downloads/detail?name=daily_kos.tar.bz2
+[root@node1 topic_modeling]# tar -jxvf daily_kos.tar.bz2
+[root@node1 topic_modeling]# ll -R daily_kos
+daily_kos:
+total 64
+-rw-r--r-- 1 hadoop games 55467 Jul  2  2012 dictionary.txt
+-rw-r--r-- 1 hadoop games   904 Jul  2  2012 README
+drwxr-xr-x 2 hadoop games  4096 Aug  6 23:33 tokens
+
+daily_kos/tokens:
+total 3980
+-rw-r--r-- 1 hadoop games 4074516 Jul  2  2012 doc_word_count.tsv
+[root@node1 topic_modeling]# cat daily_kos/tokens/doc_word_count.tsv | more
+0	60	2
+0	75	1
+<docid> <wordid> <count>
+------------------------------------------------------------------------
+3. run cgs_lda with mpirun
+------------------------------------------------------------------------
+mpirun -np 2 ./cgs_lda --corpus ./daily_kos/tokens --dictionary ./daily_kos/dictionary.txt --word_dir word_counts --doc_dir doc_counts --ncpus=2 --burnin=20
+------
+Hit Ctrl-D to stop the metrics server
+------------------------------------------------------------------------
+4. hamster   (�ntopics (Optional, Default: 50))
+------------------------------------------------------------------------
+hamster -v -np 2 /root/program/graphlab/release/toolkits/topic_modeling/cgs_lda --corpus /root/program/graphlab/release/toolkits/topic_modeling/daily_kos/tokens --dictionary /root/program/graphlab/release/toolkits/topic_modeling/daily_kos/dictionary.txt --word_dir /root/program/graphlab/release/toolkits/topic_modeling/word_counts --doc_dir /root/program/graphlab/release/toolkits/topic_modeling/doc_counts --ncpus=2 --burnin=20  
+---------------------
+hamster -v -np 2 /root/program/graphlab/release/toolkits/topic_modeling/cgs_lda \
+--corpus /root/program/graphlab/release/toolkits/topic_modeling/daily_kos/tokens \
+--dictionary /root/program/graphlab/release/toolkits/topic_modeling/daily_kos/dictionary.txt \
+--word_dir /root/program/graphlab/release/toolkits/topic_modeling/word_counts \
+--doc_dir /root/program/graphlab/release/toolkits/topic_modeling/doc_counts \
+--ncpus=2 --burnin=20 
+------------------------------------------------------------------------
+5. result (�ntopics (Optional, Default: 50))
+the distribution of doc/word to each topic
+------------------------------------------------------------------------
+-rw-r--r-- 1 root   root     93337 Aug  7 00:23 doc_counts_1_of_4
+-rw-r--r-- 1 root   root     92190 Aug  7 00:23 doc_counts_2_of_4
+-rw-r--r-- 1 root   root     90535 Aug  7 00:23 doc_counts_3_of_4
+-rw-r--r-- 1 root   root     92533 Aug  7 00:23 doc_counts_4_of_4
+-rw-r--r-- 1 root   root    186172 Aug  7 00:23 word_counts_1_of_4
+-rw-r--r-- 1 root   root    179524 Aug  7 00:23 word_counts_2_of_4
+-rw-r--r-- 1 root   root    184637 Aug  7 00:23 word_counts_3_of_4
+-rw-r--r-- 1 root   root    182490 Aug  7 00:23 word_counts_4_of_4
+1) combine the result
+cat word_*|sort -g -k 1,1 > word.out
+cat doc_*|sort -g -k 1,1 > doc.out
+------------------------------------------------------------------------
+////////////////////////////////////////////////////////////////////////
+------------------------------------------------------------------------
+6. hamster with HDFS   (�ntopics (Optional, Default: 50))
+------------------------------------------------------------------------
+[root@node1 topic_modeling]# hadoop fs -put daily_kos /
+[root@node1 topic_modeling]# hadoop fs -ls -R /daily_kos
+13/08/08 02:36:37 WARN util.NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+-rw-r--r--   1 root supergroup        512 2013-08-08 02:35 /daily_kos/._dictionary.txt
+-rw-r--r--   1 root supergroup        904 2013-08-08 02:35 /daily_kos/README
+-rw-r--r--   1 root supergroup      55467 2013-08-08 02:35 /daily_kos/dictionary.txt
+drwxr-xr-x   - root supergroup          0 2013-08-08 02:35 /daily_kos/tokens
+-rw-r--r--   1 root supergroup    4074516 2013-08-08 02:35 /daily_kos/tokens/doc_word_count.tsv
+---------------------
+hamster mpirun -np 2 /root/program/graphlab/release/toolkits/topic_modeling/cgs_lda \
+--corpus hdfs://10.37.7.101:9000/daily_kos/tokens \
+--dictionary hdfs://10.37.7.101:9000/daily_kos/dictionary.txt \
+--word_dir /root/program/graphlab/release/toolkits/topic_modeling/word_counts \
+--doc_dir /root/program/graphlab/release/toolkits/topic_modeling/doc_counts \
+--ncpus=2 --burnin=20 --hamster-verbose 
+------------------------------------------------------------------------
+
+mpirun -np 2 env CLASSPATH='$HADOOP_HOME/share/hadoop/common:$HADOOP_HOME/share/hadoop/common/lib:$HADOOP_HOME/share/hadoop/hdfs:$HADOOP_HOME/share/hadoop/hdfs/lib:$HADOOP_HOME/share/hadoop/mapreduce:$HADOOP_HOME/share/hadoop/mapreduce/lib:$HADOOP_HOME/share/hadoop/mapreduce/lib-examples:$HADOOP_HOME/share/hadoop/yarn:$HADOOP_HOME/share/hadoop/yarn/lib' /root/program/graphlab/release/toolkits/topic_modeling/cgs_lda \
+--corpus hdfs://10.37.7.101:9000/daily_kos/tokens \
+--dictionary hdfs://10.37.7.101:9000/daily_kos/dictionary.txt \
+--word_dir /root/program/graphlab/release/toolkits/topic_modeling/word_counts \
+--doc_dir /root/program/graphlab/release/toolkits/topic_modeling/doc_counts \
+--ncpus=2 --burnin=20 
+
+env CLASSPATH='$HADOOP_HOME/share/hadoop/common:$HADOOP_HOME/share/hadoop/common/lib:$HADOOP_HOME/share/hadoop/hdfs:$HADOOP_HOME/share/hadoop/hdfs/lib:$HADOOP_HOME/share/hadoop/mapreduce:$HADOOP_HOME/share/hadoop/mapreduce/lib:$HADOOP_HOME/share/hadoop/mapreduce/lib-examples:$HADOOP_HOME/share/hadoop/yarn:$HADOOP_HOME/share/hadoop/yarn/lib'
+------------------------------------------------------------------------
+4. hamster on with HDFS  (job can not exit properly, need yarn application -kill #application_id)
+------------------------------------------------------------------------
+hamster -v -np 2 \
+/usr/local/hamster/graphlab/release/toolkits/topic_modeling/cgs_lda \
+--corpus hdfs://10.37.7.101:8020/user/root/graphlab/topic/daily_kos/tokens \
+--dictionary hdfs://10.37.7.101:8020/user/root/graphlab/topic/daily_kos/dictionary.txt \
+--word_dir hdfs://10.37.7.101:8020/user/root/graphlab/topic/daily_kos/out_word_counts \
+--doc_dir hdfs://10.37.7.101:8020/user/root/graphlab/topic/daily_kos/out_doc_counts \
+--ncpus=2 --burnin=20
+
+[root@node1 graphlab_data]# yarn application -kill application_1383753437489_0215   #kill the application
+
+[root@node1 graphlab_data]# hadoop fs -rm /user/root/graphlab/topic/daily_kos/out*
+
+--------------
+
+
+hamster -np 4 -mem 2048 \
+/usr/local/graphlab2.2/collaborative_filtering/als \
+--matrix hdfs://10.37.7.211:9000/user/root/hamster/graphlab_data/cf/smallnetflix \
+--D=20 --lambda=0.065 --max_iter=5 \
+--predictions=hdfs://10.37.7.211:9000/user/root/hamster/graphlab_data/cf/smallnetflix/out
+
+hamster -v -np 2 \
+/usr/local/graphlab2.2/topic_modeling/cgs_lda \
+--corpus hdfs://10.37.7.211:9000/user/root/hamster/graphlab_data/topic/daily_kos/tokens
+--dictionary hdfs://10.37.7.211:9000/user/root/hamster/graphlab_data/topic/daily_kos/dictionary.txt \
+--word_dir hdfs://10.37.7.211:9000/user/root/hamster/graphlab_data/topic/daily_kos/out_word_counts \
+--doc_dir hdfs://10.37.7.211:9000/user/root/hamster/graphlab_data/topic/daily_kos/out_doc_counts \
+--ncpus=2 --burnin=20
+ 

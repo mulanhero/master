@@ -1,0 +1,43 @@
+Koren SVD++ is an algorithm which is slightly more fancy than bias-SGD and give somewhat better prediction results
+3) hamster on Cluster-node1
+------------------------------------------------------------------------
+------------prepare the file to be predicted
+[root@node1 smallnetflix]# cat to.predict 
+200 200
+500 500
+---------hamster--------
+hamster -v -np 2 /root/program/graphlab/release/toolkits/collaborative_filtering/svdpp --matrix /root/program/graphlab/release/toolkits/collaborative_filtering/smallnetflix --D=20 --max_iter=3 --minval=1 --maxval=5 --predictions=/root/program/graphlab/release/toolkits/collaborative_filtering/smallnetflix/out
+--------------
+
+
+The output of Koren’s SVD++ is 5 output files:
+
+Global mean ratings - include the scalar global mean rating.
+user_bias  - includes a vector with bias for each user
+movie_bias - includes a vector with bias for each movie
+matrix U - includes in each row the feature vector q_u of size D.
+matrix V - includes in each row the sum of feature vectors p_i + w_i of size D.
+--------------
+[root@node1 smallnetflix]# ll
+total 92600
+-rw-r--r-- 1 root root       26 Aug 12 22:42 out_1_of_2
+-rw-r--r-- 1 root root        0 Aug 12 22:42 out_2_of_2
+-rw-r--r-- 1 root root  1347478 Aug 12 22:43 out.bias.U_1_of_2
+-rw-r--r-- 1 root root  1348248 Aug 12 22:43 out.bias.U_2_of_2
+-rw-r--r-- 1 root root    48288 Aug 12 22:43 out.bias.V_1_of_2
+-rw-r--r-- 1 root root    47962 Aug 12 22:43 out.bias.V_2_of_2
+-rw-r--r-- 1 root root 19521230 Aug 12 22:43 out.U_1_of_2
+-rw-r--r-- 1 root root 19528115 Aug 12 22:43 out.U_2_of_2
+-rw-r--r-- 1 root root   742928 Aug 12 22:43 out.V_1_of_2
+-rw-r--r-- 1 root root   737711 Aug 12 22:43 out.V_2_of_2
+-rw-r--r-- 1 root root 44092460 Aug  6 17:54 smallnetflix_mm.train
+-rw-r--r-- 1 root root  7381633 Aug  6 17:54 smallnetflix_mm.validate
+-rw-r--r-- 1 root root       16 Aug  3 00:18 to.predict
+------------------------------------------------------------------------
+4) hamster on with HDFS
+------------------------------------------------------------------------
+hamster -v -np 2 \
+/usr/local/hamster/graphlab/release/toolkits/collaborative_filtering/svdpp \
+--matrix hdfs://10.37.7.101:8020/user/root/graphlab/cf/smallnetflix \
+--D=20 --max_iter=3 --minval=1 --maxval=5 \
+--predictions=hdfs://10.37.7.101:8020/user/root/graphlab/cf/smallnetflix/out

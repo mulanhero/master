@@ -1,0 +1,33 @@
+
+
+
+
+
+
+
+
+
+-rwxr-xr-x 1 root root 68328 Dec  5 05:59 fkeyval
+-rwxr-xr-x 1 root root 68376 Dec  5 05:59 fkeyvalcomm
+-rwxr-xr-x 1 root root 68992 Dec  5 05:59 fkeyvaltype
+-rwxr-xr-x 1 root root 67681 Dec  5 05:59 keyval_double_free
+
+export CPLUS_INCLUDE_PATH=/usr/include/c++/4.4.4
+[root@node1 mpich-3.0.4]# ./configure --disable-cxx --disable-f77 --disable-fc
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+./configure --prefix=/usr --with-mpi=/usr --enable-strictmpi --disable-cxx --includedir=/usr/include:/usr/include/openmpi
+---------------------------------------------------------------------------------
+
+
+
+export OMPI_MCA_orte_default_hostfile=/root/orte_hosts
+export CPLUS_INCLUDE_PATH=/usr/include/c++/4.4.4
+#export C_INCLUDE_PATH=/usr/include:/usr/include/openmpi:$C_INCLUDE_PATH
+
+#mpich
+export PATH=/usr/local/hamster/mpich215/bin:$PATH
+export LD_LIBRARY_PATH=/usr/local/hamster/mpich215/lib:$LD_LIBRARY_PATH
+export C_INCLUDE_PATH=/usr/local/hamster/mpich215/include:/usr/local/hamster/mpich215/include/primitives:$C_INCLUDE_PATH

@@ -1,0 +1,124 @@
+P@ssw0rd
+
+
+
+// 安装所需软件包【本试验在192.168.0.254主机中配置所有服务】
+[root@localhost~]# yum install dhcp tftp vsftp syslinux kickstart –y
+
+
+1. DHCP
+[root@localhost~]# vi /etc/dhcp/dhcpd.conf
+ddns-update-style interim;
+ignore client-updates;
+next-server 192.168.0.254;                  #tftp服务器IP 
+subnet 192.168.0.0 netmask 255.255.255.0 {
+        range 192.168.0.10 192.168.0.20;    #地址池
+}       
+filename "pxelinux.0";
+[root@localhost~]# service dhcpd start
+
+
+2. TFTP
+rpm -ivh tftp-server-0.39-1.i386.rpm
+
+[root@localhost ~]# vim /etc/xinetd.d/tftp
+disable                 = no
+[root@localhost~]# service xinetd start
+确保69端口被监听
+[root@localhost ~]# netstat -aunlp|grep 69
+udp        0      0 0.0.0.0:69                  0.0.0.0:*                               1108/xinetd
+[root@localhost~]# cp /cdrom/images/pxeboot/initrd.img /var/lib/tftpboot
+[root@localhost~]# cp /cdrom/images/pxeboot/vmlinuz /var/lib/tftpboot
+[root@localhost~]# cp /usr/share/syslinux/pxelinux.0 /var/lib/tftpboot/
+[root@localhost~]# mkdir /var/lib/tftpboot/pxelinux.cfg
+--------------------------------------------------------
+把Linux第一张安装光盘上isolinux目录中的isolinux.cfg复制到pxelinux.cfg目录中，并同时更改文件名称为default
+cd pxelinux.cfg
+cp /var/ftp/isolinux/isolinux.cfg   /tftpboot/pxelinux.cfg/default
+--------------------------------------------------------
+[root@localhost~]# vi /var/lib/tftpboot/pxelinux.cfg/default
+default linux
+label linux
+  menu label ^Install rhel 62 with PXE
+  menu default
+  kernel vmlinuz
+  append initrd=initrd.img ks=ftp://192.168.0.254/pub/ks.cfg
+完成后，目录树如下：
+[root@localhost ~]# tree /var/lib/tftpboot
+/var/lib/tftpboot
+├── initrd.img
+├── pxelinux.0
+├── pxelinux.cfg
+│   └── default
+└── vmlinuz
+
+
+3. Kickstart
+[root@localhost~]# system-config-kickstart
+Save : /var/ftp/pub/ks.cfg     #############
+ks.cfg样例见文末
+ 
+// FTP 部分
+[root@localhost~]# service vsftpd start
+[root@localhost~]# mkdir /cdrom
+[root@localhost~]# mount /dev/cdrom /cdrom
+[root@localhost~]# mkdir /var/ftp/pub/rhel6.2
+[root@localhost~]# cp -Rf /cdrom/* /var/ftp/pub/rhel6.2
+[root@localhost~]# chown -R ftp:ftp /var/ftp/pub/*
+此处可先浏览器访问ftp://192.168.0.254/pub看是否可访问到rhel6.2目录下文件及ks.cfg，以确保ftp的可用性！
+
+
+4.ks.cfg样例
+#platform=x86, AMD64, or Intel EM64T
+#version=DEVEL
+# Firewall configuration
+firewall --disabled
+# Install OS instead of upgrade
+install
+# Use network installation
+url --url="ftp://192.168.0.254/pub/rhel6.2"
+# Root password
+rootpw --iscrypted $1$3xdVJxOa$3gsZHWJn403WYmNhlMYOl.
+# System authorization information
+auth  --useshadow  --passalgo=sha512
+# Use graphical install
+graphical
+firstboot --disable
+# System keyboard
+keyboard us
+# System language
+lang en_US
+# SELinux configuration
+selinux --disabled
+# Installation logging level
+logging --level=info
+ 
+# System timezone
+timezone  Africa/Abidjan
+# System bootloader configuration
+bootloader --location=mbr
+# Clear the Master Boot Record
+zerombr
+# Partition clearing information
+clearpart --all --initlabel
+# Disk partitioning information
+part /boot --fstype="ext4" --size=200
+part swap --fstype="swap" --size=1024
+part / --fstype="ext4" --grow --size=1
+ 
+%packages
+@base
+@basic-desktop
+@chinese-support
+@compat-libraries
+@console-internet
+@development
+@fonts
+@input-methods
+@internet-browser
+@remote-desktop-clients
+@system-admin-tools
+@system-management
+@x11
+ 
+%end  

@@ -1,0 +1,47 @@
+------------------------------------------------------------------
+1) upload input data into HDFS, you can find:
+
+03:39:51 $ hadoop fs -ls /yarn/apps/caoj7/graphlab_data/cf/smallnetflix/
+Found 3 items
+-rw-r--r--   3 caoj7 hadoop   44092460 2013-12-17 06:30 /yarn/apps/caoj7/graphlab_data/cf/smallnetflix/smallnetflix_mm.train
+-rw-r--r--   3 caoj7 hadoop    7381633 2013-12-17 06:31 /yarn/apps/caoj7/graphlab_data/cf/smallnetflix/smallnetflix_mm.validate
+-rw-r--r--   3 caoj7 hadoop         16 2013-12-17 06:31 /yarn/apps/caoj7/graphlab_data/cf/smallnetflix/to.predict
+------------------------------------------------------------------
+2) add Hadoop's jar in your classpath
+
+a) put a file set_classpath.sh in your $HOME
+03:42:32 $ cat ~/set_classpath.sh
+for i in `hadoop classpath | sed "s/:/ /g"` ; do echo $i; done | xargs | sed "s/ /:/g" > /tmp/classpath
+export CLASSPATH=`cat /tmp/classpath`
+echo $CLASSPATH
+
+b)  vi ~/.bashrc
+export JAVA_HOME=/usr/java/jdk1.7.0_51
+. ~/set_classpath.sh
+
+c) source
+03:46:54 $ source ~/.bashrc
+------------------------------------------------------------------
+3) command line
+mpirun -np 1 \
+/usr/local/graphlab2.2/collaborative_filtering/als \
+--matrix hdfs://mst1.ic.analyticsworkbench.com:8020/yarn/apps/caoj7/graphlab_data/cf/smallnetflix \
+--D=20 --lambda=0.065 --max_iter=5 \
+--predictions=hdfs://mst1.ic.analyticsworkbench.com:8020/yarn/apps/caoj7/graphlab_data/cf/smallnetflix/out
+------------------------------------------------------------------
+4) after finished,  check the output in HDFS
+
+03:50:28 $ hadoop fs -ls /yarn/apps/caoj7/graphlab_data/cf/smallnetflix
+Found 9 items
+-rw-r--r--   3 caoj7 hadoop   19723131 2014-07-10 03:50 /yarn/apps/caoj7/graphlab_data/cf/smallnetflix/out.U_1_of_2
+-rw-r--r--   3 caoj7 hadoop   19721844 2014-07-10 03:50 /yarn/apps/caoj7/graphlab_data/cf/smallnetflix/out.U_2_of_2
+-rw-r--r--   3 caoj7 hadoop     711225 2014-07-10 03:50 /yarn/apps/caoj7/graphlab_data/cf/smallnetflix/out.V_1_of_2
+-rw-r--r--   3 caoj7 hadoop     716248 2014-07-10 03:50 /yarn/apps/caoj7/graphlab_data/cf/smallnetflix/out.V_2_of_2
+-rw-r--r--   3 caoj7 hadoop          0 2014-07-10 03:50 /yarn/apps/caoj7/graphlab_data/cf/smallnetflix/out_1_of_2
+-rw-r--r--   3 caoj7 hadoop         32 2014-07-10 03:50 /yarn/apps/caoj7/graphlab_data/cf/smallnetflix/out_2_of_2
+-rw-r--r--   3 caoj7 hadoop   44092460 2013-12-17 06:30 /yarn/apps/caoj7/graphlab_data/cf/smallnetflix/smallnetflix_mm.train
+-rw-r--r--   3 caoj7 hadoop    7381633 2013-12-17 06:31 /yarn/apps/caoj7/graphlab_data/cf/smallnetflix/smallnetflix_mm.validate
+-rw-r--r--   3 caoj7 hadoop         16 2013-12-17 06:31 /yarn/apps/caoj7/graphlab_data/cf/smallnetflix/to.predict
+
+
+the out*  are output files.

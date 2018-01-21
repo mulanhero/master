@@ -1,0 +1,58 @@
+----------------------------------------------------------------
+1) modify hostname  (as root)
+[root@cq02-modeloff-node01.cq02.baidu.com ~]# cat /etc/hosts
+127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4
+::1         localhost localhost.localdomain localhost6 localhost6.localdomain6
+
+
+10.58.173.36    cq02-modeloff-node01.cq02.baidu.com             node1
+10.58.103.19    cq02-modeloff-node02.cq02.baidu.com             node2
+10.58.103.32    cq02-modeloff-node03.cq02.baidu.com             node3
+10.58.103.33    cq02-modeloff-node04.cq02.baidu.com             node4
+10.58.103.18    cq02-modeloff-node05.cq02.baidu.com             node5
+10.58.103.17    cq02-modeloff-node06.cq02.baidu.com             node6
+10.58.103.34    cq02-modeloff-node07.cq02.baidu.com             node7
+10.58.102.56    cq02-modeloff-node08.cq02.baidu.com             node8
+10.58.172.51    cq02-modeloff-node09.cq02.baidu.com             node9
+10.58.172.52    cq02-modeloff-node10.cq02.baidu.com             node10
+----------------------------------------------------------------
+2) .ssh for root or other user
+----------------------------------------------------------------
+3) install massh and ambit on host33 using RPM
+massh host[11-32] push /etc/hosts
+massh host[11-32] push /etc/yum.repos.d/CentOS-Base-163.repo
+or
+massh mycluster push /etc/yum.repos.d/CentOS-Base-163.repo
+----------------------------------------------------------------
+6) gcc  (as root on each node)
+    tips: yum search *** & yum install ***
+    yum search gcc
+    yum install gcc.x86_64 gcc-c++.x86_64  // will also install 'gcc.x86_64' and 'libgcc.x86_64'
+    
+   sudo yum -y install gcc.x86_64 gcc-gfortran.x86_64 libgcc.x86_64 gcc-c++.x86_64
+----------------------------------------------------------------
+7)NFS (as root) 
+    NFS server for headnode
+    NFS mount for other node
+    share headnode's /home or /root/program 
+
+
+massh mycluster verbose mount -t nfs gphd-vm33:/root/program /root/program
+==========================================================================
+----------------------------------------------------------------
+[root@gphd-vm33 ~]# massh all23 verbose useradd -g hadoop ham
+[root@gphd-vm33 ~]# cat /etc/exports 
+/home/ham *(rw,no_root_squash,sync)
+[root@gphd-vm33 ~]# massh slave22 verbose mount -t nfs gphd-vm33:/home/ham /home/ham
+[root@gphd-vm33 ~]# su - ham
+[ham@gphd-vm33 ~]$ ssh-keygen -t rsa
+[ham@gphd-vm33 ~]$ cp ~/.ssh/id_rsa.pub ~/.ssh/authorized_keys
+
+==========================================================================
+2) add user (as root)
+	a)add group and user, passwd  on each nodes
+	
+3) sudoers (as root, scp to other nodes)
+	vi /etc/sudoers
+
+7) setup openssl and munge 

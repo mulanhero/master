@@ -1,0 +1,11 @@
+#for maven
+export M2_HOME=/home/hadoop/program/apache-maven-3.0.5
+export PATH=$M2_HOME/bin:$PATH
+
+
+(5)install maven
+[caoj7@vm1 soft]$ wget http://labs.mop.com/apache-mirror/maven/maven-3/3.0.4/source/apache-maven-3.0.4-src.tar.gz
+[caoj7@cnencaoj7mbp1 apache-maven-3.0.4]$vi ~/.profile
+export M2_HOME=/Users/caoj7/program/maven-3.0.4
+export PATH=$M2_HOME/bin:$PATH
+[caoj7@cnencaoj7mbp1 apache-maven-3.0.4]$source ~/.profile

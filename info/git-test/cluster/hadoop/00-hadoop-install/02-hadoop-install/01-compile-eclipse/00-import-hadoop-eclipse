@@ -1,0 +1,81 @@
+0. prepare (hadoop)
+(1) gcc/autoconf/automake/google's protocol buffer
+(2) http://protobuf.googlecode.com/files/protobuf-2.4.1.tar.gz
+./configure --prefix=/usr/local
+make
+make check
+sudo make install
+------------
+$ protoc
+Missing input file.
+(3) JDK/ANT/Maven(MVN)/SVN
+
+1. svn
+svn checkout http://svn.apache.org/repos/asf/hadoop/common/trunk/ hadoop-trunk
+			 http://svn.apache.org/repos/asf/hadoop/common/tags/release-2.0.3-alpha/
+			 
+svn checkout http://svn.apache.org/repos/asf/hadoop/common/tags/release-2.2.0/ hadoop-2.2.0-src 
+------------------------
+Importing projects to eclipse
+
+When you import the project to eclipse, install hadoop-maven-plugins at first.
+
+  $ cd hadoop-maven-plugins
+  $ mvn install
+
+Then, generate eclipse project files.
+
+  $ mvn eclipse:eclipse -DskipTests
+------------------------
+At last, import to eclipse by specifying the root directory of the project via
+[File] > [Import] > [Existing Projects into Workspace].
+
+Note: This may take a while the first time, as all libraries are fetched 
+from the internet, and the whole build is performed
+
+error:
+Failed to execute goal org.codehaus.mojo:exec-maven-plugin:1.2:exec (compile-proto) 
+on project hadoop-common: Command execution failed. Cannot run program "protoc"
+solve issue:  install google's protocol buffer
+
+
+3. In Eclipse
+After the above, do the following to finally have projects in Eclipse ready 
+and waiting for you to go on that scratch-itching development spree:
+
+For Common
+File -> Import...
+Choose "Existing Projects into Workspace"
+Select the hadoop-common-project directory as the root directory
+Select the hadoop-annotations, hadoop-auth, hadoop-auth-examples and hadoop-common projects
+Click "Finish"
+File -> Import...
+Choose "Existing Projects into Workspace"
+Select the hadoop-assemblies directory as the root directory
+Select the hadoop-assemblies project
+Click "Finish"
+To get the projects to build cleanly:
+* Add target/generated-test-sources/java as a source directory for hadoop-common
+* You may have to add then remove the JRE System Library to avoid errors due to access restrictions
+
+
+For HDFS
+File -> Import...
+Choose "Existing Projects into Workspace"
+Select the hadoop-hdfs-project directory as the root directory
+Select the hadoop-hdfs project
+Click "Finish"
+
+
+For MapReduce
+File -> Import...
+Choose "Existing Projects into Workspace"
+Select the hadoop-mapreduce-project directory as the root directory
+Select the hadoop-mapreduce-project project
+Click "Finish"
+Note: in the case of MapReduce the testjar package is broken. This is expected since it is a part of a testcase that checks for incorrect packaging. This is not to be worried about.
+
+
+To run tests from Eclipse you need to additionally do the following:
+Under project Properties, select Java Build Path, and the Libraries tab
+Click "Add External Class Folder" and select the build directory of the current project

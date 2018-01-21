@@ -1,0 +1,46 @@
+Dual Decomposition (DD), also called Lagrangian Relaxation
+------------------------------------------------------------------------
+1. get the grid3x3.uai
+------------------------------------------------------------------------
+wget http://www.cs.huji.ac.il/project/PASCAL/examples/grid3x3.uai
+------------------------------------------------------------------------
+2. single process
+------------------------------------------------------------------------
+./dd --graph grid3x3.uai --output ./outdir   // 
+-------
+[node1:07108] *** Process received signal ***
+[node1:07108] Signal: Aborted (6)
+[node1:07108] Signal code:  (-6)
+[node1:07108] [ 0] /lib64/libpthread.so.0() [0x33cc40f500]
+[node1:07108] [ 1] /lib64/libc.so.6(gsignal+0x35) [0x33cbc328a5]
+[node1:07108] [ 2] /lib64/libc.so.6(abort+0x175) [0x33cbc34085]
+[node1:07108] [ 3] ./dd(_Z11loadUAIfileRN8graphlab19distributed_controlERNS_17distributed_graphI11vertex_data9edge_dataEESs+0xfe0) [0x4a01b0]
+[node1:07108] [ 4] ./dd(main+0xaaf) [0x4a1e6f]
+[node1:07108] [ 5] /lib64/libc.so.6(__libc_start_main+0xfd) [0x33cbc1ecdd]
+[node1:07108] [ 6] ./dd() [0x49d3b9]
+[node1:07108] *** End of error message ***
+Aborted (core dumped)
+------------------------------------------------------------------------
+3. mpirun
+------------------------------------------------------------------------
+mpirun -host node1 -np 2 /usr/local/hamster/graphlab/debug/toolkits/graphical_models/dd \
+	--graph /usr/local/hamster/graphlab/debug/toolkits/graphical_models/grid3x3.uai \
+	--output /usr/local/hamster/graphlab/debug/toolkits/graphical_models/outdir
+------------------------------------------------------------------------
+4. hamster
+------------------------------------------------------------------------
+hamster -v -np 2 /usr/local/hamster/graphlab/debug/toolkits/graphical_models/dd --graph /usr/local/hamster/graphlab/debug/toolkits/graphical_models/grid3x3.uai --output /tmp
+-----
+hamster -v -np 2 /root/program/graphlab/release/toolkits/graphical_models/dd --graph /root/program/graphlab/release/toolkits/graphical_models/grid3x3.uai --output /root/program/graphlab/release/toolkits/graphical_models/out
+
+
+------------------------------------------------------------------------
+5. hamster on without HDFS   (ERROR when on HDFS)
+hamster -v -p gl -np 2 /usr/local/hamster/graphlab/release/toolkits/graphical_models/dd \
+--graph hdfs://10.37.7.101:8020/user/root/graphlab/graphical_model/grid3x3.uai \
+--output hdfs://10.37.7.101:8020/user/root/graphlab/graphical_model/out
+------------------------------------------------------------------------
+hamster -v -p gl -np 2 \
+/usr/local/hamster/graphlab/release/toolkits/graphical_models/dd \
+--graph /usr/local/hamster/jimmy-hamster/test/graphlab_data/graphical_model/grid3x3.uai \
+--output /usr/local/hamster/writable_dir/

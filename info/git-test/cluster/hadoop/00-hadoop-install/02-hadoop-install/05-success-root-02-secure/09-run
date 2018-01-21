@@ -1,0 +1,61 @@
+1. start
+-----------------------------------hdfs----------------------------------------------------
+1.1 
+sudo -u hdfs -E $HADOOP_HOME/bin/hdfs namenode -format
+sudo -u hdfs $HADOOP_HOME/sbin/hadoop-daemon.sh --config $HADOOP_CONF_DIR --script hdfs start namenode
+sudo -u hdfs $HADOOP_HOME/sbin/hadoop-daemon.sh --config $HADOOP_CONF_DIR --script hdfs start datanode
+----------------------------------yarn-----------------------------------------------------
+$HADOOP_YARN_HOME/sbin/yarn-daemon.sh --config $HADOOP_CONF_DIR start resourcemanager
+$HADOOP_YARN_HOME/sbin/yarn-daemon.sh --config $HADOOP_CONF_DIR start nodemanager
+
+
+
+2. stop
+-----------------------------------hdfs----------------------------------------------------
+$HADOOP_HOME/sbin/hadoop-daemon.sh --config $HADOOP_CONF_DIR --script hdfs stop namenode
+$HADOOP_HOME/sbin/hadoop-daemon.sh --config $HADOOP_CONF_DIR --script hdfs stop datanode
+-----------------------------------yarn----------------------------------------------------
+$HADOOP_YARN_HOME/sbin/yarn-daemon.sh --config $HADOOP_CONF_DIR stop resourcemanager
+$HADOOP_YARN_HOME/sbin/yarn-daemon.sh --config $HADOOP_CONF_DIR stop nodemanager
+
+3. hdfs
+[hadoop@node1 hadoop]$ hadoop fs -ls /
+[hadoop@node1 hadoop]$ hadoop fs -mkdir /testdir2
+
+
+4. mapreduce
+hadoop jar $HADOOP_HOME/share/hadoop/mapreduce/hadoop-mapreduce-examples-2.0.3-alpha.jar pi 2 1000
+
+
+
+
+************************************************************/
+13/03/28 03:55:15 FATAL namenode.NameNode: Exception in namenode join
+java.io.IOException: Login failure for hdfs/node1@HADOOPDOMAIN from keytab /etc/hadoop/conf/hdfs.keytab
+	at org.apache.hadoop.security.UserGroupInformation.loginUserFromKeytab(UserGroupInformation.java:798)
+	at org.apache.hadoop.security.SecurityUtil.login(SecurityUtil.java:282)
+	at org.apache.hadoop.hdfs.server.namenode.NameNode.format(NameNode.java:731)
+	at org.apache.hadoop.hdfs.server.namenode.NameNode.createNameNode(NameNode.java:1110)
+	at org.apache.hadoop.hdfs.server.namenode.NameNode.main(NameNode.java:1217)
+Caused by: javax.security.auth.login.LoginException: Unable to obtain password from user
+
+	at com.sun.security.auth.module.Krb5LoginModule.promptForPass(Krb5LoginModule.java:789)
+	at com.sun.security.auth.module.Krb5LoginModule.attemptAuthentication(Krb5LoginModule.java:654)
+	at com.sun.security.auth.module.Krb5LoginModule.login(Krb5LoginModule.java:542)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:597)
+	at javax.security.auth.login.LoginContext.invoke(LoginContext.java:769)
+	at javax.security.auth.login.LoginContext.access$000(LoginContext.java:186)
+	at javax.security.auth.login.LoginContext$5.run(LoginContext.java:706)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at javax.security.auth.login.LoginContext.invokeCreatorPriv(LoginContext.java:703)
+	at javax.security.auth.login.LoginContext.login(LoginContext.java:575)
+	at org.apache.hadoop.security.UserGroupInformation.loginUserFromKeytab(UserGroupInformation.java:789)
+	... 4 more
+13/03/28 03:55:15 INFO util.ExitUtil: Exiting with status 1
+13/03/28 03:55:15 INFO namenode.NameNode: SHUTDOWN_MSG:
+/************************************************************
+SHUTDOWN_MSG: Shutting down NameNode at node1/10.37.7.101
+************************************************************/

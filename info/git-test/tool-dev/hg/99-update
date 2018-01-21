@@ -1,0 +1,22 @@
+1. update -r to a previous revision
+(1) check current revision id
+[caoj7@cnencaoj7mbp2 testbed]$hg log -l 2
+changeset:   21722:e0de0688c9b2
+tag:         tip
+user:        jimmycao <jimmycao@emc.com>
+date:        Mon May 13 16:57:56 2013 +0800
+summary:     cleanup some code, because of no completed containers at the phase of ras
+
+changeset:   21721:e1d3e64a489e
+user:        jimmycao <jimmycao@emc.com>
+date:        Mon May 13 16:48:37 2013 +0800
+summary:     implement release_containers in ras/yarn
+
+[caoj7@cnencaoj7mbp2 testbed]$hg id -i
+e0de0688c9b2
+
+(2) change to a previous revision
+[caoj7@cnencaoj7mbp2 testbed]$hg update -C -r 21721:e1d3e64a489e
+1 files updated, 0 files merged, 0 files removed, 0 files unresolved
+[caoj7@cnencaoj7mbp2 testbed]$hg id -i
+e1d3e64a489e

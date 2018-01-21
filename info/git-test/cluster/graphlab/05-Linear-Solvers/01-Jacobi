@@ -1,0 +1,104 @@
+GraphLab iterative solvers, for solving a linear system of the type Ax = b.
+------------------------------------------------------------------------
+1. compile
+------------------------------------------------------------------------
+[root@node1 linear_solvers]# pwd
+/root/program/graphlab/release/toolkits/linear_solvers
+[root@node1 linear_solvers]# make -j2
+[root@node1 linear_solvers]# ll
+total 36708
+drwxr-xr-x 3 root root     4096 Aug  2 19:15 CMakeFiles
+-rw-r--r-- 1 root root     1177 Aug  2 19:15 cmake_install.cmake
+-rw-r--r-- 1 root root      313 Aug  2 19:15 CTestTestfile.cmake
+-rwxr-xr-x 1 root root 37564830 Aug  7 01:06 jacobi
+-rw-r--r-- 1 root root     7480 Aug  2 19:15 Makefile
+------------------------------------------------------------------------
+2. single machine
+------------------------------------------------------------------------
+[root@node1 linear_solvers]# mkdir test
+[root@node1 linear_solvers]# vi test/A_matrix
+[root@node1 linear_solvers]# cat test/A_matrix 
+1 1 1.8147
+1 2 0.9134
+1 3 0.2785
+2 1 0.9058
+2 2 1.6324
+2 3 0.5469
+3 1 0.127
+3 2 0.0975
+3 3 1.9575
+[root@node1 linear_solvers]# vi test/B_vector
+[root@node1 linear_solvers]# cat test/B_vector 
+0.9649
+0.1576
+0.9706
+[root@node1 linear_solvers]# ./jacobi --matrix=test/ --initial_vec=B_vector --rows=3 --cols=3 --max_iter=10    //submit job
+[root@node1 linear_solvers]# cat x.out_1_of_1     					//get the result 
+1 0.67806771486642969     
+2 -0.43984914015767995
+3 0.47337333903573475
+------------------------------------------------------------------------
+3. mpirun on cluster-node1
+------------------------------------------------------------------------
+[root@node1 linear_solvers]# mpirun -np 2 ./jacobi --matrix=test/ --initial_vec=B_vector --rows=3 --cols=3 --max_iter=10
+[root@node1 linear_solvers]# cat x.out_1_of_2 
+1 0.67806771486642969
+3 0.47337333903573475
+[root@node1 linear_solvers]# cat x.out_2_of_2 
+2 -0.43984914015767995
+------------------------------------------------------------------------
+4. hamster on cluster-node1
+------------------------------------------------------------------------
+hamster -v -np 2 /usr/local/hamster/graphlab/debug/toolkits/linear_solvers/jacobi --matrix=/usr/local/hamster/graphlab/debug/toolkits/linear_solvers/test/ --initial_vec=B_vector --rows=3 --cols=3 --max_iter=10
+hamster -v -np 2 /root/program/graphlab/release/toolkits/linear_solvers/jacobi --matrix=/root/program/graphlab/release/toolkits/linear_solvers/test/ --initial_vec=B_vector --rows=3 --cols=3 --max_iter=10
+1) [root@node1 userlogs]# cat *0014/*01/stdout  to Rank 0 on which node 
+2) [root@node2 application_1378738945912_0015]# pwd
+/var/lib/gphd/hadoop-yarn-2.0.5_alpha_gphd_2_0_2_0/cache/yarn/nm-local-dir/usercache/root/appcache/application_1378738945912_0015
+[root@node2 application_1378738945912_0015]# ll container_1378738945912_0015_01_000002/
+total 36
+-rw-r--r-- 1 yarn hadoop    7 Sep 11 21:34 container_tokens
+-rwx------ 1 yarn hadoop  639 Sep 11 21:34 default_container_executor.sh
+lrwxrwxrwx 1 yarn hadoop  136 Sep 11 21:34 hamster-core.jar -> /var/lib/gphd/hadoop-yarn-2.0.5_alpha_gphd_2_0_2_0/cache/yarn/nm-local-dir/filecache/1886443681077713892/hamster-core-0.8.0-SNAPSHOT.jar
+lrwxrwxrwx 1 yarn hadoop  181 Sep 11 21:34 Hamster_place_holder -> /var/lib/gphd/hadoop-yarn-2.0.5_alpha_gphd_2_0_2_0/cache/yarn/nm-local-dir/usercache/root/appcache/application_1378738945912_0015/filecache/-9052539811887505079/Hamster_place_holder
+-rwx------ 1 yarn hadoop 9200 Sep 11 21:34 launch_container.sh
+drwx--x--- 2 yarn hadoop 4096 Sep 11 21:34 tmp
+-rw-r--r-- 1 yarn hadoop   44 Sep 11 21:34 x.out_1_of_2
+------------------------------------------------------------------------
+5. hamster on mac
+------------------------------------------------------------------------
+hamster mpirun -np 2 /Users/caoj7/workspace-c/graphlab/release/toolkits/linear_solvers/jacobi --matrix=/Users/caoj7/workspace-c/graphlab/release/toolkits/linear_solvers/test/ --initial_vec=B_vector --rows=3 --cols=3 --max_iter=10 --hamster-verbose
+
+
+
+------------------------------------------------------------------------
+4. hamster without HDFS
+------------------------------------------------------------------------
+hamster -v -p gl -np 2 \
+/usr/local/hamster/graphlab/release/toolkits/linear_solvers/jacobi \
+--matrix=/usr/local/hamster/jimmy-hamster/test/graphlab_data/linear_solver/ \
+--initial_vec=B_vector \
+--rows=3 --cols=3 --max_iter=10
+-----------------------------------------(Vector read Failed when HDFS)  ***
+hamster -v -p gl -np 2 /usr/local/hamster/graphlab/release/toolkits/linear_solvers/jacobi \
+--matrix=hdfs://10.37.7.101:8020/user/root/graphlab/linear_solver/ \
+--initial_vec=B_vector \
+--rows=3 --cols=3 --max_iter=10
+
+------------------------------------------------------------------------
+5. hamster without HDFS on AWB  (failed on)
+------------------------------------------------------------------------
+06:32:48 $ hadoop fs -ls /yarn/apps/caoj7/graphlab_data/linear_solver
+Found 2 items
+-rw-r--r--   3 caoj7 hadoop         98 2013-12-17 06:31 /yarn/apps/caoj7/graphlab_data/linear_solver/A_matrix
+-rw-r--r--   3 caoj7 hadoop         21 2013-12-17 06:31 /yarn/apps/caoj7/graphlab_data/linear_solver/B_vector
+----------------------------------------------
+hamster -v -np 2 /usr/local/graphlab2.2/linear_solvers/jacobi \
+--matrix=hdfs://mst1.ic.analyticsworkbench.com:8020/yarn/apps/caoj7/graphlab_data/linear_solver \
+--initial_vec=B_vector \
+--rows=3 --cols=3 --max_iter=10
+
+-------------
+-mem 4096
+
+
+

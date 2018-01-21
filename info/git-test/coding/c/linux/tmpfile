@@ -1,0 +1,63 @@
+临时文件
+
+通常，程序需要以文件的形式使用临时存储。这也许是存储计算的中间结果，或者是在实际操作之前所做的文件拷贝备份。例如，一个数据程序在删除记录时会使用临时文件。文件会收集需要保存的数据库实体，然后在操作结束时，临时文件会成为新的数据库而原始的会被删除。
+
+临时文件的大量使用隐藏了他的一个缺点。我们必须小心来确保程序会选择一个唯一的名字来使用临时文件。如果不是这样，因为Linux是一个多任务系统，也许会有另一个程序选择了相同的名字，而这两个彼此之间会相互影响。
+
+一个唯一的临时文件名可以由tmpnam函数生成：
+
+#include <stdio.h>
+char *tmpnam(char *s);
+
+tmpnam函数会返回一个与现存的文件不同的可用的文件名。如果字符串不为null，文件名也就会被写入其中。后续的tmpnam函数调用会覆盖返回值所用的表态存储区，所以如果tmpnam函数被调用多次，实际上是使用一个字符串参数。这个字符串假定至少为L_tmpnam字符长。一个程序中，tmpnam至多可以被调用TMP_MAX次，而且每次都会生成一个不同的文件名。
+
+如果临时文件被立即使用，那么我们可以同时使用tmpfile函数来对其命名并且打开。这一点很重要，因为另一个程序会使用tmpnam返回的相同的名字创建一个文件。tmpfile函数避免这种情况的发生：
+
+#include <stdio.h>
+FILE *tmpfile(void);
+
+tmpfile函数会返回一个指向唯一的临时文件的流指针。这个文件会为读和写打开，而且在所有到文件的引用被关闭以后，这个文件会被自动删除。
+
+如果发生错误，tmpfile会返回一个空指针，并且设置errno变量。
+
+试验－－tmpnam与tmpfile
+
+下面让我们实际的看一下这两个函数的使用：
+
+#include <stdio.h>
+int main()
+{
+    char tmpname[L_tmpnam];
+    char *filename;
+    FILE *tmpfp;
+    filename = tmpnam(tmpname);
+    printf(“Temporary file name is: %s/n”, filename);
+    tmpfp = tmpfile();
+    if(tmpfp)
+        printf(“Opened a temporary file OK/n”);
+    else
+        perror(“tmpfile”);
+    exit(0);
+}
+
+当我们编译运行程序tmpnam.c时，我们可以看到由tmpnam生成的唯一的文件名：
+
+$ ./tmpnam
+Temporary file name is: /tmp/file2S64zc
+Opened a temporary file OK
+
+工作原理
+
+这个程序调用tmpnam生成一个唯一文件名的临时文件。如果我们要使用这个临时文件，我们可以立即打开，从而来减小另一个程序会使用同一个文件名打开这个文件的风险。tmpfile调用会同时创建并打开一个临时文件，从而避免了这种风险。实际上，当编译一个使用这个函数的程序时，GNU C编译器也会给出一个使用tmpnam的警告。
+
+老版本Unix系统还有另一个使用mktemp与mkstemp函数来生成临时文件名的方法。这些与被Linux系统支持，并且与tmpnam相似，所不同的是我们可以为临时文件名指定一个模板，这样我们就可以更好的控制其位置与名字：
+
+#include <stdlib.h>
+char *mktemp(char *template);
+int mkstemp(char *template);
+
+mktemp函数由指定的模板生成一个唯一的文件名。template必须以6个x开始。mktemp函数使用唯一可用的文件名字符来替换这些x字符。他返回一个指向所生成的字符串的指针，如果不可以生成一个唯一的文件名，则会返回一个null指针。
+
+mkstemp函数在创建与打开临时文件方面与tmpfile相类似。文件名由与mktemp相同的方式生成的，但是返回的结果是一个打开的，底层文件描述符。
+
+通常，我们应使用创建与打开函数tmpfile与mkstemp，而不是tmpnam与mktemp。

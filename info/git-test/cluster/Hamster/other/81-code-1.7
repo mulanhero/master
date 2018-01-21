@@ -1,0 +1,78 @@
+/***********************************************\
+1. ORTE_PROC_IS_HNP   / ORTE_PROC_MY_NAME->jobid  								
+\***********************************************/
+/* local globals */
+static orte_job_t *daemons=NULL;
+    
+if (ORTE_PROC_IS_HNP) {
+    daemons = orte_get_job_data_object(ORTE_PROC_MY_NAME->jobid);
+}
+
+
+
+/***********************************************\
+10. orte_local_children  / odls								
+\***********************************************/
+orte_proc_t *child;
+int i;
+for (i = 0; i < orte_local_children->size; i++) {
+	child = (orte_proc_t *)opal_pointer_array_get_item(orte_local_children, i);
+	if (NULL == child) {
+		continue;
+	}
+}
+
+/***********************************************\
+11. OBJ_NEW / OBJ_RELEASE
+\***********************************************/
+opal_buffer_t *relay; 
+relay = OBJ_NEW(opal_buffer_t);
+OBJ_RELEASE(relay);
+
+
+/***********************************************\
+12. 
+jdata = orte_get_job_data_object(jobid);
+orte_job_t *j = (orte_job_t *)opal_pointer_array_get_item(orte_job_data, i);
+ORTE_PROC_MY_NAME->jobid;
+ORTE_PROC_MY_NAME->vpid;
+\***********************************************/
+
+ [root@node1 default]# pwd
+/root/soft/openmpi-1.6.4/orte/mca/odls/default
+
+[root@node1 default]# vi odls_default_module.c
+
+ jdata = orte_get_job_data_object(job);
+ printf("************* jdata->jobid = %u, jdata->num_apps = %u, jdata->num_procs = %u\n", jdata->jobid, jdata->num_apps, jdata->num_procs);
+ puts("-------------------------------");
+//======================================
+ int i;
+ int job_sum = 0;
+ for (i = 0; i < orte_job_data->size; i++) {
+ 	orte_job_t *j = opal_pointer_array_get_item(orte_job_data, i);
+	if (!j) {
+		continue;
+	}
+	job_sum++;
+
+	printf("j->jobid = %u, j->num_apps = %d, j->num_procs = %d\n", j->jobid, j->num_apps, j->num_procs);
+ }
+ printf("************* orte_job_data->size = %d, job_sum = %d\n", orte_job_data->size, job_sum);
+ //=====================================
+ puts("ORTE_PROC_MY_NAME");
+ printf("ORTE_PROC_MY_NAME->jobid = %u\n", ORTE_PROC_MY_NAME->jobid);
+
+
+
+
+
+[root@node1 mpi]# mpirun -np 2 hello : -np 2 hello
+output:
+************* jdata->jobid = 4257808385, jdata->num_apps = 2, jdata->num_procs = 4
+-------------------------------
+j->jobid = 4257808384, j->num_apps = 0, j->num_procs = 2
+j->jobid = 4257808385, j->num_apps = 2, j->num_procs = 4
+************* orte_job_data->size = 2, job_sum = 2
+ORTE_PROC_MY_NAME
+ORTE_PROC_MY_NAME->jobid = 4257808384 

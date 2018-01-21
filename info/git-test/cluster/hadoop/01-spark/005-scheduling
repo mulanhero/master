@@ -1,0 +1,101 @@
+----------------------------------------------------------------------------------------------
+1. two level
+----------------------------------------------------------------------------------------------
+* 	each Spark application (instance of SparkContext) runs an independent set of executor processes.
+* 	1) within each Spark application, multiple ¡°jobs¡± (Spark actions) may be running concurrently 
+	if they were submitted by different threads. 
+	b) Spark includes a fair scheduler to schedule resources within each SparkContext
+----------------------------------------------------------------------------------------------
+2. Scheduling Across Applications: static partitioning
+----------------------------------------------------------------------------------------------
+*	each application is given a maximum amount of resources it can use, and holds onto them 
+	for its whole duration.
+-----------------------------
+* 	Standalone:  
+	*spark.cores.max           24   //limit the number of nodes an application uses
+	*spark.deploy.defaultCores		// 
+	*spark.executor.memory     60G  //each app's memory control   
+-----------------------------
+*	YARN: 
+	*--num-executors : Spark YARN client controls how many executors it will allocate 
+	*--executor-memory
+	*--executor-cores
+----------------------------------------------------------------------------------------------
+3. Scheduling Within an Application: 
+----------------------------------------------------------------------------------------------
+*	Inside a given Spark application (SparkContext instance), multiple parallel jobs can run 
+	simultaneously if they were submitted from separate threads. 
+* 	By ¡°job¡±, a Spark action (e.g. save, collect) and any tasks that need to run to evaluate 
+	that action. Spark¡¯s scheduler is fully thread-safe and supports this use case to enable 
+	applications that serve multiple requests (e.g. queries for multiple users).
+* 	By default, Spark¡¯s scheduler runs jobs in FIFO fashion. 
+		*Each job is divided into ¡°stages¡± (e.g. map and reduce phases)
+		*the first job gets priority on all available resources while its stages have tasks to launch
+		*then the second job gets priority, etc. 
+		*If the jobs at the head of the queue don¡¯t need to use the whole cluster, later jobs can 
+		start to run right away, but if the jobs at the head of the queue are large, then later 
+		jobs may be delayed significantly.
+-------------------------------Round Robin == fair sharing
+*	Starting in Spark 0.8, it is also possible to configure fair sharing between jobs. 
+	*Under fair sharing, Spark assigns tasks between jobs in a ¡°round robin¡± fashion, 
+	so that all jobs get a roughlTy equal share of cluster resources. 
+	This means that short jobs submitted while a long job is running can start receiving resources 
+	right away and still get good response times, without waiting for the long job to finish. 
+	This mode is best for multi-user settings.
+	---------------------
+	To enable the fair scheduler, simply set the spark.scheduler.mode property to FAIR when 
+	configuring a SparkContext:
+	--------------------------
+	val conf = new SparkConf().setMaster(...).setAppName(...)
+	conf.set("spark.scheduler.mode", "FAIR")
+	val sc = new SparkContext(conf)
+-------------------------------
+	conf.set("spark.scheduler.allocation.file", "/path/to/file")
+	<?xml version="1.0"?>
+	<allocations>
+	  <pool name="production">
+	    <schedulingMode>FAIR</schedulingMode>
+	    <weight>1</weight>
+	    <minShare>2</minShare>
+	  </pool>
+	  <pool name="test">Z
+	    <schedulingMode>FIFO</schedulingMode>
+	    <weight>2</weight>
+	    <minShare>3</minShare>
+	  </pool>
+	  <pool name="jimmy">
+	    <schedulingMode>FAIR</schedulingMode>
+	    <weight>3</weight>
+	    <minShare>10</minShare>
+	  </pool>
+	</allocations>
+	-----------------------------------------------
+	Note: 	1) specify a pool named "jimmy"
+			2) the weight of jobs in this pool is 3x 
+			3) minimal shares: 10 cores
+	-----------------------------------------------
+	Note that any pools not configured in the XML file will simply get default values for all 
+	settings (scheduling mode FIFO, weight 1, and minShare 0).
+----------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------

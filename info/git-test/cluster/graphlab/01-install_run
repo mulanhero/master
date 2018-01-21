@@ -1,0 +1,43 @@
+--------------------------------------------------------------------------
+0. pre
+--------------------------------------------------------------------------
+#for java
+export JAVA_HOME=/usr/local/jdk1.6.0_21
+export PATH=$JAVA_HOME/bin:$PATH
+export CLASSPATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar:$CLASSPATH
+
+#for maven
+export M2_HOME=/usr/local/apache-maven-3.0.5
+export PATH=$M2_HOME/bin:$PATH
+#for ant
+export PATH=/usr/local/apache-ant-1.9.1/bin:$PATH
+--------------------------------------------------------------------------
+a) cmake 		
+--------------------------------------------------------------------------
+[root@gphd-vm211 graphlab]# yum install cmake.x86_64
+--------------------------------------------------------------------------
+a) cmake
+--------------------------------------------------------------------------
+apt-get install gcc g++ build-essential libopenmpi-dev default-jdk cmake zlib1g-dev
+--------------------------------------------------------------------------
+1. get src
+--------------------------------------------------------------------------
+git clone https://github.com/graphlab-code/graphlab.git
+
+https://github.com/leftnoteasy/graphlab.git
+--------------------------------------------------------------------------
+2. ./configure     
+--------------------------------------------------------------------------
+[root@node1 graphlab]# ./configure
+after configure, ./release and ./debug will be created.
+you can cd into ./release/ or ./debug/ to input 'make', this will need a long time.
+or you can just cd into 'a toolkit's sub-dir to run make', will much faster.
+e.g., cd  release/toolkits/graph-analytics
+make -j 4
+--------------------------------------------------------------------------
+!!!problem sovling
+--------------------------------------------------------------------------
+1. !!!!!!!!!!! yum search zlib
+2. go to deps/hadoop/src/hadoop  (not sure) 
+	mvn install -DskipTests
+	mvn package -DskipTests

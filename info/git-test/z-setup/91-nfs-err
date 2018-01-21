@@ -1,0 +1,177 @@
+>cd /etc/init.d
+>portmap start
+>nfs restart
+
+=================================
+fedora11的nfs服务不使用portmap服务，换成rpcbind服务
+fedora11的nfs服务不使用portmap服务，换成rpcbind服务
+================
+While trying to setup NFS on an OVM 3.2 configuration on OEL 5.9, I followed the documentation to the letter but when time came to start the NFS daemon I kept getting the error above.
+
+1
+2
+3
+4
+5
+6
+[root@ovm /]# service nfs start
+Starting NFS services: [ OK ]
+Starting NFS quotas: Cannot register service: RPC: Unable to receive; errno = Connection refused
+rpc.rquotad: unable to register (RQUOTAPROG, RQUOTAVERS, udp).
+[FAILED]
+Starting NFS daemon: [FAILED]
+After a little googling, it turns out that RPCBind may not be running.
+
+1
+2
+[root@ovm /]# rpcinfo -p
+rpcinfo: can't contact portmapper: RPC: Remote system error - Connection refused
+Perhaps I needed to update my NFS Utility packages?
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+[root@ovm /]# yum install nfs-utils
+Loaded plugins: rhnplugin, security
+This system is not registered with ULN.
+You can use up2date --register to register.
+ULN support will be disabled.
+Setting up Install Process
+Resolving Dependencies
+--> Running transaction check
+---> Package nfs-utils.x86_64 1:1.0.9-70.el5 set to be updated
+--> Processing Dependency: initscripts >= 8.45.43 for package: nfs-utils
+--> Running transaction check
+---> Package initscripts.x86_64 0:8.45.44-3.0.1.el5 set to be updated
+--> Finished Dependency Resolution
+ 
+Dependencies Resolved
+ 
+=============================================================================================================================================================
+Package Arch Version Repository Size
+=============================================================================================================================================================
+Updating:
+nfs-utils x86_64 1:1.0.9-70.el5 el5_latest 409 k
+Updating for dependencies:
+initscripts x86_64 8.45.44-3.0.1.el5 el5_latest 1.6 M
+ 
+Transaction Summary
+=============================================================================================================================================================
+Install 0 Package(s)
+Upgrade 2 Package(s)
+ 
+Total download size: 2.0 M
+Is this ok [y/N]: y
+Downloading Packages:
+(1/2): nfs-utils-1.0.9-70.el5.x86_64.rpm | 409 kB 00:00 
+(2/2): initscripts-8.45.44-3.0.1.el5.x86_64.rpm | 1.6 MB 00:01 
+-------------------------------------------------------------------------------------------------------------------------------------------------------------
+Total 598 kB/s | 2.0 MB 00:03 
+Running rpm_check_debug
+Running Transaction Test
+Finished Transaction Test
+Transaction Test Succeeded
+Running Transaction
+Updating : initscripts 1/4
+warning: /etc/sysctl.conf created as /etc/sysctl.conf.rpmnew
+Updating : nfs-utils 2/4
+Cleanup : nfs-utils 3/4
+Cleanup : initscripts 4/4
+ 
+Updated:
+nfs-utils.x86_64 1:1.0.9-70.el5
+ 
+Dependency Updated:
+initscripts.x86_64 0:8.45.44-3.0.1.el5
+ 
+Complete!
+Then I tried the RPC info command again, but no luck!
+
+1
+2
+[root@ovm /]# rpcinfo -p
+rpcinfo: can't contact portmapper: RPC: Remote system error - Connection refused
+Portmap? Oh, that would explain a lot since NFS apparently requires port mapper service to run.
+
+1
+2
+[root@ovm /]# chkconfig portmap on
+[root@ovm yum.repos.d]# service portmap start
+Try RPC info again. Aha, that did it!
+
+1
+2
+3
+4
+[root@ovm yum.repos.d]# rpcinfo -p
+program vers proto port
+100000 2 tcp 111 portmapper
+100000 2 udp 111 portmapper
+Finally, restart the NFS Service and set it to autostart.
+
+1
+2
+3
+4
+5
+6
+[root@ovm /]# service nfs start
+Starting NFS services: [ OK ]
+Starting NFS quotas: [ OK ]
+Starting NFS daemon: [ OK ]
+Starting NFS mountd: [ OK ]
+[root@ovm /]# chkconfig nfs on
+Hope this was helpful!
+
+Cheers!

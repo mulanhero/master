@@ -1,0 +1,52 @@
+1. create hadoop user
+2. copy compiled hadoop-2.0.3-alpha.tar.gz to /home/hadoop/program, untar 
+================================================================================
+3. .bashrc
+--------------------------------------------------------------------------------
+#for java
+export JAVA_HOME=/home/hadoop/program/jdk1.6.0_21
+export PATH=$JAVA_HOME/bin:$PATH
+export CLASSPATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar:$CLASSPATH
+
+#for ant
+export PATH=/home/hadoop/program/apache-ant-1.9.0/bin:$PATH
+
+#for maven
+export M2_HOME=/home/hadoop/program/apache-maven-3.0.5
+export PATH=$M2_HOME/bin:$PATH
+
+#hadoop_home
+export HADOOP_HOME=/home/hadoop/program/hadoop-2.0.3-alpha
+export HADOOP_COMMON_HOME=$HADOOP_HOME
+export HADOOP_HDFS_HOME=$HADOOP_HOME
+export HADOOP_MAPRED_HOME=$HADOOP_HOME
+export HADOOP_YARN_HOME=$HADOOP_HOME
+export PATH=$HADOOP_HOME/bin:$HADOOP_HOME/sbin:$PATH
+
+export HADOOP_CONF_DIR=/etc/hadoop
+export YARN_CONF_DIR=$HADOOP_CONF_DIR
+#####note: 
+#by default, HADOOP_CONF_DIR and YARN_CONF_DIR is /etc/hadoop
+================================================================================
+4. /etc/hadoop (distribute all configures to other nodes)
+[hadoop@node1 hadoop-2.0.3-alpha]$ cd etc 
+[hadoop@node1 etc]$ sudo cp -r hadoop /etc/
+================================================================================
+5. config  
+//according to the following *.xml file
+================================================================================
+6. slaves
+[hadoop@node1 program]$ sudo cat /etc/hadoop/slaves
+node2
+node3
+node4
+================================================================================
+7. java_home
+[hadoop@node1 program]$ sudo vi /etc/hadoop/hadoop-env.sh
+export JAVA_HOME=/home/hadoop/program/jdk1.6.0_21
+================================================================================
+8. distribute the files to the HADOOP_CONF_DIR directory on all the machines
+[hadoop@node1 program]$ sudo scp -r /etc/hadoop  node2:/etc/
+[hadoop@node1 program]$ sudo scp -r /etc/hadoop  node3:/etc/
+[hadoop@node1 program]$ sudo scp -r /etc/hadoop  node4:/etc/
+

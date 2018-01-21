@@ -1,0 +1,14 @@
+-----------------------------------------------------------------
+five kernels
+-----------------------------------------------------------------
+IS - Integer Sort, random memory access
+EP - Embarrassingly Parallel
+CG - Conjugate Gradient 共轭梯度法, irregular memory access and communication
+MG - Multi-Grid on a sequence of meshes, long- and short-distance communication, memory intensive
+FT - discrete 3D fast Fourier Transform, all-to-all communication
+-----------------------------------------------------------------
+three pseudo applications
+-----------------------------------------------------------------
+BT - Block Tri-diagonal solver
+SP - Scalar Penta-diagonal solver
+LU - Lower-Upper Gauss-Seidel solver

@@ -1,0 +1,245 @@
+[root@node1 src]# cat lengths.file 
+0
+100
+1000
+10000
+100000
+1000000
+------------------
+-multi outflag Option
+Defines whether the benchmark runs in the multiple mode. The argument after -multi is a meta-symbol <outflag> that can take an integer value of 0 or 1. This flag controls the way of displaying results:
+    Outflag = 0 only display maximum timings (minimum throughputs) over all active groups
+    Outflag = 1 report on all groups separately. The report may be long in this case.
+When the number of processes running the benchmark is more than half of the overall number MPI_COMM_WORLD, the multiple benchmark coincides with the non-multiple one, as not more than one process group can be created.
+Default: no -multi selection. Intel¨ MPI Benchmarks run non-multiple benchmark flavors.
+------------------
+[root@node1 src]# mpirun -np 6 ./IMB-MPI1 pingping allreduce -map 2x3 -msglen lengths.file -multi 0
+ benchmarks to run pingping allreduce 
+#---------------------------------------------------
+#    Intel (R) MPI Benchmark Suite V3.2.4, MPI-1 part    
+#---------------------------------------------------
+# Date                  : Sun Sep 22 20:59:53 2013
+# Machine               : x86_64
+# System                : Linux
+# Release               : 2.6.32-220.el6.x86_64
+# Version               : #1 SMP Wed Nov 9 08:03:13 EST 2011
+# MPI Version           : 2.1
+# MPI Thread Environment: 
+
+# New default behavior from Version 3.2 on:
+
+# the number of iterations per message size is cut down 
+# dynamically when a certain run time (per message size sample) 
+# is expected to be exceeded. Time limit is defined by variable 
+# "SECS_PER_SAMPLE" (=> IMB_settings.h) 
+# or through the flag => -time 
+  
+
+
+# Calling sequence was: 
+
+# ./IMB-MPI1 pingping allreduce -map 2x3 -msglen lengths.file
+#            -multi 0
+
+# Message lengths were user defined
+#
+# MPI_Datatype                   :   MPI_BYTE 
+# MPI_Datatype for reductions    :   MPI_FLOAT
+# MPI_Op                         :   MPI_SUM  
+#
+#
+
+# List of Benchmarks to run:
+
+# (Multi-)PingPing
+# (Multi-)Allreduce
+
+#-----------------------------------------------------------------------------
+# Benchmarking Multi-PingPing 
+# ( 3 groups of 2 processes each running simultaneous ) 
+# Group  0:     0    2
+# 
+# Group  1:     3    5
+# 
+# Group  2:     4    1
+# 
+#-----------------------------------------------------------------------------
+       #bytes #repetitions  t_min[usec]  t_max[usec]  t_avg[usec]   Mbytes/sec
+            0         1000         1.63      6470.00      4219.38         0.00
+          100         1000        10.12      6364.00      4153.70         0.01
+         1000         1000        11.00      6486.00      4163.50         0.15
+        10000         1000        45.78     25732.46     16660.64         0.37
+       100000          419       200.62     25137.68     16479.08         3.79
+      1000000           41      2256.31    152999.92    100600.05         6.23
+
+#----------------------------------------------------------------
+# Benchmarking Multi-Allreduce 
+# ( 3 groups of 2 processes each running simultaneous ) 
+# Group  0:     0    2
+# 
+# Group  1:     3    5
+# 
+# Group  2:     4    1
+# 
+#----------------------------------------------------------------
+       #bytes #repetitions  t_min[usec]  t_max[usec]  t_avg[usec]
+            0         1000         0.04         0.04         0.04
+          100         1000        12.51      6625.00      4244.97
+         1000         1000        34.80      6285.00      4145.27
+        10000         1000       166.94     50028.45     33300.76
+       100000          419      1179.01     49882.66     33185.15
+      1000000           41      4115.98    175512.24    117273.09
+
+#----------------------------------------------------------------
+# Benchmarking Allreduce 
+# #processes = 4; rank order (rowwise): 
+#     0    2    4
+# 
+#     1
+# 
+# ( 2 additional processes waiting in MPI_Barrier)
+#----------------------------------------------------------------
+       #bytes #repetitions  t_min[usec]  t_max[usec]  t_avg[usec]
+            0         1000         0.04         0.04         0.04
+          100          866     11672.06     11693.12     11684.98
+         1000          852     11694.84     11710.09     11702.47
+        10000          389     25144.63     25190.23     25167.31
+       100000           66    148045.47    148454.46    148211.19
+      1000000           33    297986.12    299666.48    299064.79
+
+#----------------------------------------------------------------
+# Benchmarking Allreduce 
+# #processes = 6; rank order (rowwise): 
+#     0    2    4
+# 
+#     1    3    5
+# 
+#----------------------------------------------------------------
+       #bytes #repetitions  t_min[usec]  t_max[usec]  t_avg[usec]
+            0         1000         0.04         0.05         0.04
+          100          607     16423.13     16450.99     16436.05
+         1000          601     15970.06     15992.10     15979.69
+        10000          234     46303.44     46388.88     46352.09
+       100000           38    252190.82    252927.47    252601.90
+      1000000           27    371617.15    372296.30    371905.44
+
+
+# All processes entering MPI_Finalize
+
+=============================================================================================================
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+=============================================================================================================
+hamster -np 6 /usr/local/hamster/imb/3.2.4/src/IMB-MPI1 pingping allreduce -map 2x3 -msglen /usr/local/hamster/imb/3.2.4/src/lengths.file -multi 0
+
+[root@node1 userlogs]# cat *283/*/stdout
+ benchmarks to run pingping allreduce 
+#---------------------------------------------------
+#    Intel (R) MPI Benchmark Suite V3.2.4, MPI-1 part    
+#---------------------------------------------------
+# Date                  : Sun Sep 22 22:02:38 2013
+# Machine               : x86_64
+# System                : Linux
+# Release               : 2.6.32-220.el6.x86_64
+# Version               : #1 SMP Wed Nov 9 08:03:13 EST 2011
+# MPI Version           : 2.1
+# MPI Thread Environment: 
+
+# New default behavior from Version 3.2 on:
+
+# the number of iterations per message size is cut down 
+# dynamically when a certain run time (per message size sample) 
+# is expected to be exceeded. Time limit is defined by variable 
+# "SECS_PER_SAMPLE" (=> IMB_settings.h) 
+# or through the flag => -time 
+  
+
+
+# Calling sequence was: 
+
+# /usr/local/hamster/imb/3.2.4/src/IMB-MPI1 pingping allreduce -map 2x3 -msglen /usr/local/hamster/imb/3.2.4/src/lengths.file
+#                                           -multi 0
+
+# Message lengths were user defined
+#
+# MPI_Datatype                   :   MPI_BYTE 
+# MPI_Datatype for reductions    :   MPI_FLOAT
+# MPI_Op                         :   MPI_SUM  
+#
+#
+
+# List of Benchmarks to run:
+
+# (Multi-)PingPing
+# (Multi-)Allreduce
+
+#-----------------------------------------------------------------------------
+# Benchmarking Multi-PingPing 
+# ( 3 groups of 2 processes each running simultaneous ) 
+# Group  0:     0    2
+# 
+# Group  1:     3    5
+# 
+# Group  2:     4    1
+# 
+#-----------------------------------------------------------------------------
+       #bytes #repetitions  t_min[usec]  t_max[usec]  t_avg[usec]   Mbytes/sec
+            0         1000         1.44        98.21        63.29         0.00
+          100         1000        13.48       170.71        88.06         0.56
+         1000         1000         1.78       180.08       113.06         5.30
+        10000         1000        15.71       399.19       231.94        23.89
+       100000          419      2768.98      6405.51      4213.86        14.89
+      1000000           41       627.08     35961.90     20242.60        26.52
+
+#----------------------------------------------------------------
+# Benchmarking Multi-Allreduce 
+# ( 3 groups of 2 processes each running simultaneous ) 
+# Group  0:     0    2
+# 
+# Group  1:     3    5
+# 
+# Group  2:     4    1
+# 
+#----------------------------------------------------------------
+       #bytes #repetitions  t_min[usec]  t_max[usec]  t_avg[usec]
+            0         1000         0.04         0.05         0.04
+          100         1000         2.13       242.36       130.69
+         1000         1000         3.34       336.56       218.44
+        10000         1000        37.47       599.40       343.11
+       100000          419       195.34      2032.76      1335.46
+      1000000           41      1999.70     54502.80     35558.37
+
+#----------------------------------------------------------------
+# Benchmarking Allreduce 
+# #processes = 4; rank order (rowwise): 
+#     0    2    4
+# 
+#     1
+# 
+# ( 2 additional processes waiting in MPI_Barrier)
+#----------------------------------------------------------------
+       #bytes #repetitions  t_min[usec]  t_max[usec]  t_avg[usec]
+            0         1000         0.04         0.05         0.04
+          100         1000      8225.02      8237.98      8232.48
+         1000         1000      7645.60      7646.76      7646.46
+        10000          437     24016.27     24050.25     24033.32
+       100000          178     78097.86     78451.94     78325.63
+      1000000           39    166668.41    168512.82    167646.76
+
+#----------------------------------------------------------------
+# Benchmarking Allreduce 
+# #processes = 6; rank order (rowwise): 
+#     0    2    4
+# 
+#     1    3    5
+# 
+#----------------------------------------------------------------
+       #bytes #repetitions  t_min[usec]  t_max[usec]  t_avg[usec]
+            0         1000         0.04         0.05         0.04
+          100         1000      8827.05      8844.74      8833.01
+         1000          949     10606.15     10622.30     10616.37
+        10000          352     28006.80     28066.94     28045.46
+       100000          350     30950.80     30983.46     30966.24
+      1000000           41    166653.63    167215.98    166906.74
+
+
+# All processes entering MPI_Finalize

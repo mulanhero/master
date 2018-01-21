@@ -1,0 +1,57 @@
+------------------------------------------------------------------------------
+GA
+------------------------------------------------------------------------------
+C++ and Python sources to use Genetic Algorithms that can be parallelized via MPI (island model)
+https://github.com/mawirth/libga_mpi
+--------------
+https://github.com/B0RJA/GAlib-mpi
+MPI Implementation of the Genetic Algorithm Library GAlib
+------------------------------------------------------------------------------
+MPI-blastn, MPI-blastp
+------------------------------------------------------------------------------
+High performance tool for running protein sequence search based on BLAST+ (2.2.26). Shared (OpenMP) and distributed (MPI) memory optimizations.
+https://github.com/Bioinfo-Tools/MPI-blastp
+A high performance parallel version of nucleotide BLAST+ for sequence search
+https://github.com/Bioinfo-Tools/MPI-blastn
+------------------------------------------------------------------------------
+sort
+------------------------------------------------------------------------------
+https://github.com/gowthamk/mpisort
+https://github.com/Row/MPIQuicksort
+https://github.com/anisnasir/mergesort_mpi
+https://github.com/Sojourn/mpi-quicksort
+------------------------------------------------------------------------------
+cluster
+------------------------------------------------------------------------------
+Clustering Data Points and DNA Strands Using MPI
+https://github.com/tikue/MyMPI
+------------------------------------------------------------------------------
+MPI-SCVT
+------------------------------------------------------------------------------
+https://github.com/douglasjacobsen/MPI-SCVT
+MPI-SCVT is a Parallel SCVT Generator written in C++.
+	It makes use of boost's mpi and serialization libraries.
+	It was written by Douglas Jacobsen as part of his 
+	Dissertation work while he was a Ph.D. student at Florida State University.
+------------------------------------------------------------------------------
+floyd
+------------------------------------------------------------------------------
+https://github.com/dungtn/mpi-floyd
+------------------------------------------------------------------------------
+mpidag
+------------------------------------------------------------------------
+https://github.com/juve/mpidag
+Tool for running DAG-structured scientific workflows as an MPI job
+http://pegasus.isi.edu/wms/docs/trunk/cli-pegasus-mpi-cluster.php
+------------------------------------------------------------------------------
+MPI Finite State Machine
+------------------------------------------------------------------------------
+https://github.com/estrabd/mpi-fsm.git
+------------------------------------------------------------------------------
+matrixMultiple
+------------------------------------------------------------------------------
+https://github.com/sandy-8925/mpimatmult
+------------------------------------------------------------------------------
+------------------------------------------------------------------------------
+------------------------------------------------------------------------------
+------------------------------------------------------------------------------

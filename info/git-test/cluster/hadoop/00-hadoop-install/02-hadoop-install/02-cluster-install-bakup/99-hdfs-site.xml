@@ -1,0 +1,41 @@
+<property>  
+    <name>dfs.namenode.name.dir</name>  
+    <value>file://${hadoop.tmp.dir}/dfs/name</value>  
+</property>  
+  
+  
+<property>  
+    <name>dfs.datanode.data.dir</name>  
+    <value>file://${hadoop.tmp.dir}/dfs/data</value>  
+</property>  
+
+<property>
+   <name>dfs.namenode.checkpoint.dir</name>
+   <value>file://${hadoop.tmp.dir}/dfs/checkpoint</value>
+</property>
+
+<property>    
+        <name>dfs.replication</name>    
+        <value>2</value>    
+</property>  
+
+<property>      
+        <name>dfs.block.size</name>      
+        <value>134217728</value>      
+</property>  
+
+
+
+
+================================================================================
+64M:    67108864  
+32M:    33554432  
+16M:    16777216  
+8M:     8388608  
+4M:     4194304  
+================================================================================
+
+###Note:
+#by default, ${hadoop.tmp.dir} is: /tmp/hadoop-${user.name}
+#if delete /tmp/hadoop-${user.name}, then *hadoop namenode -format*
+#then, restart all daemons

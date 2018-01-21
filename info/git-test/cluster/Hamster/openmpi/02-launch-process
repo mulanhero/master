@@ -1,0 +1,142 @@
+1. 	
+	mpirun 
+	-mca ras slurm 
+	-mca plm slurm 
+	-mca plm_base_verbose 10 
+	-np 8 hello
+
+2. 	launch orted by slurm (or rsh)
+	if want to print how plm calling srun to launch orted and process, we
+	can add the following code in plm_slurm_module.c
+	------------------------------------------------------	
+	puts("=============jimmy=================");
+    char *param = opal_argv_join(argv, ' ');
+    printf("exec_argv  = %s\n", exec_argv);
+    printf("param_argv  = %s\n", param);
+    puts("=============jimmy=================");
+
+    execve(exec_argv, argv, env);
+    ------------------------------------------------------
+    =============jimmy=================
+	exec_argv  = /root/slurmhome/bin/srun
+	param_argv  = srun --nodes=3 --ntasks=3 --kill-on-bad-exit --nodelist=node2,node3,node4 orted 
+					-mca ess slurm 
+					-mca orte_ess_jobid 675545088 
+					-mca orte_ess_vpid 1 
+					-mca orte_ess_num_procs 4 
+					--hnp-uri "675545088.0;tcp://10.37.7.101:48659" 
+					-mca orte_nodelist node2,node3,node4 
+					-mca plm_base_verbose 10
+	=============jimmy=================
+
+3. 	PLM call orte_plm_base_launch_apps
+	and send the process launch MSG(ORTE_DAEMON_ADD_LOCAL_PROCS, etc.) to each orted
+
+4. 	orted (orted_comm.c) receive the MSG, and call 'orte_odls.launch_local_procs'
+	------------------------------ 
+	case ORTE_DAEMON_ADD_LOCAL_PROCS:
+        if (orte_debug_daemons_flag) {
+            opal_output(0, "%s orted_cmd: received add_local_procs",
+                        ORTE_NAME_PRINT(ORTE_PROC_MY_NAME));
+        }
+        /* launch the processes */
+        if (ORTE_SUCCESS != (ret = orte_odls.launch_local_procs(buffer))) {
+            OPAL_OUTPUT_VERBOSE((1, orte_debug_output,
+                                 "%s orted:comm:add_procs failed to launch on error %s",
+                                 ORTE_NAME_PRINT(ORTE_PROC_MY_NAME), ORTE_ERROR_NAME(ret)));
+        }
+        break;	
+	----------------------------------
+
+5.	in ODLS, (e.g., default component), then 'orte_odls_default_launch_local_procs'
+	/* launch the local procs */
+    ORTE_ACTIVATE_LOCAL_LAUNCH(job, odls_default_fork_local_proc);
+    -----------------
+    #define ORTE_ACTIVATE_LOCAL_LAUNCH(j, f)                                \
+    do {                                                                \
+        orte_odls_launch_local_t *ll;                                   \
+        ll = OBJ_NEW(orte_odls_launch_local_t);                         \
+        ll->job = (j);                                                  \
+        ll->fork_local = (f);                                           \
+        opal_event_set(orte_event_base, ll->ev, -1, OPAL_EV_WRITE,      \
+                       orte_odls_base_default_launch_local, ll);        \
+        opal_event_set_priority(ll->ev, ORTE_SYS_PRI);                  \
+        opal_event_active(ll->ev, OPAL_EV_WRITE, 1);                    \
+    } while(0);
+    -----------------
+    here, orte_odls_base_default_launch_local will be called.
+    #define opal_event_set(b, x, fd, fg, cb, arg) event_assign((x), (b), (fd), (fg), (event_callback_fn) (cb), (arg))
+    odls_default_fork_local_proc is set as orte_odls_base_default_launch_local's params (in ll), moreover, will be called in orte_odls_base_default_launch_local, 
+    see as 'rc = fork_local(app, child, app->env, jobdat);'
+    
+    
+
+6. 	odls_default_fork_local_proc
+	/**
+ 	*  Fork/exec the specified processes
+ 	*/
+ 	 /* Fork off the child */
+    pid = fork();
+    if (NULL != child) {
+        child->pid = pid;
+    }
+    if (pid == 0) {
+	close(p[0]);
+        do_child(context, child, environ_copy, jobdat, p[1], opts);
+        /* Does not return */
+    } 
+
+7. 	do_child
+	execve(context->app, context->argv, environ_copy);
+	
+	if you add the following code, you will see the params of execve.
+	--------------------------
+	int jout;
+    opal_output(0, "%s STARTING %s", ORTE_NAME_PRINT(ORTE_PROC_MY_NAME), context->app);
+    for (jout=0; NULL != context->argv[jout]; jout++) {
+        opal_output(0, "%s\tARGV[%d]: %s", ORTE_NAME_PRINT(ORTE_PROC_MY_NAME), jout, context->argv[jout]);
+    }
+    for (jout=0; NULL != environ_copy[jout]; jout++) {
+        opal_output(0, "%s\tENVIRON[%d]: %s", ORTE_NAME_PRINT(ORTE_PROC_MY_NAME), jout, environ_copy[jout]);
+    }
+    --------------------------
+    e.g.,
+    [node4:30890] [[10111,0],3] STARTING /root/mpi/hello
+	[node4:30890] [[10111,0],3]	ARGV[0]: hello
+	[node4:30890] [[10111,0],3]	ENVIRON[0]: OMPI_MCA_ras=slurm
+	[node4:30890] [[10111,0],3]	ENVIRON[1]: OMPI_MCA_plm=slurm
+
+//=====================================================================
+Job execution Procedures:
+1) Mpirun 提交作业，解析变量，进行-MCA选择component
+通过plm启动一个作业的lifecycle
+orte_plm.spawn(jdata) //plm/base/plm_base_proxy.c orte_plm_proxy_spawn(orte_job_t *jdata)
+
+2）plm通过ras以static(-host 或者-hostfile)发现资源 或者 以dynamic 分配资源
+3) 通过rmap以by node 或者by slot方式round-robin做资源匹配
+4) plm启动hnp(实际上也是一个orted？)，然后借助slurm(srun)或者rsh在每个节点上启动orated，
+ess分别为hnp和多个orted节点分别做env setup
+5) plm向每个节点上的orted发启动作业的命令 （或通过plm/slurm）
+in plm_base_launch_support.c orte_plm_base_launch_apps
+orte_grpcomm.xcast(ORTE_PROC_MY_NAME->jobid, buffer, ORTE_RML_TAG_DAEMON)
+Send buffer to orted to lauch process locally
+6) orted接收命令，若发现是ORTE_DAEMON_ADD_LOCAL_PROCS,则向odls启动作业命令
+orted_main.c
+orte_rml.recv_buffer_nb(ORTE_NAME_WILDCARD, ORTE_RML_TAG_DAEMON,
+ORTE_RML_PERSISTENT, orte_daemon_recv, NULL); //orted_comm.c orte_daemon_recv
+orated received cmd in buffer, then invoke olds to invoke local
+If case ORTE_DAEMON_ADD_LOCAL_PROCS
+orte_odls.launch_local_procs(buffer));
+7) odls
+odls_process_modules.c
+odls_process_fork_local_process
+
+
+//=============
+Orted收到后，If case ORTE_DAEMON_SPAWN_JOB_CMD:
+orte_plm.spawn(jdata))) 到step 1）
+
+     
+	
+
+

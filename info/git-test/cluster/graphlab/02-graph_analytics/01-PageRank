@@ -1,0 +1,78 @@
+------------------------------------------------------------------------
+1. compile
+------------------------------------------------------------------------
+[caoj7@cncqcaoj7mbp1 graph_analytics]$pwd
+/Users/caoj7/workspace-c/graphlab/release/toolkits/graph_analytics
+[caoj7@cncqcaoj7mbp1 graph_analytics]$make -j 4
+
+after compilation, some tool will created. 
+-rwxr-xr-x   1 caoj7  CORP\Domain Users  4479784 Jul 29 11:23 connected_component
+-rwxr-xr-x   1 caoj7  CORP\Domain Users  3438024 Jul 29 11:22 connected_component_stats
+-rwxr-xr-x   1 caoj7  CORP\Domain Users  4597688 Jul 29 11:23 directed_triangle_count
+-rwxr-xr-x   1 caoj7  CORP\Domain Users  4515384 Jul 29 11:25 eigen_vector_normalization
+-rwxr-xr-x   1 caoj7  CORP\Domain Users  3543632 Jul 29 11:25 format_convert
+-rwxr-xr-x   1 caoj7  CORP\Domain Users  4504288 Jul 29 11:26 graph_laplacian
+-rwxr-xr-x   1 caoj7  CORP\Domain Users  3994608 Jul 29 11:26 kcore
+-rwxr-xr-x   1 caoj7  CORP\Domain Users  4408784 Jul 29 11:28 pagerank
+-rwxr-xr-x   1 caoj7  CORP\Domain Users   905064 Jul 29 11:26 partitioning
+-rwxr-xr-x   1 caoj7  CORP\Domain Users  4102416 Jul 29 11:29 simple_coloring
+-rwxr-xr-x   1 caoj7  CORP\Domain Users  4512560 Jul 29 11:29 simple_undirected_triangle_count
+-rwxr-xr-x   1 caoj7  CORP\Domain Users  4526120 Jul 29 11:30 sssp
+-rwxr-xr-x   1 caoj7  CORP\Domain Users  4524496 Jul 29 11:30 undirected_triangle_count
+------------------------------------------------------------------------
+2. hamster on cluster-node1 with --powerlaw=100000
+runs the PageRank algorithm on a synthetic generated graph of 100,000 vertices
+------------------------------------------------------------------------
+1)mpirun
+mpirun -np 2 /root/program/graphlab/release/toolkits/graph_analytics/pagerank --powerlaw=100000  
+
+Loading synthetic Powerlaw graph.
+#vertices: 100000 #edges:471379
+Updates: 1392938
+Finished Running engine in 2 seconds.
+Total rank: 100068
+Totalpr = 100068
+Total rank: 100068
+Totalpr = 100068
+2)
+hamster mpirun -np 2 /root/program/graphlab/release/toolkits/graph_analytics/pagerank --powerlaw=100000 --hamster-verbose
+------------------------------------------------------------------------
+3. hamster on cluster-node1 with input graph
+------------------------------------------------------------------------
+[root@node1 graph_analytics]# cat input.adj     (total 4 vertex)
+1 2 2 5
+7 2 7 1
+5 1 7
+-------------
+mpirun -np 2 /root/program/graphlab/release/toolkits/graph_analytics/pagerank --graph=/root/program/graphlab/release/toolkits/graph_analytics/input.adj  --format=adj
+hamster -v -np 2 /root/program/graphlab/release/toolkits/graph_analytics/pagerank --graph=/root/program/graphlab/release/toolkits/graph_analytics/input.adj  --format=adj 
+-------------
+Loading graph in format: adj
+#vertices: 4 #edges:4
+Updates: 18
+Finished Running engine in 0.2 seconds.
+Total rank: 1.82835
+Totalpr = 1.82835
+Total rank: 1.82835
+Totalpr = 1.82835
+------------------------------------------------------------------------
+4. hamster on with HDFS
+------------------------------------------------------------------------
+hamster -v -np 2 \
+/usr/local/hamster/graphlab/release/toolkits/graph_analytics/pagerank \
+--graph=hdfs://10.37.7.101:8020/user/root/graphlab/ga/input.adj  --format=adj
+
+
+hamster -v -np 2 \
+/usr/local/hamster/graphlab2.2-bin/pagerank \
+--graph=hdfs://centos64-1:8020/tmp/gl/input.adj --format=adj
+------------------------------------------------------------------------
+4. hamster on mac with --powerlaw and input graph (as above)
+------------------------------------------------------------------------
+--powerlaw  runs the PageRank algorithm on a synthetic generated graph of 100,000 nodes
+mpirun -np 2 /Users/caoj7/workspace-c/graphlab/release/toolkits/graph_analytics/pagerank --powerlaw=100000
+hamster mpirun -np 2 /Users/caoj7/workspace-c/graphlab/release/toolkits/graph_analytics/pagerank --powerlaw=100000 --hamster-verbose
+--graph --format
+mpirun -np 2 /Users/caoj7/workspace-c/graphlab/release/toolkits/graph_analytics/pagerank --graph=/Users/caoj7/workspace-c/graphlab/release/toolkits/graph_analytics/input.adj --format=adj
+hamster mpirun -np 2 /Users/caoj7/workspace-c/graphlab/release/toolkits/graph_analytics/pagerank --graph=/Users/caoj7/workspace-c/graphlab/release/toolkits/graph_analytics/input.adj --format=adj
+

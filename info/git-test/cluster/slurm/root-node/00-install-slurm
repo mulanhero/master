@@ -1,0 +1,65 @@
+0. make NFS server on node1
+	[root@node1 ~]# cat /etc/exports
+	/home/caoj7 *(rw,no_root_squash,sync)
+	/root/program *(rw,no_root_squash,sync)
+
+1. openssl and munge (on each node)
+	#for general(openssl, munge)
+	export PATH=/usr/local/bin:$PATH
+	export LD_LIBRARY_PATH=/usr/lib:/usr/lib64:/usr/local/lib:$LD_LIBRARY_PATH
+
+2. autotools
+	m4 => autoconf => automake => libtool => flex 
+	./configure --prefix=/root/program/common-c
+	-------------
+	#m4, autoconf, automake, libtool, flex
+	export PATH=/root/program/common-c/bin:$PATH
+	export LD_LIBRARY_PATH=/root/program/common-c/lib:$LD_LIBRARY_PATH
+
+3. install hwloc(root) /root/program/hwloc
+	[root@node1 hwloc-1.6.2]# ./configure --prefix=/root/program/common-c/hwloc
+	#hwloc
+	export PATH=/root/program/common-c/hwloc/bin:$PATH
+	export LD_LIBRARY_PATH=/root/program/common-c/hwloc/lib:$LD_LIBRARY_PATH
+
+4. if GLIB and GTK problem, then sudo yum search glib / sudo yum search gtk
+	yum install glib2.x86_64
+	yum install glib2-devel.x86_64
+	yum install gtk2.x86_64
+	yum install gtk2-devel.x86_64
+
+5. install(root)
+	./autogen.sh
+	./configure --prefix=/root/program/slurmhome --sysconfdir=/root/program/slurmhome/etc \
+		--with-munge=/usr/local --with-hwloc=/root/program/common-c/hwloc \
+		--enable-debug --enable-memory-leak-debug --enable-dynamic-allocation
+	make
+	make install
+	-------------------
+	#for slurm
+	export PATH=/root/slurmhome/bin:/root/slurmhome/sbin:$PATH
+	export LD_LIBRARY_PATH=/root/slurmhome/lib:/root/slurmhome/lib/slurm:$LD_LIBRARY_PATH
+
+	[root@node1 ~]# scp ~/.bashrc node2:~
+	
+
+6. 	Slurm.conf (If revised, slurmctld and slurmd need to be reboot)
+	Use doc/html/configurator.html to createslurm.conf
+	[root@node1 slurmhome]# mkdir etc
+	[root@node1 etc]# vi slurm.conf
+
+7.  cgroup.conf (optional)
+
+8.  release_agent(optional)
+	//under /root/slurmhome/etc
+	vi release_common
+	ln -s  release_common release_cpuset
+	ln -s  release_common release_freezer
+
+==========================================================================================
+9. Startup munge (on each node)
+	/etc/init.d/munge start
+10. startup  slurmctld (on node1)/ slurmd (node1~node4) 
+	slurmctld -Dvvvvvv
+	slurmd -Dvvvvvv
+==========================================================================================

@@ -1,0 +1,83 @@
+1.	Creating Service Principals
+------------------------------------------------------------------------------------------
+1.1 for all HDFS nodes
+[root@node1 krb5kdc]# kadmin.local
+kadmin.local:  addprinc -randkey hdfs/node1.hadoop.com@HADOOPDOMAIN   	#for node1 (namenode)
+kadmin.local:  addprinc -randkey hdfs/node2.hadoop.com@HADOOPDOMAIN		#for node2 (datanode) 
+kadmin.local:  addprinc -randkey hdfs/node3.hadoop.com@HADOOPDOMAIN		#for node3 (datanode)
+kadmin.local:  addprinc -randkey hdfs/node4.hadoop.com@HADOOPDOMAIN		#for node4 (datanode)
+------------------------------------------------------------------------------------------
+1.2 for YARN nodes
+kadmin.local: addprinc -randkey yarn/node1.hadoop.com@HADOOPDOMAIN
+kadmin.local: addprinc -randkey yarn/node2.hadoop.com@HADOOPDOMAIN
+kadmin.local: addprinc -randkey yarn/node3.hadoop.com@HADOOPDOMAIN
+kadmin.local: addprinc -randkey yarn/node4.hadoop.com@HADOOPDOMAIN
+------------------------------------------------------------------------------------------
+1.3 for history server
+kadmin.local: addprinc -randkey mapred/node1.hadoop.com@HADOOPDOMAIN 		#note: node1 is history server
+----------
+kadmin.local: addprinc -randkey mapred/node2.hadoop.com@HADOOPDOMAIN
+kadmin.local: addprinc -randkey mapred/node3.hadoop.com@HADOOPDOMAIN
+kadmin.local: addprinc -randkey mapred/node4.hadoop.com@HADOOPDOMAIN   
+------------------------------------------------------------------------------------------
+1.4 for all hosts
+kadmin.local: addprinc -randkey HTTP/node1.hadoop.com@HADOOPDOMAIN
+kadmin.local: addprinc -randkey HTTP/node2.hadoop.com@HADOOPDOMAIN
+kadmin.local: addprinc -randkey HTTP/node3.hadoop.com@HADOOPDOMAIN
+kadmin.local: addprinc -randkey HTTP/node4.hadoop.com@HADOOPDOMAIN
+==========================================================================================
+2	Generate Keytab Files
+-----------
+However, I found that in some machines above commands would break. Thus we can use "ktadd" instead:
+kadmin.local: ktadd --norandkey --k hdfs.keytab hdfs/<hostname> host/<hostname>
+kadmin.local: ktadd --norandkey --k mapred.keytab mapred/<hostname> host/<hostname>
+------------------------------------------------------------------------------------------
+2.1  	hdfs.keytab
+kadmin.local: xst -norandkey -k /tmp/hdfs.keytab hdfs/node1.hadoop.com HTTP/node1.hadoop.com
+kadmin.local: xst -k /tmp/hdfs.keytab hdfs/node2.hadoop.com HTTP/node2.hadoop.com
+kadmin.local: xst -k /tmp/hdfs.keytab hdfs/node3.hadoop.com HTTP/node3.hadoop.com 
+kadmin.local: xst -k /tmp/hdfs.keytab hdfs/node4.hadoop.com HTTP/node4.hadoop.com
+------------------------------------------------------------------------------------------
+2.2 	mapred.keytab
+kadmin.local: xst -norandkey -k /tmp/mapred.keytab mapred/node1.hadoop.com HTTP/node1.hadoop.com
+------------
+kadmin.local: xst -k /tmp/mapred.keytab mapred/node2.hadoop.com HTTP/node2.hadoop.com
+kadmin.local: xst -k /tmp/mapred.keytab mapred/node3.hadoop.com HTTP/node3.hadoop.com
+kadmin.local: xst -k /tmp/mapred.keytab mapred/node4.hadoop.com HTTP/node4.hadoop.com
+------------------------------------------------------------------------------------------
+2.3	yarn.keytab
+kadmin.local: xst -norandkey -k /tmp/yarn.keytab yarn/node1.hadoop.com HTTP/node1.hadoop.com
+kadmin.local: xst -k /tmp/yarn.keytab yarn/node2.hadoop.com HTTP/node2.hadoop.com
+kadmin.local: xst -k /tmp/yarn.keytab yarn/node3.hadoop.com HTTP/node3.hadoop.com
+kadmin.local: xst -k /tmp/yarn.keytab yarn/node4.hadoop.com HTTP/node4.hadoop.com
+------------------------------------------------------------------------------------------
+2.4  exit 
+kadmin.local:  q
+------------------------------------------------------------------------------------------
+2.5	Check Keytabs
+klist -e -k -t /tmp/hdfs.keytab
+klist -e -k -t /tmp/mapred.keytab
+klist -e -k -t /tmp/yarn.keytab
+==========================================================================================
+3.	place the keytab files (on each hosts)
+------------------------------------------------------------------------------------------
+3.1 copy *.keytab to the dir created above
+[root@node1 krb5kdc]# scp /tmp/*.keytab node1:/etc/hadoop/conf/
+[root@node1 krb5kdc]# scp /tmp/*.keytab node2:/etc/hadoop/conf/ 
+[root@node1 krb5kdc]# scp /tmp/*.keytab node3:/etc/hadoop/conf/
+[root@node1 krb5kdc]# scp /tmp/*.keytab node4:/etc/hadoop/conf/
+------------------------------------------------------------------------------------------
+3.2 chown and chmod (on each nodes!!!)
+[root@node1 krb5kdc]# cd /etc/hadoop/conf/
+[root@node1 conf]# pwd
+/etc/hadoop/conf
+[root@node1 conf]# chown hdfs:hadoop hdfs.keytab
+[root@node1 conf]# chown mapred:hadoop mapred.keytab
+[root@node1 conf]# chown yarn:hadoop yarn.keytab
+[root@node1 conf]# chmod 500 *.keytab
+==========================================================================================
+4. check jce-6 Security Jars
+[root@node1 conf]# ll $JAVA_HOME/jre/lib/security/
+Note: make sure local_policy.jar and US_export_policy.jar in the above dir, if not, please 
+go http://www.oracle.com/technetwork/java/javase/downloads/jce-6-download-429243.html 
+==========================================================================================

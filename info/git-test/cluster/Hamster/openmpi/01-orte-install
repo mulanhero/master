@@ -1,0 +1,21 @@
+./configure --prefix=/root/program/orte --with-devel-headers --disable-mpi-f77 --enable-debug --enable-mem-debug --enable-memchecker
+
+1. 
+[root@gphd-vm33 openmpi-1.6.4]# ./autogen.sh
+[root@gphd-vm33 openmpi-1.6.4]# ./configure --prefix=/root/program/orte --with-devel-headers --disable-mpi-f77 
+--enable-debug --enable-mem-debug --enable-memchecker  && make -j8 install
+--------------------------------------------------------------------------------------------------
+[root@gphd-vm33 openmpi-1.7.2]# ./configure --prefix=/root/program/orte --with-devel-headers --with-libltdl=/root/program/common-c
+[root@gphd-vm33 program]# locate ltdl.h
+[root@gphd-vm33 program]# ll /root/program/common-c/lib/libltdl.
+So, '--with-libltdl=/root/program/common-c'
+
+
+---------------on mac----------
+[caoj7@cncqcaoj7mbp1 openmpi-1.7.2.j]$sudo find / -name "ltdl.h"
+/Users/caoj7/program/common-c/include/ltdl.h
+/Users/caoj7/program/common-c/share/libtool/libltdl/ltdl.h
+[caoj7@cncqcaoj7mbp1 openmpi-1.7.2.j]$./configure --prefix=/Users/caoj7/program/orte --with-devel-headers --with-libltdl=/Users/caoj7/program/common-c
+--------------------------------------------------------------------------------------------------
+[root@gphd-vm33 openmpi-1.6.4]# make -j 4
+[root@gphd-vm33 openmpi-1.6.4]# make install

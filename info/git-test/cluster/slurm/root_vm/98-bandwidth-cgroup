@@ -1,0 +1,17 @@
+Allow to limit the network bandwidth for specific process containers (cgroups)
+imposing additional delays in the sockets' sendmsg()/recvmsg() calls made by
+those processes that exceed the limits defined in the control group filesystem.
+
+Example:
+  # mkdir /dev/cgroup
+  # mount -t cgroup -onet net /dev/cgroup
+  # cd /dev/cgroup
+  # mkdir foo
+  --> the cgroup foo has been created
+  # /bin/echo $$ > foo/tasks
+  # /bin/echo 1024 > foo/net.tcp
+  # /bin/echo 2048 > foo/net.tot
+  # sh
+  --> the subshell 'sh' is running in cgroup "foo" that has a maximum network
+      bandwidth for TCP traffic of 1MB/s and 2MB/s for total network
+      activities.

@@ -1,0 +1,102 @@
+//========================
+[caoj7@vm1 ~]$ cat unset.sh 
+unset SLURM_NODELIST
+unset SLURM_JOB_CPUS_PER_NODE
+unset SLURM_TASKS_PER_NODE
+unset SLURM_JOBID
+unset SLURM_CPUS_PER_TASK
+unset SLURM_JOB_NODELIST
+unset SLURM_NNODES
+//======================== 
+
+Sets the variables:
+ *	SLURM_JOB_ID
+ *	SLURM_JOB_NUM_NODES
+ *	SLURM_JOB_NODELIST
+ *	SLURM_JOB_CPUS_PER_NODE
+ *	SLURM_NODE_ALIASES
+ *	LOADLBATCH (AIX only)
+ *	SLURM_BG_NUM_NODES, MPIRUN_PARTITION, MPIRUN_NOFREE, and
+ *	MPIRUN_NOALLOCATE (BG only)
+ *
+ * Sets OBSOLETE variables (needed for MPI, do not remove):
+ *	SLURM_JOBID
+ *	SLURM_NNODES
+ *	SLURM_NODELIST
+ *	SLURM_TASKS_PER_NODE
+//===========================================
+
+slurm_node_str = getenv("SLURM_NODELIST");
+tasks_per_node = getenv("SLURM_JOB_CPUS_PER_NODE");
+tasks_per_node = getenv("SLURM_TASKS_PER_NODE");
+
+slurm_jobid = getenv("SLURM_JOBID");
+ tmp = getenv("SLURM_CPUS_PER_TASK");
+
+export SLURM_JOB_NODELIST="vm2"
+export SLURM_NNODES=1
+
+
+[caoj7@vm1 mpi]$ salloc -N3 –n11   
+[caoj7@vm1 mpi]$ salloc -n11
+
+salloc: Granted job allocation 503
+[caoj7@vm1 mpi]$ echo $SLURM_NODELIST
+vm[2-4]
+[caoj7@vm1 mpi]$ echo $SLURM_JOB_CPUS_PER_NODE
+4(x3)
+[caoj7@vm1 mpi]$ echo $SLURM_TASKS_PER_NODE
+4(x2),3    //three nodes, each of the first two nodes offers 4 slots, the third node offers 3 slots
+[caoj7@vm1 mpi]$ echo $SLURM_JOBID
+503
+[caoj7@vm1 mpi]$ echo $SLURM_CPUS_PER_TASK
+
+[caoj7@vm1 mpi]$ echo $SLURM_JOB_NODELIST
+vm[2-4]
+[caoj7@vm1 mpi]$ echo $SLURM_NNODES
+3
+[caoj7@vm1 mpi]$ echo $SLURM_JOB_ID
+503
+===============================================
+[caoj7@vm1 ~]$ salloc -N4 -n5
+salloc: Granted job allocation 511
+[caoj7@vm1 ~]$ sinfo
+PARTITION AVAIL  TIMELIMIT  NODES  STATE NODELIST
+compute*     up   infinite      4  alloc vm[2-5]
+[caoj7@vm1 ~]$ echo $SLURM_NODELIST
+vm[2-5]
+[caoj7@vm1 ~]$ echo $SLURM_JOB_CPUS_PER_NODE
+4(x4)
+[caoj7@vm1 ~]$ echo $SLURM_TASKS_PER_NODE
+2,1(x3)  //four nodes. the first node offers two slots,  each of the later three nodes offers 1 slots
+[caoj7@vm1 ~]$ echo $SLURM_JOBID
+511
+[caoj7@vm1 ~]$ echo $SLURM_CPUS_PER_TASK
+
+[caoj7@vm1 ~]$ echo $SLURM_JOB_NODELIST
+vm[2-5]
+[caoj7@vm1 ~]$  echo $SLURM_NNODES
+4
+[caoj7@vm1 ~]$ echo $SLURM_JOB_ID
+511
+=========================================
+[caoj7@vm1 ~]$ salloc --nodelist=vm[2-5] -n5
+salloc: Granted job allocation 514
+[caoj7@vm1 ~]$ echo $SLURM_NODELIST
+vm[2-5]
+[caoj7@vm1 ~]$ echo $SLURM_JOB_CPUS_PER_NODE
+4(x4)
+[caoj7@vm1 ~]$ echo $SLURM_TASKS_PER_NODE
+2,1(x3)
+[caoj7@vm1 ~]$ echo $SLURM_JOBID
+514
+[caoj7@vm1 ~]$ echo $SLURM_CPUS_PER_TASK
+
+[caoj7@vm1 ~]$  echo $SLURM_JOB_NODELIST
+vm[2-5]
+[caoj7@vm1 ~]$  echo $SLURM_NNODES
+4
+[caoj7@vm1 ~]$ echo $SLURM_JOB_ID
+514
+=========================================
+

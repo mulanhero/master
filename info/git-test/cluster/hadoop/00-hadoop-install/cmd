@@ -1,0 +1,10 @@
+yarn.am.liveness-monitor.expiry-interval-ms : 30000000
+yarn.nm.liveness-monitor.expiry-interval-ms : 30000000
+yarn.resourcemanager.rm.container-allocation.expiry-interval-ms : 30000000
+
+
+hadoop jar -Dmapred.child.java.opts=-Xmx1024M
+
+
+ yarn logs --appOwner root  --applicationId application_1390810286950_0019
+ yarn application -kill application_1390810286950_0019

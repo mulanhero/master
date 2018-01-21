@@ -1,0 +1,487 @@
+stderr
+----------
+INFO:     dc_init_from_mpi.cpp(init_param_from_mpi:51): Will Listen on: 10.62.67.19:58096
+[0mINFO:     dc.cpp(distributed_control:119): Distributed Control Initialized from MPI
+[0mINFO:     dc_tcp_comm.cpp(open_listening:411): Proc 0 listening on 58096
+[0mINFO:     dc_tcp_comm.cpp(connect:432): Trying to connect from 0 -> 0 on port 58096
+[0mINFO:     dc_tcp_comm.cpp(connect:435): Destination IP = 10.62.67.19
+[0mINFO:     dc_tcp_comm.cpp(accept_handler:487): Listening thread launched.
+[0mINFO:     dc_tcp_comm.cpp(connect:467): connection from 0 to 0 established.
+[0mINFO:     dc_tcp_comm.cpp(connect:432): Trying to connect from 0 -> 1 on port 59529
+[0mINFO:     dc_tcp_comm.cpp(connect:435): Destination IP = 10.62.67.29
+[0mINFO:     dc_tcp_comm.cpp(accept_handler:493): Accepting....
+[0mINFO:     dc_tcp_comm.cpp(accept_handler:498): Accepted
+[0mINFO:     dc_tcp_comm.cpp(new_socket:375): Incoming connection from 10.62.67.19
+[0mINFO:     dc_tcp_comm.cpp(new_socket:384): Proc 0 accepted connection from machine 0
+[0mINFO:     dc_tcp_comm.cpp(accept_handler:493): Accepting....
+[0mINFO:     dc_tcp_comm.cpp(accept_handler:498): Accepted
+[0mINFO:     dc_tcp_comm.cpp(new_socket:375): Incoming connection from 10.62.67.32
+[0mINFO:     dc_tcp_comm.cpp(new_socket:384): Proc 0 accepted connection from machine 13
+[0mINFO:     dc_tcp_comm.cpp(connect:467): connection from 0 to 1 established.
+[0mINFO:     dc_tcp_comm.cpp(connect:432): Trying to connect from 0 -> 2 on port 60776
+[0mINFO:     dc_tcp_comm.cpp(connect:435): Destination IP = 10.62.67.28
+[0mINFO:     dc_tcp_comm.cpp(accept_handler:493): Accepting....
+[0mINFO:     dc_tcp_comm.cpp(accept_handler:498): Accepted
+[0mINFO:     dc_tcp_comm.cpp(connect:467): connection from 0 to 2 established.
+[0mINFO:     dc_tcp_comm.cpp(new_socket:375): Incoming connection from 10.62.67.17
+[0mINFO:     dc_tcp_comm.cpp(connect:432): Trying to connect from 0 -> 3 on port 59440
+[0mINFO:     dc_tcp_comm.cpp(connect:435): Destination IP = 10.62.67.18
+[0mINFO:     dc_tcp_comm.cpp(new_socket:384): Proc 0 accepted connection from machine 4
+[0mINFO:     dc_tcp_comm.cpp(accept_handler:493): Accepting....
+[0mINFO:     dc_tcp_comm.cpp(accept_handler:498): Accepted
+[0mINFO:     dc_tcp_comm.cpp(new_socket:375): Incoming connection from 10.62.67.26
+[0mINFO:     dc_tcp_comm.cpp(new_socket:384): Proc 0 accepted connection from machine 18
+[0mINFO:     dc_tcp_comm.cpp(accept_handler:493): Accepting....
+[0mINFO:     dc_tcp_comm.cpp(connect:440): connect 0 to 3: Connection refused. Retrying...
+[0mINFO:     dc_tcp_comm.cpp(accept_handler:498): Accepted
+[0mINFO:     dc_tcp_comm.cpp(new_socket:375): Incoming connection from 10.62.67.12
+[0mINFO:     dc_tcp_comm.cpp(new_socket:384): Proc 0 accepted connection from machine 16
+[0mINFO:     dc_tcp_comm.cpp(accept_handler:493): Accepting....
+[0mINFO:     dc_tcp_comm.cpp(accept_handler:498): Accepted
+[0mINFO:     dc_tcp_comm.cpp(new_socket:375): Incoming connection from 10.62.67.14
+[0mINFO:     dc_tcp_comm.cpp(new_socket:384): Proc 0 accepted connection from machine 12
+[0mINFO:     dc_tcp_comm.cpp(accept_handler:493): Accepting....
+[0mINFO:     dc_tcp_comm.cpp(accept_handler:498): Accepted
+[0mINFO:     dc_tcp_comm.cpp(new_socket:375): Incoming connection from 10.62.67.18
+[0mINFO:     dc_tcp_comm.cpp(new_socket:384): Proc 0 accepted connection from machine 3
+[0mINFO:     dc_tcp_comm.cpp(accept_handler:493): Accepting....
+[0mINFO:     dc_tcp_comm.cpp(accept_handler:498): Accepted
+[0mINFO:     dc_tcp_comm.cpp(new_socket:375): Incoming connection from 10.62.67.15
+[0mINFO:     dc_tcp_comm.cpp(new_socket:384): Proc 0 accepted connection from machine 5
+[0mINFO:     dc_tcp_comm.cpp(accept_handler:493): Accepting....
+[0mINFO:     dc_tcp_comm.cpp(accept_handler:498): Accepted
+[0mINFO:     dc_tcp_comm.cpp(new_socket:375): Incoming connection from 10.62.67.21
+[0mINFO:     dc_tcp_comm.cpp(new_socket:384): Proc 0 accepted connection from machine 8
+[0mINFO:     dc_tcp_comm.cpp(accept_handler:493): Accepting....
+[0mINFO:     dc_tcp_comm.cpp(accept_handler:498): Accepted
+[0mINFO:     dc_tcp_comm.cpp(new_socket:375): Incoming connection from 10.62.67.13
+[0mINFO:     dc_tcp_comm.cpp(new_socket:384): Proc 0 accepted connection from machine 10
+[0mINFO:     dc_tcp_comm.cpp(accept_handler:493): Accepting....
+[0mINFO:     dc_tcp_comm.cpp(accept_handler:498): Accepted
+[0mINFO:     dc_tcp_comm.cpp(new_socket:375): Incoming connection from 10.62.67.28
+[0mINFO:     dc_tcp_comm.cpp(new_socket:384): Proc 0 accepted connection from machine 2
+[0mINFO:     dc_tcp_comm.cpp(accept_handler:493): Accepting....
+[0mINFO:     dc_tcp_comm.cpp(accept_handler:498): Accepted
+[0mINFO:     dc_tcp_comm.cpp(new_socket:375): Incoming connection from 10.62.67.11
+[0mINFO:     dc_tcp_comm.cpp(new_socket:384): Proc 0 accepted connection from machine 14
+[0mINFO:     dc_tcp_comm.cpp(accept_handler:493): Accepting....
+[0mINFO:     dc_tcp_comm.cpp(accept_handler:498): Accepted
+[0mINFO:     dc_tcp_comm.cpp(new_socket:375): Incoming connection from 10.62.67.22
+[0mINFO:     dc_tcp_comm.cpp(new_socket:384): Proc 0 accepted connection from machine 11
+[0mINFO:     dc_tcp_comm.cpp(accept_handler:493): Accepting....
+[0mINFO:     dc_tcp_comm.cpp(accept_handler:498): Accepted
+[0mINFO:     dc_tcp_comm.cpp(new_socket:375): Incoming connection from 10.62.67.29
+[0mINFO:     dc_tcp_comm.cpp(new_socket:384): Proc 0 accepted connection from machine 1
+[0mINFO:     dc_tcp_comm.cpp(accept_handler:493): Accepting....
+[0mINFO:     dc_tcp_comm.cpp(accept_handler:498): Accepted
+[0mINFO:     dc_tcp_comm.cpp(new_socket:375): Incoming connection from 10.62.67.31
+[0mINFO:     dc_tcp_comm.cpp(new_socket:384): Proc 0 accepted connection from machine 9
+[0mINFO:     dc_tcp_comm.cpp(accept_handler:493): Accepting....
+[0mINFO:     dc_tcp_comm.cpp(accept_handler:498): Accepted
+[0mINFO:     dc_tcp_comm.cpp(new_socket:375): Incoming connection from 10.62.67.24
+[0mINFO:     dc_tcp_comm.cpp(new_socket:384): Proc 0 accepted connection from machine 15
+[0mINFO:     dc_tcp_comm.cpp(accept_handler:493): Accepting....
+[0mINFO:     dc_tcp_comm.cpp(accept_handler:498): Accepted
+[0mINFO:     dc_tcp_comm.cpp(new_socket:375): Incoming connection from 10.62.67.20
+[0mINFO:     dc_tcp_comm.cpp(new_socket:384): Proc 0 accepted connection from machine 6
+[0mINFO:     dc_tcp_comm.cpp(accept_handler:493): Accepting....
+[0mINFO:     dc_tcp_comm.cpp(accept_handler:498): Accepted
+[0mINFO:     dc_tcp_comm.cpp(new_socket:375): Incoming connection from 10.62.67.16
+[0mINFO:     dc_tcp_comm.cpp(new_socket:384): Proc 0 accepted connection from machine 7
+[0mINFO:     dc_tcp_comm.cpp(accept_handler:493): Accepting....
+[0mINFO:     dc_tcp_comm.cpp(accept_handler:498): Accepted
+[0mINFO:     dc_tcp_comm.cpp(new_socket:375): Incoming connection from 10.62.67.25
+[0mINFO:     dc_tcp_comm.cpp(new_socket:384): Proc 0 accepted connection from machine 17
+[0mINFO:     dc_tcp_comm.cpp(connect:467): connection from 0 to 3 established.
+[0mINFO:     dc_tcp_comm.cpp(connect:432): Trying to connect from 0 -> 4 on port 42962
+[0mINFO:     dc_tcp_comm.cpp(connect:435): Destination IP = 10.62.67.17
+[0mINFO:     dc_tcp_comm.cpp(connect:467): connection from 0 to 4 established.
+[0mINFO:     dc_tcp_comm.cpp(connect:432): Trying to connect from 0 -> 5 on port 46691
+[0mINFO:     dc_tcp_comm.cpp(connect:435): Destination IP = 10.62.67.15
+[0mINFO:     dc_tcp_comm.cpp(connect:467): connection from 0 to 5 established.
+[0mINFO:     dc_tcp_comm.cpp(connect:432): Trying to connect from 0 -> 6 on port 59289
+[0mINFO:     dc_tcp_comm.cpp(connect:435): Destination IP = 10.62.67.20
+[0mINFO:     dc_tcp_comm.cpp(connect:467): connection from 0 to 6 established.
+[0mINFO:     dc_tcp_comm.cpp(connect:432): Trying to connect from 0 -> 7 on port 51204
+[0mINFO:     dc_tcp_comm.cpp(connect:435): Destination IP = 10.62.67.16
+[0mINFO:     dc_tcp_comm.cpp(connect:467): connection from 0 to 7 established.
+[0mINFO:     dc_tcp_comm.cpp(connect:432): Trying to connect from 0 -> 8 on port 35678
+[0mINFO:     dc_tcp_comm.cpp(connect:435): Destination IP = 10.62.67.21
+[0mINFO:     dc_tcp_comm.cpp(connect:467): connection from 0 to 8 established.
+[0mINFO:     dc_tcp_comm.cpp(connect:432): Trying to connect from 0 -> 9 on port 55207
+[0mINFO:     dc_tcp_comm.cpp(connect:435): Destination IP = 10.62.67.31
+[0mINFO:     dc_tcp_comm.cpp(connect:467): connection from 0 to 9 established.
+[0mINFO:     dc_tcp_comm.cpp(connect:432): Trying to connect from 0 -> 10 on port 59557
+[0mINFO:     dc_tcp_comm.cpp(connect:435): Destination IP = 10.62.67.13
+[0mINFO:     dc_tcp_comm.cpp(connect:467): connection from 0 to 10 established.
+[0mINFO:     dc_tcp_comm.cpp(connect:432): Trying to connect from 0 -> 11 on port 44704
+[0mINFO:     dc_tcp_comm.cpp(connect:435): Destination IP = 10.62.67.22
+[0mINFO:     dc_tcp_comm.cpp(connect:467): connection from 0 to 11 established.
+[0mINFO:     dc_tcp_comm.cpp(connect:432): Trying to connect from 0 -> 12 on port 37775
+[0mINFO:     dc_tcp_comm.cpp(connect:435): Destination IP = 10.62.67.14
+[0mINFO:     dc_tcp_comm.cpp(connect:467): connection from 0 to 12 established.
+[0mINFO:     dc_tcp_comm.cpp(connect:432): Trying to connect from 0 -> 13 on port 55633
+[0mINFO:     dc_tcp_comm.cpp(connect:435): Destination IP = 10.62.67.32
+[0mINFO:     dc_tcp_comm.cpp(connect:467): connection from 0 to 13 established.
+[0mINFO:     dc_tcp_comm.cpp(connect:432): Trying to connect from 0 -> 14 on port 38294
+[0mINFO:     dc_tcp_comm.cpp(connect:435): Destination IP = 10.62.67.11
+[0mINFO:     dc_tcp_comm.cpp(connect:467): connection from 0 to 14 established.
+[0mINFO:     dc_tcp_comm.cpp(connect:432): Trying to connect from 0 -> 15 on port 56751
+[0mINFO:     dc_tcp_comm.cpp(connect:435): Destination IP = 10.62.67.24
+[0mINFO:     dc_tcp_comm.cpp(connect:467): connection from 0 to 15 established.
+[0mINFO:     dc_tcp_comm.cpp(connect:432): Trying to connect from 0 -> 16 on port 41891
+[0mINFO:     dc_tcp_comm.cpp(connect:435): Destination IP = 10.62.67.12
+[0mINFO:     dc_tcp_comm.cpp(connect:467): connection from 0 to 16 established.
+[0mINFO:     dc_tcp_comm.cpp(connect:432): Trying to connect from 0 -> 17 on port 53470
+[0mINFO:     dc_tcp_comm.cpp(connect:435): Destination IP = 10.62.67.25
+[0mINFO:     dc_tcp_comm.cpp(connect:467): connection from 0 to 17 established.
+[0mINFO:     dc_tcp_comm.cpp(connect:432): Trying to connect from 0 -> 18 on port 34518
+[0mINFO:     dc_tcp_comm.cpp(connect:435): Destination IP = 10.62.67.26
+[0mINFO:     dc_tcp_comm.cpp(connect:467): connection from 0 to 18 established.
+[0mINFO:     dc_tcp_comm.cpp(connect:432): Trying to connect from 0 -> 19 on port 54947
+[0mINFO:     dc_tcp_comm.cpp(connect:435): Destination IP = 10.62.67.27
+[0mINFO:     dc_tcp_comm.cpp(connect:467): connection from 0 to 19 established.
+[0mINFO:     dc_tcp_comm.cpp(accept_handler:493): Accepting....
+[0mINFO:     dc_tcp_comm.cpp(accept_handler:498): Accepted
+[0mINFO:     dc_tcp_comm.cpp(new_socket:375): Incoming connection from 10.62.67.27
+[0mINFO:     dc_tcp_comm.cpp(new_socket:384): Proc 0 accepted connection from machine 19
+[0mINFO:     dc_tcp_comm.cpp(accept_handler:548): Listening thread quitting
+[0mINFO:     dc_tcp_comm.cpp(receive_loop:588): Receive loop Started
+[0mINFO:     dc.cpp(init:552): TCP Communication layer constructed.
+[0m[1;32mINFO:     dc.cpp(init:554): Cluster of 20 instances created.
+[0mINFO:     dc_tcp_comm.cpp(send_loop:647): Send loop Started
+[0m[1;32mINFO:     distributed_graph.hpp(set_ingress_method:2902): Automatically determine ingress method: grid
+[0m13/09/29 06:03:48 WARN util.NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+[1;32mINFO:     distributed_graph.hpp(load_from_hdfs:1961): Loading graph from file: hdfs://gphd-vm33:9000/users/hamster/gl/medwiki/medwiki
+[0mINFO:     distributed_graph.hpp(load_from_stream:2938): 7972680 Lines read
+[0mINFO:     distributed_graph.hpp(load_from_stream:2938): 16316936 Lines read
+[0mINFO:     distributed_graph.hpp(load_from_stream:2938): 24879611 Lines read
+[0mINFO:     distributed_graph.hpp(load_from_stream:2938): 33432444 Lines read
+[0mINFO:     distributed_graph.hpp(load_from_stream:2938): 41856058 Lines read
+[0mINFO:     distributed_graph.hpp(load_from_stream:2938): 50321428 Lines read
+[0mINFO:     distributed_graph.hpp(load_from_stream:2938): 58499497 Lines read
+[0mINFO:     distributed_graph.hpp(load_from_stream:2938): 67009062 Lines read
+[0mINFO:     distributed_graph.hpp(load_from_stream:2938): 75498020 Lines read
+[0mINFO:     distributed_graph.hpp(load_from_stream:2938): 83707518 Lines read
+[0mINFO:     distributed_graph.hpp(load_from_stream:2938): 92182307 Lines read
+[0mINFO:     distributed_graph.hpp(load_from_stream:2938): 100637954 Lines read
+[0mINFO:     distributed_graph.hpp(load_from_stream:2938): 108996820 Lines read
+[0mINFO:     distributed_graph.hpp(load_from_stream:2938): 117443529 Lines read
+[0mINFO:     distributed_graph.hpp(load_from_stream:2938): 125662832 Lines read
+[0mINFO:     distributed_graph.hpp(load_from_stream:2938): 133994203 Lines read
+[0mINFO:     distributed_graph.hpp(load_from_stream:2938): 142364544 Lines read
+[0mINFO:     distributed_graph.hpp(load_from_stream:2938): 151060489 Lines read
+[0mINFO:     distributed_graph.hpp(load_from_stream:2938): 159317896 Lines read
+[0mINFO:     distributed_graph.hpp(load_from_stream:2938): 167546148 Lines read
+[0mINFO:     distributed_graph.hpp(load_from_stream:2938): 175868358 Lines read
+[0mINFO:     distributed_graph.hpp(load_from_stream:2938): 184112902 Lines read
+[0mINFO:     distributed_graph.hpp(load_from_stream:2938): 192415130 Lines read
+[0mINFO:     distributed_graph.hpp(load_from_stream:2938): 200769152 Lines read
+[0mINFO:     distributed_graph.hpp(load_from_stream:2938): 209220724 Lines read
+[0mINFO:     distributed_graph.hpp(load_from_stream:2938): 217751765 Lines read
+[0mINFO:     distributed_graph.hpp(load_from_stream:2938): 226319958 Lines read
+[0mINFO:     distributed_graph.hpp(load_from_stream:2938): 234801544 Lines read
+[0mINFO:     distributed_graph.hpp(load_from_stream:2938): 243222956 Lines read
+[0mINFO:     distributed_graph.hpp(load_from_stream:2938): 251493721 Lines read
+[0mINFO:     distributed_graph.hpp(load_from_stream:2938): 259737474 Lines read
+[0mINFO:     distributed_graph.hpp(load_from_stream:2938): 267975948 Lines read
+[0mINFO:     distributed_graph.hpp(load_from_stream:2938): 276218875 Lines read
+[0mINFO:     distributed_graph.hpp(load_from_stream:2938): 284486703 Lines read
+[0mINFO:     distributed_graph.hpp(load_from_stream:2938): 292603808 Lines read
+[0mINFO:     distributed_graph.hpp(load_from_stream:2938): 300769900 Lines read
+[0mINFO:     distributed_graph.hpp(load_from_stream:2938): 309086208 Lines read
+[0mINFO:     distributed_graph.hpp(load_from_stream:2938): 317309516 Lines read
+[0mINFO:     distributed_graph.hpp(load_from_stream:2938): 325479742 Lines read
+[0mINFO:     distributed_graph.hpp(load_from_stream:2938): 333600820 Lines read
+[0mINFO:     distributed_graph.hpp(load_from_stream:2938): 341914238 Lines read
+[0mINFO:     distributed_graph.hpp(load_from_stream:2938): 350105564 Lines read
+[0mINFO:     distributed_graph.hpp(load_from_stream:2938): 358378385 Lines read
+[0mINFO:     distributed_graph.hpp(load_from_stream:2938): 366639467 Lines read
+[0mINFO:     distributed_graph.hpp(load_from_stream:2938): 374720630 Lines read
+[0mINFO:     distributed_graph.hpp(load_from_stream:2938): 383034898 Lines read
+[0mINFO:     distributed_graph.hpp(load_from_stream:2938): 391213933 Lines read
+[0mINFO:     distributed_graph.hpp(load_from_stream:2938): 399419998 Lines read
+[0mINFO:     distributed_graph.hpp(load_from_stream:2938): 407572867 Lines read
+[0mINFO:     distributed_graph.hpp(load_from_stream:2938): 415759204 Lines read
+[0mINFO:     distributed_graph.hpp(load_from_stream:2938): 423990315 Lines read
+[0mINFO:     distributed_graph.hpp(load_from_stream:2938): 432191750 Lines read
+[0mINFO:     distributed_graph.hpp(load_from_stream:2938): 440341703 Lines read
+[0mINFO:     distributed_graph.hpp(load_from_stream:2938): 448628735 Lines read
+[0mINFO:     distributed_graph.hpp(load_from_stream:2938): 456944542 Lines read
+[0mINFO:     distributed_graph.hpp(load_from_stream:2938): 465149213 Lines read
+[0mINFO:     distributed_graph.hpp(load_from_stream:2938): 473342929 Lines read
+[0mINFO:     distributed_graph.hpp(load_from_stream:2938): 481493388 Lines read
+[0mINFO:     distributed_graph.hpp(load_from_stream:2938): 489630833 Lines read
+[0mINFO:     distributed_graph.hpp(load_from_stream:2938): 497830830 Lines read
+[0mINFO:     distributed_graph.hpp(load_from_stream:2938): 505934730 Lines read
+[0mINFO:     distributed_graph.hpp(finalize:694): Distributed graph: enter finalize
+[0m[1;32mINFO:     distributed_ingress_base.hpp(finalize:185): Finalizing Graph...
+[0mINFO:     memory_info.cpp(log_usage:90): Memory Info: Post Flush
+	 Heap: 860.875 MB
+	 Allocated: 679.863 MB
+[0mINFO:     distributed_ingress_base.hpp(finalize:232): Graph Finalize: constructing local graph
+[0mINFO:     memory_info.cpp(log_usage:90): Memory Info: Finished populating local graph.
+	 Heap: 1608.76 MB
+	 Allocated: 1055.42 MB
+[0mINFO:     distributed_ingress_base.hpp(finalize:277): Graph Finalize: finalizing local graph.
+[0mINFO:     dynamic_local_graph.hpp(finalize:339): Graph finalized in 1.92597 secs
+[0mINFO:     distributed_ingress_base.hpp(finalize:280): Local graph info: 
+[0m	 nverts: 1826469
+[0m	 nedges: 25858210
+[0mINFO:     memory_info.cpp(log_usage:90): Memory Info: Finished finalizing local graph.
+	 Heap: 2792.48 MB
+	 Allocated: 1518.24 MB
+[0mINFO:     memory_info.cpp(log_usage:90): Memory Info: Finished adding vertex data
+	 Heap: 2792.48 MB
+	 Allocated: 1517.37 MB
+[0mINFO:     memory_info.cpp(log_usage:90): Memory Info: Finihsed allocating lvid2record
+	 Heap: 2792.48 MB
+	 Allocated: 1600.98 MB
+[0mINFO:     memory_info.cpp(log_usage:90): Memory Info: Finished synchronizing vertex (meta)data
+	 Heap: 3350.72 MB
+	 Allocated: 2213.49 MB
+[0mINFO:     distributed_ingress_base.hpp(exchange_global_info:494): Graph Finalize: exchange global statistics 
+[0m[1;32mINFO:     distributed_ingress_base.hpp(exchange_global_info:519): Graph info: 
+	 nverts: 7698121
+	 nedges: 513883084
+	 nreplicas: 40210877
+	 replication factor: 5.22347
+[0mINFO:     omni_engine.hpp(omni_engine:191): Using the Synchronous engine.
+[0mINFO:     distributed_graph.hpp(finalize:694): Distributed graph: enter finalize
+[0m[1;32mINFO:     distributed_ingress_base.hpp(finalize:185): Finalizing Graph...
+[0mINFO:     memory_info.cpp(log_usage:90): Memory Info: Post Flush
+	 Heap: 3350.72 MB
+	 Allocated: 1761.64 MB
+[0mINFO:     distributed_ingress_base.hpp(finalize:232): Graph Finalize: constructing local graph
+[0mINFO:     memory_info.cpp(log_usage:90): Memory Info: Finished populating local graph.
+	 Heap: 3350.72 MB
+	 Allocated: 1761.64 MB
+[0mINFO:     distributed_ingress_base.hpp(finalize:277): Graph Finalize: finalizing local graph.
+[0mINFO:     dynamic_local_graph.hpp(finalize:339): Graph finalized in 0.06814 secs
+[0mINFO:     distributed_ingress_base.hpp(finalize:280): Local graph info: 
+[0m	 nverts: 2001569
+[0m	 nedges: 25858210
+[0mINFO:     memory_info.cpp(log_usage:90): Memory Info: Finished finalizing local graph.
+	 Heap: 3350.72 MB
+	 Allocated: 1761.64 MB
+[0mINFO:     memory_info.cpp(log_usage:90): Memory Info: Finished adding vertex data
+	 Heap: 3350.72 MB
+	 Allocated: 1761.64 MB
+[0mINFO:     memory_info.cpp(log_usage:90): Memory Info: Finihsed allocating lvid2record
+	 Heap: 3350.72 MB
+	 Allocated: 1761.64 MB
+[0mINFO:     memory_info.cpp(log_usage:90): Memory Info: Finished synchronizing vertex (meta)data
+	 Heap: 3350.72 MB
+	 Allocated: 2215.89 MB
+[0mINFO:     distributed_ingress_base.hpp(exchange_global_info:494): Graph Finalize: exchange global statistics 
+[0m[1;32mINFO:     distributed_ingress_base.hpp(exchange_global_info:519): Graph info: 
+	 nverts: 7698121
+	 nedges: 513883084
+	 nreplicas: 40210877
+	 replication factor: 5.22347
+[0mINFO:     memory_info.cpp(log_usage:90): Memory Info: Before Engine Initialization
+	 Heap: 3350.72 MB
+	 Allocated: 1761.48 MB
+[0mINFO:     memory_info.cpp(log_usage:90): Memory Info: After Engine Initialization
+	 Heap: 3350.72 MB
+	 Allocated: 1901.81 MB
+[0m[1;32mINFO:     synchronous_engine.hpp(start:1292): Iteration counter will only output every 5 seconds.
+[0m[1;32mINFO:     synchronous_engine.hpp(start:1307): 0: Starting iteration: 0
+[0m[1;32mINFO:     synchronous_engine.hpp(start:1356): 	Active vertices: 4364328
+[0m[1;32mINFO:     synchronous_engine.hpp(start:1405): 	 Running Aggregators
+[0m[1;32mINFO:     synchronous_engine.hpp(start:1307): 0: Starting iteration: 1
+[0m[1;32mINFO:     synchronous_engine.hpp(start:1356): 	Active vertices: 3333793
+[0m[1;32mINFO:     synchronous_engine.hpp(start:1405): 	 Running Aggregators
+[0m[1;32mINFO:     synchronous_engine.hpp(start:1307): 0: Starting iteration: 2
+[0m[1;32mINFO:     synchronous_engine.hpp(start:1356): 	Active vertices: 4186330
+[0m[1;32mINFO:     synchronous_engine.hpp(start:1405): 	 Running Aggregators
+[0m[1;32mINFO:     synchronous_engine.hpp(start:1307): 0: Starting iteration: 3
+[0m[1;32mINFO:     synchronous_engine.hpp(start:1356): 	Active vertices: 2734374
+[0m[1;32mINFO:     synchronous_engine.hpp(start:1405): 	 Running Aggregators
+[0m[1;32mINFO:     synchronous_engine.hpp(start:1307): 0: Starting iteration: 4
+[0m[1;32mINFO:     synchronous_engine.hpp(start:1356): 	Active vertices: 4182405
+[0m[1;32mINFO:     synchronous_engine.hpp(start:1405): 	 Running Aggregators
+[0m[1;32mINFO:     synchronous_engine.hpp(start:1307): 0: Starting iteration: 5
+[0m[1;32mINFO:     synchronous_engine.hpp(start:1356): 	Active vertices: 2653214
+[0m[1;32mINFO:     synchronous_engine.hpp(start:1405): 	 Running Aggregators
+[0m[1;32mINFO:     synchronous_engine.hpp(start:1307): 0: Starting iteration: 6
+[0m[1;32mINFO:     synchronous_engine.hpp(start:1356): 	Active vertices: 4197733
+[0m[1;32mINFO:     synchronous_engine.hpp(start:1405): 	 Running Aggregators
+[0m[1;32mINFO:     synchronous_engine.hpp(start:1307): 0: Starting iteration: 7
+[0m[1;32mINFO:     synchronous_engine.hpp(start:1356): 	Active vertices: 1857731
+[0m[1;32mINFO:     synchronous_engine.hpp(start:1405): 	 Running Aggregators
+[0m[1;32mINFO:     synchronous_engine.hpp(start:1307): 0: Starting iteration: 8
+[0m[1;32mINFO:     synchronous_engine.hpp(start:1356): 	Active vertices: 4052326
+[0m[1;32mINFO:     synchronous_engine.hpp(start:1405): 	 Running Aggregators
+[0m[1;32mINFO:     synchronous_engine.hpp(start:1307): 0: Starting iteration: 9
+[0m[1;32mINFO:     synchronous_engine.hpp(start:1356): 	Active vertices: 887764
+[0m[1;32mINFO:     synchronous_engine.hpp(start:1405): 	 Running Aggregators
+[0m[1;32mINFO:     synchronous_engine.hpp(start:1307): 0: Starting iteration: 10
+[0m[1;32mINFO:     synchronous_engine.hpp(start:1356): 	Active vertices: 156453
+[0m[1;32mINFO:     synchronous_engine.hpp(start:1405): 	 Running Aggregators
+[0m[1;32mINFO:     synchronous_engine.hpp(start:1417): 11 iterations completed.
+[0mINFO:     synchronous_engine.hpp(start:1434): Compute Balance: 550.225 581.478 570.089 554.008 567.583 513.667 559.487 530.757 552.529 527.391 529.292 566.182 555.532 573.319 564.229 531.737 540.55 524.793 560.392 543.283 
+[0mINFO:     distributed_graph.hpp(finalize:694): Distributed graph: enter finalize
+[0m[1;32mINFO:     distributed_ingress_base.hpp(finalize:185): Finalizing Graph...
+[0mINFO:     memory_info.cpp(log_usage:90): Memory Info: Post Flush
+	 Heap: 13470.2 MB
+	 Allocated: 1937.81 MB
+[0mINFO:     distributed_ingress_base.hpp(finalize:232): Graph Finalize: constructing local graph
+[0mINFO:     memory_info.cpp(log_usage:90): Memory Info: Finished populating local graph.
+	 Heap: 13470.2 MB
+	 Allocated: 1937.81 MB
+[0mINFO:     distributed_ingress_base.hpp(finalize:277): Graph Finalize: finalizing local graph.
+[0mINFO:     dynamic_local_graph.hpp(finalize:339): Graph finalized in 0.102697 secs
+[0mINFO:     distributed_ingress_base.hpp(finalize:280): Local graph info: 
+[0m	 nverts: 2001569
+[0m	 nedges: 25858210
+[0mINFO:     memory_info.cpp(log_usage:90): Memory Info: Finished finalizing local graph.
+	 Heap: 13470.2 MB
+	 Allocated: 1937.82 MB
+[0mINFO:     memory_info.cpp(log_usage:90): Memory Info: Finished adding vertex data
+	 Heap: 13470.2 MB
+	 Allocated: 1937.82 MB
+[0mINFO:     memory_info.cpp(log_usage:90): Memory Info: Finihsed allocating lvid2record
+	 Heap: 13470.2 MB
+	 Allocated: 1937.82 MB
+[0mINFO:     memory_info.cpp(log_usage:90): Memory Info: Finished synchronizing vertex (meta)data
+	 Heap: 13470.2 MB
+	 Allocated: 2391.97 MB
+[0mINFO:     distributed_ingress_base.hpp(exchange_global_info:494): Graph Finalize: exchange global statistics 
+[0m[1;32mINFO:     distributed_ingress_base.hpp(exchange_global_info:519): Graph info: 
+	 nverts: 7698121
+	 nedges: 513883084
+	 nreplicas: 40210877
+	 replication factor: 5.22347
+[0mINFO:     distributed_graph.hpp(save_to_hdfs:1659): Saving to file: hdfs://gphd-vm33:9000/users/hamster/gl/medwiki/out_1_of_40
+[0mINFO:     distributed_graph.hpp(save_to_hdfs:1659): Saving to file: hdfs://gphd-vm33:9000/users/hamster/gl/medwiki/out_2_of_40
+[0mINFO:     distributed_graph.hpp(finalize:694): Distributed graph: enter finalize
+[0m[1;32mINFO:     distributed_ingress_base.hpp(finalize:185): Finalizing Graph...
+[0mINFO:     memory_info.cpp(log_usage:90): Memory Info: Post Flush
+	 Heap: 13470.2 MB
+	 Allocated: 1937.88 MB
+[0mINFO:     distributed_ingress_base.hpp(finalize:232): Graph Finalize: constructing local graph
+[0mINFO:     memory_info.cpp(log_usage:90): Memory Info: Finished populating local graph.
+	 Heap: 13470.2 MB
+	 Allocated: 1937.88 MB
+[0mINFO:     distributed_ingress_base.hpp(finalize:277): Graph Finalize: finalizing local graph.
+[0mINFO:     dynamic_local_graph.hpp(finalize:339): Graph finalized in 0.032224 secs
+[0mINFO:     distributed_ingress_base.hpp(finalize:280): Local graph info: 
+[0m	 nverts: 2001569
+[0m	 nedges: 25858210
+[0mINFO:     memory_info.cpp(log_usage:90): Memory Info: Finished finalizing local graph.
+	 Heap: 13470.2 MB
+	 Allocated: 1937.88 MB
+[0mINFO:     memory_info.cpp(log_usage:90): Memory Info: Finished adding vertex data
+	 Heap: 13470.2 MB
+	 Allocated: 1937.88 MB
+[0mINFO:     memory_info.cpp(log_usage:90): Memory Info: Finihsed allocating lvid2record
+	 Heap: 13470.2 MB
+	 Allocated: 1937.88 MB
+[0mINFO:     memory_info.cpp(log_usage:90): Memory Info: Finished synchronizing vertex (meta)data
+	 Heap: 13470.2 MB
+	 Allocated: 2392.04 MB
+[0mINFO:     distributed_ingress_base.hpp(exchange_global_info:494): Graph Finalize: exchange global statistics 
+[0m[1;32mINFO:     distributed_ingress_base.hpp(exchange_global_info:519): Graph info: 
+	 nverts: 7698121
+	 nedges: 513883084
+	 nreplicas: 40210877
+	 replication factor: 5.22347
+[0mINFO:     distributed_graph.hpp(save_to_hdfs:1659): Saving to file: hdfs://gphd-vm33:9000/users/hamster/gl/medwiki/out.U_1_of_40
+[0mINFO:     distributed_graph.hpp(save_to_hdfs:1659): Saving to file: hdfs://gphd-vm33:9000/users/hamster/gl/medwiki/out.U_2_of_40
+[0mINFO:     distributed_graph.hpp(finalize:694): Distributed graph: enter finalize
+[0m[1;32mINFO:     distributed_ingress_base.hpp(finalize:185): Finalizing Graph...
+[0mINFO:     memory_info.cpp(log_usage:90): Memory Info: Post Flush
+	 Heap: 13470.2 MB
+	 Allocated: 1938.64 MB
+[0mINFO:     distributed_ingress_base.hpp(finalize:232): Graph Finalize: constructing local graph
+[0mINFO:     memory_info.cpp(log_usage:90): Memory Info: Finished populating local graph.
+	 Heap: 13470.2 MB
+	 Allocated: 1938.64 MB
+[0mINFO:     distributed_ingress_base.hpp(finalize:277): Graph Finalize: finalizing local graph.
+[0mINFO:     dynamic_local_graph.hpp(finalize:339): Graph finalized in 0.041659 secs
+[0mINFO:     distributed_ingress_base.hpp(finalize:280): Local graph info: 
+[0m	 nverts: 2001569
+[0m	 nedges: 25858210
+[0mINFO:     memory_info.cpp(log_usage:90): Memory Info: Finished finalizing local graph.
+	 Heap: 13470.2 MB
+	 Allocated: 1938.65 MB
+[0mINFO:     memory_info.cpp(log_usage:90): Memory Info: Finished adding vertex data
+	 Heap: 13470.2 MB
+	 Allocated: 1938.65 MB
+[0mINFO:     memory_info.cpp(log_usage:90): Memory Info: Finihsed allocating lvid2record
+	 Heap: 13470.2 MB
+	 Allocated: 1938.65 MB
+[0mINFO:     memory_info.cpp(log_usage:90): Memory Info: Finished synchronizing vertex (meta)data
+	 Heap: 13470.2 MB
+	 Allocated: 2392.8 MB
+[0mINFO:     distributed_ingress_base.hpp(exchange_global_info:494): Graph Finalize: exchange global statistics 
+[0m[1;32mINFO:     distributed_ingress_base.hpp(exchange_global_info:519): Graph info: 
+	 nverts: 7698121
+	 nedges: 513883084
+	 nreplicas: 40210877
+	 replication factor: 5.22347
+[0mINFO:     distributed_graph.hpp(save_to_hdfs:1659): Saving to file: hdfs://gphd-vm33:9000/users/hamster/gl/medwiki/out.V_1_of_40
+[0mINFO:     distributed_graph.hpp(save_to_hdfs:1659): Saving to file: hdfs://gphd-vm33:9000/users/hamster/gl/medwiki/out.V_2_of_40
+[0mINFO:     dc.cpp(~distributed_control:158): Shutting down distributed control 
+[0mINFO:     dc_tcp_comm.cpp(close:247): Closing listening socket
+[0mINFO:     dc_tcp_comm.cpp(send_loop:653): Send loop Stopped
+[0mINFO:     dc_tcp_comm.cpp(close:267): Closing outgoing sockets
+[0mINFO:     dc_tcp_comm.cpp(receive_loop:594): Receive loop Stopped
+[0mINFO:     dc_tcp_comm.cpp(close:285): Closing incoming sockets
+[0mINFO:     dc.cpp(~distributed_control:186): Bytes Sent: 0
+[0mINFO:     dc.cpp(~distributed_control:187): Calls Sent: 408103
+[0mINFO:     dc.cpp(~distributed_control:188): Network Sent: 38859891328
+[0mINFO:     dc.cpp(~distributed_control:189): Bytes Received: 0
+[0mINFO:     dc.cpp(~distributed_control:190): Calls Received: 397849
+[0m
+---------------------------
+stdout
+---------------------------
+GRAPHLAB_SUBNET_ID/GRAPHLAB_SUBNET_MASK environment variables not defined.
+Using default values
+Subnet ID: 0.0.0.0
+Subnet Mask: 0.0.0.0
+Will find first IPv4 non-loopback address matching the subnet
+Loading graph.
+Loading graph. Finished in 310.76
+Finalizing graph.
+Finalizing graph. Finished in 34.861
+========== Graph statistics on proc 0 ===============
+ Num vertices: 7698121
+ Num edges: 513883084
+ Num replica: 40210877
+ Replica to vertex ratio: 5.22347
+ --------------------------------------------
+ Num local own vertices: 385018
+ Num local vertices: 2001569
+ Replica to own ratio: 5.19864
+ Num local edges: 25858210
+ Edge balance ratio: 0.0503192
+Creating engine
+Training edges: 513883084 validation edges: 0
+Running ALS
+Time in seconds: 68.5	iTraining RMSE: 0.307005
+Time in seconds: 216.3	iTraining RMSE: 0.255133
+Time in seconds: 282.7	iTraining RMSE: 0.232446
+Time in seconds: 406.9	iTraining RMSE: 0.190311
+Time in seconds: 473.4	iTraining RMSE: 0.168478
+Time in seconds: 592.9	iTraining RMSE: 0.140456
+Time in seconds: 658.8	iTraining RMSE: 0.129159
+Time in seconds: 742.1	iTraining RMSE: 0.118184
+Time in seconds: 807.4	iTraining RMSE: 0.113818
+Time in seconds: 847.6	iTraining RMSE: 0.109883
+Updates: 32606451
+----------------------------------------------------------
+Final Runtime (seconds):   848.813
+Updates executed: 32606451
+Update Rate (updates/second): 38414.2
+Final error: 
+Time in seconds: 849.1	iTraining RMSE: 0.109869
+Saving predictions
+
+
+====================
+real	22m14.980s
+user	0m12.305s
+sys	0m3.033s

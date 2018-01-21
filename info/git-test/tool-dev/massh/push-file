@@ -1,0 +1,47 @@
+[root@host33 ~]# massh --help
+Run Commands, Run Scripts, Push Files, Pull Files - Parallelized
+Usage:
+   Remote Commands:
+      massh [ HostGroup | file | string ] terse [RemoteCommand]
+      massh [ HostGroup | file | string ] verbose [RemoteCommand]
+      massh [ HostGroup | file | string ] worked [RemoteCommand]
+      massh [ HostGroup | file | string ] bombed [RemoteCommand]
+
+   Remote Scripts:
+      massh [ HostGroup | file | string ] execute [PathToScript]
+
+   Push or Pull Files:
+      massh [ HostGroup | file | string ] pull [PathToFile]
+      massh [ HostGroup | file | string ] push [PathToFile]
+
+   Option Controls:
+      massh list options
+      massh edit option [OptionName]
+
+Example[s]:
+      massh all verbose uptime
+      massh all.a.tt execute chkrrdprogress
+      massh app[1..10] push /etc/my.cnf
+      
+      
+      
+
+[root@host33 ~]# massh host[11-32] push /etc/resolv.conf
+[root@host33 ~]# massh host[11-32] push /etc/hosts
+[root@host33 ~]# massh host[11-32] push /etc/yum.repos.d/CentOS-Base-163.repo
+
+
+massh all verbose uptime
+   massh all.a.tt execute chkrrdprogress
+   massh app[1..10] push /etc/my.cnf
+   massh /tmp/newhosts.txt verbose yum install puppet
+   massh webhosts execute /srv/scripts/cross-site-scripting-check.sh
+   massh webhosts pull /var/log/httpd/access_log
+   
+   
+
+-----------------
+cool
+-----------------
+massh slave push ~/.ssh/known_hosts    
+massh slave verbose mv ~/known_hosts ~/.ssh/

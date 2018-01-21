@@ -1,0 +1,162 @@
+body {
+	background:#F2F2F2;
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:100%;
+	line-height:150%;
+}
+
+#pagemargin {
+	margin-left:10em;
+	margin-right:10em;
+}
+
+#title {
+        font-family: Impact, Charcoal, sans-serif;
+	font-weight: normal;
+	font-size: 1.2em;
+	padding-bottom: 0.5em;
+	padding-top: 1.8em;
+	text-shadow: 0px 1px 3px #787878; 
+}
+
+#subtitle {
+	color:#005A9C;
+	font-size:2.5em;
+	padding-bottom:0.9em;
+	text-shadow: 0px 2px 3px #000000;
+}
+
+h1 {
+	font-family:Impact, Charcoal, sans-serif;
+	font-weight:normal;
+	margin:0;
+	padding:0.1em 0.1em 0.1em 0;
+}
+
+h2,h3,h4 {
+	color:#525552;
+	font-family:Sans-serif;
+}
+
+a:link, a:active {
+	color: #3366FF;
+}
+
+a:visited {
+	color: #999999;
+}
+
+#gnu {
+	clear:left;
+	float:right;
+}
+
+img {
+	border: 0px; /* IE9 shows a border around archer fish if link
+	              * is visited.
+		      */
+}
+
+#author {
+	font-size:.8em;
+}
+
+#nav {
+	list-style-type:none;
+}
+
+ul#top-nav {
+	border-top:1px solid #000000;
+	list-style-type:none;
+	margin:0;
+	padding:.9em 0;
+}
+
+ul#bottom-nav {
+	border-top:1px solid #000000;
+	list-style-type:none;
+	margin:0;
+	padding:0;
+}
+
+#bottom-nav-center {
+	padding-bottom:0.9em;
+	text-align:center;
+}
+
+ol {
+	margin-left:8ex;
+}
+
+p {
+	margin-left:1.0em;
+}
+
+pre {
+	font-size:75%;
+	margin-left:8ex;
+	margin-right:8ex;
+}
+
+blockquote.demo,pre.demo {
+	background-color:#C6D8E5;
+	color: #000000;	
+	border:1px solid #999999;
+	border-radius:3px;
+	font-size:10pt;
+	line-height:130%;
+	margin-left:auto;
+	margin-right:auto;
+	width:92%;
+	padding:1ex;
+}
+
+blockquote.demo,pre.code {
+	background-color:#C6D8E5;
+	color: #000000;
+	border:1px solid #999999;
+	border-radius:3px;
+	font-size:10pt;
+	line-height:130%;
+	margin-left:auto;
+	margin-right:auto;
+	width:92%;
+	padding:1ex;
+}
+
+.notebox {
+	background-color: #C6D8E5;
+	color: #000000;
+	border: 2px solid #005A9C;
+	box-shadow: 2px 3px 3px #888;
+	border-radius:2px;
+	margin-left:auto;
+	margin-right:auto;
+	padding-right:1em;
+	width:92%;
+}
+span.tip {
+	color:#006400;
+	font-weight:bolder;
+}
+
+code {
+	font-size:91%;
+}
+
+ol.exercise {
+	margin-left:5ex;
+}
+
+img.center {
+	display:block;
+	margin:3em auto;
+}
+
+ul#top-nav .left,ul#bottom-nav .left {
+	float:left;
+}
+
+ul#top-nav .right,ul#bottom-nav .right {
+	float:right;
+}

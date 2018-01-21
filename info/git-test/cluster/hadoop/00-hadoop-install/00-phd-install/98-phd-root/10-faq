@@ -1,0 +1,93 @@
+1. 
+-------------------------------------------------------------
+#for java
+export JAVA_HOME=/usr/local/jdk1.6.0_21
+export PATH=$JAVA_HOME/bin:$PATH
+export CLASSPATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar:$CLASSPATH
+
+
+#for orte
+#export PATH=/usr/local/hamster/orte/bin:$PATH
+#export LD_LIBRARY_PATH=/usr/local/hamster/orte/lib:/usr/local/hamster/orte/openmpi/lib:$LD_LIBRARY_PATH
+
+#for hamster
+export PATH=/usr/local/hamster/core/bin:$PATH
+-------------------------------------------------------------
+[root@hdsh080 hamster]# which hamster
+/usr/local/hamster/core/bin/hamster
+[root@hdsh080 hamster]# cat /usr/local/hamster/core/conf/hamster-site.xml 
+<property>
+    <name>com.pivotal.hamster.ompi.home</name>
+    <value>/usr</value>
+</property>
+-------------------------------------------------------------
+-------------------------------------------------------------
+-------------------------------------------------------------
+-------------------------------------------------------------
+-------------------------------------------------------------
+-------------------------------------------------------------
+
+-------------------------------------------------------------
+1. PHD lib install dir
+-------------------------------------------------------------
+[root@hdsh080 /]# ll /usr/lib/gphd/
+total 20
+lrwxrwxrwx 1 root root   45 Sep  4 07:56 hadoop -> /usr/lib/gphd/hadoop-2.0.5_alpha_gphd_2_0_2_0
+drwxr-xr-x 8 root root 4096 Sep  4 07:56 hadoop-2.0.5_alpha_gphd_2_0_2_0
+lrwxrwxrwx 1 root root   50 Sep  4 07:58 hadoop-hdfs -> /usr/lib/gphd/hadoop-hdfs-2.0.5_alpha_gphd_2_0_2_0
+drwxr-xr-x 7 root root 4096 Sep  4 07:58 hadoop-hdfs-2.0.5_alpha_gphd_2_0_2_0
+lrwxrwxrwx 1 root root   55 Sep  4 08:10 hadoop-mapreduce -> /usr/lib/gphd/hadoop-mapreduce-2.0.5_alpha_gphd_2_0_2_0
+drwxr-xr-x 6 root root 4096 Sep  4 08:10 hadoop-mapreduce-2.0.5_alpha_gphd_2_0_2_0
+lrwxrwxrwx 1 root root   50 Sep  4 08:06 hadoop-yarn -> /usr/lib/gphd/hadoop-yarn-2.0.5_alpha_gphd_2_0_2_0
+drwxr-xr-x 7 root root 4096 Sep  4 08:06 hadoop-yarn-2.0.5_alpha_gphd_2_0_2_0
+lrwxrwxrwx 1 root root   42 Sep  4 07:52 zookeeper -> /usr/lib/gphd/zookeeper-3.4.5_gphd_2_0_2_0
+drwxr-xr-x 4 root root 4096 Sep  4 07:52 zookeeper-3.4.5_gphd_2_0_2_0
+---------
+[root@hdsh080 /]# ll /usr/lib/gphd/hadoop-mapreduce-2.0.5_alpha_gphd_2_0_2_0/*example*
+-------------------------------------------------------------
+2. #############distributed-cache on each NM
+/var/lib/gphd/hadoop-yarn-2.0.5_alpha_gphd_2_0_2_0/cache/yarn/nm-local-dir/usercache/
+-------------------------------------------------------------
+1) [root@node1 userlogs]# cat *15/*01/stdout
+======================   ALLOCATED NODES   ======================
+
+ Data for node: node2	Num slots: 2	Max slots: 0
+ Data for node: 10.37.7.103	Num slots: 1	Max slots: 0
+ Data for node: 10.37.7.104	Num slots: 1	Max slots: 0
+
+=================================================================
+
+ ========================   JOB MAP   ========================
+
+ Data for node: node2	Num procs: 2
+ 	Process OMPI jobid: [48661,1] App: 0 Process rank: 0
+ 	Process OMPI jobid: [48661,1] App: 0 Process rank: 1
+
+ Data for node: 10.37.7.103	Num procs: 1
+ 	Process OMPI jobid: [48661,1] App: 0 Process rank: 2
+
+ Data for node: 10.37.7.104	Num procs: 1
+ 	Process OMPI jobid: [48661,1] App: 0 Process rank: 3
+
+ =============================================================
+-------------------------------------------------------------
+2) here, we got rank0 is on node2, ssh node2, then
+-------------------------------------------------------------
+[root@node2 ~]# ll /var/lib/gphd/hadoop-yarn-2.0.5_alpha_gphd_2_0_2_0/cache/yarn/nm-local-dir/usercache/root/appcache/application_1380218909246_0015
+total 24
+drwxr-xr-x 2 yarn hadoop 4096 Oct 10 00:08 3189047297
+drwx--x--- 3 yarn hadoop 4096 Oct 10 00:08 container_1380218909246_0015_01_000001
+-rw-r--r-- 1 yarn hadoop    7 Oct 10 00:08 container_1380218909246_0015_01_000001.tokens
+drwx--x--- 3 yarn hadoop 4096 Oct 10 00:08 container_1380218909246_0015_01_000004
+drwx--x--- 3 yarn hadoop 4096 Oct 10 00:08 container_1380218909246_0015_01_000007
+drwxr-xr-x 5 yarn hadoop 4096 Oct 10 00:08 filecache
+----------
+[root@node2 ~]# ll /var/lib/gphd/hadoop-yarn-2.0.5_alpha_gphd_2_0_2_0/cache/yarn/nm-local-dir/usercache/root/appcache/application_1380218909246_0015/container_1380218909246_0015_01_000004
+total 28
+-rw-r--r-- 1 yarn hadoop    7 Oct 10 00:08 container_tokens
+-rwx------ 1 yarn hadoop  639 Oct 10 00:08 default_container_executor.sh
+-rw-r--r-- 1 yarn hadoop    0 Oct 10 00:08 file.txt
+lrwxrwxrwx 1 yarn hadoop  137 Oct 10 00:08 hamster-core.jar -> /var/lib/gphd/hadoop-yarn-2.0.5_alpha_gphd_2_0_2_0/cache/yarn/nm-local-dir/filecache/-8072994689192925317/hamster-core-0.8.0-SNAPSHOT.jar
+lrwxrwxrwx 1 yarn hadoop  181 Oct 10 00:08 Hamster_place_holder -> /var/lib/gphd/hadoop-yarn-2.0.5_alpha_gphd_2_0_2_0/cache/yarn/nm-local-dir/usercache/root/appcache/application_1380218909246_0015/filecache/-5388737910512353655/Hamster_place_holder
+-rwx------ 1 yarn hadoop 6766 Oct 10 00:08 launch_container.sh
+drwx--x--- 2 yarn hadoop 4096 Oct 10 00:08 tmp

@@ -1,0 +1,48 @@
+-----------------------------------------------------------------------------------------
+1. PHD 2.2 install
+-----------------------------------------------------------------------------------------
+[root@node1 hdfs_nfs]# cat /etc/hosts
+127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4
+::1         localhost localhost.localdomain localhost6 localhost6.localdomain6
+
+10.37.7.101 node1
+10.37.7.102 node2
+10.37.7.103 node3
+10.37.7.104 node4
+-----------------------------------------------------------------------------------------
+2. yarn-site.xml
+-----------------------------------------------------------------------------------------
+<property>
+	<name>yarn.nodemanager.aux-services</name>
+	<value>hamster_aux</value>
+	description>shuffle service that needs to be set for Map Reduce to run </description>
+</property>
+
+<property>
+	<name>yarn.nodemanager.aux-services.hamster_aux.class</name>
+	<value>com.pivotal.hamster.aux.HamsterAuxService</value>
+</property>
+
+<property>
+	<name>yarn.nodemanager.container-executor.class</name>
+	<value>com.pivotal.hamster.nodeservice.bridge.HamsterContainerExecutor</value>
+</property>
+
+<property>
+	<name>com.pivotal.hamster.delegation.container-executor.class</name>
+	<value>org.apache.hadoop.yarn.server.nodemanager.DefaultContainerExecutor</value>
+</property>
+-----------------------------------------------------------------------------------------
+3. copy 
+-----------------------------------------------------------------------------------------
+cp /usr/local/hamster/lib/hamster/hamster-core-1.1.0-SNAPSHOT.jar  /usr/lib/gphd/hadoop-yarn/
+-----------------------------------------------------------------------------------------
+4. restart
+-----------------------------------------------------------------------------------------
+/etc/init.d/hadoop-yarn-nodemanager restart
+-----------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------
+
+-----------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------

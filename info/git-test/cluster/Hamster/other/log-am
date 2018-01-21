@@ -1,0 +1,547 @@
+[root@node1 userlogs]# cat tmp 
+13/07/12 01:44:24 INFO event.AsyncDispatcher: Registering class com.pivotal.hamster.appmaster.event.HamsterEventType for class com.pivotal.hamster.appmaster.event.HamsterEventHandler
+13/07/12 01:44:24 INFO service.AbstractService: Service:Dispatcher is inited.
+13/07/12 01:44:24 INFO service.AbstractService: Service:com.pivotal.hamster.appmaster.hnp.HnpLivenessMonitor is inited.
+13/07/12 01:44:24 INFO service.AbstractService: Service:com.pivotal.hamster.appmaster.clientservice.ClientServiceImpl is inited.
+13/07/12 01:44:24 INFO service.AbstractService: Service:com.pivotal.hamster.appmaster.allocator.YarnContainerAllocator is inited.
+13/07/12 01:44:25 WARN util.NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+13/07/12 01:44:25 INFO allocator.YarnContainerAllocator: init succeed
+13/07/12 01:44:25 INFO service.AbstractService: Service:com.pivotal.hamster.appmaster.launcher.YarnContainerLauncher is inited.
+13/07/12 01:44:25 INFO launcher.YarnContainerLauncher: init succeed
+13/07/12 01:44:25 INFO hnp.HnpService: init succeed
+13/07/12 01:44:25 INFO service.AbstractService: Service:com.pivotal.hamster.appmaster.hnp.HnpService is inited.
+13/07/12 01:44:25 INFO service.AbstractService: Service:com.pivotal.hamster.appmaster.hnp.DefaultHnpLauncher is inited.
+13/07/12 01:44:25 INFO service.AbstractService: Service:com.pivotal.hamster.appmaster.HamsterAppMaster is inited.
+13/07/12 01:44:25 INFO service.AbstractService: Service:Dispatcher is started.
+13/07/12 01:44:25 INFO service.AbstractService: Service:com.pivotal.hamster.appmaster.hnp.HnpLivenessMonitor is started.
+13/07/12 01:44:25 INFO mortbay.log: Logging to org.slf4j.impl.Log4jLoggerAdapter(org.mortbay.log) via org.mortbay.log.Slf4jLog
+13/07/12 01:44:25 INFO http.HttpServer: Added global filter 'safety' (class=org.apache.hadoop.http.HttpServer$QuotingInputFilter)
+13/07/12 01:44:25 INFO http.HttpServer: Added filter static_user_filter (class=org.apache.hadoop.http.lib.StaticUserWebFilter$StaticUserFilter) to context yarn
+13/07/12 01:44:25 INFO http.HttpServer: Added filter static_user_filter (class=org.apache.hadoop.http.lib.StaticUserWebFilter$StaticUserFilter) to context static
+13/07/12 01:44:25 INFO http.HttpServer: adding path spec: /yarn
+13/07/12 01:44:25 INFO http.HttpServer: adding path spec: /yarn/*
+13/07/12 01:44:25 INFO http.HttpServer: Added global filter 'guice' (class=com.google.inject.servlet.GuiceFilter)
+13/07/12 01:44:25 INFO http.HttpServer: Jetty bound to port 44570
+13/07/12 01:44:25 INFO mortbay.log: jetty-6.1.26
+13/07/12 01:44:25 INFO mortbay.log: Extract jar:file:/root/program/hadoop-2.0.4-alpha/share/hadoop/yarn/hadoop-yarn-common-2.0.4-alpha.jar!/webapps/yarn to /tmp/Jetty_0_0_0_0_44570_yarn____331wst/webapp
+13/07/12 01:44:26 INFO mortbay.log: Started SelectChannelConnector@0.0.0.0:44570
+13/07/12 01:44:26 INFO webapp.WebApps: Web app /yarn started at 44570
+13/07/12 01:44:26 INFO webapp.WebApps: Registered webapp guice modules
+13/07/12 01:44:26 INFO allocator.YarnContainerAllocator: tracking URL = 10.37.7.104:44570
+13/07/12 01:44:26 INFO service.AbstractService: Service:com.pivotal.hamster.appmaster.allocator.YarnContainerAllocator is started.
+13/07/12 01:44:26 INFO allocator.YarnContainerAllocator: start succeed
+13/07/12 01:44:26 INFO launcher.YarnContainerLauncher: start succeed
+13/07/12 01:44:26 INFO hnp.HnpService: wait for HNP connect
+13/07/12 01:44:26 INFO service.AbstractService: Service:com.pivotal.hamster.appmaster.hnp.DefaultHnpLauncher is started.
+13/07/12 01:44:26 INFO service.AbstractService: Service:com.pivotal.hamster.appmaster.HamsterAppMaster is started.
+13/07/12 01:44:26 INFO appmaster.HamsterAppMaster: waiting for signal to terminate AM
+[node4.pivotal.com:27356] mca:base:select:(  ess) Querying component [env]
+[node4.pivotal.com:27356] mca:base:select:(  ess) Skipping component [env]. Query failed to return a module
+[node4.pivotal.com:27356] mca:base:select:(  ess) Querying component [hnp]
+[node4.pivotal.com:27356] mca:base:select:(  ess) Query of component [hnp] set priority to 100
+[node4.pivotal.com:27356] mca:base:select:(  ess) Querying component [singleton]
+[node4.pivotal.com:27356] mca:base:select:(  ess) Skipping component [singleton]. Query failed to return a module
+[node4.pivotal.com:27356] mca:base:select:(  ess) Querying component [slave]
+[node4.pivotal.com:27356] mca:base:select:(  ess) Query of component [slave] set priority to 0
+[node4.pivotal.com:27356] mca:base:select:(  ess) Querying component [slurm]
+[node4.pivotal.com:27356] mca:base:select:(  ess) Skipping component [slurm]. Query failed to return a module
+[node4.pivotal.com:27356] mca:base:select:(  ess) Querying component [slurmd]
+[node4.pivotal.com:27356] mca:base:select:(  ess) Skipping component [slurmd]. Query failed to return a module
+[node4.pivotal.com:27356] mca:base:select:(  ess) Querying component [tool]
+[node4.pivotal.com:27356] mca:base:select:(  ess) Skipping component [tool]. Query failed to return a module
+[node4.pivotal.com:27356] mca:base:select:(  ess) Selected component [hnp]
+[node4.pivotal.com:27356] mca:base:select:(  plm) Querying component [yarn]
+[node4.pivotal.com:27356] [[INVALID],INVALID] plm:yarn: available for selection
+[node4.pivotal.com:27356] mca:base:select:(  plm) Query of component [yarn] set priority to 0
+[node4.pivotal.com:27356] mca:base:select:(  plm) Selected component [yarn]
+[node4.pivotal.com:27356] plm:base:set_hnp_name: initial bias 27356 nodename hash 545305740
+[node4.pivotal.com:27356] plm:base:set_hnp_name: final jobfam 65232
+[node4.pivotal.com:27356] mca:base:select:(routed) Querying component [binomial]
+[node4.pivotal.com:27356] mca:base:select:(routed) Query of component [binomial] set priority to 70
+[node4.pivotal.com:27356] mca:base:select:(routed) Querying component [cm]
+[node4.pivotal.com:27356] mca:base:select:(routed) Skipping component [cm]. Query failed to return a module
+[node4.pivotal.com:27356] mca:base:select:(routed) Querying component [direct]
+[node4.pivotal.com:27356] mca:base:select:(routed) Query of component [direct] set priority to 0
+[node4.pivotal.com:27356] mca:base:select:(routed) Querying component [linear]
+[node4.pivotal.com:27356] mca:base:select:(routed) Query of component [linear] set priority to 40
+[node4.pivotal.com:27356] mca:base:select:(routed) Querying component [radix]
+[node4.pivotal.com:27356] mca:base:select:(routed) Skipping component [radix]. Query failed to return a module
+[node4.pivotal.com:27356] mca:base:select:(routed) Querying component [slave]
+[node4.pivotal.com:27356] mca:base:select:(routed) Query of component [slave] set priority to 0
+[node4.pivotal.com:27356] mca:base:select:(routed) Selected component [binomial]
+[node4.pivotal.com:27356] mca:base:select:(grpcomm) Querying component [bad]
+[node4.pivotal.com:27356] mca:base:select:(grpcomm) Query of component [bad] set priority to 10
+[node4.pivotal.com:27356] mca:base:select:(grpcomm) Querying component [basic]
+[node4.pivotal.com:27356] mca:base:select:(grpcomm) Query of component [basic] set priority to 1
+[node4.pivotal.com:27356] mca:base:select:(grpcomm) Querying component [hier]
+[node4.pivotal.com:27356] mca:base:select:(grpcomm) Skipping component [hier]. Query failed to return a module
+[node4.pivotal.com:27356] mca:base:select:(grpcomm) Selected component [bad]
+[node4.pivotal.com:27356] [[65232,0],0] plm:base:receive start comm
+[node4.pivotal.com:27356] mca:base:select:(  ras) Querying component [yarn]
+[node4.pivotal.com:27356] [[65232,0],0] ras:yarn: available for selection
+[node4.pivotal.com:27356] mca:base:select:(  ras) Query of component [yarn] set priority to 0
+[node4.pivotal.com:27356] mca:base:select:(  ras) Selected component [yarn]
+[node4.pivotal.com:27356] mca:base:select:(rmaps) Querying component [load_balance]
+[node4.pivotal.com:27356] mca:base:select:(rmaps) Skipping component [load_balance]. Query failed to return a module
+[node4.pivotal.com:27356] mca:base:select:(rmaps) Querying component [rank_file]
+[node4.pivotal.com:27356] mca:base:select:(rmaps) Query of component [rank_file] set priority to 0
+[node4.pivotal.com:27356] mca:base:select:(rmaps) Querying component [resilient]
+[node4.pivotal.com:27356] mca:base:select:(rmaps) Query of component [resilient] set priority to 0
+[node4.pivotal.com:27356] mca:base:select:(rmaps) Querying component [round_robin]
+[node4.pivotal.com:27356] mca:base:select:(rmaps) Query of component [round_robin] set priority to 70
+[node4.pivotal.com:27356] mca:base:select:(rmaps) Querying component [seq]
+[node4.pivotal.com:27356] mca:base:select:(rmaps) Query of component [seq] set priority to 0
+[node4.pivotal.com:27356] mca:base:select:(rmaps) Querying component [topo]
+[node4.pivotal.com:27356] mca:base:select:(rmaps) Query of component [topo] set priority to 0
+[node4.pivotal.com:27356] mca:base:select:(rmaps) Selected component [round_robin]
+[node4.pivotal.com:27356] mca:base:select:(errmgr) Querying component [default]
+[node4.pivotal.com:27356] mca:base:select:(errmgr) Query of component [default] set priority to 100
+[node4.pivotal.com:27356] mca:base:select:(errmgr) Selected component [default]
+[node4.pivotal.com:27356] mca:base:select:( odls) Querying component [yarn]
+[node4.pivotal.com:27356] mca:base:select:( odls) Query of component [yarn] set priority to 0
+[node4.pivotal.com:27356] mca:base:select:( odls) Selected component [yarn]
+[node4.pivotal.com:27356] [[65232,0],0] routed_binomial: init routes for HNP job [65232,0]
+[node4.pivotal.com:27356] [[65232,0],0] routed:base: Receive: Start command recv
+[node4.pivotal.com:27356] [[65232,0],0] plm:base:setup_job for job [INVALID]
+[node4.pivotal.com:27356] [[65232,0],0] ras:base:allocate
+13/07/12 01:44:26 INFO hnp.HnpService: HNP connected
+13/07/12 01:44:26 INFO hnp.HnpService: read handshake from HNP completed
+13/07/12 01:44:26 INFO hnp.HnpService: recv [REGISTER] request from HNP
+malloc debug: Request for 0 bytes (src/hdclient.c, 201)
+[node4.pivotal.com:27356] [[65232,0],0] ras:yarn successfully registered to AM
+13/07/12 01:44:26 INFO hnp.HnpService: recv [ALLOCATE] request from HNP
+13/07/12 01:44:26 INFO allocator.AllocationStrategyFactory: get allocation strategy class:com.pivotal.hamster.appmaster.allocator.UserPolicyStrategy
+13/07/12 01:44:26 INFO allocator.UserPolicyStrategy: add predefined host:[10.37.7.102] to known hosts.
+13/07/12 01:44:26 INFO allocator.UserPolicyStrategy: add predefined host:[10.37.7.103] to known hosts.
+13/07/12 01:44:26 INFO allocator.UserPolicyStrategy: add predefined host:[10.37.7.104] to known hosts.
+13/07/12 01:44:26 INFO util.RackResolver: Resolved 10.37.7.102 to /default-rack
+13/07/12 01:44:26 INFO util.RackResolver: Resolved 10.37.7.103 to /default-rack
+13/07/12 01:44:26 INFO util.RackResolver: Resolved 10.37.7.104 to /default-rack
+13/07/12 01:44:26 INFO allocator.AllocationStrategyBase: =========== ask list for round :[0] { 
+13/07/12 01:44:26 INFO allocator.AllocationStrategyBase:     resource request, host:/default-rack container_count:17
+13/07/12 01:44:26 INFO allocator.AllocationStrategyBase:     resource request, host:* container_count:17
+13/07/12 01:44:26 INFO allocator.AllocationStrategyBase:     resource request, host:10.37.7.102 container_count:6
+13/07/12 01:44:26 INFO allocator.AllocationStrategyBase:     resource request, host:10.37.7.103 container_count:6
+13/07/12 01:44:26 INFO allocator.AllocationStrategyBase:     resource request, host:10.37.7.104 container_count:5
+13/07/12 01:44:26 INFO allocator.AllocationStrategyBase: }
+13/07/12 01:44:26 INFO util.RackResolver: Resolved 10.37.7.102 to /default-rack
+13/07/12 01:44:26 INFO util.RackResolver: Resolved 10.37.7.103 to /default-rack
+13/07/12 01:44:26 INFO util.RackResolver: Resolved 10.37.7.104 to /default-rack
+13/07/12 01:44:26 INFO allocator.AllocationStrategyBase: =========== ask list for round :[1] { 
+13/07/12 01:44:26 INFO allocator.AllocationStrategyBase:     resource request, host:/default-rack container_count:17
+13/07/12 01:44:26 INFO allocator.AllocationStrategyBase:     resource request, host:* container_count:17
+13/07/12 01:44:26 INFO allocator.AllocationStrategyBase:     resource request, host:10.37.7.102 container_count:6
+13/07/12 01:44:26 INFO allocator.AllocationStrategyBase:     resource request, host:10.37.7.103 container_count:6
+13/07/12 01:44:26 INFO allocator.AllocationStrategyBase:     resource request, host:10.37.7.104 container_count:5
+13/07/12 01:44:26 INFO allocator.AllocationStrategyBase: }
+13/07/12 01:44:27 INFO util.RackResolver: Resolved 10.37.7.102 to /default-rack
+13/07/12 01:44:27 INFO util.RackResolver: Resolved 10.37.7.103 to /default-rack
+13/07/12 01:44:27 INFO util.RackResolver: Resolved 10.37.7.104 to /default-rack
+13/07/12 01:44:27 INFO allocator.AllocationStrategyBase: =========== ask list for round :[2] { 
+13/07/12 01:44:27 INFO allocator.AllocationStrategyBase:     resource request, host:/default-rack container_count:17
+13/07/12 01:44:27 INFO allocator.AllocationStrategyBase:     resource request, host:* container_count:17
+13/07/12 01:44:27 INFO allocator.AllocationStrategyBase:     resource request, host:10.37.7.102 container_count:6
+13/07/12 01:44:27 INFO allocator.AllocationStrategyBase:     resource request, host:10.37.7.103 container_count:6
+13/07/12 01:44:27 INFO allocator.AllocationStrategyBase:     resource request, host:10.37.7.104 container_count:5
+13/07/12 01:44:27 INFO allocator.AllocationStrategyBase: }
+13/07/12 01:44:27 INFO util.RackResolver: Resolved 10.37.7.102 to /default-rack
+13/07/12 01:44:27 INFO util.RackResolver: Resolved 10.37.7.103 to /default-rack
+13/07/12 01:44:27 INFO util.RackResolver: Resolved 10.37.7.104 to /default-rack
+13/07/12 01:44:27 INFO allocator.AllocationStrategyBase: =========== ask list for round :[3] { 
+13/07/12 01:44:27 INFO allocator.AllocationStrategyBase:     resource request, host:/default-rack container_count:17
+13/07/12 01:44:27 INFO allocator.AllocationStrategyBase:     resource request, host:* container_count:17
+13/07/12 01:44:27 INFO allocator.AllocationStrategyBase:     resource request, host:10.37.7.102 container_count:6
+13/07/12 01:44:27 INFO allocator.AllocationStrategyBase:     resource request, host:10.37.7.103 container_count:6
+13/07/12 01:44:27 INFO allocator.AllocationStrategyBase:     resource request, host:10.37.7.104 container_count:5
+13/07/12 01:44:27 INFO allocator.AllocationStrategyBase: }
+13/07/12 01:44:27 INFO util.RackResolver: Resolved 10.37.7.102 to /default-rack
+13/07/12 01:44:27 INFO util.RackResolver: Resolved 10.37.7.103 to /default-rack
+13/07/12 01:44:27 INFO util.RackResolver: Resolved 10.37.7.104 to /default-rack
+13/07/12 01:44:27 INFO allocator.AllocationStrategyBase: =========== ask list for round :[4] { 
+13/07/12 01:44:27 INFO allocator.AllocationStrategyBase:     resource request, host:/default-rack container_count:17
+13/07/12 01:44:27 INFO allocator.AllocationStrategyBase:     resource request, host:* container_count:17
+13/07/12 01:44:27 INFO allocator.AllocationStrategyBase:     resource request, host:10.37.7.102 container_count:6
+13/07/12 01:44:27 INFO allocator.AllocationStrategyBase:     resource request, host:10.37.7.103 container_count:6
+13/07/12 01:44:27 INFO allocator.AllocationStrategyBase:     resource request, host:10.37.7.104 container_count:5
+13/07/12 01:44:27 INFO allocator.AllocationStrategyBase: }
+13/07/12 01:44:27 INFO allocator.AllocationStrategyBase: STATISTIC: Iterations = 5
+13/07/12 01:44:27 INFO allocator.AllocationStrategyBase: STATISTIC: Nodes = 1
+13/07/12 01:44:27 INFO allocator.YarnContainerAllocator: STATISTIC: allocation time is :1.044 seconds
+13/07/12 01:44:27 INFO hnp.HnpService: allocate for node:[10.37.7.103], with slot=[13]
+[node4.pivotal.com:27356] [[65232,0],0] ras:yarn: adding node 10.37.7.103 with 13 slot
+[node4.pivotal.com:27356] [[65232,0],0] ras:yarn:allocate: success
+[node4.pivotal.com:27356] [[65232,0],0] ras:base:node_insert inserting 1 nodes
+[node4.pivotal.com:27356] [[65232,0],0] ras:base:node_insert node 10.37.7.103
+[node4.pivotal.com:27356] [[65232,0],0] rmaps:base:claim_slot: created new proc [[65232,1],INVALID] for app_idx 0
+[node4.pivotal.com:27356] [[65232,0],0] rmaps:base:claim_slot mapping proc in job [65232,1] app 0 to node 10.37.7.103
+[node4.pivotal.com:27356] [[65232,0],0] rmaps:base: adding node 10.37.7.103 to map
+[node4.pivotal.com:27356] [[65232,0],0] rmaps:base: mapping proc for job [65232,1] to node 10.37.7.103 whose daemon is NULL
+[node4.pivotal.com:27356] [[65232,0],0] rmaps:base:claim_slot: created new proc [[65232,1],INVALID] for app_idx 0
+[node4.pivotal.com:27356] [[65232,0],0] rmaps:base:claim_slot mapping proc in job [65232,1] app 0 to node 10.37.7.103
+[node4.pivotal.com:27356] [[65232,0],0] rmaps:base: mapping proc for job [65232,1] to node 10.37.7.103 whose daemon is NULL
+[node4.pivotal.com:27356] [[65232,0],0] rmaps:base:claim_slot: created new proc [[65232,1],INVALID] for app_idx 0
+[node4.pivotal.com:27356] [[65232,0],0] rmaps:base:claim_slot mapping proc in job [65232,1] app 0 to node 10.37.7.103
+[node4.pivotal.com:27356] [[65232,0],0] rmaps:base: mapping proc for job [65232,1] to node 10.37.7.103 whose daemon is NULL
+[node4.pivotal.com:27356] [[65232,0],0] rmaps:base:claim_slot: created new proc [[65232,1],INVALID] for app_idx 0
+[node4.pivotal.com:27356] [[65232,0],0] rmaps:base:claim_slot mapping proc in job [65232,1] app 0 to node 10.37.7.103
+[node4.pivotal.com:27356] [[65232,0],0] rmaps:base: mapping proc for job [65232,1] to node 10.37.7.103 whose daemon is NULL
+[node4.pivotal.com:27356] [[65232,0],0] rmaps:base:claim_slot: created new proc [[65232,1],INVALID] for app_idx 0
+[node4.pivotal.com:27356] [[65232,0],0] rmaps:base:claim_slot mapping proc in job [65232,1] app 0 to node 10.37.7.103
+[node4.pivotal.com:27356] [[65232,0],0] rmaps:base: mapping proc for job [65232,1] to node 10.37.7.103 whose daemon is NULL
+[node4.pivotal.com:27356] [[65232,0],0] rmaps:base:claim_slot: created new proc [[65232,1],INVALID] for app_idx 0
+[node4.pivotal.com:27356] [[65232,0],0] rmaps:base:claim_slot mapping proc in job [65232,1] app 0 to node 10.37.7.103
+[node4.pivotal.com:27356] [[65232,0],0] rmaps:base: mapping proc for job [65232,1] to node 10.37.7.103 whose daemon is NULL
+[node4.pivotal.com:27356] [[65232,0],0] rmaps:base:claim_slot: created new proc [[65232,1],INVALID] for app_idx 0
+[node4.pivotal.com:27356] [[65232,0],0] rmaps:base:claim_slot mapping proc in job [65232,1] app 0 to node 10.37.7.103
+[node4.pivotal.com:27356] [[65232,0],0] rmaps:base: mapping proc for job [65232,1] to node 10.37.7.103 whose daemon is NULL
+[node4.pivotal.com:27356] [[65232,0],0] rmaps:base:claim_slot: created new proc [[65232,1],INVALID] for app_idx 0
+[node4.pivotal.com:27356] [[65232,0],0] rmaps:base:claim_slot mapping proc in job [65232,1] app 0 to node 10.37.7.103
+[node4.pivotal.com:27356] [[65232,0],0] rmaps:base: mapping proc for job [65232,1] to node 10.37.7.103 whose daemon is NULL
+[node4.pivotal.com:27356] [[65232,0],0] rmaps:base:claim_slot: created new proc [[65232,1],INVALID] for app_idx 0
+[node4.pivotal.com:27356] [[65232,0],0] rmaps:base:claim_slot mapping proc in job [65232,1] app 0 to node 10.37.7.103
+[node4.pivotal.com:27356] [[65232,0],0] rmaps:base: mapping proc for job [65232,1] to node 10.37.7.103 whose daemon is NULL
+[node4.pivotal.com:27356] [[65232,0],0] rmaps:base:claim_slot: created new proc [[65232,1],INVALID] for app_idx 0
+[node4.pivotal.com:27356] [[65232,0],0] rmaps:base:claim_slot mapping proc in job [65232,1] app 0 to node 10.37.7.103
+[node4.pivotal.com:27356] [[65232,0],0] rmaps:base: mapping proc for job [65232,1] to node 10.37.7.103 whose daemon is NULL
+[node4.pivotal.com:27356] [[65232,0],0] rmaps:base:claim_slot: created new proc [[65232,1],INVALID] for app_idx 0
+[node4.pivotal.com:27356] [[65232,0],0] rmaps:base:claim_slot mapping proc in job [65232,1] app 0 to node 10.37.7.103
+[node4.pivotal.com:27356] [[65232,0],0] rmaps:base: mapping proc for job [65232,1] to node 10.37.7.103 whose daemon is NULL
+[node4.pivotal.com:27356] [[65232,0],0] rmaps:base:claim_slot: created new proc [[65232,1],INVALID] for app_idx 0
+[node4.pivotal.com:27356] [[65232,0],0] rmaps:base:claim_slot mapping proc in job [65232,1] app 0 to node 10.37.7.103
+[node4.pivotal.com:27356] [[65232,0],0] rmaps:base: mapping proc for job [65232,1] to node 10.37.7.103 whose daemon is NULL
+[node4.pivotal.com:27356] [[65232,0],0] rmaps:base:claim_slot: created new proc [[65232,1],INVALID] for app_idx 0
+[node4.pivotal.com:27356] [[65232,0],0] rmaps:base:claim_slot mapping proc in job [65232,1] app 0 to node 10.37.7.103
+[node4.pivotal.com:27356] [[65232,0],0] rmaps:base: mapping proc for job [65232,1] to node 10.37.7.103 whose daemon is NULL
+[node4.pivotal.com:27356] [[65232,0],0] rmaps:base:compute_usage
+[node4.pivotal.com:27356] [[65232,0],0] rmaps:base:define_daemons
+[node4.pivotal.com:27356] [[65232,0],0] rmaps:base:define_daemons add new daemon [[65232,0],1]
+[node4.pivotal.com:27356] [[65232,0],0] routed:binomial found child 1
+[node4.pivotal.com:27356] [[65232,0],0]: parent 0 num_children 1
+[node4.pivotal.com:27356] [[65232,0],0]: 	child 1
+[node4.pivotal.com:27356] [[65232,0],0] plm:yarn: launching job [65232,1]
+[node4.pivotal.com:27356] [[65232,0],0] plm:yarn launch_daemon argv=orted -mca ess env -mca orte_ess_jobid 4275044352 -mca orte_ess_vpid 1 -mca orte_ess_num_procs 2 --hnp-uri \"4275044352.0;tcp://10.37.7.104:34551\" -mca oob tcp -mca odls yarn 1><LOG_DIR>/stdout 2><LOG_DIR>/stderr
+[node4.pivotal.com:27356] [[65232,0],0] plm:yarn:common_launch_process: launch argv=orted -mca ess env -mca orte_ess_jobid 4275044352 -mca orte_ess_vpid 1 -mca orte_ess_num_procs 2 --hnp-uri \"4275044352.0;tcp://10.37.7.104:34551\" -mca oob tcp -mca odls yarn 1><LOG_DIR>/stdout 2><LOG_DIR>/stderr
+[node4.pivotal.com:27356] [[65232,0],0] plm:yarn:common_launch_process: after setup env and argv for proc=1.
+13/07/12 01:44:27 INFO hnp.HnpService: recv [LAUNCH] request from HNP
+13/07/12 01:44:27 INFO hnp.HnpService: map processes to allocated containers
+13/07/12 01:44:27 INFO hnp.HnpService: launch process in host:[10.37.7.103], process={0,1}
+13/07/12 01:44:27 INFO hnp.HnpService: after map processes to allocated containers
+13/07/12 01:44:27 INFO launcher.YarnContainerLauncher: before submit launch tasks
+13/07/12 01:44:27 INFO launcher.YarnContainerLauncher: after submit launch tasks
+13/07/12 01:44:27 INFO launcher.YarnContainerLauncher: do launch for process:{0,1}
+13/07/12 01:44:27 INFO launcher.YarnContainerLauncher: before send start container request for {0,1}
+13/07/12 01:44:27 INFO launcher.YarnContainerLauncher: after send start container request for {0,1}
+13/07/12 01:44:27 INFO launcher.YarnContainerLauncher: after do launch for process:{0,1}
+13/07/12 01:44:27 INFO launcher.YarnContainerLauncher: STATISTIC: launch time is :0.053 seconds
+13/07/12 01:44:27 INFO hnp.HnpService: after launch processes
+13/07/12 01:44:27 INFO hnp.HnpService: recved 1 proc to be launched from HNP
+13/07/12 01:44:27 INFO hnp.HnpService: send 1 launch results to HNP
+[node4.pivotal.com:27356] [[65232,0],0] plm:yarn:launch_daemons: launch daemon proc successfully with AM
+[node4.pivotal.com:27356] [[65232,0],0] plm:base:daemon_callback
+malloc debug: Request for 0 bytes (src/hdclient.c, 201)
+[node4.pivotal.com:27356] [[65232,0],0] recv from [[65232,0],1] for [[65232,0],0] (tag 10)
+[node4.pivotal.com:27356] [[65232,0],0] plm:base:orted_report_launch from daemon [[65232,0],1] via [[65232,0],1]
+[node4.pivotal.com:27356] [[65232,0],0] plm:base:orted_report_launch completed for daemon [[65232,0],1] (via [[65232,0],1]) at contact 4275044352.1;tcp://10.37.7.103:33232
+[node4.pivotal.com:27356] [[65232,0],0] plm:base:daemon_callback completed
+[node4.pivotal.com:27356] [[65232,0],0] plm:base:launch_apps for job [65232,1]
+[node4.pivotal.com:27356] [[65232,0],0] grpcomm:bad:xcast sent to job [65232,0] tag 1
+[node4.pivotal.com:27356] [[65232,0],0] plm:base:report_launched for job [65232,1]
+[node4.pivotal.com:27356] [[65232,0],0] odls:update:daemon:info updating nidmap
+[node4.pivotal.com:27356] [[65232,0],0] routed:binomial found child 1
+[node4.pivotal.com:27356] [[65232,0],0]: parent 0 num_children 1
+[node4.pivotal.com:27356] [[65232,0],0]: 	child 1
+[node4.pivotal.com:27356] [[65232,0],0] routed_binomial: init routes for HNP job [65232,0]
+[node4.pivotal.com:27356] [[65232,0],0] rml:base:update:contact:info got uri 4275044352.0;tcp://10.37.7.104:34551
+[node4.pivotal.com:27356] [[65232,0],0] rml:base:update:contact:info got uri 4275044352.1;tcp://10.37.7.103:33232
+[node4.pivotal.com:27356] [[65232,0],0] routed_binomial_get([[65232,0],1]) --> [[65232,0],1]
+[node4.pivotal.com:27356] rml_send_buffer_nb [[65232,0],0] -> [[65232,0],1] (router [[65232,0],1], tag 1, 1)
+[node4.pivotal.com:27356] [[65232,0],0] odls:constructing child list
+[node4.pivotal.com:27356] [[65232,0],0] odls:construct_child_list unpacking data to launch job [65232,1]
+[node4.pivotal.com:27356] [[65232,0],0] odls:construct_child_list adding new jobdat for job [65232,1]
+[node4.pivotal.com:27356] [[65232,0],0] odls:construct_child_list unpacking 1 app_contexts
+[node4.pivotal.com:27356] [[65232,0],0] ess:hnp: proc [[65232,1],0] is hosted by daemon 1
+[node4.pivotal.com:27356] [[65232,0],0] odls:constructing child list - checking proc [[65232,1],0] on daemon 1
+[node4.pivotal.com:27356] [[65232,0],0] ess:hnp: proc [[65232,1],1] is hosted by daemon 1
+[node4.pivotal.com:27356] [[65232,0],0] odls:constructing child list - checking proc [[65232,1],1] on daemon 1
+[node4.pivotal.com:27356] [[65232,0],0] ess:hnp: proc [[65232,1],2] is hosted by daemon 1
+[node4.pivotal.com:27356] [[65232,0],0] odls:constructing child list - checking proc [[65232,1],2] on daemon 1
+[node4.pivotal.com:27356] [[65232,0],0] ess:hnp: proc [[65232,1],3] is hosted by daemon 1
+[node4.pivotal.com:27356] [[65232,0],0] odls:constructing child list - checking proc [[65232,1],3] on daemon 1
+[node4.pivotal.com:27356] [[65232,0],0] ess:hnp: proc [[65232,1],4] is hosted by daemon 1
+[node4.pivotal.com:27356] [[65232,0],0] odls:constructing child list - checking proc [[65232,1],4] on daemon 1
+[node4.pivotal.com:27356] [[65232,0],0] ess:hnp: proc [[65232,1],5] is hosted by daemon 1
+[node4.pivotal.com:27356] [[65232,0],0] odls:constructing child list - checking proc [[65232,1],5] on daemon 1
+[node4.pivotal.com:27356] [[65232,0],0] ess:hnp: proc [[65232,1],6] is hosted by daemon 1
+[node4.pivotal.com:27356] [[65232,0],0] odls:constructing child list - checking proc [[65232,1],6] on daemon 1
+[node4.pivotal.com:27356] [[65232,0],0] ess:hnp: proc [[65232,1],7] is hosted by daemon 1
+[node4.pivotal.com:27356] [[65232,0],0] odls:constructing child list - checking proc [[65232,1],7] on daemon 1
+[node4.pivotal.com:27356] [[65232,0],0] ess:hnp: proc [[65232,1],8] is hosted by daemon 1
+[node4.pivotal.com:27356] [[65232,0],0] odls:constructing child list - checking proc [[65232,1],8] on daemon 1
+[node4.pivotal.com:27356] [[65232,0],0] ess:hnp: proc [[65232,1],9] is hosted by daemon 1
+[node4.pivotal.com:27356] [[65232,0],0] odls:constructing child list - checking proc [[65232,1],9] on daemon 1
+[node4.pivotal.com:27356] [[65232,0],0] ess:hnp: proc [[65232,1],10] is hosted by daemon 1
+[node4.pivotal.com:27356] [[65232,0],0] odls:constructing child list - checking proc [[65232,1],10] on daemon 1
+[node4.pivotal.com:27356] [[65232,0],0] ess:hnp: proc [[65232,1],11] is hosted by daemon 1
+[node4.pivotal.com:27356] [[65232,0],0] odls:constructing child list - checking proc [[65232,1],11] on daemon 1
+[node4.pivotal.com:27356] [[65232,0],0] ess:hnp: proc [[65232,1],12] is hosted by daemon 1
+[node4.pivotal.com:27356] [[65232,0],0] odls:constructing child list - checking proc [[65232,1],12] on daemon 1
+[node4.pivotal.com:27356] [[65232,0],0] routed_binomial_get([[65232,0],0]) --> [[65232,0],0]
+[node4.pivotal.com:27356] rml_send_buffer_nb [[65232,0],0] -> [[65232,0],0] (router [[65232,0],0], tag 97, 97)
+[node4.pivotal.com:27356] [[65232,0],0] recv from [[65232,0],0] for [[65232,0],0] (tag 97)
+[node4.pivotal.com:27356] [[65232,0],0] plm:yarn:yarn_hnp_sync_recv: we got [1/2] daemons yarn sync request
+[node4.pivotal.com:27356] [[65232,0],0] odls:yarn:orte_odls_yarn_launch_local_procs: finish send sync request to hnp, waitting for response 
+[node4.pivotal.com:27356] [[65232,0],0] recv from [[65232,0],1] for [[65232,0],0] (tag 97)
+[node4.pivotal.com:27356] [[65232,0],0] plm:yarn:yarn_hnp_sync_recv: we got all daemons sync, will launch proc in NM
+[node4.pivotal.com:27356] [[65232,0],0] grpcomm:bad:xcast sent to job [65232,0] tag 98
+[node4.pivotal.com:27356] [[65232,0],0] plm:yarn:launch_apps for job [65232,1]
+[node4.pivotal.com:27356] [[65232,0],0] plm:yarn:common_launch_process: launch argv=$JAVA_HOME/bin/java -Xmx32M -Xms8M -cp hamster-core.jar com.pivotal.hamster.yarnexecutor.YarnExecutor 4275044353 0 /root/program/mpi/hello 1><LOG_DIR>/stdout 2><LOG_DIR>/stderr
+[node4.pivotal.com:27356] [[65232,0],0] plm:yarn:common_launch_process: after setup env and argv for proc=0.
+[node4.pivotal.com:27356] [[65232,0],0] plm:yarn:common_launch_process: launch argv=$JAVA_HOME/bin/java -Xmx32M -Xms8M -cp hamster-core.jar com.pivotal.hamster.yarnexecutor.YarnExecutor 4275044353 1 /root/program/mpi/hello 1><LOG_DIR>/stdout 2><LOG_DIR>/stderr
+[node4.pivotal.com:27356] [[65232,0],0] plm:yarn:common_launch_process: after setup env and argv for proc=1.
+[node4.pivotal.com:27356] [[65232,0],0] plm:yarn:common_launch_process: launch argv=$JAVA_HOME/bin/java -Xmx32M -Xms8M -cp hamster-core.jar com.pivotal.hamster.yarnexecutor.YarnExecutor 4275044353 2 /root/program/mpi/hello 1><LOG_DIR>/stdout 2><LOG_DIR>/stderr
+[node4.pivotal.com:27356] [[65232,0],0] plm:yarn:common_launch_process: after setup env and argv for proc=2.
+[node4.pivotal.com:27356] [[65232,0],0] plm:yarn:common_launch_process: launch argv=$JAVA_HOME/bin/java -Xmx32M -Xms8M -cp hamster-core.jar com.pivotal.hamster.yarnexecutor.YarnExecutor 4275044353 3 /root/program/mpi/hello 1><LOG_DIR>/stdout 2><LOG_DIR>/stderr
+[node4.pivotal.com:27356] [[65232,0],0] plm:yarn:common_launch_process: after setup env and argv for proc=3.
+[node4.pivotal.com:27356] [[65232,0],0] plm:yarn:common_launch_process: launch argv=$JAVA_HOME/bin/java -Xmx32M -Xms8M -cp hamster-core.jar com.pivotal.hamster.yarnexecutor.YarnExecutor 4275044353 4 /root/program/mpi/hello 1><LOG_DIR>/stdout 2><LOG_DIR>/stderr
+[node4.pivotal.com:27356] [[65232,0],0] plm:yarn:common_launch_process: after setup env and argv for proc=4.
+[node4.pivotal.com:27356] [[65232,0],0] plm:yarn:common_launch_process: launch argv=$JAVA_HOME/bin/java -Xmx32M -Xms8M -cp hamster-core.jar com.pivotal.hamster.yarnexecutor.YarnExecutor 4275044353 5 /root/program/mpi/hello 1><LOG_DIR>/stdout 2><LOG_DIR>/stderr
+[node4.pivotal.com:27356] [[65232,0],0] plm:yarn:common_launch_process: after setup env and argv for proc=5.
+[node4.pivotal.com:27356] [[65232,0],0] plm:yarn:common_launch_process: launch argv=$JAVA_HOME/bin/java -Xmx32M -Xms8M -cp hamster-core.jar com.pivotal.hamster.yarnexecutor.YarnExecutor 4275044353 6 /root/program/mpi/hello 1><LOG_DIR>/stdout 2><LOG_DIR>/stderr
+[node4.pivotal.com:27356] [[65232,0],0] plm:yarn:common_launch_process: after setup env and argv for proc=6.
+[node4.pivotal.com:27356] [[65232,0],0] plm:yarn:common_launch_process: launch argv=$JAVA_HOME/bin/java -Xmx32M -Xms8M -cp hamster-core.jar com.pivotal.hamster.yarnexecutor.YarnExecutor 4275044353 7 /root/program/mpi/hello 1><LOG_DIR>/stdout 2><LOG_DIR>/stderr
+[node4.pivotal.com:27356] [[65232,0],0] plm:yarn:common_launch_process: after setup env and argv for proc=7.
+[node4.pivotal.com:27356] [[65232,0],0] plm:yarn:common_launch_process: launch argv=$JAVA_HOME/bin/java -Xmx32M -Xms8M -cp hamster-core.jar com.pivotal.hamster.yarnexecutor.YarnExecutor 4275044353 8 /root/program/mpi/hello 1><LOG_DIR>/stdout 2><LOG_DIR>/stderr
+[node4.pivotal.com:27356] [[65232,0],0] plm:yarn:common_launch_process: after setup env and argv for proc=8.
+[node4.pivotal.com:27356] [[65232,0],0] plm:yarn:common_launch_process: launch argv=$JAVA_HOME/bin/java -Xmx32M -Xms8M -cp hamster-core.jar com.pivotal.hamster.yarnexecutor.YarnExecutor 4275044353 9 /root/program/mpi/hello 1><LOG_DIR>/stdout 2><LOG_DIR>/stderr
+[node4.pivotal.com:27356] [[65232,0],0] plm:yarn:common_launch_process: after setup env and argv for proc=9.
+[node4.pivotal.com:27356] [[65232,0],0] plm:yarn:common_launch_process: launch argv=$JAVA_HOME/bin/java -Xmx32M -Xms8M -cp hamster-core.jar com.pivotal.hamster.yarnexecutor.YarnExecutor 4275044353 10 /root/program/mpi/hello 1><LOG_DIR>/stdout 2><LOG_DIR>/stderr
+[node4.pivotal.com:27356] [[65232,0],0] plm:yarn:common_launch_process: after setup env and argv for proc=10.
+[node4.pivotal.com:27356] [[65232,0],0] plm:yarn:common_launch_process: launch argv=$JAVA_HOME/bin/java -Xmx32M -Xms8M -cp hamster-core.jar com.pivotal.hamster.yarnexecutor.YarnExecutor 4275044353 11 /root/program/mpi/hello 1><LOG_DIR>/stdout 2><LOG_DIR>/stderr
+[node4.pivotal.com:27356] [[65232,0],0] plm:yarn:common_launch_process: after setup env and argv for proc=11.
+[node4.pivotal.com:27356] [[65232,0],0] plm:yarn:common_launch_process: launch argv=$JAVA_HOME/bin/java -Xmx32M -Xms8M -cp hamster-core.jar com.pivotal.hamster.yarnexecutor.YarnExecutor 4275044353 12 /root/program/mpi/hello 1><LOG_DIR>/stdout 2><LOG_DIR>/stderr
+[node4.pivotal.com:27356] [[65232,0],0] plm:yarn:common_launch_process: after setup env and argv for proc=12.
+13/07/12 01:44:28 INFO hnp.HnpService: recv [LAUNCH] request from HNP
+13/07/12 01:44:28 INFO hnp.HnpService: map processes to allocated containers
+13/07/12 01:44:28 INFO hnp.HnpService: launch process in host:[10.37.7.103], process={1,0}
+13/07/12 01:44:28 INFO hnp.HnpService: launch process in host:[10.37.7.103], process={1,1}
+13/07/12 01:44:28 INFO hnp.HnpService: launch process in host:[10.37.7.103], process={1,2}
+13/07/12 01:44:28 INFO hnp.HnpService: launch process in host:[10.37.7.103], process={1,3}
+13/07/12 01:44:28 INFO hnp.HnpService: launch process in host:[10.37.7.103], process={1,4}
+13/07/12 01:44:28 INFO hnp.HnpService: launch process in host:[10.37.7.103], process={1,5}
+13/07/12 01:44:28 INFO hnp.HnpService: launch process in host:[10.37.7.103], process={1,6}
+13/07/12 01:44:28 INFO hnp.HnpService: launch process in host:[10.37.7.103], process={1,7}
+13/07/12 01:44:28 INFO hnp.HnpService: launch process in host:[10.37.7.103], process={1,8}
+13/07/12 01:44:28 INFO hnp.HnpService: launch process in host:[10.37.7.103], process={1,9}
+13/07/12 01:44:28 INFO hnp.HnpService: launch process in host:[10.37.7.103], process={1,10}
+13/07/12 01:44:28 INFO hnp.HnpService: launch process in host:[10.37.7.103], process={1,11}
+13/07/12 01:44:28 INFO hnp.HnpService: launch process in host:[10.37.7.103], process={1,12}
+13/07/12 01:44:28 INFO hnp.HnpService: after map processes to allocated containers
+13/07/12 01:44:28 INFO launcher.YarnContainerLauncher: before submit launch tasks
+13/07/12 01:44:28 INFO launcher.YarnContainerLauncher: do launch for process:{1,0}
+13/07/12 01:44:28 INFO launcher.YarnContainerLauncher: do launch for process:{1,1}
+13/07/12 01:44:28 INFO launcher.YarnContainerLauncher: do launch for process:{1,2}
+13/07/12 01:44:28 INFO launcher.YarnContainerLauncher: do launch for process:{1,3}
+13/07/12 01:44:28 INFO launcher.YarnContainerLauncher: do launch for process:{1,4}
+13/07/12 01:44:28 INFO launcher.YarnContainerLauncher: before send start container request for {1,0}
+13/07/12 01:44:28 INFO launcher.YarnContainerLauncher: before send start container request for {1,1}
+13/07/12 01:44:28 INFO launcher.YarnContainerLauncher: before send start container request for {1,3}
+13/07/12 01:44:28 INFO launcher.YarnContainerLauncher: do launch for process:{1,5}
+13/07/12 01:44:28 INFO launcher.YarnContainerLauncher: before send start container request for {1,5}
+13/07/12 01:44:28 INFO launcher.YarnContainerLauncher: after send start container request for {1,0}
+13/07/12 01:44:28 INFO launcher.YarnContainerLauncher: after do launch for process:{1,0}
+13/07/12 01:44:28 INFO launcher.YarnContainerLauncher: do launch for process:{1,6}
+13/07/12 01:44:28 INFO launcher.YarnContainerLauncher: before send start container request for {1,2}
+13/07/12 01:44:28 INFO launcher.YarnContainerLauncher: before send start container request for {1,4}
+13/07/12 01:44:28 INFO launcher.YarnContainerLauncher: before send start container request for {1,6}
+13/07/12 01:44:28 INFO launcher.YarnContainerLauncher: do launch for process:{1,7}
+13/07/12 01:44:28 INFO launcher.YarnContainerLauncher: before send start container request for {1,7}
+13/07/12 01:44:28 INFO launcher.YarnContainerLauncher: do launch for process:{1,8}
+13/07/12 01:44:28 INFO launcher.YarnContainerLauncher: before send start container request for {1,8}
+13/07/12 01:44:28 INFO launcher.YarnContainerLauncher: after submit launch tasks
+13/07/12 01:44:28 INFO launcher.YarnContainerLauncher: after send start container request for {1,3}
+13/07/12 01:44:28 INFO launcher.YarnContainerLauncher: do launch for process:{1,10}
+13/07/12 01:44:28 INFO launcher.YarnContainerLauncher: do launch for process:{1,9}
+13/07/12 01:44:28 INFO launcher.YarnContainerLauncher: before send start container request for {1,10}
+13/07/12 01:44:28 INFO launcher.YarnContainerLauncher: after send start container request for {1,7}
+13/07/12 01:44:28 INFO launcher.YarnContainerLauncher: after do launch for process:{1,7}
+13/07/12 01:44:28 INFO launcher.YarnContainerLauncher: do launch for process:{1,11}
+13/07/12 01:44:28 INFO launcher.YarnContainerLauncher: after do launch for process:{1,3}
+13/07/12 01:44:28 INFO launcher.YarnContainerLauncher: do launch for process:{1,12}
+13/07/12 01:44:28 INFO launcher.YarnContainerLauncher: after send start container request for {1,6}
+13/07/12 01:44:28 INFO launcher.YarnContainerLauncher: after do launch for process:{1,6}
+13/07/12 01:44:28 INFO launcher.YarnContainerLauncher: before send start container request for {1,12}
+13/07/12 01:44:28 INFO launcher.YarnContainerLauncher: before send start container request for {1,11}
+13/07/12 01:44:28 INFO launcher.YarnContainerLauncher: after send start container request for {1,5}
+13/07/12 01:44:28 INFO launcher.YarnContainerLauncher: after do launch for process:{1,5}
+13/07/12 01:44:28 INFO launcher.YarnContainerLauncher: after send start container request for {1,4}
+13/07/12 01:44:28 INFO launcher.YarnContainerLauncher: after do launch for process:{1,4}
+13/07/12 01:44:28 INFO launcher.YarnContainerLauncher: before send start container request for {1,9}
+13/07/12 01:44:28 INFO launcher.YarnContainerLauncher: after send start container request for {1,10}
+13/07/12 01:44:28 INFO launcher.YarnContainerLauncher: after do launch for process:{1,10}
+13/07/12 01:44:28 INFO launcher.YarnContainerLauncher: after send start container request for {1,11}
+13/07/12 01:44:28 INFO launcher.YarnContainerLauncher: after do launch for process:{1,11}
+13/07/12 01:44:28 INFO launcher.YarnContainerLauncher: after send start container request for {1,1}
+13/07/12 01:44:28 INFO launcher.YarnContainerLauncher: after do launch for process:{1,1}
+13/07/12 01:44:28 INFO launcher.YarnContainerLauncher: after send start container request for {1,9}
+13/07/12 01:44:28 INFO launcher.YarnContainerLauncher: after do launch for process:{1,9}
+13/07/12 01:44:28 INFO launcher.YarnContainerLauncher: after send start container request for {1,8}
+13/07/12 01:44:28 INFO launcher.YarnContainerLauncher: after do launch for process:{1,8}
+13/07/12 01:44:28 INFO launcher.YarnContainerLauncher: after send start container request for {1,2}
+13/07/12 01:44:28 INFO launcher.YarnContainerLauncher: after do launch for process:{1,2}
+13/07/12 01:44:28 INFO launcher.YarnContainerLauncher: after send start container request for {1,12}
+13/07/12 01:44:28 INFO launcher.YarnContainerLauncher: after do launch for process:{1,12}
+13/07/12 01:44:28 INFO launcher.YarnContainerLauncher: STATISTIC: launch time is :0.131 seconds
+13/07/12 01:44:28 INFO hnp.HnpService: after launch processes
+13/07/12 01:44:28 INFO hnp.HnpService: recved 13 proc to be launched from HNP
+13/07/12 01:44:28 INFO hnp.HnpService: send 13 launch results to HNP
+[node4.pivotal.com:27356] [[65232,0],0] plm:yarn:plm_yarn_actual_launch_procs: launch jdata procs successfully with AM
+[node4.pivotal.com:27356] [[65232,0],0] plm:yarn:yarn_hnp_sync_recv: we got [2/2] daemons yarn sync request
+[node4.pivotal.com:27356] [[65232,0],0] routed_binomial_get([[65232,0],1]) --> [[65232,0],1]
+[node4.pivotal.com:27356] rml_send_buffer_nb [[65232,0],0] -> [[65232,0],1] (router [[65232,0],1], tag 1, 1)
+[node4.pivotal.com:27356] [[65232,0],0] routed_binomial_get([[65232,0],0]) --> [[65232,0],0]
+[node4.pivotal.com:27356] rml_send [[65232,0],0] -> [[65232,0],0] (router [[65232,0],0], tag 98, 98)
+[node4.pivotal.com:27356] [[65232,0],0] recv from [[65232,0],0] for [[65232,0],0] (tag 98)
+[node4.pivotal.com:27356] [[65232,0],0] odls:yarn:yarn_daemon_sync_recv: recved sync response from hnp, start tracking proc state
+[node4.pivotal.com:27356] [[65232,0],0] odls:yarn: enter monitor_local_launch, we need [0] local children, now we have [0] launched
+[node4.pivotal.com:27356] [[65232,0],0] odls:yarn flagging launch report to myself
+[node4.pivotal.com:27356] [[65232,0],0] plm:base:app_report_launch from daemon [[65232,0],0]
+[node4.pivotal.com:27356] [[65232,0],0] plm:base:app_report_launch completed processing
+malloc debug: Request for 0 bytes (src/hdclient.c, 201)
+malloc debug: Request for 0 bytes (src/hdclient.c, 201)
+malloc debug: Request for 0 bytes (src/hdclient.c, 201)
+[node4.pivotal.com:27356] [[65232,0],0] recv from [[65232,0],1] for [[65232,0],0] (tag 11)
+[node4.pivotal.com:27356] [[65232,0],0] plm:base:app_report_launch reissuing non-blocking recv
+[node4.pivotal.com:27356] [[65232,0],0] plm:base:app_report_launch from daemon [[65232,0],1]
+[node4.pivotal.com:27356] [[65232,0],0] plm:base:app_report_launched for proc [[65232,1],0] from daemon [[65232,0],1]: pid 0 state 4 exit 0
+[node4.pivotal.com:27356] [[65232,0],0] plm:base:app_report_launched for proc [[65232,1],1] from daemon [[65232,0],1]: pid 0 state 4 exit 0
+[node4.pivotal.com:27356] [[65232,0],0] plm:base:app_report_launched for proc [[65232,1],2] from daemon [[65232,0],1]: pid 0 state 4 exit 0
+[node4.pivotal.com:27356] [[65232,0],0] plm:base:app_report_launched for proc [[65232,1],3] from daemon [[65232,0],1]: pid 0 state 4 exit 0
+[node4.pivotal.com:27356] [[65232,0],0] plm:base:app_report_launched for proc [[65232,1],4] from daemon [[65232,0],1]: pid 0 state 4 exit 0
+[node4.pivotal.com:27356] [[65232,0],0] plm:base:app_report_launched for proc [[65232,1],5] from daemon [[65232,0],1]: pid 0 state 4 exit 0
+[node4.pivotal.com:27356] [[65232,0],0] plm:base:app_report_launched for proc [[65232,1],6] from daemon [[65232,0],1]: pid 0 state 4 exit 0
+[node4.pivotal.com:27356] [[65232,0],0] plm:base:app_report_launched for proc [[65232,1],7] from daemon [[65232,0],1]: pid 0 state 4 exit 0
+[node4.pivotal.com:27356] [[65232,0],0] plm:base:app_report_launched for proc [[65232,1],8] from daemon [[65232,0],1]: pid 0 state 4 exit 0
+[node4.pivotal.com:27356] [[65232,0],0] plm:base:app_report_launched for proc [[65232,1],9] from daemon [[65232,0],1]: pid 0 state 4 exit 0
+[node4.pivotal.com:27356] [[65232,0],0] plm:base:app_report_launched for proc [[65232,1],10] from daemon [[65232,0],1]: pid 0 state 4 exit 0
+[node4.pivotal.com:27356] [[65232,0],0] plm:base:app_report_launched for proc [[65232,1],11] from daemon [[65232,0],1]: pid 0 state 4 exit 0
+[node4.pivotal.com:27356] [[65232,0],0] plm:base:app_report_launched for proc [[65232,1],12] from daemon [[65232,0],1]: pid 0 state 4 exit 0
+[node4.pivotal.com:27356] [[65232,0],0] plm:base:app_report_launch completed processing
+[node4.pivotal.com:27356] [[65232,0],0] plm:base:report_launched all apps reported
+[node4.pivotal.com:27356] [[65232,0],0] plm:base:launch wiring up iof
+[node4.pivotal.com:27356] [[65232,0],0] plm:base:launch completed for job [65232,1]
+[node4.pivotal.com:27356] [[65232,0],0] recv from [[65232,0],1] for [[65232,0],0] (tag 18)
+[node4.pivotal.com:27356] [[65232,0],0] routed:base:receive got message from [[65232,0],1]
+[node4.pivotal.com:27356] [[65232,0],0] routed:base:receive processing msg
+[node4.pivotal.com:27356] [[65232,0],0] routed_binomial: init routes for HNP job [65232,1]
+[node4.pivotal.com:27356] [[65232,0],0] routed_binomial:callback got uri 4275044353.0;tcp://10.37.7.103:52952 for job [65232,1] rank 0
+[node4.pivotal.com:27356] [[65232,0],0] routed_binomial:callback got uri 4275044353.1;tcp://10.37.7.103:57827 for job [65232,1] rank 1
+[node4.pivotal.com:27356] [[65232,0],0] routed_binomial:callback got uri 4275044353.2;tcp://10.37.7.103:58421 for job [65232,1] rank 2
+[node4.pivotal.com:27356] [[65232,0],0] routed_binomial:callback got uri 4275044353.3;tcp://10.37.7.103:34710 for job [65232,1] rank 3
+[node4.pivotal.com:27356] [[65232,0],0] routed_binomial:callback got uri 4275044353.4;tcp://10.37.7.103:51915 for job [65232,1] rank 4
+[node4.pivotal.com:27356] [[65232,0],0] routed_binomial:callback got uri 4275044353.5;tcp://10.37.7.103:49408 for job [65232,1] rank 5
+[node4.pivotal.com:27356] [[65232,0],0] routed_binomial:callback got uri 4275044353.6;tcp://10.37.7.103:42814 for job [65232,1] rank 6
+[node4.pivotal.com:27356] [[65232,0],0] routed_binomial:callback got uri 4275044353.7;tcp://10.37.7.103:32820 for job [65232,1] rank 7
+[node4.pivotal.com:27356] [[65232,0],0] routed_binomial:callback got uri 4275044353.8;tcp://10.37.7.103:46917 for job [65232,1] rank 8
+[node4.pivotal.com:27356] [[65232,0],0] routed_binomial:callback got uri 4275044353.9;tcp://10.37.7.103:47590 for job [65232,1] rank 9
+[node4.pivotal.com:27356] [[65232,0],0] routed_binomial:callback got uri 4275044353.10;tcp://10.37.7.103:53102 for job [65232,1] rank 10
+[node4.pivotal.com:27356] [[65232,0],0] routed_binomial:callback got uri 4275044353.11;tcp://10.37.7.103:57187 for job [65232,1] rank 11
+[node4.pivotal.com:27356] [[65232,0],0] routed_binomial:callback got uri 4275044353.12;tcp://10.37.7.103:47700 for job [65232,1] rank 12
+[node4.pivotal.com:27356] [[65232,0],0] recv from [[65232,0],1] for [[65232,0],0] (tag 30)
+[node4.pivotal.com:27356] [[65232,0],0] grpcomm:bad:receive got message from [[65232,0],1]
+[node4.pivotal.com:27356] [[65232,0],0] odls: daemon collective called
+[node4.pivotal.com:27356] [[65232,0],0] ess:hnp: proc [[65232,1],0] is hosted by daemon 1
+[node4.pivotal.com:27356] [[65232,0],0] grpcomm:bad: daemon collective for job [65232,1] from [[65232,0],1] type 2 num_collected 1 num_participating 1 num_contributors 13
+[node4.pivotal.com:27356] [[65232,0],0] grpcomm:bad: daemon collective HNP - xcasting to job [65232,1]
+[node4.pivotal.com:27356] [[65232,0],0] grpcomm:bad:xcast sent to job [65232,1] tag 15
+[node4.pivotal.com:27356] [[65232,0],0] routed_binomial_get([[65232,0],1]) --> [[65232,0],1]
+[node4.pivotal.com:27356] rml_send_buffer_nb [[65232,0],0] -> [[65232,0],1] (router [[65232,0],1], tag 1, 1)
+13/07/12 01:44:31 INFO allocator.YarnContainerAllocator: release containers to RM, container_id=18
+13/07/12 01:44:31 INFO allocator.YarnContainerAllocator: release containers to RM, container_id=17
+13/07/12 01:44:31 INFO allocator.YarnContainerAllocator: release containers to RM, container_id=16
+13/07/12 01:44:31 WARN hnp.HnpService: get a completed container but not associate to a existing process, containerid=18
+13/07/12 01:44:31 WARN hnp.HnpService: get a completed container but not associate to a existing process, containerid=17
+13/07/12 01:44:31 WARN hnp.HnpService: get a completed container but not associate to a existing process, containerid=16
+malloc debug: Request for 0 bytes (src/hdclient.c, 201)
+[node4.pivotal.com:27356] [[65232,0],0] recv from [[65232,0],1] for [[65232,0],0] (tag 30)
+[node4.pivotal.com:27356] [[65232,0],0] grpcomm:bad:receive got message from [[65232,0],1]
+[node4.pivotal.com:27356] [[65232,0],0] odls: daemon collective called
+[node4.pivotal.com:27356] [[65232,0],0] grpcomm:bad: daemon collective for job [65232,1] from [[65232,0],1] type 1 num_collected 1 num_participating 1 num_contributors 13
+[node4.pivotal.com:27356] [[65232,0],0] grpcomm:bad: daemon collective HNP - xcasting to job [65232,1]
+[node4.pivotal.com:27356] [[65232,0],0] grpcomm:bad:xcast sent to job [65232,1] tag 17
+[node4.pivotal.com:27356] [[65232,0],0] routed_binomial_get([[65232,0],1]) --> [[65232,0],1]
+[node4.pivotal.com:27356] rml_send_buffer_nb [[65232,0],0] -> [[65232,0],1] (router [[65232,0],1], tag 1, 1)
+[node4.pivotal.com:27356] [[65232,0],0] recv from [[65232,0],1] for [[65232,0],0] (tag 30)
+[node4.pivotal.com:27356] [[65232,0],0] grpcomm:bad:receive got message from [[65232,0],1]
+[node4.pivotal.com:27356] [[65232,0],0] odls: daemon collective called
+[node4.pivotal.com:27356] [[65232,0],0] grpcomm:bad: daemon collective for job [65232,1] from [[65232,0],1] type 1 num_collected 1 num_participating 1 num_contributors 13
+[node4.pivotal.com:27356] [[65232,0],0] grpcomm:bad: daemon collective HNP - xcasting to job [65232,1]
+[node4.pivotal.com:27356] [[65232,0],0] grpcomm:bad:xcast sent to job [65232,1] tag 17
+[node4.pivotal.com:27356] [[65232,0],0] routed_binomial_get([[65232,0],1]) --> [[65232,0],1]
+[node4.pivotal.com:27356] rml_send_buffer_nb [[65232,0],0] -> [[65232,0],1] (router [[65232,0],1], tag 1, 1)
+malloc debug: Request for 0 bytes (src/hdclient.c, 201)
+[node4.pivotal.com:27356] [[65232,0],0] recv from [[65232,0],1] for [[65232,0],0] (tag 5)
+[node4.pivotal.com:27356] [[65232,0],0] plm:base:receive got message from [[65232,0],1]
+[node4.pivotal.com:27356] [[65232,0],0] plm:base:receive processing msg
+[node4.pivotal.com:27356] [[65232,0],0] plm:base:receive update proc state command
+[node4.pivotal.com:27356] [[65232,0],0] plm:base:receive got update_proc_state for job [65232,1]
+[node4.pivotal.com:27356] [[65232,0],0] plm:base:receive got update_proc_state for vpid 0 state 80 exit_code 0
+[node4.pivotal.com:27356] [[65232,0],0] plm:base:receive updating state for proc [[65232,1],0] current state 10 new state 80
+[node4.pivotal.com:27356] [[65232,0],0] plm:base:receive got update_proc_state for vpid 1 state 80 exit_code 0
+[node4.pivotal.com:27356] [[65232,0],0] plm:base:receive updating state for proc [[65232,1],1] current state 10 new state 80
+[node4.pivotal.com:27356] [[65232,0],0] plm:base:receive got update_proc_state for vpid 2 state 80 exit_code 0
+[node4.pivotal.com:27356] [[65232,0],0] plm:base:receive updating state for proc [[65232,1],2] current state 10 new state 80
+[node4.pivotal.com:27356] [[65232,0],0] plm:base:receive got update_proc_state for vpid 3 state 80 exit_code 0
+[node4.pivotal.com:27356] [[65232,0],0] plm:base:receive updating state for proc [[65232,1],3] current state 10 new state 80
+[node4.pivotal.com:27356] [[65232,0],0] plm:base:receive got update_proc_state for vpid 4 state 80 exit_code 0
+[node4.pivotal.com:27356] [[65232,0],0] plm:base:receive updating state for proc [[65232,1],4] current state 10 new state 80
+[node4.pivotal.com:27356] [[65232,0],0] plm:base:receive got update_proc_state for vpid 5 state 80 exit_code 0
+[node4.pivotal.com:27356] [[65232,0],0] plm:base:receive updating state for proc [[65232,1],5] current state 10 new state 80
+[node4.pivotal.com:27356] [[65232,0],0] plm:base:receive got update_proc_state for vpid 6 state 80 exit_code 0
+[node4.pivotal.com:27356] [[65232,0],0] plm:base:receive updating state for proc [[65232,1],6] current state 10 new state 80
+[node4.pivotal.com:27356] [[65232,0],0] plm:base:receive got update_proc_state for vpid 7 state 80 exit_code 0
+[node4.pivotal.com:27356] [[65232,0],0] plm:base:receive updating state for proc [[65232,1],7] current state 10 new state 80
+[node4.pivotal.com:27356] [[65232,0],0] plm:base:receive got update_proc_state for vpid 8 state 80 exit_code 0
+[node4.pivotal.com:27356] [[65232,0],0] plm:base:receive updating state for proc [[65232,1],8] current state 10 new state 80
+[node4.pivotal.com:27356] [[65232,0],0] plm:base:receive got update_proc_state for vpid 9 state 80 exit_code 0
+[node4.pivotal.com:27356] [[65232,0],0] plm:base:receive updating state for proc [[65232,1],9] current state 10 new state 80
+[node4.pivotal.com:27356] [[65232,0],0] plm:base:receive got update_proc_state for vpid 10 state 80 exit_code 0
+[node4.pivotal.com:27356] [[65232,0],0] plm:base:receive updating state for proc [[65232,1],10] current state 10 new state 80
+[node4.pivotal.com:27356] [[65232,0],0] plm:base:receive got update_proc_state for vpid 11 state 80 exit_code 0
+[node4.pivotal.com:27356] [[65232,0],0] plm:base:receive updating state for proc [[65232,1],11] current state 10 new state 80
+[node4.pivotal.com:27356] [[65232,0],0] plm:base:receive got update_proc_state for vpid 12 state 80 exit_code 0
+[node4.pivotal.com:27356] [[65232,0],0] plm:base:receive updating state for proc [[65232,1],12] current state 10 new state 80
+[node4.pivotal.com:27356] [[65232,0],0] plm:base:check_job_completed for job [65232,1] - num_terminated 13  num_procs 13
+[node4.pivotal.com:27356] [[65232,0],0] plm:base:check_job_completed declared job [65232,1] normally terminated - checking all jobs
+[node4.pivotal.com:27356] [[65232,0],0] releasing procs from node 10.37.7.103
+[node4.pivotal.com:27356] [[65232,0],0] releasing proc [[65232,1],0] from node 10.37.7.103
+[node4.pivotal.com:27356] [[65232,0],0] releasing proc [[65232,1],1] from node 10.37.7.103
+[node4.pivotal.com:27356] [[65232,0],0] releasing proc [[65232,1],2] from node 10.37.7.103
+[node4.pivotal.com:27356] [[65232,0],0] releasing proc [[65232,1],3] from node 10.37.7.103
+[node4.pivotal.com:27356] [[65232,0],0] releasing proc [[65232,1],4] from node 10.37.7.103
+[node4.pivotal.com:27356] [[65232,0],0] releasing proc [[65232,1],5] from node 10.37.7.103
+[node4.pivotal.com:27356] [[65232,0],0] releasing proc [[65232,1],6] from node 10.37.7.103
+[node4.pivotal.com:27356] [[65232,0],0] releasing proc [[65232,1],7] from node 10.37.7.103
+[node4.pivotal.com:27356] [[65232,0],0] releasing proc [[65232,1],8] from node 10.37.7.103
+[node4.pivotal.com:27356] [[65232,0],0] releasing proc [[65232,1],9] from node 10.37.7.103
+[node4.pivotal.com:27356] [[65232,0],0] releasing proc [[65232,1],10] from node 10.37.7.103
+[node4.pivotal.com:27356] [[65232,0],0] releasing proc [[65232,1],11] from node 10.37.7.103
+[node4.pivotal.com:27356] [[65232,0],0] releasing proc [[65232,1],12] from node 10.37.7.103
+[node4.pivotal.com:27356] [[65232,0],0] plm:base:check_job_completed all jobs terminated - waking up
+13/07/12 01:44:33 INFO hnp.HnpService: recv [FINISH] request from HNP
+13/07/12 01:44:33 INFO hnp.HnpService: HNP report succeed
+malloc debug: Request for 0 bytes (src/hdclient.c, 201)
+[node4.pivotal.com:27356] [[65232,0],0] plm:base:orted_cmd sending orted_exit commands
+[node4.pivotal.com:27356] [[65232,0],0] grpcomm:bad:xcast sent to job [65232,0] tag 1
+[node4.pivotal.com:27356] [[65232,0],0] plm:slurm: primary daemons complete!
+13/07/12 01:44:33 INFO hnp.HnpService: HNP reported succeed, terminate job
+[node4.pivotal.com:27356] [[65232,0],0] plm:base:receive stop comm
+[node4.pivotal.com:27356] [[65232,0],0] plm:base:local:slave:finalize
+[node4.pivotal.com:27356] [[65232,0],0] routed:base:receive stop comm
+13/07/12 01:44:33 INFO event.HamsterEventHandler: received [SUCCEED] event
+13/07/12 01:44:33 INFO event.HamsterEventHandler: complete job
+13/07/12 01:44:33 INFO appmaster.HamsterAppMaster: HamsterAppMaster received a signal to stop
+13/07/12 01:44:33 INFO hnp.DefaultHnpLauncher: stop hnp launcher
+13/07/12 01:44:33 INFO launcher.YarnContainerLauncher: stop succeed
+13/07/12 01:44:33 INFO allocator.YarnContainerAllocator: stop succeed
+13/07/12 01:44:33 INFO util.AbstractLivelinessMonitor: com.pivotal.hamster.appmaster.hnp.HnpLivenessMonitor thread interrupted
+13/07/12 01:44:33 INFO service.AbstractService: Service:com.pivotal.hamster.appmaster.hnp.HnpLivenessMonitor is stopped.

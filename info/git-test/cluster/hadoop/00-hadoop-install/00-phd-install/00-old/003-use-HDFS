@@ -1,0 +1,51 @@
+1. Start/Stop HDFS daemons
+HDFS includes three main components: NameNode, DataNode, Secondary NameNode.
+
+Before start the daemons, make sure the user hdfs has the write permission on related folders, 
+which are configured in hdfs-site.xml.
+
+Note: Since the hadoop-hdfs already created the data folder "/var/lib/gphd/hadoop-hdfs-<version>" 
+with owner "hdfs:hadoop", so we can skip this step here. However, if the user specifies a new one, 
+please create it and change the owner to hdfs:hadoop first.
+
+1.1 Start HDFS daemons  (with root)
+Start the NameNode daemon
+You need to format the NameNode before starting it:
+
+# sudo -u hdfs hdfs namenode -format
+Note: you only have to do this once.
+
+1.2 Then start the NameNode:
+# /etc/init.d/hadoop-hdfs-namenode start
+When NameNode is started, you can visit its dashboard at: http://namenode-host:50070
+
+1.3 Start the DataNode daemon
+# /etc/init.d/hadoop-hdfs-datanode start
+
+1.4 Start the Secondary Namenode daemon
+# /etc/init.d/hadoop-hdfs-secondarynamenode start
+=====================================================
+2.Using HDFS  (with su -u hdfs)
+When the HDFS components are started, you can try some HDFS operations 
+and create some folders or later steps:
+
+/* you can see a full list of hdfs dfs command options */
+# hdfs dfs
+ 
+# sudo -u hdfs hdfs dfs -ls /
+# sudo -u hdfs hdfs dfs -mkdir /tmp
+# sudo -u hdfs hdfs dfs -chmod 777 /tmp
+Note: by default, the root folder is owned by user "hdfs", so you have 
+to use "sudo -u hdfs ***" to execute the admin commands.
+
+Note: 
+#sudo -u hdfs hdfs dfs -put /a.tar.gz /tmp/
+'hdfs' should have read permission on a.tar.gz
+=====================================================
+3. Shutdown HDFS
+Stop the NameNode Daemon
+# /etc/init.d/hadoop-hdfs-namenode stop
+Stop the DataNode Daemon
+# /etc/init.d/hadoop-hdfs-datanode stop
+Stop the Secondary Namenode Daemon
+# /etc/init.d/hadoop-hdfs-secondarynamenode stop 

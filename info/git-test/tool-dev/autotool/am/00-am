@@ -1,0 +1,51 @@
+1. 	AM_CPPFLAGS
+	AM_CPPFLAGS="-I$(top_srcdir)/common"
+	AM_CPPFLAGS = -arch x86_64 -I/usr/local/include
+	AM_CPPFLAGS = -I../util  # is ok, just specify the location of *.h
+	
+2.	LDADD
+	LDADD = -L$(top_builddir)/src/common -lcommon
+	LDADD = -L../util -lcommon  #is ok, just specify the location of libcommon.la
+	LDADD = $(top_builddir)/src/common/util/libcommon.la  //is ok
+	##LDADD is for all, while argv_main_LDADD is only for argv_main
+	
+3. 	lib_LTLIBRARIES
+	lib_LTLIBRARIES = libgreatutil.la
+	
+4. 	headers = 
+headers = \
+	argv.h	\
+	common.h \
+	constants.h	
+
+5. 	libutil_la_SOURCES =
+libutil_la_SOURCES = \
+	$(headers)	\
+	argv.c		
+	
+6. bin_PROGRAMS =
+bin_PROGRAMS = \
+	argv-test
+argv_test_SOURCES = argv_test.c		
+argv_test_LDADD = $(top_builddir)/src/util/libgreatutil.la
+
+7. 
+
+--------------------------------------
+#-----------------------------------------------
+##libraries will be installed in $(libdir).
+##if the lib will not install, then use: noinst_LIBRARIES =
+##Public headers will be installed in $(includedir)
+##Private headers are not installed, like ordinary source files.
+#----------------------------------------------- 
+#-----------------------------------------------
+# for reference (copied from others)
+#opal_bitmap_SOURCES = opal_bitmap.c 
+#opal_bitmap_LDADD = \
+#        $(top_builddir)/opal/libopen-pal.la \
+#        $(top_builddir)/test/support/libsupport.a
+#opal_bitmap_DEPENDENCIES = $(opal_bitmap_LDADD)
+#-------------------------------
+#AUTOMAKE_OPTIONS = foreign
+#INCLUDES = -I$(top_srcdir) $(BG_INCLUDES)
+#noinst_HEADERS = sview.h

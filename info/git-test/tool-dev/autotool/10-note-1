@@ -1,0 +1,70 @@
+autotool学习笔记
+1. autotools交叉编译:
+  eg:如果希望程序运行在arm平台上，如下:
+  ./configure CC=/usr/local/arm/3.4.1/bin/arm-linux-gcc --host=arm --target=arm [c项目]
+  ./configure CXX=/usr/local/arm/3.4.1/bin/arm-linux-gcc --host=arm --target=arm [c++项目]
+
+2. 指定程序或库的生成目录,Makefile.am通常如下:
+  eg:
+     bin_PROGRAMS=complex
+     complex_SOURCES=complex.c
+     complex_LDFLAGS=-lpthread #如果使用到pthread线程库
+ 
+     all-am: #重中之重
+               #在源代码更目录下建立bin目录，并将complex拷贝到bin目录下
+         -mkdir -p $(top_srcdir)/bin |  \cp $(bin_PROGRAMS) $(top_srcidr)/bin
+
+3. 通常会将头文件专门放入一个指定的目录，但在make dist打包的时候，通常不会将这些头文件打包进去，可以在Makefile.am中加上EXTRA_DIST指定需要加入的文件
+    eg:
+    EXTRA_DIST=$(top_srcdir)/include #此时会将整个include目录打进去
+   
+4. 如果存在多个目录需要编译，主目录下的Makefile.am通常如下:
+  
+   AUTOMAKE_OPTIONS = foreign
+   SUBDIRS =src
+   SUBDIRS += $(top_srcdir)/lib
+   ...
+   ...
+
+5.Makefile.am中include_HEADERS和data_DATA对程序的安装有影响，在make install的时候，会根据include_HEADERS和data_DATA，将相应的文件拷贝到相应的系统目录下。
+
+6.Makefile.am 可执行文件编译:
+  
+   AUTOMAKE_OPTIONS = app
+   app_SOURCES = ...
+   app_LDADDS = 库文件、目标文件
+   INCLUDES = -I...
+  如果将所有的目标文件全部存放到了一个固定的目录，如: $(top_srcdir)/obj,那么链接可以这么写:
+  app_LDDADD = $(top_srcdir)/obj/* <== 系统会自动从该目录下查找所需要的目标文件
+
+7.Makefile.am 静态库编译:
+ eg:
+   noinst_LIBRARIES = libadd.a
+   libadd_a_SOURCES = add.c
+   INCLUDES = $(top_srcdir)/inc
+   configure.in中需要加入:
+     AC_PROG_RANLIB
+
+
+8.Makefile.am 动态库编译:
+configure.in中需要加入:
+   AC_PROG_LIBTOOL
+
+编译步骤:
+  aclocal
+  autoconf
+  autoheader
+  libtoolize --automake
+  automake –-add-missing
+
+Makefile.am(共享库的):
+  lib_LTLIBRARIES = libadd.la
+  libadd_la_SOURCES = add.cpp
+  libadd_la_LIBADD = -L /my_openssl_lib -lcrypto <== 依赖第三方的库,具体目录依据实际位置
+  INCLUDES = -I$(top_srcdir)/inc
+  
+Makefile.am(调用该库的):
+  bin_PROGRAMS = add
+  add_SOURCES = main.cpp
+  INCLUDES = -I$(top_srcdir)/inc
+  add_LDADD = -L../lib -ladd <== 需要的共享库，具体目录依据实际位置

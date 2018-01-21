@@ -1,0 +1,49 @@
+------------------------------------------------------------------------
+3. hamster on cluster-node1 with input graph
+------------------------------------------------------------------------
+[root@node1 graph_analytics]# cat input.adj     (total 4 vertex)
+1 2 2 5
+7 2 7 1
+5 1 7
+-------------
+./simple_coloring --graph=[graph prefix] --format=[format] --output=[output prefix]
+hamster -v -np 2 /root/program/graphlab/release/toolkits/graph_analytics/simple_coloring --graph=/root/program/graphlab/release/toolkits/graph_analytics/input.adj --format=adj --output=/root/program/graphlab/release/toolkits/graph_analytics/out
+-------------
+[root@node1 graph_analytics]# ll out*
+-rw-r--r-- 1 root root 8 Aug 12 23:28 out_1_of_2
+-rw-r--r-- 1 root root 8 Aug 12 23:28 out_2_of_2
+[root@node1 graph_analytics]# cat out_*
+7	1
+2	1
+1	0
+5	2
+
+------------------------------------------------------------------------
+4. hamster on with HDFS
+------------------------------------------------------------------------
+hamster -v -np 2 \
+/usr/local/hamster/graphlab/release/toolkits/graph_analytics/simple_coloring \
+--graph=hdfs://10.37.7.101:8020/user/root/graphlab/ga/input.adj \
+--format=adj \
+--output=hdfs://10.37.7.101:8020/user/root/graphlab/ga/out
+
+
+[root@node1 ga]# hadoop fs -rm /user/root/graphlab/ga/out*
+
+
+------------------------------------------------------------------------
+4. hamster with HDFS on AWB
+------------------------------------------------------------------------
+06:50:52 $ hadoop fs -ls /yarn/apps/caoj7/graphlab_data/ga
+Found 1 items
+-rw-r--r--   3 caoj7 hadoop         22 2013-12-17 06:31 /yarn/apps/caoj7/graphlab_data/ga/input.adj
+------------------------------------
+hamster -v -mem 4096 -x LD_LIBRARY_PATH=/usr/java/latest/jre/lib/amd64/server -np 2 \
+/usr/local/graphlab2.2/graph_analytics/simple_coloring \
+--graph=hdfs://mst1.ic.analyticsworkbench.com:8020/yarn/apps/caoj7/graphlab_data/ga/input.adj \
+--format=adj \
+--output=hdfs://mst1.ic.analyticsworkbench.com:8020/yarn/apps/caoj7/graphlab_data/ga/out
+
+
+
+/yarn/apps/caoj7/graphlab_data/ga/

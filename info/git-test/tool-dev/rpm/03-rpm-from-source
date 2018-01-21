@@ -1,0 +1,4 @@
+
+
+rpmbuild --rebuild --define 'configure_options CFLAGS=-g --with-devel-headers --with-libltdl=/root/program/common-c' openmpi-1.7.2-1.src.rpm
+

@@ -1,0 +1,36 @@
+body { 
+  color : #000000; 
+  background : #ffffff; 
+  font-family : "Times New Roman", Times, serif;
+  font-size : 12pt; 
+  line-height: 100%;
+}
+
+#topnav-p, #bottomnav-p, #gnu{
+	display: none;
+}
+
+#pagemargin {
+	margin-left: 1em;
+	margin-right: 1em;
+}
+
+h1, h2, h3, h4, h5, h6, #title, #subtitle {
+	color: #000000;
+	font-family : "Times New Roman", Times, serif;
+	text-shadow: none;
+}
+
+blockquote.demo, pre.demo {
+	border: none;
+}
+
+blockquote.demo, pre.code {
+	border: none;
+}
+
+tt {
+	font-size: 80%;
+	font-weight: bold;
+	padding-left: .8ex;
+}

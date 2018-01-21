@@ -1,0 +1,70 @@
+----------------------------------------------------------------
+1. hdclient cannot be compiled into libopen-rte.so.5.0.2
+----------------------------------------------------------------
+that is, when you run
+[root@node1 lib]# nm libopen-rte.so.5.0.2 |grep hdclient
+000000000003d8d0 T orte_hdclient_connect_to_am
+000000000003dad0 T orte_hdclient_init_pb_env
+00000000002797f8 B orte_hdclient_pb_env
+000000000003d600 T orte_hdclient_recv_message
+000000000003d7b0 T orte_hdclient_send_message_and_delete
+there is no print
+
+this is because for each mca/framework, there should be a base/module, which will be compiled into libopen-rte*.
+So, 
+(1)src->base
+(2)the static-components.h will be created automatically during 'make'.
+----------------------------------------------------------------
+2. plm/yarn cannot be selected properly
+----------------------------------------------------------------
+vimdiff VERSION_A/plm_yarn_module.c VERSION_B/plm_yarn_module.c, 
+we find 'slurm' is still there. 
+----------------------------------------------------------------
+3. plm/yarn add_job_state will not successful
+----------------------------------------------------------------
+for OpenMPI1.7.2, hamster-core/java code should add 
+envs.put("OMPI_MCA_state", "yarn"); //HamsterCli.java
+mcaParams.put("state", "yarn");		//HamsterParamBuilder.java
+----------------------------------------------------------------
+4. hostname problem on mac 
+----------------------------------------------------------------
+1) nslookup cncqcaoj7mbp1.corp.emc.com
+	found two different IP 
+2) add /etc/host
+	10.32.253.77 cncqcaoj7mbp1.corp.emc.com cncqcaoj7mbp1
+	127.0.0.1	localhost
+[caoj7@cncqcaoj7mbp1 ~]$cat /Users/caoj7/program/hadoop-2.0.4-alpha/etc/hadoop/slaves 
+127.0.0.1
+----------------------------------------------------------------
+5. heartbeat problem on cluster-node1
+----------------------------------------------------------------
+if put heartbeat code in plm_yarn_launch_job, then in heartbeat's callback 
+static void heartbeat_with_AM_cb(int fd, short event, void *data)
+jdata->num_procs will be 0, then 
+ if (num_completed_jdata_procs == jdata->num_procs) {
+        /*
+         * all procs are completed, send finish request to AM,
+         * modify job state to ORTE_JOB_STATE_TERMINATED
+         */
+        jdata->state = ORTE_JOB_STATE_TERMINATED;
+        finish_app_master(0 == orte_exit_status);
+        return;
+    } 
+will triggered.
+therefore, we have to move the 'heartbeat' into the functions.
+static void plm_yarn_launch_apps(int fd, short args, void *cbdata)
+----------------------------------------------------------------
+6. not bug when running collaborative filtering
+----------------------------------------------------------------
+bp.. file will be created in the current directory, so we should not
+submit mpi job under its input dir, or pb. file will be read.
+Solution: revise code to let ..bp. tmp file under /tmp. 
+----------------------------------------------------------------
+----------------------------------------------------------------
+----------------------------------------------------------------
+----------------------------------------------------------------
+----------------------------------------------------------------
+----------------------------------------------------------------
+----------------------------------------------------------------
+----------------------------------------------------------------
+----------------------------------------------------------------

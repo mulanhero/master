@@ -1,0 +1,76 @@
+----------------------------------------------------
+1. config
+----------------------------------------------------
+[root@node1 ckpt]# cat /etc/samba/smb.conf
+[global]
+diplay charset = utf8
+unix charset = gbk
+dos charset = gbk
+workgroup = work
+netbios name = work
+server string = uc
+security = user
+hosts allow = 192.
+[darwin]
+comment = uc
+path=/home/work/darwin/
+create mask = 0664
+directory mask = 0775
+writeable = yes
+valid users = work
+browseable = yes
+
+[root]
+path = /root
+valid users = root
+writeable = Yes
+public=no
+browseable = Yes
+
+[jimmy]
+path = /home/jimmy
+writeable = Yes
+#guest ok = yes
+#guest only = yes
+#create mode = 0777
+#directory mode = 0777
+#share modes = yes
+browseable = Yes
+valid users = jimmy
+public=no
+----------------------------------------------------
+2. boot
+----------------------------------------------------
+service smb restart
+----------------------------------------------------
+3. add user
+----------------------------------------------------
+[root@localhost ~]# smbpasswd -a root
+New SMB password:
+Retype new SMB password:
+Added user root.
+----------------------------------------------------
+4. 
+----------------------------------------------------
+SELinux
+1. /usr/sbin/sestatus -v      ##check if enabled
+[root@centos7 ~]# /usr/sbin/sestatus -v
+SELinux status:                 disabled
+
+2. config
+[root@centos7 ~]# cat /etc/selinux/config 
+# This file controls the state of SELinux on the system.
+# SELINUX= can take one of these three values:
+#     enforcing - SELinux security policy is enforced.
+#     permissive - SELinux prints warnings instead of enforcing.
+#     disabled - No SELinux policy is loaded.
+SELINUX=disabled
+----------------------------------------------------
+4. smb from windows
+----------------------------------------------------
+\\192.168.79.137\root
+root/123456
+
+\\192.168.79.137\jimmy
+jimmy/123456
+----------------------------------------------------

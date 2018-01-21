@@ -1,0 +1,40 @@
+0. produce exe file
+	bin_PROGRAMS = foo goo
+	foo_SOURCES = xx1.c xx2.c
+	foo_LDADD = 
+	foo_LDFLAGS = 
+	foo_DEPENDENCIES =
+	 
+1. produce static lib
+	lib_LIBRARIES = libfoo.a
+	foo_a_SOURCES =
+	foo_a_LDADD = 
+	foo_a_LIBADD = 
+	foo_a_LDFLAGS =
+	
+2. 
+	include_HEADERS = foo.h
+
+3.	data files
+	data_DATA = data1 data2 
+
+1. global variable is used for all object
+	INCLUDES:	header files needed for linking, e.g., INCLUDES = -I$(top_srcdir)/include/
+	LDADD:		lib files needed for linking
+	LDFLAGS:	lib files options for linking
+	EXTRA_DIST:	src will be packed into *.tar.gz automatically, if you want some files are packaged into .tar.gz,
+				then you list after this.
+	SUBIDRS: 	process such subdirs before this dir
+
+2. 
+	$(top_srcdir): top dir of src
+	$(top_builddir): top dir of build
+
+3. installation variable
+	$(prefix):	by default, /usr/local; you can specify it when ./configure --prefix=
+	$(bindir): $(prefix)/bin
+	$(libdir): $(prefix)/lib
+	$(datadir): $(prefix)/share
+	$(sysconfigdir): $(prefix)/etc
+
+4.  

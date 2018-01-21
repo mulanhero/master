@@ -1,0 +1,8 @@
+$ ssh yourserver
+$ cd path/to/repos
+$ hg init newrepo
+$ logout
+$ hg push ssh://yourserver/path/to/repos/newrepos
+
+======================
+hg push ssh://root@node1//root/program/hamster2

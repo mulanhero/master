@@ -1,0 +1,221 @@
+----------------------------------------------------------------
+Singular Value Decomposition (SVD) 
+Designed to reduce noise in large matrices, thereby making them smaller and easier to work on 
+As a precursor to clustering, recommenders, and classification to do feature selection automatically 
+----------------------------------------------------------------
+0. env   
+----------------------------------------------------------------
+node1
+PHD-1.0.2
+MAHOUT-0.7
+----------
+smallnetflix_mm.train
+3298163 rating entries
+User:95525 X Movie:3562
+----------------------------------------------------------------
+1. prepare data
+----------------------------------------------------------------
+[root@node1 smallnetflix]# pwd
+/usr/local/hamster/smallnetflix
+[root@node1 smallnetflix]# ll
+-rw-r--r-- 1 root root 44092460 Sep 17 01:33 smallnetflix_mm.train
+[root@node1 smallnetflix]# cat smallnetflix_mm.train|sed 's/ /,/g' >go
+[root@node1 smallnetflix]# cat go|sed 's/,,/,/g' > movie.csv
+----------------------------------------------------------------
+2. transform the data
+----------------------------------------------------------------
+[root@node1 smallnetflix]# cat Convert2SVD.java 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.util.StringTokenizer;
+
+import org.apache.mahout.math.SequentialAccessSparseVector;
+import org.apache.mahout.math.Vector;
+import org.apache.mahout.math.VectorWritable;
+import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.fs.FileSystem;
+import org.apache.hadoop.fs.Path;
+import org.apache.hadoop.io.IntWritable;
+import org.apache.hadoop.io.SequenceFile;
+import org.apache.hadoop.io.SequenceFile.CompressionType;
+
+/**
+ * Code for converting CSV format to Mahout's SVD format
+ * @author Danny Bickson, CMU
+ * Note: I ASSUME THE CSV FILE IS SORTED BY THE COLUMN (NAMELY THE SECOND FIELD).
+ *
+ */
+
+public class Convert2SVD {
+
+
+        public static int Cardinality;
+
+        /**
+         * 
+         * @param args[0] - input csv file
+         * @param args[1] - cardinality (length of vector)
+         * @param args[2] - output file for svd
+         */
+        public static void main(String[] args){
+
+try {
+        Cardinality = Integer.parseInt(args[1]);
+        final Configuration conf = new Configuration();
+        final FileSystem fs = FileSystem.get(conf);
+        final SequenceFile.Writer writer = SequenceFile.createWriter(fs, conf, new Path(args[2]), IntWritable.class, VectorWritable.class, CompressionType.BLOCK);
+
+          final IntWritable key = new IntWritable();
+          final VectorWritable value = new VectorWritable();
+
+   
+           String thisLine;
+        
+           BufferedReader br = new BufferedReader(new FileReader(args[0]));
+           Vector vector = null;
+           int from = -1,to  =-1;
+           int last_to = -1;
+           float val = 0;
+           int total = 0;
+           int nnz = 0;
+           int e = 0;
+           int max_to =0;
+           int max_from = 0;
+
+           while ((thisLine = br.readLine()) != null) { // while loop begins here
+            
+                 StringTokenizer st = new StringTokenizer(thisLine, ",");
+                 while(st.hasMoreTokens()) {
+                     from = Integer.parseInt(st.nextToken())-1; //convert from 1 based to zero based
+                     to = Integer.parseInt(st.nextToken())-1; //convert from 1 based to zero basd
+                     val = Float.parseFloat(st.nextToken());
+                     if (max_from < from) max_from = from;
+                     if (max_to < to) max_to = to;
+                     if (from < 0 || to < 0 || from > Cardinality || val == 0.0)
+                         throw new NumberFormatException("wrong data" + from + " to: " + to + " val: " + val);
+                 }
+              
+                 //we are working on an existing column, set non-zero rows in it
+                 if (last_to != to && last_to != -1){
+                     value.set(vector);
+                     
+                     writer.append(key, value); //write the older vector
+                     e+= vector.getNumNondefaultElements();
+                 }
+                 //a new column is observed, open a new vector for it
+                 if (last_to != to){
+                     vector = new SequentialAccessSparseVector(Cardinality); 
+                     key.set(to); // open a new vector
+                     total++;
+                 }
+
+                 vector.set(from, val);
+                 nnz++;
+
+                 if (nnz % 1000000 == 0){
+                   System.out.println("Col" + total + " nnz: " + nnz);
+                 }
+                 last_to = to;
+
+          } // end while 
+
+           value.set(vector);
+           writer.append(key,value);//write last row
+           e+= vector.getNumNondefaultElements();
+           total++;
+           
+           writer.close();
+           System.out.println("Wrote a total of " + total + " cols " + " nnz: " + nnz);
+           if (e != nnz)
+                System.err.println("Bug:missing edges! we only got" + e);
+          
+           System.out.println("Highest column: " + max_to + " highest row: " + max_from );
+        } catch(Exception ex){
+                ex.printStackTrace();
+        }
+    }
+}
+----------------------------------------------------------------
+[root@node1 smallnetflix]# javac -cp /usr/lib/gphd/hadoop-2.0.5_alpha_gphd_2_0_2_0/hadoop-common-2.0.5-alpha-gphd-2.0.2.0.jar:/usr/lib/gphd/mahout-0.7_gphd_2_0_2_0/mahout-math-0.7-gphd-2.0.2.0.jar:/usr/lib/gphd/mahout-0.7_gphd_2_0_2_0/mahout-core-0.7-gphd-2.0.2.0.jar:/usr/lib/gphd/mahout-0.7_gphd_2_0_2_0/mahout-core-0.7-gphd-2.0.2.0-job.jar -Xlint:deprecation Convert2SVD.java
+[root@node1 smallnetflix]# java -cp .:/usr/lib/gphd/hadoop-2.0.5_alpha_gphd_2_0_2_0/hadoop-common-2.0.5-alpha-gphd-2.0.2.0.jar:/usr/lib/gphd/mahout-0.7_gphd_2_0_2_0/mahout-math-0.7-gphd-2.0.2.0.jar:/usr/lib/gphd/mahout-0.7_gphd_2_0_2_0/mahout-core-0.7-gphd-2.0.2.0.jar:/usr/lib/gphd/mahout-0.7_gphd_2_0_2_0/mahout-core-0.7-gphd-2.0.2.0-job.jar Convert2SVD ./movie.csv 96000 movie.seq
+log4j:WARN No appenders could be found for logger (org.apache.hadoop.metrics2.lib.MutableMetricsFactory).
+log4j:WARN Please initialize the log4j system properly.
+log4j:WARN See http://logging.apache.org/log4j/1.2/faq.html#noconfig for more info.
+Col1173 nnz: 1000000
+Col2139 nnz: 2000000
+Col3264 nnz: 3000000
+Wrote a total of 3562 cols  nnz: 3298163
+Highest column: 3560 highest row: 95525
+----------------------------------------------------------------
+3. put data to hdfs
+----------------------------------------------------------------
+[root@node1 smallnetflix]# hadoop fs -mkdir -p /user/root/mahout/svd/input
+[root@node1 hamster]# hadoop fs -put ./movie.seq /user/root/mahout/svd/input
+----------------------------------------------------------------
+4. SVD  (?why the row and colum should be exchanged?)
+----------------------------------------------------------------
+mahout svd \
+--input /user/root/mahout/svd/input/ \
+--numRows 3562 \
+--numCols 96000 \
+--rank 100 \
+--output /user/root/mahout/svd/svd_out \
+--tempDir /user/root/mahout/svd/tmp 
+#--cleansvd true
+-----------
+13/09/18 22:51:21 INFO decomposer.DistributedLanczosSolver: Persisting 50 eigenVectors and eigenValues to: /user/root/mahout/svd/svd_out/rawEigenvectors
+13/09/18 22:51:22 INFO driver.MahoutDriver: Program took 1042222 ms (Minutes: 17.370366666666666)
+[root@node1 smallnetflix]# hadoop fs -ls /user/root/mahout/svd/svd_out/
+-rw-r--r--   3 root supergroup   38404217 2013-09-18 22:51 /user/root/mahout/svd/svd_out/rawEigenvectors
+-----------
+<MAHOUT_HOME>/bin/mahout svd \
+--input (-i) <Path to input matrix> \  
+--output (-o) <The directory pathname for output> \  
+--numRows (-nr) <Number of rows of the input matrix> \  
+--numCols (-nc) <Number of columns of the input matrix> \
+--rank (-r) <Desired decomposition rank> \
+--symmetric (-sym) <Is the input matrix square and symmetric> \ 
+--cleansvd "true"   \
+--maxError <maximum allowed error. Default is 0.5> \
+--minEigenvalue <minimum allowed eigenvalue. Default is 0.0> \
+--inMemory <true if the eigenvectors can all fit into memory. Default false>
+----------------------------------------------------------------
+4.2 SVD with --cleansvd true (will no 5 cleansvd, all data will be printed on console) 
+----------------------------------------------------------------
+mahout svd \
+--input /user/root/mahout/svd/input/ \
+--numRows 3562 \
+--numCols 96000 \
+--rank 100 \
+--output /user/root/mahout/svd/svd_out \
+--tempDir /user/root/mahout/svd/tmp \
+--cleansvd true
+--------------
+13/09/19 00:37:33 INFO lanczos.LanczosSolver: Eigenvector 0 found with eigenvalue 0.0
+....................................
+13/09/19 00:37:50 INFO lanczos.LanczosSolver: Eigenvector 99 found with eigenvalue 3276.6915886686893
+------------------------------------------------------------------
+5. cleansvd 
+----------------------------------------------------------------
+mahout cleansvd \
+--eigenInput /user/root/mahout/svd/svd_out \
+--corpusInput /user/root/mahout/svd/input/ \
+--output /user/root/mahout/svd/svd_cleaned_out \
+--maxError 0.4 \
+--minEigenvalue 1
+--------------
+[root@node1 hamster]# hadoop fs -ls /user/root/mahout/svd/svd_cleaned_out
+-rw-r--r--   3 root supergroup   33028109 2013-09-18 23:24 /user/root/mahout/svd/svd_cleaned_out/cleanEigenvectors
+drwxr-xr-x   - root supergroup          0 2013-09-18 23:24 /user/root/mahout/svd/svd_cleaned_out/tmp
+
+--------------
+<MAHOUT_HOME>/bin/mahout cleansvd \
+--eigenInput <path to raw eigenvectors> \
+--corpusInput <path to corpus> \
+--output <path to output directory> \
+--maxError <maximum allowed error. Default is 0.5> \
+--minEigenvalue <minimum allowed eigenvalue. Default is 0.0> \
+--inMemory <true if the eigenvectors can all fit into memory. Default false>
+----------------------------------------------------------------
+6. transpose svd 
+----------------------------------------------------------------

@@ -1,0 +1,12 @@
+[caoj7@cncqcaoj7mbp1 git-test]$nslookup cncqcaoj7mbp1.corp.emc.com
+Server:		10.30.48.37
+Address:	10.30.48.37#53
+
+Name:	cncqcaoj7mbp1.corp.emc.com
+Address: 10.32.253.12
+Name:	cncqcaoj7mbp1.corp.emc.com
+Address: 10.32.253.77
+Name:	cncqcaoj7mbp1.corp.emc.com
+Address: 192.168.71.1
+Name:	cncqcaoj7mbp1.corp.emc.com
+Address: 172.16.193.1

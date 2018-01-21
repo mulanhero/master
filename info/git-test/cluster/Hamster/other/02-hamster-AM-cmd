@@ -1,0 +1,12 @@
+13/07/12 01:44:47 INFO cli.HamsterCli: YARN AM's command line:
+$JAVA_HOME/bin/java -Xmx512M -Xms16M 
+					-cp ./*:$HADOOP_CONF_DIR:$HADOOP_COMMON_HOME/share/hadoop/common/*:
+					$HADOOP_COMMON_HOME/share/hadoop/common/lib/*:
+					$HADOOP_HDFS_HOME/share/hadoop/hdfs/*:
+					$HADOOP_HDFS_HOME/share/hadoop/hdfs/lib/*:
+					$HADOOP_YARN_HOME/share/hadoop/yarn/*:
+					$HADOOP_YARN_HOME/share/hadoop/yarn/lib/*:
+					hamster-core.jar 
+					com.pivotal.hamster.appmaster.HamsterAppMaster 
+					mpirun -mca odls yarn -mca plm yarn -mca ras yarn -bynode -np 13 /root/program/mpi/hello 1><LOG_DIR>/stdout 2><LOG_DIR>/stderr
+

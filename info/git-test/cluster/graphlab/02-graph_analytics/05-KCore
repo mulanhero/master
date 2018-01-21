@@ -1,0 +1,41 @@
+------------------------------------------------------------------------
+3. hamster on cluster-node1 with input graph
+------------------------------------------------------------------------
+[root@node1 graph_analytics]# cat input.adj     (total 4 vertex)
+1 2 2 5
+7 2 7 1
+5 1 7
+-------------
+hamster -v -np 2 /root/program/graphlab/release/toolkits/graph_analytics/kcore --graph=/root/program/graphlab/release/toolkits/graph_analytics/input.adj --format=adj
+-------------
+[root@node1 userlogs]# cat *18/*/stdout
+Computes a k-core decomposition of a graph.
+
+GRAPHLAB_SUBNET_ID/GRAPHLAB_SUBNET_MASK environment variables not defined.
+Using default values
+Subnet ID: 0.0.0.0
+Subnet Mask: 0.0.0.0
+Will find first IPv4 non-loopback address matching the subnet
+Number of vertices: 4
+Number of edges:    4
+Updates: 0
+K=0:  #V = 4   #E = 4
+Updates: 0
+K=1:  #V = 4   #E = 4
+Updates: 2
+K=2:  #V = 3   #E = 3
+Updates: 3
+Computes a k-core decomposition of a graph.
+
+
+
+------------------------------------------------------------------------
+4. hamster on with HDFS
+------------------------------------------------------------------------
+hamster -v -np 2 \
+/usr/local/hamster/graphlab/release/toolkits/graph_analytics/kcore \
+--graph=hdfs://10.37.7.101:8020/user/root/graphlab/ga/input.adj \
+--format=adj \
+--savecores=hdfs://10.37.7.101:8020/user/root/graphlab/ga/out
+
+[root@node1 ga]# hadoop fs -rm /user/root/graphlab/ga/out*

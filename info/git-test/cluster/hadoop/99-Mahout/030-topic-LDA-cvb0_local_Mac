@@ -1,0 +1,95 @@
+Collapsed Variational Bayes
+----------------------------------------------------------------
+0. env
+----------------------------------------------------------------
+mac
+-----
+#for mahout
+export MAHOUT_HOME=/Users/caoj7/program/mahout-distribution-0.8
+export MAHOUT_LOCAL=/Users/caoj7/program/mahout-distribution-0.8
+export PATH=$MAHOUT_HOME/bin:$PATH
+-----
+mahout-0.8
+hadoop-2.0.4
+----------------------------------------------------------------
+1. put training_doc_set to  /Users/caoj7/z_cvb
+----------------------------------------------------------------
+[caoj7@cncqcaoj7mbp1 z_cvb]$pwd
+/Users/caoj7/z_cvb
+[caoj7@cncqcaoj7mbp1 z_cvb]$ll training_doc_set/
+total 0
+drwxr-xr-x  6 caoj7  CORP\Domain Users  204 Sep 16 10:32 comp.os.ms-windows.misc
+drwxr-xr-x  6 caoj7  CORP\Domain Users  204 Sep 16 10:32 rec.sport.baseball
+----------------------------------------------------------------
+2-1. seqdirectory
+----------------------------------------------------------------
+mahout seqdirectory \
+    -i /Users/caoj7/z_cvb/training_doc_set \
+    -o /Users/caoj7/z_cvb/seqdir --charset UTF-8
+------result
+[caoj7@cncqcaoj7mbp1 z_cvb]$ll /Users/caoj7/z_cvb/seqdir/
+total 8
+-rwxrwxrwx  1 caoj7  CORP\Domain Users    0 Sep 16 10:08 _SUCCESS
+-rwxrwxrwx  1 caoj7  CORP\Domain Users  241 Sep 16 10:08 part-m-00000
+----------------------------------------------------------------
+2-2. seq2sparse  (Several MapReduce Jobs)
+----------------------------------------------------------------
+mahout seq2sparse -i /Users/caoj7/z_cvb/seqdir/ \
+    -o /Users/caoj7/z_cvb//sparseVectors \
+    --namedVector \
+    -wt tf
+------result
+[caoj7@cncqcaoj7mbp1 z_cvb]$ll /Users/caoj7/z_cvb/sparseVectors/
+total 16
+drwxr-xr-x  6 caoj7  CORP\Domain Users  204 Sep 16 10:09 df-count
+-rwxrwxrwx  1 caoj7  CORP\Domain Users  101 Sep 16 10:09 dictionary.file-0
+-rwxrwxrwx  1 caoj7  CORP\Domain Users  113 Sep 16 10:09 frequency.file-0
+drwxr-xr-x  6 caoj7  CORP\Domain Users  204 Sep 16 10:09 tf-vectors
+drwxr-xr-x  6 caoj7  CORP\Domain Users  204 Sep 16 10:08 tokenized-documents
+drwxr-xr-x  6 caoj7  CORP\Domain Users  204 Sep 16 10:08 wordcount
+----------------------------------------------------------------
+4. rowid
+----------------------------------------------------------------
+mahout rowid \
+    -i /Users/caoj7/z_cvb/sparseVectors/tf-vectors/ \
+    -o /Users/caoj7/z_cvb/matrix
+-----------
+[caoj7@cncqcaoj7mbp1 z_cvb]$ll /Users/caoj7/z_cvb/matrix/
+total 16
+-rwxrwxrwx  1 caoj7  CORP\Domain Users  159 Sep 16 10:09 docIndex
+-rwxrwxrwx  1 caoj7  CORP\Domain Users  175 Sep 16 10:09 matrix
+----------------------------------------------------------------
+5. cvb0_local
+----------------------------------------------------------------
+mahout cvb0_local \
+    -i /Users/caoj7/z_cvb/matrix/matrix \
+    -d /Users/caoj7/z_cvb/sparseVectors/dictionary.file-0 \
+    -a 0.5 \
+    -top 2 \
+    -do /Users/caoj7/z_cvb/doc_out \
+    -to /Users/caoj7/z_cvb/topic_out
+------------
+[caoj7@cncqcaoj7mbp1 z_cvb]$ll /Users/caoj7/z_cvb/
+total 32
+-rwxrwxrwx   1 caoj7  CORP\Domain Users   586 Sep 16 10:34 doc_out       #########
+drwxr-xr-x   6 caoj7  CORP\Domain Users   204 Sep 16 10:34 matrix
+drwxr-xr-x   6 caoj7  CORP\Domain Users   204 Sep 16 10:33 seqdir
+drwxr-xr-x  10 caoj7  CORP\Domain Users   340 Sep 16 10:34 sparseVectors
+-rwxrwxrwx   1 caoj7  CORP\Domain Users  9883 Sep 16 10:34 topic_out     ########
+drwxr-xr-x   4 caoj7  CORP\Domain Users   136 Sep 16 10:32 training_doc_set
+----------------------------------------------------------------
+6. vectordump
+Inspect the output by showing the top 10 words of each topic:
+----------------------------------------------------------------
+mahout vectordump \
+    -i /Users/caoj7/z_cvb/topic_out \
+    -d /Users/caoj7/z_cvb/sparseVectors/dictionary.file-0 \
+    --dictionaryType sequencefile \
+    --vectorSize 10 \
+    -sort true \
+    --output /Users/caoj7/z_cvb/topicdump.txt
+----------
+[caoj7@cncqcaoj7mbp1 z_cvb]$cat /Users/caoj7/z_cvb/topicdump.txt 
+{i:18.855952774302256,you:16.379149974848076,does:9.140048729172017,has:9.001565346138563,have:8.5457296294972,situation:8.345633132130505,we:8.023690035459602,game:7.98326919448173,runs:7.974812740775816,how:7.3488107818283845}
+{up:15.330760996825603,runs:14.025187259224186,game:11.016730805518272,you:9.620850025151926,i:9.14404722569774,team:8.626885355574494,player:8.548293851532723,have:8.454270370502798,how:7.6511892181716155,would:6.761935077826086}
+---------------------------------------------------------------- 

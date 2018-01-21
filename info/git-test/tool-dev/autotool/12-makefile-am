@@ -1,0 +1,93 @@
+  Makefile.am是一种比Makefile更高层次的规则。只需要指定要生成什么目标，由什么源文件生成，要安装到什么目录等构成。
+
+可执行文件：
+
+bin_PROGRAMS=foo
+
+foo_SOURCES=
+
+foo_LDADD=
+
+foo_LDFLAGS=
+
+foo_DEPENDECIES=
+
+ 
+
+静态库：
+
+lib_LIBRARIES=libfoo.a
+
+foo_a_SOURCES=
+
+foo_a_LDADD=
+
+foo_a_LIBADD=
+
+foo_a_LDFLAGS=
+
+ 
+
+头文件：
+
+include_HEADERS=
+
+ 
+
+数据文件：
+
+data_DATA=
+
+ 
+
+只想编译，不想安装：
+
+bin_PROGRAMS   --->   noinst_PROGRAMS
+
+lib_LIBRARIES   --->   noinst_LIBRARIES
+
+ 
+
+全局变量：
+
+INCLUDES 头文件
+
+LDADD 库文件
+
+LDFLAGS 库文件选项标志
+
+EXTRA_DIST .tar.gz包
+
+SUBDIRS 在处理本目录前要递归处理的子目录
+
+ 
+
+基本路径：
+
+$(top_srcdir) 工程最顶层目录，用于引用源程序(project/)
+
+$(top_builer) 定义了生成目标文件上最上层目录，用于引用.o等编译出来的目标文件
+
+ 
+
+默认安装路径：
+
+$(prefix)=/usr/local           通过./configure --prefix=<new_file>修改
+
+bindir=$(prefix)/bin
+
+libdir=$(prefix)/lib
+
+datadir=$(prefix)/data
+
+sysconfir=$(prefix)/etc
+
+ 
+
+定义新的安装路径：
+
+testdir=$(prefix)/test
+
+test_DATA=test1 test2
+
+则test1,test2会作为数据文件安装到$(prefix)/test下

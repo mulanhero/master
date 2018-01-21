@@ -1,0 +1,6 @@
+Say your bug fix branch is called bugfix then on the master branch issue the following command:
+
+git merge --squash bugfix
+git commit -m 'fix bug'
+This will take all the commits from the bugfix branch, squash them into 1 commit and then merge it with your master branch
+

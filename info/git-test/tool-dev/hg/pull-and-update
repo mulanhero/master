@@ -1,0 +1,66 @@
+hg pull
+hg update
+
+hg 
+//==========================
+As others have indicated, almost but not quite. In order of decreasing similarity 
+to svn update (and increasing compliance with general DVCS, and specifically 
+Mercurial, best practices[1]):
+
+hg pull -u (or hg pull followed by hg update) with your changes uncommitted and 
+no committed changes since your last pull. This is as close to svn update as you 
+can get, but is pretty bad DVCS practice. One of the niceties of DVCS is that you 
+can commit your changes before trying to merge them with others, and thus have a 
+backup version to rollback and retry a failed merge, and this practice gives that 
+up. Don't do it.
+
+hg pull --rebase after committing your changes. This pulls the upstream changes, 
+re-applies your changes on top of them, and lets you push your changes back as a 
+linear history. The end result will look very similar to a Subversion revision 
+history, but you get the DVCS benefit of committing before merging. I do not know 
+how the safety of this mode of operation compares between Mercurial and Git, though; 
+in Git, pre-rebase versions of your changes will still be there until you do a git 
+gc, but Mercurial doesn't have an explicit gc safety net.
+
+hg pull followed by hg merge with your changes already committed to your local copy. 
+This is the traditional Mercurial practice for doing the functional analog of svn 
+update, notwithstanding footnote 1 below. This results in a nonlinear version history, 
+but all changes are tracked and inspectable.
+
+That said, there is much wisdom in thinking of Mercurial (and other DVCSes) on their 
+own terms, and not trying to translate from Subversion/CVS-style thinking.
+
+If you are not of the rewrite-history-to-keep-it-linear school of thought. 
+If you are, then rebase is probably preferable to update. The Mercurial 
+community tends to favor update.
+//===============
+Not exactly.
+
+hg pull grabs the revisions from the other repository and adds them to the locally 
+available revisions in your clone of the repository, but does not update your working 
+copy - only your repository (which, for DCVS like hg/git/etc is not the same thing 
+as a working copy).
+
+hg update updates your actual working copy to the latest revision in your local repository.
+
+This differs from Subversion because in svn, there is no such thing as your "local repository" 
+- the only repository is the one on the server; you only have a working copy locally. Hence 
+why update is only a single command, as opposed to Mercurial's pull and then update.
+
+The equivalent to svn update for Mercurial would be hg pull --update, which is equivalent 
+to doing hg pull and then hg update one after another.
+
+An end-to-end workflow for DCVS with a "central" repo looks something like this:
+
+A does hg commit on some changes.
+A does hg push to push them the central repository.
+B does hg pull to pull them from the central repository into their own clone.
+B does hg update to update their working copy to reflect the changes pulled into their clone.
+
+In systems without a central repo, it would instead look something like this:
+
+A does hg commit on some changes.
+B, who has cloned A's repo, wants those changes, and thus does an hg pull directly from A's repo.
+B uses hg update to update their working copy to the changes.
+
+Also, the equivalent to svn revert is hg revert. :)

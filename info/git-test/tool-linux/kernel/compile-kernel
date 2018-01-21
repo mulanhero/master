@@ -1,0 +1,16 @@
+linux内核，可以说算linux的核心部分，网络上有很多关于如何编译、安装内核的文章，所以具体操作起来还不是很困难。下面以流水帐方式记录我更新内核的步骤。
+1、下载最新内核。下载网址是http://www.kernel.org/pub/linux/kernel，我下载的是2.6.8版本的linux-2.6.8.tar.gz
+2、解压gz文件，使用gunzip linux-2.6.8.tar.gz，然后再使用tar xvf linux-2.6.8.tar，将所有文件解压到linux-2.6.8目录，然后将该目录移动到/usr/src目录。
+3、使用make menuconfig对内核进行设置(也可以使用make config/make xconfig/make gconfig来进行)，设置完成后，保存成.config文件。设置时，<*>表示编译到内核中，< >表示不编译到内核中，表示编译成模块，内核需要的时候可以调入，类似动态链接库。
+4、执行make bzImage进行内核编译。(此步骤很慢，需要等待超过1小时甚至更多)，编译后，会在 arch/i386/boot目录下生成内核文件bzImage。
+5、执行内核模块的编译，即：make modules，如果再设置内核的时候选择了模块，则需要进行此步骤
+6、使用make modules_install安装内核模块，此步骤会将编译后的模块复制到/lib/modules/内核版本号 目录，对应于2.6.8版本，就是 /lib/modules/2.6.8目录。
+7、将步骤4编译生成的内核文件bzImage复制到/boot目录，并改名，如：vmlinuz-2.6.8
+8、使用mkinitrd生成内核模块的img文件，具体语法是：mkinitrd 内核模块名.img 版本号，对于2.6.8版本，可以是：mkinitrd initrd-2.6.8.img 2.6.8，这个文件应该是根据/lib/modules/2.6.8目录的内容生成的。
+9、编辑grub目录下的配置文件grub.conf，使新模块成为一个可加载内核。grub位于/boot/grub目录，需要添加如下四行内容
+title Fedora Core(2.6.8.buiild1)
+root(hd0,0)
+kernel /boot/vmlinuz-2.6.8.build1 ro root=LABEL=/ rhgb
+initrd /boot/initrd-2.6.8.build1.img
+第一行是显示在grub启动界面的内容，第二行标志启动分区，第三行是内核文件，第四行是模块文件。
+至此，重新启动linux，就能够使用新的内核了。对了，忘记说一点，就是编译内核的时候需要使用gcc，所以安装linux的时候需要同时安装gcc。

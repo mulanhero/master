@@ -1,0 +1,16 @@
+CC=mpicc
+CFLAGS=-g -Wall
+
+all:hello ring
+
+hello: hello.o
+	$(CC) $(CFLAGS) $^ -o $@
+
+ring: ring.o
+	$(CC) $(CFLAGS) $^ -o $@
+
+%.o: %.c
+	$(CC) $(CFLAGS) -c $<
+	
+clean:
+	rm -f *.o hello ring 

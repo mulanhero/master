@@ -1,0 +1,20 @@
+AUTOMAKE_OPTIONS = foreign
+#AM_CPPFLAGS = -I$(prefix)/include/openmpi -I/Users/caoj7/program/orte/include/openmpi/opal/mca/event/libevent2019/libevent -I/Users/caoj7/program/orte/include/openmpi/opal/mca/hwloc/hwloc152/hwloc/include
+AM_CPPFLAGS = -I$(prefix)/include/openmpi -I$(prefix)/include/openmpi/opal/mca/event/libevent2019/libevent -I$(prefix)/include/openmpi/opal/mca/hwloc/hwloc152/hwloc/include
+#AM_CFLAGS = -Wall
+#LDADD = -L/usr/local/lib -levent
+
+sources = \
+        odls_yarn.h \
+        odls_yarn_component.c \
+        odls_yarn_module.c
+
+
+lib_LTLIBRARIES = libmca_odls_yarn.la
+#noinst_LTLIBRARIES = libmca_odls_yarn.la
+libmca_odls_yarn_la_SOURCES = $(sources) 
+libmca_odls_yarn_la_LIBADD = -L/Users/caoj7/program/orte/lib -L/Users/caoj7/program/orte/lib/openmpi -lopen-rte -lopen-pal
+libmca_odls_yarn_la_LDFLAGS = -module -avoid-version 
+#libmca_odls_yarn_la_LDFLAGS = --version-info 1:0:1
+
+#include_HEADERS = -I/Users/caoj7/program/orte/include/openmpi/orte_config.h

@@ -1,0 +1,56 @@
+===========================================
+git add src/plugins/slurmctld/dynalloc/*.c \ 
+		src/plugins/slurmctld/dynalloc/*.h \
+		src/plugins/slurmctld/dynalloc/*.am
+		
+git commit -m "port deallocate ."
+
+git push origin master  		// push branch *master* to *origin* remote repo
+
+git fetch origin
+
+git rebase origin/master master
+
+git push origin master  //successed
+===========================================
+1. git checkout server
+   git rebase master
+   //the above == git rebase master server
+   //re-base server's master to new master, now branch server is ahead of origin master
+   //we need master to do a fast-forward merge  
+   ===============
+   git checkout master
+   git merge server
+  
+2. !!!!!!!!
+//===================================
+[caoj7@cnencaoj7mbp1 giter]$git fetch origin
+   6472e6b..c9853e9  master     -> origin/master
+[caoj7@cnencaoj7mbp1 giter]$git branch -v
+* master 496d623 [ahead 1, behind 1] add file6
+---------------
+[caoj7@cnencaoj7mbp1 giter]$git rebase origin/master master  
+First, rewinding head to replay your work on top of it...  (on top of the base: origin/master)
+Applying: add file6
+---------------
+//checkout as master, then add your work on top of origin/master
+//my master will re-base on top of origin/master
+//now head is your master
+//no need merge at all
+---------------
+[caoj7@cnencaoj7mbp1 giter]$git push origin master
+
+
+//********************************
+git rebase --onto master server client
+/*
+Check out the client branch, figure out the patches from the common ancestor 
+of the client and server branches, and then replay them onto master
+*/
+
+Now you can fast-forward your master branch (see Figure 3-33):
+$ git checkout master
+$ git merge client
+
+
+

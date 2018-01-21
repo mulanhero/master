@@ -1,0 +1,29 @@
+1. enable /root as nfs
+2. install slurm under /root/slurmhome in vm1  
+3. add .bashrc
+4. /root/slurmhome/etc
+	Note: slurmctld.pid and slurmd.pid should stay in specific location in each node, not nfs
+	slurm.conf 
+	cgroup.conf
+5. release_agent (on each node)
+	//under /root/slurmhome/etc
+	vi release_common
+	ln -s  release_common release_cpuset
+	ln -s  release_common release_freezer
+6. 
+if 
+ConstrainDevices=yes
+AllowedDevicesFile="/root/slurmhome/etc/allowed_devices.conf"
+is specified in cgroup.conf, then 
+gres.conf and allowed_devices.conf
+is needed.
+
+
+
+/********************************************\
+trick:
+lstopo 
+lscpu
+cat /proc/cpuinfo
+cat /proc/meminfo
+\********************************************/

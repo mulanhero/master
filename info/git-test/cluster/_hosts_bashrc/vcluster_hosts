@@ -1,0 +1,13 @@
+[root@node1 userlogs]# cat /etc/hosts
+127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4
+::1         localhost localhost.localdomain localhost6 localhost6.localdomain6
+
+10.37.7.101		node1.pivotal.com
+10.37.7.102		node2.pivotal.com
+10.37.7.103		node3.pivotal.com
+10.37.7.104		node4.pivotal.com
+
+10.37.7.101		node1
+10.37.7.102		node2
+10.37.7.103		node3
+10.37.7.104		node4

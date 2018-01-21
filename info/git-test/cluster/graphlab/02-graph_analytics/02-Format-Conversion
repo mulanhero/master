@@ -1,0 +1,37 @@
+------------------------------------------------------------------------
+3. hamster on cluster-node1 with input graph
+------------------------------------------------------------------------
+[root@node1 graph_analytics]# cat input.adj     (total 4 vertex)
+1 2 2 5
+7 2 7 1
+5 1 7
+-------------
+./format_convert --ingraph=input.adj --informat=adj --outgraph=output.tsv --outformat=tsv --outgzip=0
+hamster -v -np 2 /root/program/graphlab/release/toolkits/graph_analytics/format_convert --ingraph=/root/program/graphlab/release/toolkits/graph_analytics/input.adj --informat=adj --outgraph=/root/program/graphlab/release/toolkits/graph_analytics/output.tsv --outformat=tsv --outgzip=0
+-------------
+
+-------------
+[root@node1 graph_analytics]# ll -t
+total 370596
+-rw-r--r--  1 root root        4 Aug 12 23:13 output.tsv_8_of_8
+-rw-r--r--  1 root root        4 Aug 12 23:13 output.tsv_7_of_8
+-rw-r--r--  1 root root        4 Aug 12 23:13 output.tsv_6_of_8
+-rw-r--r--  1 root root        4 Aug 12 23:13 output.tsv_5_of_8
+-rw-r--r--  1 root root        0 Aug 12 23:13 output.tsv_4_of_8
+-rw-r--r--  1 root root        0 Aug 12 23:13 output.tsv_3_of_8
+-rw-r--r--  1 root root        0 Aug 12 23:13 output.tsv_2_of_8
+-rw-r--r--  1 root root        0 Aug 12 23:13 output.tsv_1_of_8
+
+------------------------------------------------------------------------
+4. hamster on with HDFS
+------------------------------------------------------------------------
+hamster -v -np 2 \
+/usr/local/hamster/graphlab/release/toolkits/graph_analytics/format_convert \
+--ingraph=hdfs://10.37.7.101:8020/user/root/graphlab/ga/input.adj \
+--informat=adj \
+--outgraph=hdfs://10.37.7.101:8020/user/root/graphlab/ga/out.tsv \
+--outformat=tsv --outgzip=0
+
+
+
+mpirun -np 2 /root/program/graphlab/release/toolkits/graph_analytics/format_convert --ingraph=/root/program/graphlab/release/toolkits/graph_analytics/input.adj --informat=adj --outgraph=/root/program/graphlab/release/toolkits/graph_analytics/output.tsv --outformat=tsv --outgzip=0

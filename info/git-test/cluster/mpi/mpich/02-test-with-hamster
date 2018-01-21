@@ -1,0 +1,175 @@
+---------------------------------------------------------------------------------
+0. prepare
+---------------------------------------------------------------------------------
+//hamster is already installed
+[root@gphd-vm33 ~]# which mpirun
+/usr/bin/mpirun
+[root@gphd-vm33 go]# pwd
+/usr/local/hamster/mpi-testsuite/go
+[root@gphd-vm33 go]# ll
+total 22320
+-rw-r--r-- 1 root root 22826035 Dec  5 02:44 mpich2-1.5.tar.gz
+---------------------------------------------------------------------------------
+1. build test
+---------------------------------------------------------------------------------
+[root@gphd-vm33 mpi]# pwd
+/usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi
+----------------error occurs
+when ./configure, --disable-spawn can be added if you do not want *spawn* related included.
+--disable-f90 can not be recognized
+-------
+[root@gphd-vm33 mpi]# ./configure --with-mpi=/usr --enable-strictmpi --disable-cxx --disable-f77
+[root@gphd-vm33 mpi]# make
+sizedtypes.c:33: error: ÔMPI_REAL16Õ undeclared (first use in this function)
+sizedtypes.c:33: error: (Each undeclared identifier is reported only once
+sizedtypes.c:33: error: for each function it appears in.)
+sizedtypes.c:51: error: ÔMPI_COMPLEX32Õ undeclared (first use in this function)
+make[1]: *** [sizedtypes.o] Error 1
+make[1]: Leaving directory `/usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/datatype'
+make: *** [all-recursive] Error 1
+*******this is disabled 
+Disabled MPI_REAL16 and MPI_COMPLEX32 support on platforms where the
+  bit representation of REAL*16 is different than that of the C type
+  of the same size (usually long double).  Thanks to Julien Devriendt
+  for reporting the issue.  See ticket #1603.
+================!!!solution=======================================
+romve it from its Makefile.am/Makefile.in/testlist from dir which it locates in
+====================can not support===============================
+/usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/datatype  
+$$$: sizedtypes typename  from Makefile.am/Makefile.in/testlist
+------------------------------------------------------------------
+sizedtypes.c typename.c  
+------------------------------------------------------------------
+MPI_REAL16 MPI_COMPLEX32 MPI_COMPLEX32
+==================================================================
+/usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/topo
+$$$: dgraph_unwgt  from Makefile.am/Makefile.in/testlist 
+------------------------------------------------------------------
+dgraph_unwgt.c  
+------------------------------------------------------------------
+MPI_DIST_GRAPH MPI_UNWEIGHTED
+==================================================================
+/usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/f90/timer
+------------------------------------------------------------------
+wtimef90.f90
+------------------------------------------------------------------
+pmpi_wtime()  pmpi_wtick()
+==================================================================
+/usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/f90/attr
+------------------------------------------------------------------
+fandcattrc.c
+------------------------------------------------------------------
+==================================================================
+/usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/f90/coll
+------------------------------------------------------------------
+split_typef90.f90 nonblockingf90.f90
+------------------------------------------------------------------
+==================================================================
+/usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/f90/datatype
+------------------------------------------------------------------
+gaddressf90.f90  hindexed_blockf90.f90 structf.f90
+==================================================================
+/usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/f90/pt2pt
+------------------------------------------------------------------
+allpairf90.f90  mprobef90.f90
+==================================================================
+/usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/f90/topo
+------------------------------------------------------------------
+dgraph_wgtf90.f90 dgraph_unwgtf90.f90
+==================================================================
+/usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/f90/ext
+------------------------------------------------------------------
+c2f902c.c  ctypesfromc.c
+==================================================================
+/usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/f90/rma
+------------------------------------------------------------------
+c2f902cwin.c winattrf90.f90
+==================================================================
+/usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/f90/spawn
+------------------------------------------------------------------
+spawnmult2f90.f90 
+==================================================================
+/usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/f90/io
+------------------------------------------------------------------
+setviewcurf90.f90 c2f902cio.c
+---------------------------------------------------------------------------------
+2. Batch Systems to run test suite
+---------------------------------------------------------------------------------
+-------------------
+2.1 revise testlist to choose the range
+-------------------
+[root@gphd-vm33 mpi]# cat testlist
+#// The next item ensures that the support routines are built first
+!util:all
+attr 
+#//basic
+#coll
+#comm
+#datatype
+#errhan
+#group
+#info
+#init
+#pt2pt
+#rma
+#spawn
+#topo
+#//
+#io
+#//
+#//
+#f90
+#//
+-------------------
+2.2 to create the test cripsts
+-------------------
+[root@gphd-vm33 mpi]# export MPITEST_BATCHDIR=`pwd`/btest  
+[root@gphd-vm33 mpi]# ./runtests -batch -mpiexec=hamster -tests=testlist 
+	'./runtests -batch' to create a script file that can be edited and submitted to the batch system.
+[root@gphd-vm33 mpi]# ll btest/
+-rw-r--r-- 1 root root    3225 Dec  5 01:21 runtests.batch
+... edit btest/runtests.batch to make it a value batch submissions script
+... run that script and wait for the batch job to complete
+-------------------
+!!!!!!!!!!!edit the runtests.batch
+0,$s/\.\//\/usr\/local\/hamster\/mpi-testsuite\/go\/mpich2-1.5\/test\/mpi\/btest\//g
+-------------------
+2.3 run the test batch
+-------------------
+[root@gphd-vm33 btest]# chmod +x runtests.batch
+[root@gphd-vm33 btest]# ./runtests.batch 
+-------------------
+2.4 check test result
+cd btest && ../checktests --ignorebogus
+-------------------
+[root@gphd-vm33 btest]# ../checktests -ignorebogus
+Tests passed: 19; test failed: 0
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------

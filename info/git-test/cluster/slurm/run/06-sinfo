@@ -1,0 +1,9 @@
+sinfo
+	man sinfo
+	sinfo -n node001
+	sinfo -p debug	
+	sinfo -a
+Other
+	Debug*  
+	* indicates default partition
+	down* indicates nodes are not responding.

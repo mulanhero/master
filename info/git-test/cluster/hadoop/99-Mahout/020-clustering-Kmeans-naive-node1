@@ -1,0 +1,70 @@
+----------------------------------------------------------------
+0. env   
+----------------------------------------------------------------
+node1
+PHD-1.0.2 (2.0.5)
+MAHOUT-0.7
+----------------------------------------------------------------
+1. put the synthetic_control.data to 
+----------------------------------------------------------------
+[root@node1 ~]# hadoop fs -mkdir testdata
+[root@node1 ~]# hadoop fs -ls /user/root/
+drwxr-xr-x   - root supergroup          0 2013-09-16 18:56 /user/root/testdata
+[root@node1 hamster]# hadoop fs -put ./synthetic_control.data  /user/root/testdata
+[root@node1 hamster]# hadoop fs -ls  /user/root/testdata
+Found 1 items
+-rw-r--r--   3 root supergroup     288374 2013-09-16 18:57 /user/root/testdata/synthetic_control.data
+----------------------------------------------------------------
+2. run kmeans job  (several MapReduce job)
+----------------------------------------------------------------
+[root@node1 hamster]# mahout org.apache.mahout.clustering.syntheticcontrol.kmeans.Job
+----------------------------------------------------------------
+3. check the output
+----------------------------------------------------------------
+[root@node1 ~]# hadoop fs -ls /user/root/output                #[root@node1 ~]# hadoop fs -ls -R /user/root/output
+Found 14 items
+-rw-r--r--   3 root supergroup        194 2013-09-16 19:01 /user/root/output/_policy
+drwxr-xr-x   - root supergroup          0 2013-09-16 19:02 /user/root/output/clusteredPoints
+drwxr-xr-x   - root supergroup          0 2013-09-16 18:58 /user/root/output/clusters-0
+drwxr-xr-x   - root supergroup          0 2013-09-16 18:58 /user/root/output/clusters-1
+drwxr-xr-x   - root supergroup          0 2013-09-16 19:01 /user/root/output/clusters-10-final
+drwxr-xr-x   - root supergroup          0 2013-09-16 18:59 /user/root/output/clusters-2
+drwxr-xr-x   - root supergroup          0 2013-09-16 18:59 /user/root/output/clusters-3
+drwxr-xr-x   - root supergroup          0 2013-09-16 19:00 /user/root/output/clusters-4
+drwxr-xr-x   - root supergroup          0 2013-09-16 19:00 /user/root/output/clusters-5
+drwxr-xr-x   - root supergroup          0 2013-09-16 19:00 /user/root/output/clusters-6
+drwxr-xr-x   - root supergroup          0 2013-09-16 19:00 /user/root/output/clusters-7
+drwxr-xr-x   - root supergroup          0 2013-09-16 19:01 /user/root/output/clusters-8
+drwxr-xr-x   - root supergroup          0 2013-09-16 19:01 /user/root/output/clusters-9
+drwxr-xr-x   - root supergroup          0 2013-09-16 18:58 /user/root/output/data
+[root@node1 hamster]# hadoop fs -get /user/root/output kmeans_output
+[root@node1 hamster]# ll kmeans_output/                #local
+total 56
+drwxr-xr-x 2 root root 4096 Sep 16 19:04 clusteredPoints
+drwxr-xr-x 2 root root 4096 Sep 16 19:04 clusters-0
+drwxr-xr-x 2 root root 4096 Sep 16 19:04 clusters-1
+drwxr-xr-x 2 root root 4096 Sep 16 19:04 clusters-10-final
+drwxr-xr-x 2 root root 4096 Sep 16 19:04 clusters-2
+drwxr-xr-x 2 root root 4096 Sep 16 19:04 clusters-3
+drwxr-xr-x 2 root root 4096 Sep 16 19:04 clusters-4
+drwxr-xr-x 2 root root 4096 Sep 16 19:04 clusters-5
+drwxr-xr-x 2 root root 4096 Sep 16 19:04 clusters-6
+drwxr-xr-x 2 root root 4096 Sep 16 19:04 clusters-7
+drwxr-xr-x 2 root root 4096 Sep 16 19:04 clusters-8
+drwxr-xr-x 2 root root 4096 Sep 16 19:04 clusters-9
+drwxr-xr-x 2 root root 4096 Sep 16 19:04 data
+-rw-r--r-- 1 root root  194 Sep 16 19:04 _policy
+----------------------------------------------------------------
+----------------------------------------------------------------
+----------------------------------------------------------------
+----------------------------------------------------------------
+----------------------------------------------------------------
+----------------------------------------------------------------
+----------------------------------------------------------------
+----------------------------------------------------------------
+----------------------------------------------------------------
+----------------------------------------------------------------
+----------------------------------------------------------------
+----------------------------------------------------------------
+----------------------------------------------------------------
+----------------------------------------------------------------

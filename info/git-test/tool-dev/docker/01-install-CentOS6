@@ -1,0 +1,96 @@
+---------------------------------------------------------------------------------------
+1. install
+---------------------------------------------------------------------------------------
+[root@hdsh180 soft]# yum install docker-io
+[root@hdsh180 soft]# /etc/init.d/docker start
+Starting cgconfig service:                                 [  OK  ]
+Starting docker:
+[root@hdsh180 soft]# chkconfig docker on
+---------------------------------------------------------------------------------------
+2. docker
+---------------------------------------------------------------------------------------
+[root@hdsh180 soft]# docker
+Usage: docker [OPTIONS] COMMAND [arg...]
+ -H=[unix:///var/run/docker.sock]: tcp://host:port to bind/connect to or unix://path/to/socket to use
+
+A self-sufficient runtime for linux containers.
+
+Commands:
+    attach    Attach to a running container
+    build     Build an image from a Dockerfile
+    commit    Create a new image from a container's changes
+    cp        Copy files/folders from the containers filesystem to the host path
+    diff      Inspect changes on a container's filesystem
+    events    Get real time events from the server
+    export    Stream the contents of a container as a tar archive
+    history   Show the history of an image
+    images    List images
+    import    Create a new filesystem image from the contents of a tarball
+    info      Display system-wide information
+    inspect   Return low-level information on a container
+    kill      Kill a running container
+    load      Load an image from a tar archive
+    login     Register or Login to the docker registry server
+    logs      Fetch the logs of a container
+    port      Lookup the public-facing port which is NAT-ed to PRIVATE_PORT
+    pause     Pause all processes within a container
+    ps        List containers
+    pull      Pull an image or a repository from the docker registry server
+    push      Push an image or a repository to the docker registry server
+    restart   Restart a running container
+    rm        Remove one or more containers
+    rmi       Remove one or more images
+    run       Run a command in a new container
+    save      Save an image to a tar archive
+    search    Search for an image in the docker index
+    start     Start a stopped container
+    stop      Stop a running container
+    tag       Tag an image into a repository
+    top       Lookup the running processes of a container
+    unpause   Unpause a paused container
+    version   Show the docker version information
+    wait      Block until a container stops, then print its exit code
+---------------------------------------------------------------------------------------
+3. docker version
+---------------------------------------------------------------------------------------
+[root@hdsh180 soft]# docker version
+Client version: 1.0.0
+Client API version: 1.12
+Go version (client): go1.2.2
+Git commit (client): 63fe64c/1.0.0
+------------
+Server version: 1.0.0
+Server API version: 1.12
+Go version (server): go1.2.2
+Git commit (server): 63fe64c/1.0.0
+---------------------------------------------------------------------------------------
+4. search
+---------------------------------------------------------------------------------------
+[root@hdsh180 soft]# docker search centos
+blalor/centos           Bare-bones base CentOS 6.5 image      5        [OK]
+---------------------------------------------------------------------------------------
+5. pull
+---------------------------------------------------------------------------------------
+[root@hdsh180 soft]# docker pull hdsh196.lss.emc.com:5000/centos/centos65
+---------------------------------------------------------------------------------------
+6. images
+---------------------------------------------------------------------------------------
+[root@hdsh180 soft]# docker images
+REPOSITORY                                 TAG                 IMAGE ID            CREATED             VIRTUAL SIZE
+hdsh196.lss.emc.com:5000/centos/centos65   jdk7u45             a39d6ab683e7        12 weeks ago        504.9 MB
+hdsh196.lss.emc.com:5000/centos/centos65   sshd                4a15cd3e6f4c        3 months ago        223.4 MB
+hdsh196.lss.emc.com:5000/centos/centos65   base                e8dfa3c9ebf2        3 months ago        166.6 MB
+[root@hdsh180 soft]# docker images hdsh196.lss.emc.com:5000/centos/centos65
+REPOSITORY                                 TAG                 IMAGE ID            CREATED             VIRTUAL SIZE
+hdsh196.lss.emc.com:5000/centos/centos65   jdk7u45             a39d6ab683e7        12 weeks ago        504.9 MB
+hdsh196.lss.emc.com:5000/centos/centos65   sshd                4a15cd3e6f4c        3 months ago        223.4 MB
+hdsh196.lss.emc.com:5000/centos/centos65   base                e8dfa3c9ebf2        3 months ago        166.6 MB
+---------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------
+

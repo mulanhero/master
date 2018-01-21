@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cdtprojectproperties>
+<section name="org.eclipse.cdt.internal.ui.wizards.settingswizards.IncludePaths">
+<language name="holder for library settings">
+
+</language>
+<language name="Assembly">
+
+</language>
+<language name="UPC">
+
+</language>
+<language name="LLVM bytecode assembly">
+
+</language>
+<language name="GNU C++">
+<includepath>D:\wininclude\boost-1.55\include</includepath>
+<includepath>D:\wininclude\gflags-2.1.1\include</includepath>
+<includepath>D:\wininclude\glog-0.3.3\include</includepath>
+<includepath>D:\wininclude\unwind\include</includepath>
+<includepath>D:\wininclude\usr\local\include\c++\4.9.0</includepath>
+<includepath>D:\wininclude\usr\include</includepath>
+<includepath>D:\wininclude\zeromq-3.2.4\include</includepath>
+<includepath>D:\wininclude\yaml-0.5.1\include</includepath>
+
+</language>
+<language name="GNU C">
+
+</language>
+</section>
+<section name="org.eclipse.cdt.internal.ui.wizards.settingswizards.Macros">
+<language name="holder for library settings">
+
+</language>
+<language name="Assembly">
+
+</language>
+<language name="UPC">
+
+</language>
+<language name="LLVM bytecode assembly">
+
+</language>
+<language name="GNU C++">
+
+</language>
+<language name="GNU C">
+
+</language>
+</section>
+</cdtprojectproperties>

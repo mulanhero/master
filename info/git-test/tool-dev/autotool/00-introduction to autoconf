@@ -1,0 +1,37 @@
+0. autoscan
+The autoscan program generates a default configure.ac file for a new project.
+autoscan is very useful as a starting point for a project that uses a non-Autotoolsbased
+build system, but it may also be useful for suggesting features that might
+enhance an existing Autotools-based project.
+
+1. autoconf
+Its main task is to ensure that the current shell contains 
+the functionality necessary to execute the M4 macro processor.
+
+2. autoreconf
+utility executes the configuration tools in the autoconf,
+automake, and libtool packages as required by each project. 
+
+If all you have is a configure.ac file,
+you can run autoreconf to execute all the tools you need, in the correct
+order, so that configure will be properly generated.
+
+3. autoheader
+The autoheader utility generates a C/C++–compatible header file template
+from various constructs in configure.ac. This file is usually called config.h.in.
+
+When the end user executes configure, the configuration script generates
+config.h from config.h.in.
+
+4. autoupdate
+The autoupdate utility is used to update configure.ac or the template (.in) files
+to match the syntax supported by the current version of the Autotools.
+
+
+======================
+autoconf generates a configuration
+script called configure, a very portable Bourne shell script that enables your
+project to offer many useful configuration capabilities. autoheader generates
+the config.h.in template based on certain macro definitions in configure.ac.
+
+

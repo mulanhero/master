@@ -1,0 +1,162 @@
+0. if necessary
+[hadoop@node1 soft]$ sudo yum install libcap-devel
+
+1. ./configure && make && sudo make install && sudo lxc-setcap
+------error---------- when lxc-0.7.0, no such error
+[root@node001 ~]# lxc-setcap
+Failed to set capabilities on file `/lxc-init' (No such file or directory)
+usage: setcap [-q] [-v] (-r|-|<caps>) <filename> [ ... (-r|-|<capsN>) <filenameN> ]
+
+ Note <filename> must be a regular (non-symlink) file.
+-------solve---------
+[root@node001 ~]# cd /
+[root@node001 /]# touch lxc-init
+[root@node001 /]# lxc-setcap /lxc-init
+
+
+2. 
+man lxc
+
+---error
+[root@node001 /]#  /usr/local/bin/lxc-execute -n foo -f /usr/local/share/doc/lxc/examples/lxc-macvlan.conf /bin/bash
+lxc-execute: No such file or directory - failed to create symlink for kmsg
+lxc-execute: failed to setup kmsg for 'foo'
+lxc-execute: failed to setup the container
+lxc-execute: invalid sequence number 1. expected 2
+lxc-execute: failed to spawn 'foo' 
+
+
+
+3. lxc-checkconfig can help you to check whether your OS kernel will fully supprt LXC
+[root@node001 /]# lxc-checkconfig
+Kernel configuration not found at /proc/config.gz; searching...
+Kernel configuration found at /boot/config-3.3.4-5.fc17.x86_64
+--- Namespaces ---
+Namespaces: enabled
+Utsname namespace: enabled
+Ipc namespace: enabled
+Pid namespace: enabled
+User namespace: enabled
+Network namespace: enabled
+Multiple /dev/pts instances: enabled
+
+--- Control groups ---
+Cgroup: enabled
+Cgroup clone_children flag: enabled
+Cgroup device: enabled
+Cgroup sched: enabled
+Cgroup cpu account: enabled
+Cgroup memory controller: enabled
+Cgroup cpuset: enabled
+
+--- Misc ---
+Veth pair device: enabled
+Macvlan: enabled
+Vlan: enabled
+File capabilities: enabled
+
+Note : Before booting a new kernel, you can check its configuration
+usage : CONFIG=/path/to/config /usr/local/bin/lxc-checkconfig
+
+
+
+4. users 
+in above step 1, if 'lxc-setcap /lxc-init' enable the file capabilities, other user can you use lxc.
+o/w, only root can use.
+
+
+
+5. mount cgroup
+	mount -t cgroup  cgroup  /cgroup
+or 
+	mount -t cgroup lxc /cgroup4lxc 
+or 
+	mount -t cgroup -ons,cpuset,freezer,devices lxc /cgroup4lxc
+but by default, cgroup is mounted to /sys/fs/cgroup
+-------------------------or on node4
+[root@node4 fs]# vi /etc/fstab
+cgroup  /cgroup2                cgroup  defaults        0 0
+[root@node4 fs]# mount /cgroup2
+[root@node4 fs]# mount
+cgroup on /cgroup2 type cgroup (rw) // you will cgroup has been mounted
+-------------------------
+
+6. check the mounted filesystem
+[root@node001 ~]# ll /sys/fs/cgroup/
+total 0
+drwxr-xr-x. 3 root root  0 Mar 20  2013 blkio
+lrwxrwxrwx. 1 root root 11 Mar 20  2013 cpu -> cpu,cpuacct
+lrwxrwxrwx. 1 root root 11 Mar 20  2013 cpuacct -> cpu,cpuacct
+drwxr-xr-x. 4 root root  0 Mar 20  2013 cpu,cpuacct
+drwxr-xr-x. 3 root root  0 Mar 20  2013 cpuset
+drwxr-xr-x. 3 root root  0 Mar 20  2013 devices
+drwxr-xr-x. 3 root root  0 Mar 20  2013 freezer
+drwxr-xr-x. 3 root root  0 Mar 20  2013 memory
+drwxr-xr-x. 3 root root  0 Mar 20  2013 net_cls
+drwxr-xr-x. 3 root root  0 Mar 20  2013 perf_event
+drwxr-xr-x. 4 root root  0 Mar 20  2013 systemd 
+-------------------------
+or why?
+[root@node4 fs]# ll /cgroup2
+total 0
+-r--r--r--. 1 root root 0 Mar 22 19:18 blkio.io_merged
+-r--r--r--. 1 root root 0 Mar 22 19:18 blkio.io_queued
+-r--r--r--. 1 root root 0 Mar 22 19:18 blkio.io_service_bytes
+-r--r--r--. 1 root root 0 Mar 22 19:18 blkio.io_serviced
+-r--r--r--. 1 root root 0 Mar 22 19:18 blkio.io_service_time
+-r--r--r--. 1 root root 0 Mar 22 19:18 blkio.io_wait_time
+--w-------. 1 root root 0 Mar 22 19:18 blkio.reset_stats
+-r--r--r--. 1 root root 0 Mar 22 19:18 blkio.sectors
+-r--r--r--. 1 root root 0 Mar 22 19:18 blkio.throttle.io_service_bytes
+-r--r--r--. 1 root root 0 Mar 22 19:18 blkio.throttle.io_serviced
+-rw-r--r--. 1 root root 0 Mar 22 19:18 blkio.throttle.read_bps_device
+-rw-r--r--. 1 root root 0 Mar 22 19:18 blkio.throttle.read_iops_device
+-rw-r--r--. 1 root root 0 Mar 22 19:18 blkio.throttle.write_bps_device
+-rw-r--r--. 1 root root 0 Mar 22 19:18 blkio.throttle.write_iops_device
+-r--r--r--. 1 root root 0 Mar 22 19:18 blkio.time
+-rw-r--r--. 1 root root 0 Mar 22 19:18 blkio.weight
+-rw-r--r--. 1 root root 0 Mar 22 19:18 blkio.weight_device
+-r--r--r--. 1 root root 0 Mar 22 19:18 cgroup.procs
+-r--r--r--. 1 root root 0 Mar 22 19:18 cpuacct.stat
+-rw-r--r--. 1 root root 0 Mar 22 19:18 cpuacct.usage
+-r--r--r--. 1 root root 0 Mar 22 19:18 cpuacct.usage_percpu
+-rw-r--r--. 1 root root 0 Mar 22 19:18 cpu.cfs_period_us
+-rw-r--r--. 1 root root 0 Mar 22 19:18 cpu.cfs_quota_us
+-rw-r--r--. 1 root root 0 Mar 22 19:18 cpu.rt_period_us
+-rw-r--r--. 1 root root 0 Mar 22 19:18 cpu.rt_runtime_us
+-rw-r--r--. 1 root root 0 Mar 22 19:18 cpuset.cpu_exclusive
+-rw-r--r--. 1 root root 0 Mar 22 19:18 cpuset.cpus
+-rw-r--r--. 1 root root 0 Mar 22 19:18 cpuset.mem_exclusive
+-rw-r--r--. 1 root root 0 Mar 22 19:18 cpuset.mem_hardwall
+-rw-r--r--. 1 root root 0 Mar 22 19:18 cpuset.memory_migrate
+-r--r--r--. 1 root root 0 Mar 22 19:18 cpuset.memory_pressure
+-rw-r--r--. 1 root root 0 Mar 22 19:18 cpuset.memory_pressure_enabled
+-rw-r--r--. 1 root root 0 Mar 22 19:18 cpuset.memory_spread_page
+-rw-r--r--. 1 root root 0 Mar 22 19:18 cpuset.memory_spread_slab
+-rw-r--r--. 1 root root 0 Mar 22 19:18 cpuset.mems
+-rw-r--r--. 1 root root 0 Mar 22 19:18 cpuset.sched_load_balance
+-rw-r--r--. 1 root root 0 Mar 22 19:18 cpuset.sched_relax_domain_level
+-rw-r--r--. 1 root root 0 Mar 22 19:18 cpu.shares
+-r--r--r--. 1 root root 0 Mar 22 19:18 cpu.stat
+--w-------. 1 root root 0 Mar 22 19:18 devices.allow
+--w-------. 1 root root 0 Mar 22 19:18 devices.deny
+-r--r--r--. 1 root root 0 Mar 22 19:18 devices.list
+-rw-r--r--. 1 root root 0 Mar 22 19:18 memory.failcnt
+--w-------. 1 root root 0 Mar 22 19:18 memory.force_empty
+-rw-r--r--. 1 root root 0 Mar 22 19:18 memory.limit_in_bytes
+-rw-r--r--. 1 root root 0 Mar 22 19:18 memory.max_usage_in_bytes
+-rw-r--r--. 1 root root 0 Mar 22 19:18 memory.memsw.failcnt
+-rw-r--r--. 1 root root 0 Mar 22 19:18 memory.memsw.limit_in_bytes
+-rw-r--r--. 1 root root 0 Mar 22 19:18 memory.memsw.max_usage_in_bytes
+-r--r--r--. 1 root root 0 Mar 22 19:18 memory.memsw.usage_in_bytes
+-rw-r--r--. 1 root root 0 Mar 22 19:18 memory.move_charge_at_immigrate
+-rw-r--r--. 1 root root 0 Mar 22 19:18 memory.soft_limit_in_bytes
+-r--r--r--. 1 root root 0 Mar 22 19:18 memory.stat
+-rw-r--r--. 1 root root 0 Mar 22 19:18 memory.swappiness
+-r--r--r--. 1 root root 0 Mar 22 19:18 memory.usage_in_bytes
+-rw-r--r--. 1 root root 0 Mar 22 19:18 memory.use_hierarchy
+-rw-r--r--. 1 root root 0 Mar 22 19:18 net_cls.classid
+-rw-r--r--. 1 root root 0 Mar 22 19:18 notify_on_release
+-rw-r--r--. 1 root root 0 Mar 22 19:18 release_agent
+-rw-r--r--. 1 root root 0 Mar 22 19:18 tasks
+-------------------------

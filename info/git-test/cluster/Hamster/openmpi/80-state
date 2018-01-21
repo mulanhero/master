@@ -1,0 +1,56 @@
+1. in state.h 
+	ORTE_DECLSPEC extern orte_state_base_module_t orte_state; is declared 
+	it is first defined in 'state_base_frame.c' as orte_state_base_module_t orte_state;
+	that is, a 'orte_state' is 
+
+2. in state_yarn.c, 
+	orte_state_base_module_t orte_state_yarn_module = {
+	    init,
+	    finalize,
+	    orte_state_base_activate_job_state,
+	    orte_state_base_add_job_state,
+	    orte_state_base_set_job_state_callback,
+	    orte_state_base_set_job_state_priority,
+	    orte_state_base_remove_job_state,
+	    orte_state_base_activate_proc_state,
+	    orte_state_base_add_proc_state,
+	    orte_state_base_set_proc_state_callback,
+	    orte_state_base_set_proc_state_priority,
+	    orte_state_base_remove_proc_state
+	};
+	is an instance of orte_state_base_module_t.
+
+3. bind the above two steps
+	in state_yarn_component.c when query component, 
+	 *module = (mca_base_module_t *)&orte_state_yarn_module;
+	
+4. in state_yarn.c, set up job's and proc's state machine in init.
+	mainly, 1)bind a state with its related func.
+			2)add into a state list 
+	you will see this in 
+	'orte_state_base_add_job_state' and 'orte_state_base_add_proc_state'
+
+=========================
+5. in state_yarn.c 
+	when any one of proc's stat, its related cb_func is
+		void orte_state_base_track_procs(int fd, short argc, void *cbdata)
+	in which, the func will track all procs' state, and make decision if
+	should to active the job's next state
+	
+
+
+6. sth about JOB STATE MACHINE
+	void orte_state_base_activate_job_state(orte_job_t *jdata,
+                                        orte_job_state_t state)
+	when it is called, firstly check the state in step4's state list;
+	then set the libevent and active the event
+
+7. sth about 
+	/****    PROC STATE MACHINE    ****/
+	void orte_state_base_activate_proc_state(orte_process_name_t *proc,
+                                         orte_proc_state_t state)
+                                         
+                                 
+	                                   
+                                         
+	

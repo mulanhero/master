@@ -1,0 +1,150 @@
+http://cluster.phoi.ifmo.ru/debianclusters/www.debianclusters.org/index.php/Installing_mpiBLAST.html
+----------------------------------------------------------------
+1. /nfs_share (as root)
+----------------------------------------------------------------
+
+----------------------------------------------------------------
+2. download 
+----------------------------------------------------------------
+[hamster@gphd-vm211 bio]$ pwd
+/home/hamster/bio
+[hamster@gphd-vm211 bio]$ wget http://www.mpiblast.org/downloads/files/mpiBLAST-1.6.0.tgz
+[hamster@gphd-vm211 bio]$ tar -zxvf mpiBLAST-1.6.0.tgz
+----------------------------------------------------------------
+3. compile and install
+----------------------------------------------------------------
+[hamster@gphd-vm211 bio]$ cd mpiblast-1.6.0
+[hamster@gphd-vm211 mpiblast-1.6.0]$ ./configure --prefix=/nfs_share/mpiblast --with-mpi=/usr
+3.1) compile ncbi
+[hamster@gphd-vm211 mpiblast-1.6.0]$ make ncbi
+the executable binaries are loated in: ./ncbi/build/ and ./ncbi/bin
+3.2) compile mpiBLAST
+[hamster@gphd-vm211 mpiblast-1.6.0]$ make
+3.3) install mpiBLAST
+[hamster@gphd-vm211 mpiblast-1.6.0]$ sudo make install
+--------Note: please make sure *hamster* has write permission on /nfs_share 
+[hamster@gphd-vm211 mpiblast-1.6.0]$ ll /nfs_share/mpiblast/bin/
+total 28052
+-rwxr-xr-x 1 root root 13057695 Feb 16 23:18 mpiblast
+-rwxr-xr-x 1 root root  7589196 Feb 16 23:18 mpiblast_cleanup
+-rwxr-xr-x 1 root root  8030255 Feb 16 23:18 mpiformatdb
+Note: Executables, e.g., mpiformatdb and mpiblast, have been installed under /nfs_share/mpiblast/bin/. Since /nfs_share is the NFS server, these excutables has been actually deployed on all over other computing nodes with the same directory.
+----------------------------------------------------------------
+3. config
+----------------------------------------------------------------
+[mpiBLAST]
+Shared=/nfs_share/mpiblastdb
+Local=/tmp
+----------------------------------------------------------------
+4. prepare data
+----------------------------------------------------------------
+[hamster@gphd-vm211 bio]$ pwd
+/home/hamster/bio
+[hamster@gphd-vm211 bio]$ wget ftp://ftp.ncbi.nlm.nih.gov/blast/db/FASTA/drosoph.nt.gz
+[hamster@gphd-vm211 bio]$ gunzip drosoph.nt.gz 
+
+[hamster@gphd-vm211 bio]$ mkdir /nfs_share/mpiblastdb
+[hamster@gphd-vm211 bio]$ /nfs_share/mpiblast/bin/mpiformatdb -N 4 -i drosoph.nt -o T -p F -n /nfs_share/mpiblastdb
+Reading input file
+Done, read 1534943 lines
+Breaking drosoph.nt into 4 fragments
+Executing: formatdb -p F -i drosoph.nt -N 4 -n /nfs_share/mpiblastdb/drosoph.nt -o T 
+Created 4 fragments.
+<<< Please make sure the formatted database fragments are placed in /nfs_share/mpiblastdb/ before executing mpiblast. >>> 
+----------------------------------------------------------------
+5. prepare input
+----------------------------------------------------------------
+[hamster@gphd-vm211 bio]$ pwd
+/home/hamster/bio
+[hamster@gphd-vm211 bio]$ vi mpiblast.in
+AGCTTTTCATTCTGACTGCAACGGGCAATATGTCTCTGTGTGGATTAAAAAAAGAGTGTCTGATAGCAGC
+TTCTGAACTGGTTACCTGCCGTGAGTAAATTAAAATTTTATTGACTTAGGTCACTAAATACTTTAACCAA
+TATAGGCATAGCGCACAGACAGATAAAAATTACAGAGTACACAACATCCATGAAACGCATTAGCACCACC
+ATTACCACCACCATCACCATTACCACAGGTAACGGTGCGGGCTGACGCGTACAGGAAACACAGAAAAAAG
+CCCGCACCTGACAGTGCGGGCTTTTTTTTTCGACCAAAGGTAACGAGGTAACAACCATGCGAGTGTTGAA
+GTTCGGCGGTACATCAGTGGCAAATGCAGAACGTTTTCTGCGTGTTGCCGATATTCTGGAAAGCAATGCC
+AGGCAGGGGCAGGTGGCCACCGTCCTCTCTGCCCCCGCCAAAATCACCAACCACCTGGTGGCGATGATTG
+AAAAAACCATTAGCGGCCAGGATGCTTTACCCAATATCAGCGATGCCGAACGTATTTTTGCCGAACTTTT
+----------------------------------------------------------------
+6. mpirun
+----------------------------------------------------------------
+mpirun --hostfile ~/orte_hosts \
+-np 4 /nfs_share/mpiblast/bin/mpiblast \
+-d drosoph.nt \
+-i /nfs_share/mpiblast.in \
+-p blastn \
+-o /home/hamster/results.txt
+
+
+mpirun --hostfile ~/orte_hosts \
+-np 4 /nfs_share/mpiblast/bin/mpiblast \
+-d /nfs_share/mpiblastdb/drosoph.nt \
+-i /nfs_share/mpiblast.in \
+-p blastn \
+-o /nfs_share/results.txt
+
+
+mpirun -np 2 /nfs_share/mpiblast/bin/mpiblast \
+-p blastn -d drosoph.nt \
+-i /nfs_share/mpiblast.in \
+-o /nfs_share/result.txt >/home/hamster/log 2>&1
+----------------------------------------------------------------
+----------------------------------------------------------------
+----------------------------------------------------------------
+ /nfs_share/mpiblast/bin/mpiformatdb -i drosoph.nt --nfrags=2
+----------------------------------------------------------------
+----------------------------------------------------------------
+
+[hamster@gphd-vm211 ~]$ cat .ncbirc 
+[NCBI]
+Data=/home/hamster/bio/mpiblast-1.6.0/ncbi/data
+
+[BLAST]
+BLASTDB=/nfs_share/blast_fragments
+BLASTMAT=/home/hamster/bio/mpiblast-1.6.0/ncbi/data
+
+[mpiBLAST]
+Shared=/nfs_share/mpiblastdb
+Local=/tmp
+----------------------------------------------------------------
+
+[hamster@gphd-vm211 nfs_share]$ hamster -v -np 4 -x MPIBLAST_SHARED=/nfs_share/mpiblastdb -x MPIBLAST_LOCAL=/nfs_share /nfs_share/mpiblast1.6/bin/mpiblast -d drosoph.nt -i /nfs_share/test.in -p blastn -o /nfs_share/result.txt
+[hamster@gphd-vm211 nfs_share]$ hamster -np 8 -x MPIBLAST_SHARED=/nfs_share/mpiblastdb -x MPIBLAST_LOCAL=/tmp /nfs_share/mpiblast/bin/mpiblast -d drosoph.nt -i /nfs_share/test.in -p blastn -o /nfs_share/result.txt
+
+[hamster@gphd-vm211 nfs_share]$ hamster -x MPIBLAST_SHARED=/nfs_share/mpiblastdb -x MPIBLAST_LOCAL=/tmp -np 8 /nfs_share/mpiblast/bin/mpiblast -d drosoph.nt -i /nfs_share/test.in -p blastn -o /nfs_share/result.txt
+
+----------------------------------------------------------------
+----------------------------------------------------------------
+hamster -np 8 -x MPIBLAST_SHARED=/nfs_share/mpiblastdb -x MPIBLAST_LOCAL=/nfs_share /nfs_share/mpiblast/bin/mpiblast -d drosoph.nt -i /nfs_share/test.in -p blastn -o /nfs_share/result.txt
+----------------------------------------------------------------
+mpirun -np 8 /nfs_share/mpiblast/bin/mpiblast -d drosoph.nt -i /nfs_share/test.in -p blastn -o /nfs_share/result.txt
+----------------------------------------------------------------
+----------------------------------------------------------------
+----------------------------------------------------------------
+
+
+
+----------------------------------------------------------------
+----------------------------------------------------------------
+----------------------------------------------------------------
+----------------------------------------------------------------
+----------------------------------------------------------------
+----------------------------------------------------------------
+[hamster@gphd-vm211 mpiblast-1.5.0-pio]$ ./configure --prefix=/nfs_share/mpiblast1.5 --with-ncbi=`pwd`/ncbi --with-mpi=/usr
+----------------------------------------------------------------
+----------------------------------------------------------------
+----------------------------------------------------------------
+----------------------------------------------------------------
+----------------------------------------------------------------
+----------------------------------------------------------------
+----------------------------------------------------------------
+----------------------------------------------------------------
+----------------------------------------------------------------
+----------------------------------------------------------------
+----------------------------------------------------------------
+----------------------------------------------------------------
+----------------------------------------------------------------
+----------------------------------------------------------------
+----------------------------------------------------------------
+----------------------------------------------------------------
+----------------------------------------------------------------

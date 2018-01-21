@@ -1,0 +1,11 @@
+2. yarn-site.xml
+ContainerExecutor			Description
+DefaultContainerExecutor	The default executor which YARN uses to manage container execution. The container process has the same Unix user as the NodeManager.
+LinuxContainerExecutor		Supported only on GNU/Linux, this executor runs the containers as the user who submitted the application. 
+							It requires all user accounts to be created on the cluster nodes where the containers are launched. 
+							It uses a setuid executable that is included in the Hadoop distribution. 
+							The NodeManager uses this executable to launch and kill containers. 
+							The setuid executable switches to the user who has submitted the application and launches or kills the containers. 
+							For maximum security, this executor sets up restricted permissions and user/group ownership of 
+							local files and directories used by the containers such as the shared objects, jars, intermediate files, log files etc. 
+							Particularly note that, because of this, except the application owner and NodeManager, no other user can access any of the local files/directories including those localized as part of the distributed cache.

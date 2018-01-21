@@ -1,0 +1,49 @@
+adev0: cat my.script
+#!/bin/sh
+#SBATCH --time=1
+/bin/hostname
+srun -l /bin/hostname
+srun -l /bin/pwd
+
+adev0: sbatch -n4 -w "adev[9-10]" -o my.stdout my.script
+sbatch: Submitted batch job 469
+
+adev0: cat my.stdout
+adev9
+0: adev9
+1: adev9
+2: adev10
+3: adev10
+0: /home/jette
+1: /home/jette
+2: /home/jette
+3: /home/jette
+
+=====================================
+login01$ cat test.sh 
+#!/bin/bash -l 
+#SBATCH --partition=batch 
+#SBATCH --ntasks=3 
+#SBATCH --nodes=1 
+#SBATCH --nodelist=node05 
+#SBATCH --reservation=tests 
+#SBATCH --time=00:30:00 
+#SBATCH --gres=gpu:3 
+
+srun -n1 --gres=gpu:1 sleep 20 & 
+srun -n1 --gres=gpu:1 sleep 20 & 
+srun -n1 --gres=gpu:1 sleep 20 & 
+wait 
+
+login01$ sbatch ./test.sh 
+========================================
+Submit batch job script for later exe
+	use srun for parallel exe
+E.g., 
+	Vi my.script
+	#!/bin/sh
+	/bin/hostname
+	srun –l /bin/hostname
+	srun –l /bin/pwd
+
+sbatch –n2 –w “node[001-002]” –o my.out my.script

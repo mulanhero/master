@@ -1,0 +1,31 @@
+1. 	in slurm.conf, we can set the range of port for mpi 
+	applications, e.g., MpiParams=ports=12000-12019
+2. 	each time,  when we input the following cmd to run 
+	a slurm step with srun, the slurmctld will allocate 
+	several ports for this job step, e.g., 
+	(reserved ports 12010-12012 for step 104.0)
+	$salloc -n8 sh
+	>srun --resv-ports hello  (or)
+	>srun --mpi=openmpi hello (will automatically add --resv-ports)
+	>exit	 
+3.	the port number will increase when allocation, if the 
+	needed port number is beyond the range (12019), then allocate 
+	the port number form the start(120000).
+==============================
+1. 	when submit mpi through mpirun other than srun under salloc 
+	env, 
+	$salloc -n8 sh  
+	>mpirun hello (or) 
+	>mpirun -np 8 hello (or)  
+	>mpirun -mca plm slurm -mca plm_base_verbose 10 -np 8 hello  
+	//will create job step but no port allocation
+==============================
+2. env  
+	$salloc -n8 sh
+	>echo $SLURM_JOB_NODELIST
+	>echo $SLURM_TASKS_PER_NODE
+	>exit
+	when create a sh, these env merely exist in the context of this 
+	shell, after exit, these env disappears.
+	
+	

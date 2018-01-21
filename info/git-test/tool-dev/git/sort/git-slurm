@@ -1,0 +1,13 @@
+git add src/plugins/slurmctld/dynalloc/\*.c src/plugins/slurmctld/dynalloc/\*.h
+git commit -m "relocate xfree"
+git push origin master
+	//input username: 
+	//input passwd
+
+============================
+[caoj7@cnencaoj7mbp1 slurm]$git remote -v
+origin	https://github.com/SchedMD/slurm.git (fetch)
+origin	https://github.com/SchedMD/slurm.git (push)
+
+===============================
+[caoj7@cnencaoj7mbp1 workspace-c]$scp slurm/src/plugins/slurmctld/dynalloc/*.c slurm/src/plugins/slurmctld/dynalloc/*.h vm1:~/slurm/src/plugins/slurmctld/dynalloc/

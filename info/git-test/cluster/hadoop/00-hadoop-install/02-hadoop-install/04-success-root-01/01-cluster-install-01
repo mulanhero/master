@@ -1,0 +1,171 @@
+w0. node1:/root/program as the NFS server
+1. create hadoop group, add hdfs/yarn/mapred with the same group 'hadoop', set passwd and ssh no-passwd
+	hdfs:hadoop	NameNode, Secondary NameNode, Checkpoint Node, Backup Node, DataNode
+	yarn:hadoop	ResourceManager, NodeManager
+	mapred:hadoop	MapReduce JobHistory Server
+	
+2. copy compiled hadoop-2.0.3-alpha.tar.gz to /root/program, untar 
+================================================================================
+3. .bashrc
+
+#for hadoop
+export HADOOP_HOME=/root/program/hadoop-2.0.3-alpha
+export HADOOP_COMMON_HOME=$HADOOP_HOME
+export HADOOP_HDFS_HOME=$HADOOP_HOME
+export HADOOP_MAPRED_HOME=$HADOOP_HOME
+export HADOOP_YARN_HOME=$HADOOP_HOME
+export PATH=$HADOOP_HOME/bin:$HADOOP_HOME/sbin:$PATH
+
+export HADOOP_CONF_DIR=${HADOOP_HOME}/etc/hadoop
+export YARN_CONF_DIR=$HADOOP_CONF_DIR
+================================================================================
+4. config  $HADOOP_HOME/etc/hadoop/
+---------------------------------
+core-site.xml
+---------------------------------
+<property>
+        <name>fs.defaultFS</name>
+        <value>hdfs://10.37.7.101:9000</value>
+</property>
+---------------------------------
+hdfs-site.xml
+---------------------------------
+<property>
+	<name>dfs.replication</name>
+	<value>1</value>
+</property>
+
+<property>
+	<name>dfs.namenode.name.dir</name>
+	<value>file:///tmp/hadoop-hdfs/data/hdfs/namenode</value>
+</property>
+
+<property>
+	<name>dfs.datanode.data.dir</name>
+	<value>file:///tmp/hadoop-hdfs/data/hdfs/datanode</value>
+</property>
+
+<property>
+	<name>dfs.block.size</name>
+	<value>134217728</value>
+</property>
+---------------------------------
+yarn-site.xml
+------
+hadoop2.0.2 //for 2.0.2, NM's log will be under /tmp/ by default, here we set it to $HADOOP_HOME/logs/userlogs 
+<property>
+    <name>yarn.nodemanager.log-dirs</name>
+    <value>/root/program/hadoop-2.0.2-alpha/logs/userlogs</value>
+</property>
+ 
+------
+vi $HADOOP_CONF_DIR/yarn-site.xml
+
+org.apache.hadoop.yarn.server.resourcemanager.scheduler.fair.FairScheduler
+
+yarn.nodemanager.vmem-check-enabled				true 
+
+yarn.nodemanager.resource.memory-mb	8192	Amount of physical memory, in MB, that can be allocated for containers.  ####for gphd-vm33, here will be: 65911
+yarn.nodemanager.pmem-check-enabled	true	Whether physical memory limits will be enforced for containers.
+yarn.nodemanager.vmem-check-enabled	true	Whether virtual memory limits will be enforced for containers.
+yarn.nodemanager.vmem-pmem-ratio	2.1	Ratio between virtual memory to physical memory when setting memory limits for containers. Container allocations are expressed in terms of physical memory, and virtual memory usage is allowed to exceed this allocation by this ratio.
+yarn.nodemanager.resource.cpu-cores	8	Number of CPU cores that can be allocated for containers.
+yarn.nodemanager.vcores-pcores-ratio	2
+---------------------------------
+
+<property>
+<name>yarn.nodemanager.delete.debug-delay-sec</name>
+<value>1800</value>
+</property>
+
+<property>
+    <name>yarn.nodemanager.vmem-check-enabled</name>
+    <value>false</value>
+</property>
+
+<property>
+    <name>yarn.nodemanager.vmem-pmem-ratio</name>
+    <value>100</value>
+</property>
+----------------
+
+<property>
+    <name>yarn.resourcemanager.scheduler.class</name>
+    <value>org.apache.hadoop.yarn.server.resourcemanager.scheduler.capacity.CapacityScheduler</value>
+</property>
+
+<property>
+	<name>yarn.nodemanager.aux-services</name>
+	<value>mapreduce.shuffle</value>
+</property>
+
+<property>
+	<name>yarn.nodemanager.aux-services.mapreduce.shuffle.class</name>
+	<value>org.apache.hadoop.mapred.ShuffleHandler</value>
+</property>
+
+<property>
+	<name>yarn.resourcemanager.resource-tracker.address</name>
+	<value>10.37.7.101:8025</value>
+</property>
+
+<property>
+	<name>yarn.resourcemanager.scheduler.address</name>
+	<value>10.37.7.101:8030</value>
+</property>
+
+<property>
+	<name>yarn.resourcemanager.address</name>
+	<value>10.37.7.101:8040</value>
+</property>
+
+<property>
+        <name>yarn.log-aggregation-enable</name>
+        <value>false</value>
+</property> 
+
+<property>
+        <name>yarn.nodemanager.resource.memory-mb</name>
+        <value>16384</value>
+</property>
+
+<!-- actual value: 65912, if 16384 is set, 16GB will be displayed on web portal of node1.hadoop.com:8088 -->
+<property>
+    <description>The minimum allocation size for every container request at the RM,
+    in MBs. Memory requests lower than this won't take effect,
+    and the specified value will get allocated at minimum.</description>
+    <name>yarn.scheduler.minimum-allocation-mb</name>
+    <value>32</value>
+</property>
+
+---------------------------------
+mapred-site.xml
+---------------------------------
+<property>
+        <name>mapreduce.framework.name</name>
+        <value>yarn</value>
+</property>
+<!-- need jobhistory server?  -->
+<property>
+        <name>mapreduce.jobhistory.address</name>
+        <value>10.37.7.101:10020</value>
+</property>s
+
+<property>
+        <name>mapreduce.jobhistory.webapp.address</name>
+        <value>10.37.7.101:19888</value>
+</property> 
+================================================================================
+5. slaves   $HADOOP_HOME/etc/hadoop/
+#vi slaves
+10.37.7.102
+10.37.7.103
+10.37.7.104
+
+node2
+node3
+node4
+================================================================================
+#6. java_home  $HADOOP_HOME/etc/hadoop/
+#vi hadoop-env.sh
+#export JAVA_HOME=/root/program/common-j/jdk1.6.0_21

@@ -1,0 +1,4 @@
+man 5 slurm.conf
+man 8 slurmctld
+man 8 slurmd
+man 3 slurm_allocate_resources

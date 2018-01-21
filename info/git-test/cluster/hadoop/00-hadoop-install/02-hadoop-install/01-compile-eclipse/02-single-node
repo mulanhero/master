@@ -1,0 +1,207 @@
+1. create hadoop user
+2. copy compiled hadoop-2.0.3-alpha.tar.gz to /home/hadoop/program, untar 
+================================================================================
+3. .bashrc
+--------------------------------------------------------------------------------
+#for java
+export JAVA_HOME=/home/hadoop/program/jdk1.6.0_21
+export PATH=$JAVA_HOME/bin:$PATH
+export CLASSPATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar:$CLASSPATH
+
+#for ant
+export PATH=/home/hadoop/program/apache-ant-1.9.0/bin:$PATH
+
+#for maven
+export M2_HOME=/home/hadoop/program/apache-maven-3.0.5
+export PATH=$M2_HOME/bin:$PATH
+
+#hadoop_home
+export HADOOP_HOME=/home/hadoop/program/hadoop-2.0.3-alpha
+export HADOOP_COMMON_HOME=$HADOOP_HOME
+export HADOOP_HDFS_HOME=$HADOOP_HOME
+export HADOOP_MAPRED_HOME=$HADOOP_HOME
+export HADOOP_YARN_HOME=$HADOOP_HOME
+export PATH=$HADOOP_HOME/bin:$HADOOP_HOME/sbin:$PATH
+#####note: 
+#by default, HADOOP_CONF_DIR and YARN_CONF_DIR is /etc/hadoop
+================================================================================
+4. 
+[hadoop@node1 hadoop-2.0.3-alpha]$ cd etc 
+[hadoop@node1 etc]$ sudo cp -r hadoop /etc/
+================================================================================
+5. config
+--------------------------------------------------------------------------------
+[hadoop@node1 etc]$ sudo vi /etc/hadoop/hadoop-env.sh
+export JAVA_HOME=/home/hadoop/program/jdk1.6.0_21
+--------------------------------------------------------------------------------
+[hadoop@node1 etc]$ sudo vi /etc/hadoop/core-site.xml
+<configuration>
+        <property>
+                <name>fs.defaultFS</name>
+                <value>hdfs://node1:8020</value>
+        </property>
+</configuration>
+--------------------------------------------------------------------------------
+[hadoop@node1 etc]$ sudo vi /etc/hadoop/yarn-site.xml
+<property>
+    <name>yarn.resourcemanager.address</name>
+    <value>node1:8032</value>
+</property>
+
+<property>
+    <name>yarn.resourcemanager.resource-tracker.address</name>
+    <value>node1:8031</value>
+</property>
+
+<property>
+    <name>yarn.resourcemanager.scheduler.address</name>
+    <value>node1:8030</value>
+</property>
+
+<property>
+    <name>yarn.resourcemanager.scheduler.class</name>
+    <value>org.apache.hadoop.yarn.server.resourcemanager.scheduler.capacity.CapacityScheduler</value>
+   <description>In case you do not want to use the default scheduler</description>
+</property>
+
+<property>
+    <name>yarn.resourcemanager.admin.address</name>
+    <value>node1:8033</value>
+</property>
+
+<property>
+    <name>yarn.resourcemanager.webapp.address</name>
+    <value>node1:8088</value>
+</property>
+
+<property>
+    <name>yarn.nodemanager.aux-services</name>
+    <value>mapreduce.shuffle</value>
+</property>
+
+<property>
+    <name>yarn.nodemanager.aux-services.mapreduce.shuffle.class</name>
+    <value>org.apache.hadoop.mapred.ShuffleHandler</value>
+</property>
+
+<property>
+    <name>yarn.log-aggregation-enable</name>
+    <value>true</value>
+</property>
+
+<property>
+    <description>List of directories to store localized files in.</description>
+    <name>yarn.nodemanager.local-dirs</name>
+    <value>/tmp/nm-local-dir</value>
+</property>
+
+<property>
+    <description>Where to store container logs.</description>
+    <name>yarn.nodemanager.log-dirs</name>
+    <value>/tmp/hadoop-yarn/containers</value>
+</property>
+
+<property>
+   <description>Where to aggregate logs to.</description>
+   <name>yarn.nodemanager.remote-app-log-dir</name>
+   <value>/tmp/hadoop-yarn/apps</value>
+</property>
+
+<property>
+    <description>Classpath for typical applications.</description>
+    <name>yarn.application.classpath</name>
+    <value>
+        $HADOOP_CONF_DIR,
+        $HADOOP_COMMON_HOME/*,$HADOOP_COMMON_HOME/lib/*,
+        $HADOOP_HDFS_HOME/*,$HADOOP_HDFS_HOME/lib/*,
+        $HADOOP_MAPRED_HOME/*,$HADOOP_MAPRED_HOME/lib/*,
+        $HADOOP_YARN_HOME/*,$HADOOP_YARN_HOME/lib/*
+    </value>
+</property>
+--------------------------------------------------------------------------------
+[hadoop@node1 etc]$ cat vi /etc/hadoop/hdfs-site.xml
+<configuration>
+<property>
+    <name>dfs.namenode.name.dir</name>
+    <value>file://${hadoop.tmp.dir}/dfs/name</value>
+</property>
+
+
+<property>
+    <name>dfs.datanode.data.dir</name>
+        <value>file://${hadoop.tmp.dir}/dfs/data</value>
+</property>
+</configuration>
+
+###Note:
+#by default, ${hadoop.tmp.dir} is: /tmp/hadoop-${user.name}
+#if delete /tmp/hadoop-${user.name}, then *hadoop namenode -format*
+#then, restart all daemons
+--------------------------------------------------------------------------------
+[hadoop@node1 etc]$ cat vi /etc/hadoop/mapred-site.xml
+<property>
+  <name>mapreduce.framework.name</name>
+    <value>yarn</value>
+    </property>
+
+<property>
+     <name>mapreduce.cluster.temp.dir</name>
+         <value>file://home/hadoop/mapreduce/tmp</value>
+             <description>No description</description>
+                 <final>true</final>
+                   </property>
+
+  <property>
+      <name>mapreduce.cluster.local.dir</name>
+          <value>file://home/hadoop/mapreduce/local</value>
+              <description>No description</description>
+                  <final>true</final>
+ </property>
+================================================================================
+6. format namenode
+sudo -u hdfs hdfs namenode -format
+$ hdfs namenode -format
+================================================================================
+7. start namenode and datanode
+$hadoop-daemon.sh start namenode
+$hadoop-daemon.sh start datanode
+or start them in both:
+start-dfs.sh
+================================================================================
+8. start yarn 
+$yarn-daemon.sh start resourcemanager
+$yarn-daemon.sh start nodemanager
+or start them in both
+start-yarn.sh
+================================================================================
+9. check
+[hadoop@node1 etc]$ jps
+19773 NameNode
+19858 DataNode
+20602 Jps
+20225 NodeManager
+19973 ResourceManager
+================================================================================
+10. web portal
+RM 
+http://10.37.7.101:8088/
+================================================================================
+11. hadoop fs
+--------------------------------------------------------------------------------
+[hadoop@node1 soft]$ hadoop fs -ls /
+Found 1 items
+drwxr-xr-x   - hadoop supergroup          0 2013-03-21 00:57 /tmp
+--------------------------------------------------------------------------------
+[hadoop@node1 soft]$ hadoop fs -put jdk-6u21-linux-x64.bin /tmp/
+[hadoop@node1 soft]$ hadoop fs -ls /tmp
+Found 2 items
+drwxr-xr-x   - hadoop supergroup          0 2013-03-21 00:57 /tmp/hadoop-yarn
+-rw-r--r--   3 hadoop supergroup   83884465 2013-03-21 01:20 /tmp/jdk-6u21-linux-x64.bin
+--------------------------------------------------------------------------------
+[hadoop@node1 mapreduce]$ hadoop jar hadoop-mapreduce-examples-2.0.3-alpha.jar pi 2 100
+
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+
+

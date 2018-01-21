@@ -1,0 +1,193 @@
+1. Configuration
+By default, Hadoop create a set of configuration files with empty 
+properties at /etc/gphd/hadoop/conf.empty, which is linked from 
+symbolic /etc/gphd/hadoop/conf/.
+
+1.0 Pseudo Mode
+If we want to run Hadoop 2.0 as pseudo-distributed mode on one single 
+host, we can go through all the above installation steps on one single 
+host and then install the hadoop-conf-pseudo package:
+
+# yum install hadoop-conf-pseudo
+-----------------------------------------------------------
+1.1 Distributed Mode
+If we want to run Hadoop 2.0 as distributed mode, we can create a new 
+directory on /etc/gphd/hadoop, such as conf.dist and change the target 
+of symbolic link /etc/gphd/hadoop/conf/ to the new create directory.
+
+# mkdir -p /etc/gphd/hadoop/conf.dist
+# unlink /etc/gphd/hadoop/conf
+# ln -sf /etc/gphd/hadoop/conf.dist /etc/gphd/hadoop/conf
+# cd /etc/gphd/hadoop
+# cp conf.empty/* conf.dist/
+# cd conf.dist
+-----------------------------------------------------------
+1.1 HDFS configuration
+core-site.xml
+<property>
+  <name>fs.default.name</name>
+  <value>hdfs://namenode-host:8020</value>
+</property>
+Note: Replace the namenode-host with actual namenode hostname or IP.
+-----------------------------------------------------------
+1.2 hdfs-site.xml
+By default, hadoop-hdfs creates a default data directory 
+/var/lib/gphd/hadoop-hdfs-<version> with owner hdfs:hadoop. 
+We can use it to store the local directories of namenode, 
+secondarynamenode and datanode. Then, when the namenode, 
+secondarynamenode or datanode daemon start, they will 
+automatically create the right subfolders with correct 
+permission and owner under the data directory.
+
+If we specify the new data directories, we need to create and 
+configure them with owner hdfs:hadoop and correct permission first.
+
+Here we take the default directory as example.
+
+<property>
+   <name>dfs.namenode.name.dir</name>
+   <value>file:///var/lib/gphd/hadoop-hdfs-2.0.2_alpha_gphd_2_0_1_0/cache/${user.name}/dfs/name</value>
+</property>
+<property>
+   <name>dfs.namenode.checkpoint.dir</name>
+   <value>file:///var/lib/gphd/hadoop-hdfs-2.0.2_alpha_gphd_2_0_1_0/cache/${user.name}/dfs/namesecondary</value>
+</property>
+<property>
+   <name>dfs.datanode.data.dir</name>
+   <value>file:///var/lib/gphd/hadoop-hdfs-2.0.2_alpha_gphd_2_0_1_0/cache/${user.name}/dfs/data</value>
+</property>
+-----------------------------------------------------------
+1.3 YARN configuration
+
+yarn-site.xml
+
+By default, hadoop-yarn creates a default data directory 
+/var/lib/gphd/hadoop-yarn-<version> with owner yarn:hadoop. We can use 
+it to store the local directories of nodemanager (refer to property: 
+yarn.nodemanager.local-dirs). Then, when the nodemanager starts, it 
+will automatically create the right subfolders with correct permission 
+and owner under the data directory.
+
+By default, hadoop-yarn also creates a default log directory 
+/var/log/gphd/hadoop-yarn-<version> with owner yarn:hadoop, and linked 
+by /var/log/gphd/hadoop-yarn. We can use it to store the local log 
+directory of nodemanager (refer to property: yarn.nodemanager.log-dirs). 
+Then, when the nodemanager start, it will automatically create the right 
+subfolders with correct permission and owner under the log directory.
+
+If we specify the new data directories or log directory, we need to create 
+and configure them with owner yarn:hadoop and correct permission first.
+
+Here we take the default directories as example.
+
+<property>
+  <name>yarn.resourcemanager.address</name>
+  <value>resourcemanager-host:8032</value>
+</property>
+ 
+<property>
+  <name>yarn.resourcemanager.resource-tracker.address</name>
+  <value>resourcemanager-host:8031</value>
+</property>
+ 
+<property>
+  <name>yarn.resourcemanager.scheduler.address</name>
+  <value>resourcemanager-host:8030</value>
+</property>
+ 
+<property>
+  <name>yarn.resourcemanager.admin.address</name>
+  <value>resourcemanager-host:8033</value>
+</property>
+<property>
+  <name>yarn.resourcemanager.webapp.address</name>
+  <value>resourcemanager-host:8088</value>
+</property>
+ 
+<property>
+  <name>yarn.nodemanager.aux-services</name>
+  <value>mapreduce.shuffle</value>
+</property>
+ 
+<property>
+  <name>yarn.nodemanager.aux-services.mapreduce.shuffle.class</name>
+  <value>org.apache.hadoop.mapred.ShuffleHandler</value>
+</property>
+ 
+<property>
+  <name>yarn.log-aggregation-enable</name>
+  <value>true</value>
+</property>
+ 
+<property>
+  <description>List of directories to store localized files in.</description>
+  <name>yarn.nodemanager.local-dirs</name>
+  <value>/var/lib/gphd/hadoop-yarn-2.0.2_alpha_gphd_2_0_1_0/cache/${user.name}/nm-local-dir</value>
+</property>
+ 
+<property>
+  <description>Where to store container logs.</description>
+  <name>yarn.nodemanager.log-dirs</name>
+  <value>/var/log/gphd/hadoop-yarn/containers</value>
+</property>
+ 
+<property>
+  <description>Where to aggregate logs to.</description>
+  <name>yarn.nodemanager.remote-app-log-dir</name>
+  <value>/var/log/gphd/hadoop-yarn/apps</value>
+</property>
+ 
+<property>
+  <description>Classpath for typical applications.</description>
+   <name>yarn.application.classpath</name>
+   <value>
+      $HADOOP_CONF_DIR,
+      $HADOOP_COMMON_HOME/*,$HADOOP_COMMON_HOME/lib/*,
+      $HADOOP_HDFS_HOME/*,$HADOOP_HDFS_HOME/lib/*,
+      $HADOOP_MAPRED_HOME/*,$HADOOP_MAPRED_HOME/lib/*,
+      $HADOOP_YARN_HOME/*,$HADOOP_YARN_HOME/lib/*
+   </value>
+</property>
+Note: 
+Replace the resourcemanager-host with actual ResourceManager hostname or IP.
+
+-----------------------------------------------------------
+1.4 mapred-site.xml
+By default, hadoop-mapreduce create default data directory 
+/var/lib/gphd/hadoop-mapreduce-<version> with owner mapred:hadoop. We 
+can use it to store the local directories of mapreduce tasks (refer to 
+property: mapreduce.task.tmp.dir).
+
+If we specify the new data directories, we need to create and configure 
+them with owner mapred:hadoop and correct permission first.
+
+Here we take the default directory as example.
+
+<property>
+  <name>mapreduce.jobhistory.address</name>
+  <value>historyserver-host:10020</value>
+</property>
+ 
+<property>
+  <name>mapreduce.jobhistory.webapp.address</name>
+  <value>historyserver-host:19888</value>
+</property>
+ 
+<property>
+  <name>mapreduce.framework.name</name>
+  <value>yarn</value>
+</property>
+ 
+<property>
+    <name>yarn.app.mapreduce.am.staging-dir</name>
+    <value>/user</value>
+</property>
+ 
+<property>
+  <description>To set the value of tmp directory for map and reduce tasks.</description>
+  <name>mapreduce.task.tmp.dir</name>
+  <value>/var/lib/gphd/hadoop-mapreduce-2.0.2_alpha_gphd_2_0_1_0/cache/${user.name}/tasks</value>
+</property>
+
+Note: 
+Replace the historyserver-host with actual historyserver hostname or IP.

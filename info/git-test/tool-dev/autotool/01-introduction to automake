@@ -1,0 +1,13 @@
+1. automake
+The automake program generates standard makefile templates (named
+Makefile.in) from high-level build specification files (named Makefile.am).
+
+In fact, you can write your Makefile.am files so all they contain
+is ordinary make script, and the resulting makefiles will work just fine. 
+
+2. aclocal
+The current recommendation
+is to create a directory in the project root directory called m4 and
+add macros as individual .m4 files to it. All files in this directory will be gathered
+into aclocal.m4 before Autoconf processes configure.ac.
+

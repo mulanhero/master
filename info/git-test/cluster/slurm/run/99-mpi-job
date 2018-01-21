@@ -1,0 +1,44 @@
+1.openmpi-1.6.4.tar.gz
+==========================================================================================
+2. using srun
+2.1 --resv-ports
+[root@node1 ~]# cd mpi
+[root@node1 mpi]# salloc -n2 sh
+sh-4.1# srun --resv-ports hello
+Hellow, world! 0th of totalTaskNum = 2 on node1
+Hellow, world! 1th of totalTaskNum = 2 on node1
+sh-4.1# exit
+exit
+salloc: Relinquishing job allocation 77
+--------------------------
+2.2 if using --mpi=openmpi (Or set MpiDefault in slurm.conf) 
+/* NOTE: In SLURM version 2.5, the --resv-ports option is automatically 
+ * set when the MPI type is set to OpenMPI, either explictly with the 
+ * --mpi option or by the MpiDefault configuration parameter. 
+ */
+[root@node1 mpi]# export SLURM_RESV_PORT=1
+[root@node1 mpi]# salloc -n2 sh
+salloc: Granted job allocation 84
+sh-4.1# srun --mpi=openmpi hello    //
+Hellow, world! 0th of totalTaskNum = 2 on node2
+Hellow, world! 1th of totalTaskNum = 2 on node2
+sh-4.1# exit
+exit
+salloc: Relinquishing job allocation 84
+==========================================================================================
+3. using mpirun 
+3.1 OpenMPI Version 1.4 or earlier
+[root@node1 mpi]# salloc -n2 sh
+salloc: Granted job allocation 81
+sh-4.1# mpirun hello
+Hellow, world! 0th of totalTaskNum = 2 on node1
+Hellow, world! 1th of totalTaskNum = 2 on node1
+sh-4.1# exit 
+---------------------------
+3.2 if not spawn a sh, then after job running, the allocation will not be relinquished 
+[root@node1 mpi]# salloc -n2
+salloc: Granted job allocation 82
+[root@node1 mpi]# mpirun -np 2 hello
+Hellow, world! 0th of totalTaskNum = 2 on node1
+Hellow, world! 1th of totalTaskNum = 2 on node1
+==========================================================================================

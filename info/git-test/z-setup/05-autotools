@@ -1,0 +1,9 @@
+1. install workflow of autotool (strictly!!!)
+	m4 => autoconf => automake => libtool => flex, protocol buffer, cmake
+	====================================
+	e.g., for root
+	./configure --prefix=/root/program/common-c
+	
+#m4, autoconf, automake, libtool, flex,  protocol buffer, cmake
+export PATH=/root/program/common-c/bin:$PATH
+export LD_LIBRARY_PATH=/root/program/common-c/lib:$LD_LIBRARY_PATH

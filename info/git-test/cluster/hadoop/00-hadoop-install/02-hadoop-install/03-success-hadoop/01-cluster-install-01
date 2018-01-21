@@ -1,0 +1,116 @@
+1. create hadoop user, node1:/home/hadoop as the NFS server
+2. copy compiled hadoop-2.0.3-alpha.tar.gz to /home/hadoop/program, untar 
+================================================================================
+3. .bashrc
+--------------------------------------------------------------------------------
+#for java
+export JAVA_HOME=/home/hadoop/program/jdk1.6.0_21
+export PATH=$JAVA_HOME/bin:$PATH
+export CLASSPATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar:$CLASSPATH
+
+#for ant
+export PATH=/home/hadoop/program/apache-ant-1.9.0/bin:$PATH
+
+#for maven
+export M2_HOME=/home/hadoop/program/apache-maven-3.0.5
+export PATH=$M2_HOME/bin:$PATH
+
+#hadoop_home
+export HADOOP_HOME=/home/hadoop/program/hadoop-2.0.3-alpha
+#export HADOOP_HOME=/home/hadoop/hadoop-2.0.3-alpha-apache
+export HADOOP_COMMON_HOME=$HADOOP_HOME
+export HADOOP_HDFS_HOME=$HADOOP_HOME
+export HADOOP_MAPRED_HOME=$HADOOP_HOME
+export HADOOP_YARN_HOME=$HADOOP_HOME
+export PATH=$HADOOP_HOME/bin:$HADOOP_HOME/sbin:$PATH
+
+export HADOOP_CONF_DIR=${HADOOP_HOME}/etc/hadoop
+export YARN_CONF_DIR=$HADOOP_CONF_DIR
+
+#autotools
+export PATH=/home/hadoop/program/common/bin:$PATH
+================================================================================
+4. config  $HADOOP_HOME/etc/hadoop/
+---------------------------------
+core-site.xml
+---------------------------------
+<property>
+        <name>fs.defaultFS</name>
+        <value>hdfs://10.37.7.101:9000</value>
+</property>
+---------------------------------
+hdfs-site.xml
+---------------------------------
+<property>
+	<name>dfs.replication</name>
+	<value>1</value>
+</property>
+
+<property>
+	<name>dfs.namenode.name.dir</name>
+	<value>file:///tmp/hadoop203/data/hdfs/namenode</value>
+</property>
+
+<property>
+	<name>dfs.datanode.data.dir</name>
+	<value>file:///tmp/hadoop203/data/hdfs/datanode</value>
+</property>
+
+<property>
+	<name>dfs.block.size</name>
+	<value>134217728</value>
+</property>
+---------------------------------
+yarn-site.xml
+---------------------------------
+<property>
+    <name>yarn.resourcemanager.scheduler.class</name>
+    <value>org.apache.hadoop.yarn.server.resourcemanager.scheduler.capacity.CapacityScheduler</value>
+</property>
+
+<property>
+	<name>yarn.nodemanager.aux-services</name>
+	<value>mapreduce.shuffle</value>
+</property>
+
+<property>
+	<name>yarn.nodemanager.aux-services.mapreduce.shuffle.class</name>
+	<value>org.apache.hadoop.mapred.ShuffleHandler</value>
+</property>
+
+<property>
+	<name>yarn.resourcemanager.resource-tracker.address</name>
+	<value>10.37.7.101:8025</value>
+</property>
+
+<property>
+	<name>yarn.resourcemanager.scheduler.address</name>
+	<value>10.37.7.101:8030</value>
+</property>
+
+<property>
+	<name>yarn.resourcemanager.address</name>
+	<value>10.37.7.101:8040</value>
+</property>
+
+---------------------------------
+mapred-site.xml
+---------------------------------
+<property>
+        <name>mapreduce.framework.name</name>
+        <value>yarn</value>
+</property>
+================================================================================
+5. slaves   $HADOOP_HOME/etc/hadoop/
+[hadoop@node1 hadoop]$ vi slaves
+10.37.7.102
+10.37.7.103
+10.37.7.104
+
+node2
+node3
+node4
+================================================================================
+6. java_home  $HADOOP_HOME/etc/hadoop/
+[hadoop@node1 hadoop]$ vi hadoop-env.sh
+export JAVA_HOME=/home/hadoop/program/jdk1.6.0_21

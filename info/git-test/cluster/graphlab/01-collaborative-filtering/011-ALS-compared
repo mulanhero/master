@@ -1,0 +1,118 @@
+----------------------------------------------------------------
+0. prepare (PHD1.0.2, graphlab2.2 from github)
+----------------------------------------------------------------
+----------------------------------------------------------------
+1. put the ratings to hdfs /user/root/mahout/als/input
+----------------------------------------------------------------
+[root@node1 hamster]# hadoop fs -mkdir -p /user/root/mahout/als/input
+[root@node1 hamster]# wget http://www.grouplens.org/system/files/ml-1m.zip
+http://www.grouplens.org/node/73
+[root@node1 hamster]# unzip ml-1m.zip 
+[root@node1 hamster]# cd ml-1m
+[root@node1 ml-1m]# cat ratings.dat |sed -e s/::/,/g| cut -d, -f1,2,3 > ratings.csv 
+[root@node1 hamster]# hadoop fs -put ./ml-1m/ratings.csv /user/root/mahout/als/input
+----------------------------------------------------------------
+2. create a 90% percent training set and a 10% probe set  (some MapReduce jobs)
+----------------------------------------------------------------
+mahout splitDataset \
+--input /user/root/mahout/als/input/ratings.csv \
+--output /user/root/mahout/als/split_out \
+--trainingPercentage 0.9 --probePercentage 0.1
+-------------
+[root@node1 hamster]# hadoop fs -ls -R /user/root/mahout/als/split_out
+drwxr-xr-x   - root supergroup          0 2013-09-17 15:28 /user/root/mahout/als/split_out/probeSet
+-rw-r--r--   3 root supergroup          0 2013-09-17 15:28 /user/root/mahout/als/split_out/probeSet/_SUCCESS
+-rw-r--r--   3 root supergroup    1150118 2013-09-17 15:28 /user/root/mahout/als/split_out/probeSet/part-m-00000
+drwxr-xr-x   - root supergroup          0 2013-09-17 15:27 /user/root/mahout/als/split_out/trainingSet
+-rw-r--r--   3 root supergroup          0 2013-09-17 15:27 /user/root/mahout/als/split_out/trainingSet/_SUCCESS
+-rw-r--r--   3 root supergroup   10403338 2013-09-17 15:27 /user/root/mahout/als/split_out/trainingSet/part-m-00000
+----------------------------------------------------------------
+3. fetch data, transform, upload to hdfs
+----------------------------------------------------------------
+[root@node1 hamster]# hadoop fs -get /user/root/mahout/als/split_out/trainingSet/part-m-00000 training.set
+[root@node1 hamster]# hadoop fs -get /user/root/mahout/als/split_out/probeSet/part-m-00000 probet.set
+[root@node1 hamster]# cat training.set|sed 's/,/ /g' > training.set.nocomma
+[root@node1 hamster]# cat probet.set |sed 's/,/ /g' > to.predict
+--------
+[root@node1 hamster]# hadoop fs -mkdir -p /user/root/graphlab/als/
+[root@node1 hamster]# hadoop fs -put ./training.set.nocomma /user/root/graphlab/als/
+[root@node1 hamster]# hadoop fs -put ./to.predict /user/root/graphlab/als/
+----------------------------------------------------------------
+4.1 hamster (graphlab als)  !!!Note: use 10.37.7.101 rather than node1 
+----------------------------------------------------------------
+time hamster -np 4 \
+-mem 2048 \
+/usr/local/hamster/graphlab/release/toolkits/collaborative_filtering/als \
+--matrix hdfs://10.37.7.101:8020/user/root/graphlab/als/ \
+--D=20 \
+--lambda=0.065 \
+--max_iter=5 \
+--predictions=hdfs://10.37.7.101:8020/user/root/graphlab/als/out
+-----------
+real	0m20.049s
+user	0m3.098s
+sys	0m0.146s
+----------------------------------------------------------------
+4.2 test on smallnetflix
+----------------------------------------------------------------
+-rw-r--r--   3 root supergroup   44092460 2013-09-17 21:47 /user/root/graphlab/small/smallnetflix_mm.train
+-rw-r--r--   3 root supergroup    7381633 2013-09-17 21:55 /user/root/graphlab/small/smallnetflix_mm.validate
+-rw-r--r--   3 root supergroup         16 2013-09-17 21:48 /user/root/graphlab/small/to.predict
+---------
+time hamster -np 4 \
+-mem 2048 \
+/usr/local/hamster/graphlab/release/toolkits/collaborative_filtering/als \
+--matrix hdfs://10.37.7.101:8020/user/root/graphlab/small \
+--D=20 \
+--lambda=0.065 \
+--max_iter=5 \
+--predictions=hdfs://10.37.7.101:8020/user/root/graphlab/small/out
+real	0m44.150s
+user	0m3.398s
+sys	0m0.171s
+----------------------------------------------------------------
+hamster -np 4 -mem 2048 \
+/usr/local/hamster/graphlab/release/toolkits/collaborative_filtering/als \
+--matrix hdfs://10.37.7.101:8020/user/root/graphlab/cf/smallnetflix \
+--D=20 --lambda=0.065 --max_iter=5 \
+--predictions=hdfs://10.37.7.101:8020/user/root/graphlab/cf/smallnetflix/out
+----------------------------------------------------------------
+
+
+hamster -np 4 -mem 2048 \
+/usr/local/graphlab2.2/collaborative_filtering/als \
+--matrix hdfs://10.37.7.211:9000/user/root/hamster/graphlab_data/cf/smallnetflix \
+--D=20 --lambda=0.065 --max_iter=5 \
+--predictions=hdfs://10.37.7.211:9000/user/root/hamster/graphlab_data/cf/smallnetflix/out
+
+hadoop fs -ls /user/root/hamster/graphlab_data/cf/smallnetflix
+
+hadoop fs -cat /user/root/hamster/graphlab_data/cf/smallnetflix/out_*
+
+----------------------------------------------------------------
+----------------------------------------------------------------
+----------------------------------------------------------------
+----------------------------------------------------------------
+----------------------------------------------------------------
+----------------------------------------------------------------
+----------------------------------------------------------------
+----------------------------------------------------------------
+----------------------------------------------------------------
+----------------------------------------------------------------
+----------------------------------------------------------------
+----------------------------------------------------------------
+----------------------------------------------------------------
+----------------------------------------------------------------
+----------------------------------------------------------------
+----------------------------------------------------------------
+----------------------------------------------------------------
+----------------------------------------------------------------
+----------------------------------------------------------------
+----------------------------------------------------------------
+----------------------------------------------------------------
+----------------------------------------------------------------
+----------------------------------------------------------------
+----------------------------------------------------------------
+----------------------------------------------------------------
+----------------------------------------------------------------
+----------------------------------------------------------------

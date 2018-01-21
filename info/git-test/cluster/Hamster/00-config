@@ -1,0 +1,32 @@
+
+on each node, after installation (e.g., rpm -ivh hamster-core-1.1.0-SNAPSHOT.jar),
+
+we need to do the followings on each nodemanager. 
+
+1. yarn-site.xml
+<property>
+<name>yarn.nodemanager.aux-services</name>
+<value>hamster_aux</value>
+<description>shuffle service that needs to be set for Map Reduce to run </description>
+</property>
+
+<property>
+<name>yarn.nodemanager.aux-services.hamster_aux.class</name>
+<value>com.pivotal.hamster.aux.HamsterAuxService</value>
+</property>
+
+<property>
+<name>yarn.nodemanager.container-executor.class</name>
+<value>com.pivotal.hamster.nodeservice.bridge.HamsterContainerExecutor</value>
+</property>
+
+<property>
+<name>com.pivotal.hamster.delegation.container-executor.class</name>
+<value>org.apache.hadoop.yarn.server.nodemanager.DefaultContainerExecutor</value>
+</property>
+
+2. copy 
+cp /usr/local/hamster/lib/hamster/hamster-core-1.1.0-SNAPSHOT.jar  /usr/lib/gphd/hadoop-yarn/
+
+3. restart
+/etc/init.d/hadoop-yarn-nodemanager restart

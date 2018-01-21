@@ -1,0 +1,73 @@
+HamsterConfig
+public final String AVRO_SCHEMA_PATH_ENV_KEY = "AVRO_SCHEMA_PATH";
+
+HamsterCli
+ // set pb file env 
+    context.setEnv(HamsterConfig.AVRO_SCHEMA_PATH_ENV_KEY, context.getPrefix() + "/etc/schema");
+    
+    
+    
+hamster -np 4 -x CLASSPATH=`sh /mnt/get_hadoop_env.sh` -mem 2048 /mnt/graphlab/release/toolkits/collaborative_filtering/als --matrix hdfs://node0851:9000/user/root/data/small --D=20 --lambda=0.065 --max_iter=5 --predictions=hdfs://node0851:9000/user/root/data/small/out
+    
+hamster -np 4 \
+ -mem 2048 \
+/mnt/graphlab/release/toolkits/collaborative_filtering/als \
+--matrix hdfs://node0851:9000/user/root/data/small \
+--D=20 --lambda=0.065 --max_iter=5 --predictions=hdfs://node0851:9000/user/root/data/small/out
+
+
+
+
+/var/long/prelink/prelink.log
+--------------------
+Near the top of the file chnage the following line
+
+PRELINKING=yes
+
+to
+
+PRELINKING=no
+
+Save and exit the file and rerun the following command
+
+sudo /etc/cron.daily/prelink
+
+
+
+
+
+
+export DYLD_LIBRARY_PATH=$HRTE_HOME/lib:$HRTE_HOME/lib/openmpi:$DYLD_LIBRARY_PATH
+export C_INCLUDE_PATH=$HRTE_HOME/include:$HRTE_HOME/include/openmpi:$HRTE_HOME/include/openmpi/opal/mca/event/libevent2019/libevent/include:$HRTE_HOME/include/openmpi/opal/mca/event/libevent2019/libevent:$HRTE_HOME/include/openmpi/opal/mca/hwloc/hwloc152/hwloc/include:$C_INCLUDE_PATH
+export LDFLAGS="$LDFLAGS -L${HRTE_HOME}/lib -L$HRTE_HOME/lib/openmpi"
+export CFLAGS="$CFLAGS -I$HRTE_HOME/include -I$HRTE_HOME/include/openmpi -I$HRTE_HOME/include/openmpi/opal/mca/event/libevent2019/libevent/include -I$HRTE_HOME/include/openmpi/opal/mca/event/libevent2019/libevent -I$HRTE_HOME/include/openmpi/opal/mca/hwloc/hwloc152/hwloc/include"
+
+
+
+gcc -DHAVE_CONFIG_H -I. -I../../../../.. -I/Users/caoj7/program/orte/include/openmpi -I/Users/caoj7/program/orte/include/openmpi/opal/mca/event/libevent2019/libevent/include -I/Users/caoj7/program/orte/include/openmpi/opal/mca/event/libevent2019/libevent -I/Users/caoj7/program/orte/include/openmpi/opal/mca/hwloc/hwloc152/hwloc/include -I/Users/caoj7/program/orte/include -I/Users/caoj7/program/orte/include/openmpi -I/Users/caoj7/program/orte/include/openmpi/opal/mca/event/libevent2019/libevent/include -I/Users/caoj7/program/orte/include/openmpi/opal/mca/event/libevent2019/libevent -I/Users/caoj7/program/orte/include/openmpi/opal/mca/hwloc/hwloc152/hwloc/include -I/Users/caoj7/program/orte/include -I/Users/caoj7/program/orte/include/openmpi -I/Users/caoj7/program/orte/include/openmpi/opal/mca/event/libevent2019/libevent/include -I/Users/caoj7/program/orte/include/openmpi/opal/mca/event/libevent2019/libevent -I/Users/caoj7/program/orte/include/openmpi/opal/mca/hwloc/hwloc152/hwloc/include -MT odls_yarn_module.lo -MD -MP -MF .deps/odls_yarn_module.Tpo -c odls_yarn_module.c -o odls_yarn_module.o >/dev/null 2>&1
+
+
+hamster -np 2 -mem 2048 \
+/usr/local/graphlab2.2/collaborative_filtering/als \
+--matrix hdfs://10.37.7.211:9000/user/root/hamster/graphlab_data/cf/smallnetflix \
+--D=20 --lambda=0.065 --max_iter=5 \
+--predictions=hdfs://10.37.7.211:9000/user/root/hamster/graphlab_data/cf/smallnetflix/out
+
+
+/usr/local/graphlab2.2/collaborative_filtering/als --matrix ./smallnetflix \
+--D=20 --lambda=0.065 --max_iter=5 \
+--predictions=./smallnetflix/out
+
+
+
+output/yarn/hamster/*.rpm
+
+output/**/dist/*.tar.gz
+
+
+
+hamster -np 2 -mem 2048 \
+/usr/local/graphlab2.2/collaborative_filtering/als \
+--matrix hdfs://pivhdsne.localdomain:8020/user/hamster/data/graphlab/cf/smallnetflix/ \
+--D=20 --lambda=0.065 --max_iter=5 \
+--predictions=hdfs://pivhdsne.localdomain:8020/user/hamster/data/graphlab/cf/smallnetflix/out

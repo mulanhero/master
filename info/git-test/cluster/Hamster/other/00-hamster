@@ -1,0 +1,20 @@
+/hamster_cli.sh /Users/hadoop/project/github/hamster2/orte/test/yarnpbc/am_allocate_test /Users/hadoop/project/github/hamster2/orte/test/yarnpbc/protos/hadoop-2.0.2-alpha-pb/ localhost 8030 1
+
+./hamster_cli.sh ~/program/hamster2/orte/test/yarnpbc/am_allocate_test ~/program/hamster2/orte/test/yarnpbc/protos/hadoop-2.0.2-alpha-pb/ localhost 8030 1
+
+#orte verbose
+export OMPI_MCA_mrplus_jobclient_verbose=5
+export OMPI_MCA_state_base_verbose=5
+export OMPI_MCA_plm_base_verbose=5
+export OMPI_MCA_ras_base_verbose=5
+export OMPI_MCA_event_base_verbose=5
+export OMPI_MCA_rmaps_base_verbose=5
+export OMPI_MCA_dfs_base_verbose=5
+export OMPI_MCA_ess_base_verbose=5
+export OMPI_MCA_grpcomm_base_verbose=5
+export OMPI_MCA_routed_base_verbose=5
+export OMPI_MCA_rml_base_verbose=5
+export OMPI_MCA_odls_base_verbose=5
+
+
+export OMPI_MCA_rmaps_base_display_map=1

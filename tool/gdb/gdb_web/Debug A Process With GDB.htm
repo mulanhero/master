@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<!-- saved from url=(0062)http://rsquared.sdf.org/gdb/darp.html#debuggingarunningprocess -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Debug A Process With GDB</title>
+<meta name="description" content="How to attach gdb to a currently running process.">
+<meta charset="UTF-8">
+<link rel="STYLESHEET" type="text/css" href="./Debug A Process With GDB_files/style.css">
+<link rel="STYLESHEET" type="text/css" href="./Debug A Process With GDB_files/print.css" media="print">
+</head>
+
+<body>
+<div id="pagemargin">
+	<div id="gnu">
+            <a href="http://www.gnu.org/software/gdb/mascot/">
+            <img src="./Debug A Process With GDB_files/archer.png" alt="Image of GDB Mascot | Link to page about GDB Mascot" style="width:200px;height:125px">
+            </a>
+	</div>
+<div id="title">Using The GNU GDB Debugger:</div>
+<h1 id="subtitle">Debugging A Running Process</h1>
+<div id="topnav-p">
+<span id="author">By Peter Jay Salzman, edited by R. Somers</span>
+      <ul id="top-nav">
+        <li class="left">Previous: <a href="http://rsquared.sdf.org/gdb/maits.html">Moving Around In The Sourcecode</a></li>
+        <li class="right">Next: <a href="http://rsquared.sdf.org/gdb/dnp.html">Debugging Ncurses Programs</a></li>
+      </ul><br>
+ </div>
+<h2><a id="debuggingarunningprocess">How To Attach GDB To An Executing Program</a></h2>
+
+<p>So far, we've debugged executables, with and without core files.  However, we can debug processes too.  Think about that --
+we can debug a process that has been started separately from the debugger.  There are two ways of doing this: Using command line
+arguments and using the <code>attach</code> command.</p>
+
+<p>Download and read <a href="http://rsquared.sdf.org/gdb/download/06/beer-process.c">beer-process.c</a> and its
+<a href="http://rsquared.sdf.org/gdb/download/06/Makefile">Makefile</a>.  Compile it,
+and run it as a background job in one console (or xterm).  It'll simply print out the number of bottles of beer on the wall:</p>
+
+<pre class="demo">   $ ./beer-process &amp;
+   [1] 17399
+   $ 100000 bottles of beer on the wall.
+   99999 bottles of beer on the wall.
+   99998 bottles of beer on the wall.
+   99997 bottles of beer on the wall.
+</pre>
+
+<h3><a id="withcommandlinearguments">With Command Line Arguments</a></h3>
+
+<p>With the beer process running one console, start GDB in another console with an argument list of the executable and the
+process ID.  The process ID should've been printed when you started the background process:</p>
+
+<pre class="demo">   $ gdb beer-process 17399
+   Attaching to program: code/running_process/beer-process, process 17399
+   0x410c64fb in nanosleep () from /lib/tls/libc.so.6
+   (gdb) 
+</pre>
+
+<p>Chances are overwhelming good that the process is in <code>GoToSleep()</code>.  Print out a backtrace and take a look at the
+stack:</p>
+
+<pre class="demo">   (gdb) bt
+   #0  0x410c64fb in nanosleep () from /lib/tls/libc.so.6
+   #1  0x410c6358 in sleep () from /lib/tls/libc.so.6
+   #2  0x0804841f in GoToSleep () at beer-process.c:32
+   #3  0x080483e0 in main () at beer-process.c:14
+</pre>
+
+<p><i>Aside:</i> Note that <code>GoToSleep()</code> calls the C library function <code>sleep()</code>, and <code>sleep()</code>, in turn,
+calls the system call <code>nanosleep()</code>.  As you know, all library functions (glibc on Linux) do their job by calling system
+calls.  I'm a little surprised to see the library and system functions listed in the call stack since I'm not using a debugging
+version of glibc.  Weird.</p>
+
+<p>At this point, the backtrace should be very familiar to you.  But there's an important distinction.  We didn't run this
+program from within GDB.  We ran it from the command line, and then had GDB attach to an already running process.</p>
+
+<p>Look at the output of the beer process: you should notice that the process has stopped!  Whenever GDB attaches to a running
+process, the process is paused so you can get a handle on what the call stack looks like.  Let's do some interesting things.</p>
+
+<p>In my output above, <code>i=9997</code>.  Yours is probably different, but nevertheless, you should be able to follow along with
+me.  Let's verify the value of <code>i</code> by selecting the stack frame for <code>main()</code> and looking at its value:
+
+</p><pre class="demo">   (gdb) frame 3
+   #3  0x080483eb in main () at beer-process.c:15
+   15                      GoToSleep();
+   (gdb) print i
+   $1 = 99997
+</pre>
+
+<p>No surprises here.  As you'd expect, we can use <code>next</code> and <code>step</code> (which takes us out of <code>nanosleep()</code>
+and <code>sleep()</code> respectively, putting us into <code>GoToSleep()</code>):</p>
+
+<pre class="demo">   (gdb) next
+   Single stepping until exit from function nanosleep, 
+   which has no line number information.
+   0x410c6358 in sleep () from /lib/tls/libc.so.6
+   (gdb) step
+   Single stepping until exit from function sleep, 
+   which has no line number information.
+   GoToSleep () at beer-process.c:34
+   34      }
+   (gdb) bt
+   #0  GoToSleep () at beer-process.c:34
+   #1  0x080483eb in main () at beer-process.c:15
+</pre>
+
+<p>Looking at the code, the next things to happen are that <code>i</code> will be decremented and then <code>PrintMessage()</code> will
+print <code>99996 bottles of beer on the wall.</code>  However, suppose we wanted more beer?  Let's change to the stack frame for
+<code>main()</code> (where <code>i</code> lives) and change the number of beers on the wall.</p>
+
+<pre class="demo">   (gdb) frame 3
+   #3  0x080483eb in main () at beer-process.c:15
+   15                      GoToSleep();
+   (gdb) set var i = 99999999
+</pre>
+
+<p>Now quit GDB.  When GDB detaches from the process, the process will continue along its merry way.  We could also use the
+<code>detach</code> command to detach from the process without quiting GDB; I'll explain <code>detach</code> in the next session.</p>
+
+<pre class="demo">   (gdb) quit
+   The program is running.  Quit anyway (and detach it)? (y or n) y
+   Detaching from program: code/running_process/beer-process,
+   process 17399
+</pre>
+
+<p>but with the new value for <code>i</code>:</p>
+
+<pre class="demo">   $ ./beer-process &amp;
+   [1] 17399
+   $ 100000 bottles of beer on the wall.
+   99999 bottles of beer on the wall.
+   99998 bottles of beer on the wall.
+   99997 bottles of beer on the wall.
+   99999998 bottles of beer on the wall.
+   99999997 bottles of beer on the wall.
+   99999996 bottles of beer on the wall.
+   99999995 bottles of beer on the wall.
+   99999994 bottles of beer on the wall.
+</pre>
+
+<p>I hope you're impressed by this!  We attached GDB to a process that was already running.  The process halted and we were able
+to do everything that we would've been able to do had we started the process from within GDB.  Now that's power!</p>
+
+<p>One non-debugging use I've had for this in the past is with scientific programming.  I had PDE solvers and Monte Carlo
+applications that would run for a very long time.  Whenever I wanted to take a look at how my simulation was doing or what some
+of the intermediary answers looked like, I'd attach to the process using GDB and inspect my variables.  This was a much better
+option than simply printing everything of interest out, which could've possibly have taken hundreds of megs of disk space!</p>
+
+<h3><a id="withtheattachcommand">With The Attach Command</a></h3>
+
+<p>We can also debug an already running process using GDB's <code>attach</code> command to attach to a running process.  Again, once
+attached, we can use the <code>detach</code> command to detach from the process.</p>
+
+<p>If you quit the running background process from the previous section, restart beer-process in the background.  Start GDB with
+no command line arguments.  But use the <code>attach</code> command to attach to the running process.</p>
+
+<pre class="demo">   $ gdb
+   (gdb) attach 17399
+   Attaching to process 17399
+   Reading symbols from code/running_process/beer-process...done.
+   0x410c64fb in nanosleep () from /lib/tls/libc.so.6
+   (gdb) 
+</pre>
+
+<p>As before, the process should halt.  This is when you do whatever it is you want to do with the process: debug, snoop, spy,
+modify, etc.  When you're done futzing around, quit GDB:</p>
+
+<pre class="demo">   The program is running.  Quit anyway (and detach it)? (y or n) y
+   Detaching from program: code/running_process/beer-process,
+   process 17399
+</pre>
+
+<p>As before, once you detach from the process, it'll continue running.</p>
+
+<h2><a id="processeswithoutdebuggingsymbols">Processes Without Debugging Symbols</a></h2>
+
+<p>As with debugging executables and corefiles, it's only convenient to debug processes that were started from executables with
+debugging information compiled into them.  To see this in action, strip the executable and run it in the background again:</p>
+
+<pre class="demo">   $ strip beer-process
+   $ ./beer-process  &amp;
+   [1] 32262
+   $ 100000 bottles of beer on the wall.
+   99999 bottles of beer on the wall.
+   99998 bottles of beer on the wall.
+</pre>
+
+<p>Debug the process and look at the call stack:</p>
+
+<pre class="demo">   $ gdb 
+   (gdb) attach 32262
+   Attaching to process 32262
+   Reading symbols from code/running_process/beer-process...(no debugging symbols found)...done.
+   (gdb) bt
+   #0  0x410c64fb in nanosleep () from /lib/tls/libc.so.6
+   #1  0x410c6358 in sleep () from /lib/tls/libc.so.6
+   #2  0x0804841f in ?? ()
+   #3  0x00000003 in ?? ()
+   #4  0x0001869d in ?? ()
+   #5  0xbffff7b8 in ?? ()
+   #6  0x080483eb in ?? ()
+   #7  0x0001869d in ?? ()
+   #8  0x0001869d in ?? ()
+   #9  0xbffff844 in ?? ()
+   #10 0x4102e7f8 in __libc_start_main () from /lib/tls/libc.so.6
+   #11 0x41150fcc in ?? () from /lib/tls/libc.so.6
+</pre>
+
+<h4 class="exercise">Exercises</h4>
+<ol class="exercise">
+<li>Suppose you're playing a game that you have source code for, like Doom, Nethack, or Duke Nukem 3D.  How can you use GDB to
+	cheat, like giving yourself extra health?  If you wrote your own game, can you protect the integrity of networked games from
+	people who would cheat like this?  What kinds of things could you do?</li>
+<li>Now suppose you're playing a game for which you do <i>not</i> have the source code.  Can you still cheat in this manner?  If
+	so, how would you go about it?</li>
+<li>Do a Google search on an application called "kcheat".  Read the documentation.  This person, in effect, wrote a debugger.
+	If you have spare time, download the source and try to learn how it works.  Browse the man page for the function
+	<code>ptrace()</code>.</li>
+<li>From the previous exercise, GDB could be considered as a "front end" to <code>ptrace()</code> system call.  Look at <code>ps
+	aux</code>.  Do you see any processes that, if attached to with GDB, would be a security issue?  Could cause a system to go
+	down?  Cause filesystem corruption?  You probably have a process called "init" that has a process id of 1.  Try to attach to
+	it.  Now become root and try to attach to it.  There are some things that even root can't do!</li>
+</ol>
+<p>&nbsp;</p>
+<div id="bottomnav-p">
+      <ul id="bottom-nav">
+        <li class="left">Previous: <a href="http://rsquared.sdf.org/gdb/maits.html">Moving Around In The Sourcecode</a></li>
+        <li class="right">Next: <a href="http://rsquared.sdf.org/gdb/dnp.html">Debugging Ncurses Programs</a></li>
+      </ul>
+      <div id="bottom-nav-center"><a href="http://rsquared.sdf.org/gdb/">Up</a> to the TOC</div>
+    <a href="http://validator.w3.org/check?uri=referer">
+    <img src="./Debug A Process With GDB_files/valid-html5-blue.png" alt="Valid HTML 5" style="width:88px;height:31px"></a>
+    <a href="http://jigsaw.w3.org/css-validator/check/referer?profile=css3">
+    <img src="./Debug A Process With GDB_files/vcss-blue.gif" alt="Valid CSS!" style="width:88px;height:31px;"></a>
+</div>
+</div>
+
+
+</body></html>

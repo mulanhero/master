@@ -1,0 +1,22 @@
+--------------------------------------------------------------------------------------
+1. gfortran  (on each node)
+--------------------------------------------------------------------------------------
+[root@node1 BLAS]# yum search gfortran
+
+[root@node1 BLAS]# yum install gcc-gfortran.x86_64
+[root@node1 BLAS]# yum install libgfortran.x86_64
+[root@node1 BLAS]# yum install patchy-gfortran.x86_64
+[root@node1 BLAS]# yum install compat-libgfortran-41.x86_64
+--------------------------------------------------------------------------------------
+2. 
+--------------------------------------------------------------------------------------
+[hamster@gphd-vm33 BLAS]$ pwd
+/home/hamster/program/test/BLAS
+[hamster@gphd-vm33 BLAS]$ make
+blas_LINUX.a will be produced.
+--------------------------------------------------------------------------------------
+3. 
+--------------------------------------------------------------------------------------
+[hamster@gphd-vm33 BLAS]$ cat ~/.bashrc
+#hpl
+export LD_LIBRARY_PATH=/home/hamster/program/test/BLAS:$LD_LIBRARY_PATH

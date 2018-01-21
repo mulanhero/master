@@ -1,0 +1,89 @@
+1. create a branch named "feature1" and switch to this branch
+[caoj7@cnencaoj7mbp1 ztry]$git checkout -b  feature1
+Switched to a new branch 'feature1'
+
+2. edit in this branch and check status
+1) edit sth
+2) check status
+	[caoj7@cnencaoj7mbp1 ztry]$git status
+	# On branch feature1
+
+3. checkout to 'master' and check the origin content
+	[caoj7@cnencaoj7mbp1 ztry]$git checkout master
+	M	first_jimmycao.txt
+	Switched to branch 'master' 	
+
+4. delete a branch 'feature1'
+[caoj7@cnencaoj7mbp1 ztry]$git branch -d feature1
+Deleted branch feature1 (was a0290c3).
+
+5. create a branch 'feature2'
+[caoj7@cnencaoj7mbp1 ztry]$git branch feature2
+
+6. check all branches and on which branch you are working 
+[caoj7@cnencaoj7mbp1 ztry]$git branch
+  feature2
+* masterq
+q
+
+7. merge branch 'feature1' to current branch (e.g., 'master')
+[caoj7@cnencaoj7mbp1 ztry]$git merge feature1
+Already up-to-date.
+
+8. git diff
+[caoj7@cnencaoj7mbp1 ztry]$git diff feature1 master
+
+9. 
+git checkout -b featureBv2 origin/master
+git checkout -b featureBv2 master
+//==============
+
+git merge --no-commit --squash featureB
+//merge featureB to featureBv2
+
+git push myfork featureBv2
+
+
+===================
+
+The --squash option takes all the work on the merged branch and squashes it into one non-merge
+commit on top of the branch you‚Äôre on. 
+
+The --no-commit option tells Git not to automatically record a commit. This allows you to introduce all the changes from another branch and then make more
+changes before recording the new commit.
+
+
+
+
+------------------------------------------------------------------------
+I delete a Git branch both locally and in GitHub?
+------------------------------------------------------------------------
+Successfully Deleted Local Branch
+
+$ git branch -D bugfix
+Deleted branch bugfix (was 2a14ef7).
+-------------------------------
+As of Git v1.7.0, you can delete a remote branch using
+
+git push origin --delete <branchName>
+which is easier to remember than
+
+git push origin :<branchName>
+which was added in Git v1.5.0 "to delete a remote branch or a tag."
+------------//////////////////////
+To remove a local branch from your machine:
+
+git branch -d the_local_branch
+
+To remove a remote branch:
+
+git push origin :the_remote_branch
+------------------------------------------------------------------------
+
+This is an action that many Git users need to do frequently, but many (including the author) have forgotten how to do so or simply don’t know how. Here’s the definitive guide if you’ve forgotten.
+So let’s say you have checked out a new branch, committed some awesome changes, but now you need to share this branch though with another developer. You can push the branch up to a remote very simply:
+git push origin newfeature
+Where origin is your remote name and newfeature is the name of the branch you want to push up. This is by far the easiest way, but there’s another way if you want a different option. Geoff Lane has created a great tutorial which goes over how to push a ref to a remote repository, fetch any updates, and then start tracking the branch.
+Deleting is also a pretty simple task (despite it feeling a bit kludgy):
+git push origin :newfeature
+That will delete the newfeature branch on the origin remote, but you’ll still need to delete the branch locally with git branch -d newfeature.

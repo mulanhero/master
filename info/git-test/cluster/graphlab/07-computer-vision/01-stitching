@@ -1,0 +1,66 @@
+GraphLab Computer Vision Toolkit aims to provide fully distributed wrappers to algorithms in OpenCV, an open-source library aimed at real-time computer vision. Currently, the only implemented algorithm is Image-Stitching, where the goal is to create a composite panoramic image from a collection of images.
+------------------------------------------------------------------------
+1. compile
+------------------------------------------------------------------------
+[root@node1 computer_vision]# pwd
+/root/program/graphlab/release/toolkits/computer_vision
+[root@node1 computer_vision]# make -j2
+[root@node1 computer_vision]# ll
+total 38756
+drwxr-xr-x 6 root root     4096 Aug  2 19:15 CMakeFiles
+-rw-r--r-- 1 root root     1178 Aug  2 19:15 cmake_install.cmake
+-rw-r--r-- 1 root root      315 Aug  2 19:15 CTestTestfile.cmake
+-rwxr-xr-x 1 root root  2179942 Aug  7 22:51 grabcut
+-rw-r--r-- 1 root root    12818 Aug  2 19:15 Makefile
+-rwxr-xr-x 1 root root 31542013 Aug  7 22:52 stitch
+-rwxr-xr-x 1 root root  2313565 Aug  7 22:51 stitching
+-rwxr-xr-x 1 root root  3616390 Aug  7 22:51 stitching_detailed
+------------------------------------------------------------------------
+2. single machine
+------------------------------------------------------------------------ 
+[image ID] [number of neighbouring vertices/images] [neighbour-image ID 1] [neighbour-image ID 2] [neighbour-image ID 3] ...
+Here's an example adjacency list file with 3 images (numbered 0,1,2) in a chain graph (0-1-2):
+[root@node1 computer_vision]# cat list.txt 
+0 1 1
+1 2 0 2
+2 1 1
+-----------
+./stitch --img image_dir/ --graph list.txt 
+------------------------------------------------------------------------
+2. single machine
+------------------------------------------------------------------------ 
+[root@node1 computer_vision]# ./stitching /usr/local/hamster/panorama/selected/*.png
+------------------------------------------------------------------------
+3. mpirun
+------------------------------------------------------------------------ 
+[root@node1 computer_vision]# mpirun -np 2 ./stitching /usr/local/hamster/panorama/selected/*.png
+------------------------------------------------------------------------
+4. hamster
+------------------------------------------------------------------------
+[root@node1 computer_vision]# hamster -np 2 /usr/local/hamster/graphlab/debug/toolkits/computer_vision/stitching /usr/local/hamster/panorama/selected/*.png\
+-----------
+check the log and go to the node
+[root@node2 ~]# ll /var/lib/gphd/hadoop-yarn-2.0.5_alpha_gphd_2_0_2_0/cache/yarn/nm-local-dir/usercache/root/appcache/application_1378738945912_0017/*02
+total 1068
+-rw-r--r-- 1 yarn hadoop       7 Sep 11 22:00 container_tokens
+-rwx------ 1 yarn hadoop     639 Sep 11 22:00 default_container_executor.sh
+lrwxrwxrwx 1 yarn hadoop     136 Sep 11 22:00 hamster-core.jar -> /var/lib/gphd/hadoop-yarn-2.0.5_alpha_gphd_2_0_2_0/cache/yarn/nm-local-dir/filecache/1886443681077713892/hamster-core-0.8.0-SNAPSHOT.jar
+lrwxrwxrwx 1 yarn hadoop     179 Sep 11 22:00 Hamster_place_holder -> /var/lib/gphd/hadoop-yarn-2.0.5_alpha_gphd_2_0_2_0/cache/yarn/nm-local-dir/usercache/root/appcache/application_1378738945912_0017/filecache/-79117766908147558/Hamster_place_holder
+-rwx------ 1 yarn hadoop    9291 Sep 11 22:00 launch_container.sh
+-rw-r--r-- 1 yarn hadoop 1059066 Sep 11 22:00 result.png
+drwx--x--- 2 yarn hadoop    4096 Sep 11 22:00 tmp
+
+
+
+------------------------------------------------------------------------
+5. hamster on with HDFS  (can not read file from HDFS)
+hamster -np 2 /usr/local/hamster/graphlab/release/toolkits/computer_vision/stitching \
+hdfs://10.37.7.101:8020/user/root/graphlab/computer_vision/goldengate-00.png \
+hdfs://10.37.7.101:8020/user/root/graphlab/computer_vision/goldengate-01.png \
+hdfs://10.37.7.101:8020/user/root/graphlab/computer_vision/goldengate-02.png \
+--output hdfs://10.37.7.101:8020/user/root/graphlab/computer_vision/out_result.jpg  
+------------------------------------------------------------------------
+hamster -v -np 2 \
+/usr/local/hamster/graphlab/release/toolkits/computer_vision/stitching \
+/usr/local/hamster/jimmy-hamster/test/graphlab_data/computer_vision/*.png \
+--output /usr/local/hamster/writable_dir/out_result.jpg 

@@ -1,0 +1,22 @@
+MACHINE := $(shell uname -m)
+
+ifeq ($(MACHINE), x86_64)
+libdir = /usr/lib64
+endif
+ifeq ($(MACHINE), i686)
+libdir = /usr/lib
+endif
+--------------------------------------------------------
+libdir.x86_64 = /usr/lib64
+libdir.i686   = /usr/lib
+
+MACHINE := $(shell uname -m)
+
+libdir = $(libdir.$(MACHINE))
+--------------------------------------------------------
+That's not how it's supposed to work. It's not the kernel type that should determine where your libraries go, but the library types themselves - 64-bit .so's go to /usr/lib64, 32-bit to /usr/lib.
+
+You can't have one RPM contain both architectures, the result should be 2 different RPMs, and if I am not mistaken RPM macros should resolve this for you if you use %_libdir.
+
+
+/root/program/orte/include/openmpi/opal/mca/event/libevent2019/libevent

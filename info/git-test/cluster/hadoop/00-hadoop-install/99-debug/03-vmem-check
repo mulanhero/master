@@ -1,0 +1,9 @@
+<property>
+    <name>yarn.nodemanager.vmem-check-enabled</name>
+    <value>false</value>
+</property>
+
+<property>
+    <name>yarn.nodemanager.vmem-pmem-ratio</name>
+    <value>100</value>
+</property>

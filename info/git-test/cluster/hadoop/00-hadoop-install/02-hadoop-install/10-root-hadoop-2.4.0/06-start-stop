@@ -1,0 +1,18 @@
+-------------------------------------------------------------------
+# hdfs namenode -format
+-------------------------------------------------------------------
+# cat /nfs_share/bin/start.sh 
+hadoop-daemon.sh start namenode
+massh slave verbose hadoop-daemon.sh start datanode
+yarn-daemon.sh start resourcemanager
+massh slave verbose yarn-daemon.sh start nodemanager
+-------------------------------------------------------------------
+# cat /nfs_share/bin/stop.sh  
+hadoop-daemon.sh stop namenode
+massh slave verbose hadoop-daemon.sh stop datanode
+yarn-daemon.sh stop resourcemanager
+massh slave verbose yarn-daemon.sh stop nodemanager
+-------------------------------------------------------------------
+#as jimmy
+hadoop fs -mkdir -p /user/jimmycao
+hadoop fs -chown jimmycao:jimmycao /user/jimmycao

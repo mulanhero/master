@@ -1,0 +1,229 @@
+http://channelemc.corp.emc.com/
+CORP\caoj7/current passwd (NT passwd)
+==============================================
+2014-Q2
+Self Development
+ Summary Description...
+
+improve skills on Debugging and Design
+ Goal Measurements...
+
+(1)debugging
+measures: attend the linux debugging training
+(2)design
+measures: join the qsub related designing
+ Goal Alignment...
+
+none.
+---------------
+Project Development
+ Summary Description...
+
+implement new features on Hamster-1.1, and release
+ Goal Measurements...
+
+(1) implement new features of Hamster-1.1
+measures: Hamster-1.1 refactor, job submission with qsub and mpirun 
+(2) release on Hamster-1.1 and GraphLab
+measures: MPI API compatibility test, RPM build,  GraphLab testing,  documentation.  
+ Goal Alignment...
+
+none
+
+------------------------last month
+On the aspect of self-development, I:
+(1) improve the knowledge on ProtocolBuffer and Yarn protocol 
+(2) improve the ability on JUnit
+
+on the aspect of project development, I:
+(1) Hamster-1.0 release related stuffs, e.g., RPM, GraphLab, stack integration, document, etc.  
+(2) implement Hamster-1.1 in Hamster-core, e.g.,  OrtedGateway, OrteResourceControllerService, etc.
+(3) implement IPC, OpenMPI plugins for OpenMPI-1.7.2 and OpenMPI-1.7.4.
+==============================================
+2014-Q1
+self development
+ Summary Description...
+
+improve skills on RPC, unit test
+ Goal Measurements...
+
+(1) RPC 
+measures: improve ability on Protocolbuffer
+(2) unit test
+measures: improve ability on JUnit 
+ Goal Alignment...
+
+none
+
+Project Development
+ Summary Description...
+
+hamster-1.0 release, implement hamster-2.0
+ Goal Measurements...
+
+(1) hamster-1.0 release
+measures: Hamster-1.0 and graphlab RPM, integrate Hamster-1.0 and graphlab package with stack team, test, etc.
+(2) implement hamster-2.0
+measures: implement OrteResourceControllerService, RPC between hamster-rte and AM, etc.
+
+Goal Alignment...
+EMC Strategic Initiative
+
+------------------------last month
+On the aspect of self-development, I:
+(1) further improve the knowledge on distributed system analysis and design, RPC communication
+(2) learn about maven project management
+
+on the aspect of project development, I:
+(1) implement the hamster-1.0 RPC-avro
+(2) implement the hamster-2.0 Orte ResourceController
+(3) POC on Hamster-runtime
+(4) Hamster-1.0 functionality test, performance test on AWB, RPM, MTT, document, etc.
+==============================================
+2013-Q4
+self development
+ Summary Description...
+
+improve skills on distributed system analysis and design, maven project management
+ Goal Measurements...
+
+(1) distributed system analysis and design 
+measures: studying on YARN architecture,  comparing SLURM and YARN resource allocation
+(2) maven project management
+measures: studying on maven project management and practing in daily work
+ Goal Alignment...
+
+none
+
+Project Development
+ Summary Description...
+
+implement new features for hamster, enhance Hamster
+ Goal Measurements...
+
+(1) implement new features for Hamster
+measures: participate in implementing node-level-service, investigating on implementing DAG workflow job consisting of Hamster-MPI job, IOF, libHDFS support, etc.
+(2)enhance Hamster
+measures: investigate on Hamster support on MPI job with MPI-IO, continuing enhancing Hamster on benchmarking, document, open-source, etc.
+ Goal Alignment...
+
+EMC Strategic Initiative
+-----------------------------------------
+On the aspect of self-development, I:
+(1) keep improving English commnication ability and practicing in daily work, e.g., make demo in English.
+(2) studying on GraphLab, and make benchmark testing and demo with GraphLab algorithms.
+
+On the aspect of project development, I:
+(1) continue enhancing hamster, e.g., implementing ompi-plugin for openmpi-1.7.2.
+(2) seperating hamster-ompi-plugin codes from openmpi source code, and building seperated-code with autotools (e.g., automake, autoconf, libtool,etc.)
+(3) building tarball and rpm for hamster.
+(4) making benchmarkings, demos, documents. 
+==============================================
+2013-Q3
+
+self development
+ Summary Description...
+
+improve skills on English communication, study on GraphLab
+ Goal Measurements...
+
+(1) English communication
+measures:  attend English training, improve English communiction ability on listening, speaking, writing (by training and practice in daily work)
+(2) study on GraphLab
+measures: study on GraphLab, make a GraphLab knowledge sharing and presentation for the whole team 
+
+ Goal Alignment...
+
+none
+
+
+Project Development
+ Summary Description...
+
+enhance and release Hamster
+ Goal Measurements...
+
+(1) go on enhancing Hamster, including implementing new functionalities (e.g., with OpenMPI-1.7.2, with Hadoop-2.0.5, support GraphLab, node-level service).  
+(2) take parts of work on the hamster open-source and release, e.g., performance evaluation, testing, benchmarking, demo, documents.
+ 
+Goal Alignment...
+
+Keeping EMC Ahead
+----------------------------------------------------------------
+On the aspect of self-development, I:
+######(1) keep improving English commucation ability and practicing in daily work
+#(2) read some material on distributed system 
+#(3) read some material on Unit Test and pricatice in daily work
+
+On the aspect of project Development, I:
+#(1) implement the ORTE side integration with YARN on several version (e.g., OpenMPI trunk, OpenMPI 1.6.4, Hadoop2.0.2, Hadoop2.0.4)  
+#(2) make the tests on both functional and performance, contribute to the design doc, user guide, etc.
+==============================================
+
+==============================================
+2013-Q2
+
+self development
+ Summary Description...
+
+improve skills on communication, system analysis and design, Unit Test
+ Goal Measurements...
+
+(1) communication
+measures:  improve English communiction ability on listening, speaking, writing (by study and practice in daily work)
+(2) system analysis and design
+measures: understand and try to make large distributed system analysis and design (by read book and practice in daily work)
+(3) Unit Test
+measures: learn how to implement Unit Test with JUnit 
+ Goal Alignment...
+
+none
+
+
+Project Development
+ Summary Description...
+
+implement Hamster2 project
+ Goal Measurements...
+
+(1) implment ORTE side integration with YARN, i.e., YARN compoent under ORTE with MCA, e.g., ess, state, ras, plm, etc.  Some functionalities in Hamster client as a YARN app client.
+(2) enhance the ORTE integration with SLURM. 
+(3) Proof of Concept on MRv2 on SLURM, Resource Scheduling Enhancement in Yarn.
+ Goal Alignment...
+
+Keeping EMC Ahead
+----------------------------------------------------------------
+On the aspect of self-development, I:
+(1) keep improving English commucation ability and practicing in daily work
+(2) read some material on distributed system 
+(3) read some material on Unit Test and pricatice in daily work
+
+On the aspect of project Development, I:
+(1) implement the ORTE side integration with YARN on several version (e.g., OpenMPI trunk, OpenMPI 1.6.4, Hadoop2.0.2, Hadoop2.0.4)  
+(2) make the tests on both functional and performance, contribute to the design doc, user guide, etc.
+==============================================
+
+self-development:
+1. English training
+2. other IT skill training
+3. Graphlab and MPI Algorithm
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+曹海军(Jimmy Cao)，目前在Pivotal Hadoop团队从事HPC与Hadoop平台的整合工作，之前曾在西安交通大学计算机系任讲师。他的主要研究兴趣包括：高性能计算、集群与网格系统资源管理、网格工作流等。他分别于2003年、2010年从华中科技大学获得计算机科学学士、博士学位。
+Jimmy Cao is currently working on the integration of HPC and Hadoop platform in Pivotal Hadoop team. Before joining Pivotal, he was a lecture at XJTU(Xi'an Jiaotong University). His research interests include HPC, Cluster and Grid resource management, Grid workflow. He got the bachelor and PH.D. degree in Computer Science from HUST(Huazhong University of Science and Technology) in 2003 and 2010 respectively.  
+Before joining EMC, I had been a Lecture in Xi’an Jiaotong University (XJTU) for two and a half years. There I taught two curriculums, i.e., Linux Kernel Primer and System Programming, and High Performance Cluster Computing. Meanwhile, I led a research team having a cooperative project with Baidu on Hadoop Resource Allocation and Job Scheduling in Multi-processor and Heterogeneous Cluster. Before that, I received Ph.D. degree from Huazhong University of Science and Technology (HUST) in 2010. My research topic was the parallel and distributed computing, especially focusing on Cluster and Grid Computing. 

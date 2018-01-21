@@ -1,0 +1,23 @@
+1. git status 
+
+2. if no added, then 
+	git diff  //to check if you want to discard changes
+
+3.  git checkout -- <file> //if you want to discard changes
+
+4. git add -A
+after add (staged), you can reset to remove the staged file
+git reset HEAD src/test/common/xtree_test_0.c
+git reset HEAD src/test/common/Makefile.am
+
+
+5. git commit -m "some changes"
+
+6. git push origin master
+
+7. git fetch origin
+	git merge origin/master
+	=====================
+	git pull
+
+8. 

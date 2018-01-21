@@ -1,0 +1,15 @@
+CC=gcc
+CFLAGS=-Wall
+LDFLAGS=-lm
+
+OBJECTS=client.o
+SOURCE=client.c
+
+client: $(OBJECTS)
+    $(CC) $(CFLAGS) $(OBJECTS) -o client $(LDFLAGS)
+
+all:client
+
+.PHONY: clean
+clean:
+    rm -f *~ *.o client

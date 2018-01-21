@@ -1,0 +1,2 @@
+-bb ./configure --prefix=/usr --with-ompi=1.7.2 --libdir=/usr/lib64
+rpmbuild -ba --define 'configure_options --with-ompi=1.7.2' my_rpm/SPECS/hamster.spec

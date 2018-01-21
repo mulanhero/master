@@ -1,0 +1,18 @@
+#!/usr/bin/env python
+
+my_dict = dict()
+
+fin = open('../words.txt')
+
+
+count = 0
+for word in fin:
+    word = word.strip()
+    my_dict[word] = 1
+    count += 1
+
+
+print my_dict
+print 'count=', count
+print 'my_dict[\'face\']:', my_dict['face']
+

@@ -1,0 +1,4 @@
+<property>
+		<name>fs.defaultFS</name>
+        <value>hdfs://gphd-vm211:9000</value>
+</property>

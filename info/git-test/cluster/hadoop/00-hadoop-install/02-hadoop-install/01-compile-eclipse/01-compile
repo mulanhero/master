@@ -1,0 +1,30 @@
+0. prepare (hadoop)
+(1) gcc/autoconf/automake/google's protocol buffer
+(2) http://protobuf.googlecode.com/files/protobuf-2.4.1.tar.gz
+./configure --prefix=/usr/local
+make
+make check
+sudo make install
+------------
+$ protoc
+Missing input file.
+(3) JDK/ANT/Maven(MVN)/SVN
+================================================================================
+1. checkout code
+svn checkout http://svn.apache.org/repos/asf/hadoop/common/tags/release-2.0.3-alpha/ hadoop2.0.3
+================================================================================
+2. download and compile
+$ cd hadoop2.0.3
+------------for eclipse-------------------
+$ mvn clean install -DskipTests
+$ mvn eclipse:eclipse -DdownloadSources=true -DdownloadJavadocs=true
+-------------------------------
+To build the LinuxContainerExecutor executable run:
+$ mvn package  -Pdist -DskipTests -Dtar 
+
+-Dcontainer-executor.conf.dir=/etc/hadoop/ -Pnative -DskipTests
+
+The path passed in -Dcontainer-executor.conf.dir should be the path on the 
+cluster nodes where a configuration file for the setuid executable should 
+be located. The executable should be installed in $HADOOP_YARN_HOME/bin.
+================================================================================

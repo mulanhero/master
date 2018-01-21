@@ -1,0 +1,71 @@
+1. Java Design Pattern
+----------------------------------------------------
+2. Java Advanced(Exception)
+3. Java NIO
+4. Hamster-core Code Review
+5. Yarn Code Review
+6. Hive, Pig, Spark, MapReduce
+7. Machine Learning
+8. tools(eclipse,junit,maven,)
+9. docker, slider, marathon
+10. data warehouse
+----------------------------------------------------
+Goal:
+1. mpirun and Qsub implementation
+2. Java Advanced (Exception)
+3. tools(eclipse,junit)
+4.
+d
+----------------------------------------------------
+2014-06-09          1
+1. Done is better than perfect, practice makes perfect!
+2. knowledge transfer
+3. compile libhdfs3
+4. API
+----------------------------------------------------
+2014-06-07          7
+1. Done is better than perfect, practice makes perfect!
+2. self performance feedbadk of 2013
+4. API test
+5. bio test
+5. libyarn
+----------------solve 3 bugs
+1. min-max ppn precheck
+2. when finish_job, remove check proc's exit_status
+3. add PATH=/usr/local/hamster/bin in bin/hamster and bin/mpirun
+----------------------------------------------------
+2014-06-06          6
+1. Done is better than perfect, practice makes perfect!
+2. implement the min-max check when hamster-1.0
+----------------------------------------------------
+2014-06-05          5
+1. Done is better than perfect, practice makes perfect!
+2. go to hospital with Lin, because of blooding,
+          fail to make RenShou
+3. talk with JJ
+3. Jenkins job migration to USA server
+----------------------------------------------------
+2014-06-04          4
+1. Done is better than perfect, practice makes perfect!
+2. rpm, test, jenkins job
+----------------------------------------------------
+2014-06-04          3
+1. Done is better than perfect, practice makes perfect!
+2. rpm, test
+----------------------------------------------------
+2014-06-03          2
+1. Done is better than perfect, practice makes perfect!
+2. add -x, -s,  "remove cd /tmp"
+3. rpm, -s can not work because: after localizing,
+          the path includes appId and containerId
+----------------------------------------------------
+2014-06-02          1
+1. Done is better than perfect, practice makes perfect!
+2. Lin go to hospital, buy Baked Fishes
+3. go hiking
+----------------------------------------------------
+2014-06-01          7
+1. Done is better than perfect, practice makes perfect!
+2. buy clothes and trousers
+3. buy network service
+----------------------------------------------------

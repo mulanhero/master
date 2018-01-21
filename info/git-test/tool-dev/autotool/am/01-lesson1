@@ -1,0 +1,56 @@
+Makefile.am
+
+       指定生成什么目标，它由什么源文件生成，要安装到什么目录等。
+
+      1） 一般格式
+
+ 
+
+             文件类型                                             书写格式
+
+             可执行文件                                    bin_PROGRAMS=XXX
+
+                                                                XXX_SOURCES=源文件列表
+
+                                                                XXX_LDADD=静态库文件
+
+                                                                XXX_LDFLAGS＝库包含目录
+
+                                                                XXX_DEPENDENCIES＝依赖文件
+
+             静态库                                          lib_LIBRARIES＝XXX.a
+
+                                                                XXX_a_SOURCES＝
+
+                                                                XXX_a_LDADD＝
+
+                                                                XXX_a_LIBADD=
+
+                                                                XXX_a_LDFLAGS=
+
+            头文件                                           include_HEADERS=
+
+            数据文件                                        data_DATA=
+
+          对于可执行文件和静态库，如果只想编译，不想安装到系统中，可以用“noinst_PROGRAMS”和“noinst_LIBRARIES”。
+
+       2）可用的全局变量
+
+            变量                                                     含义
+
+          INCLUDE                                         链接时所需要的头文件
+
+          LDADD                                             链接时所需要的库文件
+
+          LDFLAGS                                          链接时所需要的库文件选项标志
+
+          EXTRA_DIST                                     添加其它文件到Tar.gz包中
+
+          SUBDIRS                                          在处理本目录之前要递归处理哪些子目录
+
+        3）可用的路径变量
+
+            $(top_srcdir) ：                            工程最顶层目录。一般用于引用源程序
+
+            $(top_builddir) ：                         定义了生成目标文件上最上层目录，一般用于引用（*.o）等编译出来的目标文件。
+

@@ -1,0 +1,90 @@
+$ cat ~/.vimrc
+:set nu
+set pastetoggle=<F12>
+set nocp
+"filetype plugin on
+:set cscopequickfix=s-,c-,d-,i-,t-,e-
+":cs add /home/xuyichen/app/ecom/adr/cscope.out /home/xuyichen/app/ecom/adr/
+let g:winManagerWindowLayout='FileExplorer|TagList'
+nmap wm :WMToggle<cr>
+":set viminfo='1000 ",<800 最多允许８００行，当然可以改为最多允许５０００行等任意数字
+let Tlist_Show_One_File=1
+let Tlist_Exit_OnlyWindow=1
+":set tags=/home/xuyichen/tags
+:set tags=/home/xuyichen/tags
+":set tags+=/home/xuyichen/app/ecom/fcr/tags.lib
+colorscheme desert
+syntax enable
+:nmap <F6> :s/^\/\///<BAR>nohl<CR>j
+:nmap <F5> <home>i//<ESC>j
+:cmap <F7> s/^/\/\//<BAR>nohl<CR>
+:cmap <F8> s/\/\///<BAR>nohl<CR>
+map <F10> :Tlist <CR>
+imap <F10> <Esc>:Tlist <CR>
+map  <F11>     :call SetEncodingUTF8() <CR>
+map  <F12>     :call SetEncodingGBK() <CR>
+imap <F12>     <Esc>:call SetEncodingGBK() <CR>
+imap <F11>     <Esc>:call SetEncodingUTF8() <CR>
+map  <F9>     :tabn <CR>
+imap <F9>     <Esc>:tabn <CR>
+"map  <F9>     :tabp <CR>
+"imap <F9>     <Esc>:tabp <CR>
+set nocompatible " 非 vi 兼容模式
+syntax on " 色彩高亮
+set ruler " 显示当前位置于右下角
+set backspace=2 " 设置 backspace 模式为标准
+set showmatch " 显示配对括号
+set incsearch " 增量查找
+set hlsearch
+set ai " 自动缩进
+set si " 智能缩进
+set cindent " C 风格缩进
+set tabstop=4 " Tab 宽度
+set softtabstop=4 " Tab 宽度
+set shiftwidth=4 " Tab 宽度
+set noexpandtab " 输入的 tab(\t) 均转换为对应宽度个空格, 在 Makefile 等必须是 \t 的文件中会保持是 tab
+"set smarttab " 智能 tab
+set fileencodings=ucs-bom,utf-8,cp936,gb18030,big5,euc-jp,sjis,euc-kr,ucs-2le,latin1 "字符编码
+set statusline=%F%m%r%h%w\ [FORMAT=%{&ff}]\ [POS=%04l,%04v][%p%%]\ [LEN=%L] " 状态栏格式
+set laststatus=2 " 一直显示状态栏
+" 插入模式切换
+"map <F9> :set paste!<BAr>set paste?<CR>
+"map  <F3>     :call SetTab() <CR>
+"imap  <F3>     <Esc>:call SetTab() <CR>
+"map  <F4>     :call UnSetTab() <CR>
+"imap  <F4>     <Esc>:call UnSetTab() <CR>
+
+"http://www.vim.org/scripts/script.php?script_id=23
+map <C-x>   :call EnhancedCommentify('yes', 'guess') <CR>
+imap <C-x>   :call EnhancedCommentify('yes', 'guess') <CR>
+
+
+func SetEncodingUTF8()
+        :set enc=utf-8
+        :set tenc=gb2312
+endfunc
+
+func SetEncodingGBK()
+        :set enc=gb2312
+        :set tenc=gb2312
+endfunc
+
+
+"func SetTab()
+"    :set noexpandtab
+"endfunc
+
+"func UnSetTab()
+"    :set shiftwidth=4
+"    :set tabstop=4
+"    :set expandtab
+"endfunc
+
+
+"call UnSetTab()
+"map <F8>  :tabnew
+"imap <F8>  <Esc>:tabnew
+
+set hlsearch
+"编辑python文件时，tab用空格代替
+autocmd FileType python setlocal expandtab

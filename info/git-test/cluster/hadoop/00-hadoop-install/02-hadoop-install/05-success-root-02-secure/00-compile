@@ -1,0 +1,29 @@
+0. prepare (root)
+(1) gcc/autoconf/automake/google's protocol buffer
+(2) http://protobuf.googlecode.com/files/protobuf-2.4.1.tar.gz
+./configure --prefix=/usr/local
+make
+make check
+sudo make install
+------------
+# protoc
+Missing input file.
+(3) cmake
+(4) JDK/ANT/Maven(MVN)/SVN
+---------------
+vi /etc/profile
+--------------------------------------------------------------------------------
+#for java
+export JAVA_HOME=/usr/local/jdk1.6.0_21
+export PATH=$JAVA_HOME/bin:$PATH
+export CLASSPATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar:$CLASSPATH
+================================================================================
+1. checkout code
+[root@node1 usr]# pwd
+/usr
+svn checkout http://svn.apache.org/repos/asf/hadoop/common/tags/release-2.0.3-alpha/ hadoop2.0.3-root
+
+2. build
+# mvn package  -Pdist -DskipTests -Dtar -Dcontainer-executor.conf.dir=/etc/hadoop/conf -Pnative -DskipTests
+================================================================================
+after compiling, container-executor and test-container-executor will be produced under bin.

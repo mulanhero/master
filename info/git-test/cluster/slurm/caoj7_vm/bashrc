@@ -1,0 +1,19 @@
+#m4, autoconf, automake, libtool, flex
+export PATH=/home/caoj7/common/bin:$PATH
+export LD_LIBRARY_PATH=/home/caoj7/common/lib:$LD_LIBRARY_PATH
+
+#for general(openssl, munge)
+export PATH=/usr/bin:/usr/local/bin:$PATH
+export LD_LIBRARY_PATH=/usr/lib:/usr/lib64:/usr/local/lib:$LD_LIBRARY_PATH
+
+#m4, autoconf, automake, libtool, flex
+#export PATH=/home/caoj7/common/bin:$PATH
+#export LD_LIBRARY_PATH=/home/caoj7/common/lib:$LD_LIBRARY_PATH
+
+#for slurm
+export PATH=/home/caoj7/slurmhome/bin:/home/caoj7/slurmhome/sbin:$PATH
+export LD_LIBRARY_PATH=/home/caoj7/slurmhome/lib:/home/caoj7/slurmhome/lib/slurm:$LD_LIBRARY_PATH
+
+#for orte
+export PATH=/home/caoj7/orte/bin:$PATH
+export LD_LIBRARY_PATH=/home/caoj7/orte/lib:/home/caoj7/orte/lib/openmpi:$LD_LIBRARY_PATH

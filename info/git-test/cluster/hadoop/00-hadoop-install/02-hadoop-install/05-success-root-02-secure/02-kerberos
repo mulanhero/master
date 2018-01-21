@@ -1,0 +1,143 @@
+1. install and config KDC
+------------------------------------------------------------------------------------------
+1) install on node1-node4
+# yum install krb5-server krb5-libs krb5-auth-dialog  krb5-workstation 
+------------------------------------------------------------------------------------------
+2) config
+-----------------------------------------------------------------------------------------------
+[root@node1 ~]# cat /etc/hosts
+127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4
+::1         localhost localhost.localdomain localhost6 localhost6.localdomain6
+
+10.37.7.101     node1.hadoop.com
+10.37.7.102     node2.hadoop.com
+10.37.7.103     node3.hadoop.com
+10.37.7.104     node4.hadoop.com
+
+Note:  
+	scp to other nodes
+-----------------------------------------------------------------------------------------------
+[root@node1 ~]# cat /etc/krb5.conf
+[logging]
+ default = FILE:/var/log/krb5libs.log
+ kdc = FILE:/var/log/krb5kdc.log
+ admin_server = FILE:/var/log/kadmind.log
+
+[libdefaults]
+ default_realm =  HADOOPDOMAIN
+ dns_lookup_realm = false
+ dns_lookup_kdc = false
+ ticket_lifetime = 24h
+ renew_lifetime = 7d
+ forwardable = true
+
+[realms]
+ HADOOPDOMAIN = {cat
+  kdc = 10.37.7.101:88
+  admin_server = 10.37.7.101:749
+ }
+
+[domain_realm]
+ .example.com = HADOOPDOMAIN
+ example.com = HADOOPDOMAIN
+ 
+Note:*****************
+	scp to other nodes
+--------------------------------------------------------------------------------------------
+[root@node1 krb5kdc]# cat /var/kerberos/krb5kdc/kdc.conf
+[kdcdefaults]
+ kdc_ports = 88
+ kdc_tcp_ports = 88
+
+[realms]
+ HADOOPDOMAIN = {
+  #master_key_type = aes256-cts
+  acl_file = /var/kerberos/krb5kdc/kadm5.acl
+  dict_file = /usr/share/dict/words
+  admin_keytab = /var/kerberos/krb5kdc/kadm5.keytab
+  supported_enctypes = aes256-cts:normal aes128-cts:normal des3-hmac-sha1:normal arcfour-hmac:normal des-hmac-sha1:normal des-cbc-md5:normal des-cbc-crc:normal
+ }
+==========================================================================================
+2. Creating the Database and Setting Up the First Administrator
+2.1 create the Kerberos database
+[root@node1 krb5kdc]# kdb5_util create -s
+Loading random data
+Initializing database '/var/kerberos/krb5kdc/principal' for realm 'HADOOPDOMAIN',
+master key name 'K/M@HADOOPDOMAIN'
+You will be prompted for the database Master Password.
+It is important that you NOT FORGET this password.
+Enter KDC database master key:   					(#123456)
+Re-enter KDC database master key to verify: 		(#123456)
+
+Note:
+(a) /var/kerberos/krb5kdc/principal is created
+(b) it is very slowly when Loading random data, so you can try:
+-bash-4.2# rm /dev/random
+-bash-4.2# ln -s /dev/urandom /dev/random
+--------------------------------------------------------------------------------------------
+2.2 Edit the Access Control List
+[root@node1 ~]# cat /var/kerberos/krb5kdc/kadm5.acl
+*/admin@HADOOPDOMAIN	*
+--------------------------------------------------------------------------------------------
+2.3 Create the admin's principal
+[root@node1 krb5kdc]# /usr/sbin/kadmin.local -q "addprinc root/admin"
+Authenticating as principal root/admin@HADOOPDOMAIN with password.
+WARNING: no policy specified for root/admin@HADOOPDOMAIN; defaulting to no policy
+Enter password for principal "root/admin@HADOOPDOMAIN":  		(#123456)
+Re-enter password for principal "root/admin@HADOOPDOMAIN":		(#123456)
+Principal "root/admin@HADOOPDOMAIN" created.
+--------------------------------------------------------------------------------------------
+2.5 add a test user
+----------------
+[root@node1 krb5kdc]# kadmin.local
+Authenticating as principal root/admin@HADOOPDOMAIN with password.
+kadmin.local:  addprinc test   #add test user
+WARNING: no policy specified for test@HADOOPDOMAIN; defaulting to no policy
+Enter password for principal "test@HADOOPDOMAIN":  (#123456)
+Re-enter password for principal "test@HADOOPDOMAIN":  (#123456)
+Principal "test@HADOOPDOMAIN" created.
+---------------
+kadmin.local:  listprincs  # to list
+K/M@HADOOPDOMAIN
+kadmin/admin@HADOOPDOMAIN
+kadmin/changepw@HADOOPDOMAIN
+kadmin/node1@HADOOPDOMAIN
+krbtgt/HADOOPDOMAIN@HADOOPDOMAIN
+root/admin@HADOOPDOMAIN
+test@HADOOPDOMAIN
+----------------
+q
+--------------------------------------------------------------------------------------------
+2.4  Start Kerberos
+[root@node1 ~]# /sbin/service krb5kdc start
+Starting Kerberos 5 KDC:                                   [  OK  ]
+[root@node1 ~]# /sbin/service kadmin start
+Starting Kerberos 5 Admin Server:                          [  OK  ]
+--------------------------------------------------------------------------------------------
+2.6 test 
+[root@node1 krb5kdc]# kinit test					(#123456)
+Password for test@HADOOPDOMAIN:
+----------------
+[root@node1 krb5kdc]# klist -e
+Ticket cache: FILE:/tmp/krb5cc_0
+Default principal: test@HADOOPDOMAIN
+
+Valid starting     Expires            Service principal
+03/28/13 03:39:28  03/29/13 03:39:28  krbtgt/HADOOPDOMAIN@HADOOPDOMAIN
+	renew until 03/28/13 03:39:28, Etype (skey, tkt): aes256-cts-hmac-sha1-96, aes256-cts-hmac-sha1-96
+----------------
+[root@node1 krb5kdc]# kdestroy
+[root@node1 krb5kdc]# klist -e
+klist: No credentials cache found (ticket cache FILE:/tmp/krb5cc_0)
+Note: after kdestroy, there is no principal any more
+--------------------------------------------------------------------------------------------
+2.6 auto-start 
+----------------
+chkconfig --level 35 krb5kdc on
+chkconfig --level 35 kadmin on
+service krb5kdc restart
+service kadmin restart 
+==========================================================================================
+3. Install Kerberos client
+Configuring Kerberos client is actually pretty straightforward. Just need to make sure 
+krb5-libs and krb5-workstation are installed and /etc/krb5.conf is the same with the one on KDC server.

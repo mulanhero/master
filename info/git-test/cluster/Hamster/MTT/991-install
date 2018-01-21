@@ -1,0 +1,52 @@
+-----------------------------------------------------------------------------------------
+1. install
+-----------------------------------------------------------------------------------------
+[root@gphd-vm211 soft]# svn co http://svn.open-mpi.org/svn/mtt/trunk mtt-trunk
+-----------------------------------------------------------------------------------------
+2. 
+-----------------------------------------------------------------------------------------
+
+mtt --scratch /usr/local/hamster/mtest --file /usr/local/hamster/mtt-trunk/ompi-core-perf-testing.ini --verbose --print-time
+
+
+mtt -d --scratch /usr/local/hamster/mtt-build --file /usr/local/hamster/m/ompi-jimmy.ini --verbose --print-time
+
+
+
+mtt -d --test-build --scratch /usr/local/hamster/mtt-build --file /usr/local/hamster/m/ompi-jimmy.ini --verbose --print-time
+-----------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------
+
+-----------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------
+
+-----------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------
+
+-----------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------
+
+    File not found: /root/rpmbuild/BUILDROOT/openmpi-1.7.21-1.x86_64/usr/etc/openmpi-default-hostfile
+    File not found: /root/rpmbuild/BUILDROOT/openmpi-1.7.21-1.x86_64/usr/etc/openmpi-mca-params.conf
+    File not found: /root/rpmbuild/BUILDROOT/openmpi-1.7.21-1.x86_64/usr/etc/openmpi-totalview.tcl
+    File not found: /root/rpmbuild/BUILDROOT/openmpi-1.7.21-1.x86_64/usr/etc/vt-java-default-filter.spec
+    File not found: /root/rpmbuild/BUILDROOT/openmpi-1.7.21-1.x86_64/usr/etc/vtsetup-config.dtd
+    File not found: /root/rpmbuild/BUILDROOT/openmpi-1.7.21-1.x86_64/usr/etc/vtsetup-config.xml
+    
+    
+    /usr/local/hamster/mtt-trunk/client/mtt -d --test-build --scratch /usr/local/hamster/mtt-build --file /usr/local/hamster/m/ompi-jimmy.ini --verbose --print-time
+    
+    
+    
+    /usr/local/hamster/working/hamster/hamster-core/target/hamster-core-1.0.0-SNAPSHOT-bin/bin/hamster -v -np 2 /usr/local/hamster/build/installs/LdXD/tests/testsuite/osu-micro-benchmarks-4.2/mpi/pt2pt/osu_mbw_mr
+    
+    /usr/local/hamster/working/hamster/hamster-core/target/hamster-core-1.0.0-SNAPSHOT-bin/bin/hamster -v -np 2 /usr/local/hamster/build/installs/cDmT/tests/testsuite/osu-micro-benchmarks-4.2/mpi/pt2pt/osu_mbw_mr
+    
+    /usr/local/hamster/working/hamster/hamster-core/target/hamster-core-1.0.0-SNAPSHOT-bin/bin
+    
+    export PATH=/usr/local/hamster/working/hamster/hamster-core/target/hamster-core-1.0.0-SNAPSHOT-bin/bin:$PATH

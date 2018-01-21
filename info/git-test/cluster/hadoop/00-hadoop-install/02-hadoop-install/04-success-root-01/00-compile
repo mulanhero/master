@@ -1,0 +1,64 @@
+0. prepare (hadoop)
+(1) gcc/autotools/google's protocol buffer
+(2) http://protobuf.googlecode.com/files/protobuf-2.4.1.tar.gz
+------------
+# protoc
+Missing input file.
+(3) cmake (yum install)
+(4) JDK/ANT/Maven(MVN)/SVN (from yum)
+--------------------------------------------------------------------------------
+.bashrc
+
+#for java
+export JAVA_HOME=/root/program/common-j/jdk1.6.0_21
+export PATH=$JAVA_HOME/bin:$PATH
+export CLASSPATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar:$CLASSPATH
+
+#for ant
+export PATH=/root/program/common-j/apache-ant-1.9.1/bin:$PATH
+
+#for maven
+export M2_HOME=/root/program/common-j/apache-maven-3.0.5
+export PATH=$M2_HOME/bin:$PATH
+================================================================================
+1. checkout code
+svn checkout http://svn.apache.org/repos/asf/hadoop/common/tags/release-2.0.3-alpha/ hadoop-2.0.3-src
+			http://svn.apache.org/repos/asf/hadoop/common/tags/release-2.0.4-alpha/ 
+			http://svn.apache.org/repos/asf/hadoop/common/tags/release-2.0.5-alpha/
+
+2. build
+# mvn package  -Pdist -Dtar -Dcontainer-executor.conf.dir=/root/program/hadoop-2.0.3-alpha/etc/hadoop -Pnative -DskipTests
+---------- for hadoop2.0.2rc1
+svn checkout http://svn.apache.org/repos/asf/hadoop/common/tags/release-2.0.2-alpha/ hadoop-2.0.2-src
+# mvn package  -Pdist -Dtar -Pnative -DskipTests  //  on mac, remove -Pnative, o/w, will failed
+================================================================================
+after compiling, container-executor and test-container-executor will be produced under bin.
+root@node1 hadoop-2.0.3-alpha]# pwd
+/root/program/hadoop-2.0.3-alpha
+[root@node1 hadoop-2.0.3-alpha]# ll bin
+total 248
+-rwxr-xr-x. 1 root root  98131 Mar 26 19:17 container-executor
+-rwxr-xr-x. 1 root root   4922 Mar 26 19:17 hadoop
+-rwxr-xr-x. 1 root root   6597 Mar 26 19:17 hdfs
+-rwxr-xr-x. 1 root root   4863 Mar 26 19:17 mapred
+-rwxr-xr-x. 1 root root   1893 Mar 26 19:17 rcc
+-rwxr-xr-x. 1 root root 114521 Mar 26 19:17 test-container-executor
+-rwxr-xr-x. 1 root root   8869 Mar 26 19:17 yarn
+
+
+
+cp -rf `ls clustering | grep -E -v "^(exclude_file|exclude_dir)$"`  test/
+
+cp -rf `ls clustering | grep -E -v "^(CMakeFiles|CTestTestfile.cmake|cmake_install.cmake|Makefile)$"`  test/
+
+
+
+for algo in $(ls clustering | grep -E -v "^(CMakeFiles|CTestTestfile.cmake|cmake_install.cmake|Makefile)$"); do
+	cp clustering/${algo} test/
+done
+
+/usr/local/hamster/graphlab/release/toolkits/clustering/
+/usr/local/hamster/graphlab/release/toolkit/clustering/
+
+
+libc.so.6()(64bit) libc.so.6(GLIBC_2.2.5)(64bit) libc.so.6(GLIBC_2.3)(64bit) libc.so.6(GLIBC_2.3.2)(64bit) libc.so.6(GLIBC_2.7)(64bit) libgcc_s.so.1()(64bit) libgcc_s.so.1(GCC_3.0)(64bit) libgcc_s.so.1(GCC_4.0.0)(64bit) libgomp.so.1()(64bit) libgomp.so.1(GOMP_1.0)(64bit) libgomp.so.1(OMP_1.0)(64bit) libm.so.6()(64bit) libm.so.6(GLIBC_2.2.5)(64bit) libopencv_calib3d.so.2.4()(64bit) libopencv_contrib.so.2.4()(64bit) libopencv_core.so.2.4()(64bit) libopencv_features2d.so.2.4()(64bit) libopencv_highgui.so.2.4()(64bit) libopencv_imgproc.so.2.4()(64bit) libopencv_legacy.so.2.4()(64bit) libopencv_ml.so.2.4()(64bit) libopencv_objdetect.so.2.4()(64bit) libopencv_stitching.so.2.4()(64bit) libopencv_video.so.2.4()(64bit) libpthread.so.0()(64bit) libpthread.so.0(GLIBC_2.2.5)(64bit) libpthread.so.0(GLIBC_2.3.2)(64bit) librt.so.1()(64bit) librt.so.1(GLIBC_2.2.5)(64bit) libstdc++.so.6()(64bit) libstdc++.so.6(CXXABI_1.3)(64bit) libstdc++.so.6(CXXABI_1.3.1)(64bit) libstdc++.so.6(GLIBCXX_3.4)(64bit) libstdc++.so.6(GLIBCXX_3.4.11)(64bit) libstdc++.so.6(GLIBCXX_3.4.5)(64bit) libstdc++.so.6(GLIBCXX_3.4.9)(64bit) libz.so.1()(64bit) rtld(GNU_HASH)

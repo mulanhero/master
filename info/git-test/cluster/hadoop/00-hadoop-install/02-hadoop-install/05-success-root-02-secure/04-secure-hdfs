@@ -1,0 +1,110 @@
+==========================================================================================
+1. core-site.xml
+---------------------------
+<property>
+  <name>hadoop.security.authentication</name>
+  <value>kerberos</value>
+</property>
+
+<property>
+  <name>hadoop.security.authorization</name>
+  <value>true</value>
+</property>
+------------------------------------------------------------------------------------------
+2. hdfs-site.xml
+---------------------------
+<!-- General HDFS security config -->
+<property>
+  <name>dfs.block.access.token.enable</name>
+  <value>true</value>
+</property>
+------------------------------------------------------------------------------------------
+3. Namenode security (hdfs-site.xml)
+---------------------------
+<!-- NameNode security config -->
+<property>
+  <name>dfs.https.address</name>
+  <value>node1.hadoop.com:50470</value>
+</property>
+
+<property>
+  <name>dfs.https.port</name>
+  <value>50470</value>
+</property>
+
+<property>
+  <name>dfs.namenode.keytab.file</name>
+  <value>/etc/hadoop/conf/hdfs.keytab</value>
+</property>
+
+<property>
+  <name>dfs.namenode.kerberos.principal</name>
+  <value>hdfs/_HOST@HADOOPDOMAIN</value>
+</property>
+
+<property>
+  <name>dfs.namenode.kerberos.https.principal</name>
+  <value>host/_HOST@HADOOPDOMAIN</value>
+</property>
+------------------------------------------------------------------------------------------
+4. Secondary namenode security (hdfs-site.xml)
+---------------------------
+<!-- Secondary NameNode security config -->
+<property>
+  <name>dfs.secondary.https.address</name>
+  <value>node1.hadoop.com:50495</value>
+</property>
+
+<property>
+  <name>dfs.secondary.https.port</name>
+  <value>50495</value>
+</property>
+
+<property>
+  <name>dfs.secondary.namenode.keytab.file</name>
+  <value>/etc/hadoop/conf/hdfs.keytab</value>
+</property>
+
+<property>
+  <name>dfs.secondary.namenode.kerberos.principal</name>
+  <value>hdfs/_HOST@HADOOPDOMAIN</value>
+</property>
+
+<property>
+  <name>dfs.secondary.namenode.kerberos.https.principal</name>
+  <value>host/_HOST@HADOOPDOMAIN</value>
+</property>
+------------------------------------------------------------------------------------------
+5. Datanode security configuration (hdfs-site.xml)
+---------------------------
+<!-- DataNode security config -->
+<property>
+  <name>dfs.datanode.data.dir.perm</name>
+  <value>700</value>
+</property>
+
+<property>
+  <name>dfs.datanode.address</name>
+  <value>0.0.0.0:1004</value>
+</property>
+
+<property>
+  <name>dfs.datanode.http.address</name>
+  <value>0.0.0.0:1006</value>
+</property>
+
+<property>
+  <name>dfs.datanode.keytab.file</name>
+  <value>/etc/hadoop/conf/hdfs.keytab</value>
+</property>
+
+<property>
+  <name>dfs.datanode.kerberos.principal</name>
+  <value>hdfs/_HOST@HADOOPDOMAIN</value>
+</property>
+
+<property>
+  <name>dfs.datanode.kerberos.https.principal</name>
+  <value>host/_HOST@HADOOPDOMAIN</value>
+</property>
+==========================================================================================

@@ -1,0 +1,35 @@
+<property>
+  	<name>mapreduce.framework.name</name>
+    <value>yarn</value>
+</property>
+
+<property>
+	<name>mapreduce.cluster.temp.dir</name>
+	<value>/tmp/hadoop-mapreduce2/cluster-temp</value>
+</property>
+
+<property>
+	<name>mapreduce.cluster.local.dir</name>
+	<value>/tmp/hadoop-mapreduce2/cluster-local</value>
+</property>
+ 
+ <property>
+    <name>yarn.app.mapreduce.am.staging-dir</name>
+    <value>/tmp/hadoop-mapreduce2/staging</value>
+</property>
+
+<property>
+  	<name>mapreduce.task.tmp.dir</name>
+  	<value>/tmp/hadoop-mapreduce2/task-tmp</value>
+</property>
+ 
+<!--jobhistory-->
+<property>
+  	<name>mapreduce.jobhistory.address</name>
+  	<value>node1:10020</value>
+</property>
+ 
+<property>
+  	<name>mapreduce.jobhistory.webapp.address</name>
+  	<value>node1:19888</value>
+</property>

@@ -1,0 +1,198 @@
+ in orte_globals.c: 
+ opal_pointer_array_t *orte_local_children;
+ 
+ 
+ 1. 由于所有proc已经被launch, 故标记每个local的proc->alive=true；
+ /* mark all local children to alive make xcast behave right */
+    for (i = 0; i < orte_local_children->size; i++) {
+        orte_proc_t* proc = opal_pointer_array_get_item(orte_local_children, i);
+        if (!proc) {
+            continue;
+        }
+        proc->alive = true;
+    }
+    
+2. 先注册一个与hnp sync后，获取其response后的 callback函数
+/* register a callback for hnp sync response */
+    if (ORTE_SUCCESS != (rc = orte_rml.recv_buffer_nb(ORTE_NAME_WILDCARD,
+                                                      ORTE_RML_TAG_YARN_SYNC_RESPONSE,
+                                                      ORTE_RML_PERSISTENT,
+                                                      yarn_daemon_sync_recv, NULL))) {
+        ORTE_ERROR_LOG(rc);
+        return rc;
+    }
+
+而这个callback函数呢，就是去触发一个timer event，而该timer event就是去调用local_process_state_monitor_cb来local proc的
+vpid和exit_code
+    static void yarn_daemon_sync_recv(int status, orte_process_name_t* sender,
+                           opal_buffer_t* buffer, orte_rml_tag_t tag,
+                           void* cbdata)
+{
+    yarn_local_procs_monitor_t *mon;
+    struct timeval tv = {1, 0};
+    
+    OPAL_OUTPUT_VERBOSE((5, orte_odls_base_framework.framework_output,
+                     "%s odls:yarn:yarn_daemon_sync_recv: recved sync response from hnp, start tracking proc state",
+                     ORTE_NAME_PRINT(ORTE_PROC_MY_NAME)));
+
+    /*
+     * since local procs are launched by YARN NM, we here just to check
+     * vpid and exit_code of each local procs with a timer libevent
+     */
+    mon = OBJ_NEW(yarn_local_procs_monitor_t);  //将来要传入local_process_state_monitor_cb参数
+    mon->jobid = jobid;    //来自全局静态变量  static orte_jobid_t jobid;
+    opal_event_evtimer_set(orte_event_base, &mon->ev, local_process_state_monitor_cb, mon);
+    opal_event_evtimer_add(&mon->ev, &tv);
+}
+
+3. 
+====================================
+orte_job_t* job = orte_get_job_data_object(jobid); //从jobid回复orte_job_t对象
+jobdat = orte_get_job_data_object(proc->name.jobid)；
+orte_proc_t* proc = opal_pointer_array_get_item(job->procs, vpid); //根据vpid获取orte_proc_t对象
+
+=====================================
+static void local_process_state_monitor_cb(int fd, short args, void *cbdata) {
+    yarn_local_procs_monitor_t *caddy;
+    struct timeval tv = {1, 0};
+    caddy = (yarn_local_procs_monitor_t*)cbdata;
+    orte_jobid_t jobid = caddy->jobid;
+    int rc;
+    orte_job_t* job = orte_get_job_data_object(jobid); //从jobid回复orte_job_t对象
+    if (!job) {
+        ORTE_ERROR_LOG(ORTE_ERR_NOT_FOUND);
+        goto error_out;
+    }
+
+    // do monitoring logic
+    // get processes pid path
+    char* pid_root = getenv("HAMSTER_PID_ROOT");
+    if (!pid_root) {
+        pid_root = "/tmp/hamster-pid";
+    }
+    char pid_dir[1024];
+    strcpy(pid_dir, pid_root);
+    int path_len = strlen(pid_dir);
+    sprintf(pid_dir + path_len, "/%u", jobid);
+
+    // see files in pid path
+    DIR* dirp = opendir(pid_dir);
+    char full_file_name[4096];
+    struct dirent *ent;
+    int launched_proc_num = 0;
+    int finished_proc_num = 0;
+    
+    if (dirp) {
+        while ((ent = readdir(dirp)) != NULL) {
+            if ((ent->d_name) && (strlen(ent->d_name) > 0)) {
+                // if ent->d_name[0] not a valid number, skip it
+                if (ent->d_name[0] > '9' || ent->d_name[0] < '0') {
+                    continue;
+                }
+
+                // error when fork child process
+                if (strstr(ent->d_name, "_err")) {
+                    orte_vpid_t vpid = get_vpid_from_err_file(ent->d_name);
+                    orte_proc_t* proc = opal_pointer_array_get_item(job->procs, vpid);
+                    if (!proc) {
+                        ORTE_ERROR_LOG(ORTE_ERR_NOT_FOUND);
+                        goto error_out;
+                    }
+                    //如果发现proc->state
+                    if (proc->state <= ORTE_PROC_STATE_UNTERMINATED) {
+                        ORTE_ACTIVATE_PROC_STATE(&proc->name, ORTE_PROC_STATE_FAILED_TO_LAUNCH);
+                    }
+                    continue;
+                }
+
+                launched_proc_num++;
+
+                // not error, get filename/length
+                orte_vpid_t vpid = get_vpid_from_normal_file(ent->d_name);
+                orte_proc_t* proc = opal_pointer_array_get_item(job->procs, vpid);
+                if (!proc) {
+                    ORTE_ERROR_LOG(ORTE_ERR_NOT_FOUND);
+                    goto error_out;
+                }
+
+                // get length of file
+                sprintf(full_file_name, "%s/%s", pid_dir, ent->d_name);
+
+                struct stat st;
+                if (0 != (rc = stat(full_file_name, &st))) {
+                    // read file failed
+                    opal_output(0, "%s odls:yarn:local_process_state_monitor_cb: failed to get size of pid file, path:%s", 
+                        ORTE_NAME_PRINT(ORTE_PROC_MY_NAME), full_file_name);
+                    ORTE_ERROR_LOG(ORTE_ERR_NOT_FOUND);
+                    goto error_out;
+                }
+
+                if (st.st_size > 0) {
+                    // already finished
+                    finished_proc_num++;
+
+                    if (proc->state <= ORTE_PROC_STATE_UNTERMINATED) {
+                        FILE * fp;
+                        fp = fopen(full_file_name, "r");
+                        if (fp == NULL) {
+                            opal_output(0, "%s odls:yarn:local_process_state_monitor_cb: failed to open file, %s", 
+                                ORTE_NAME_PRINT(ORTE_PROC_MY_NAME), full_file_name);
+                            ORTE_ERROR_LOG(ORTE_ERR_FILE_READ_FAILURE);
+                            goto error_out;
+                        }
+                        char line[1024];
+                        if (!fgets(line, 1024, fp)) {
+                            opal_output(0, "%s odls:yarn:local_process_state_monitor_cb: failed to read file content, %s", 
+                                ORTE_NAME_PRINT(ORTE_PROC_MY_NAME), full_file_name);
+                            ORTE_ERROR_LOG(ORTE_ERR_FILE_READ_FAILURE);
+                            fclose(fp);
+                            goto error_out;
+                        }
+                        fclose(fp);
+                        int rc = atoi(line);
+                        process_proc_exit_status(rc, proc);
+                    }
+                } else {
+                    // started but not finished yet
+                    if (proc->state <= ORTE_PROC_STATE_UNTERMINATED && proc->state < ORTE_PROC_STATE_RUNNING) {
+                        proc->alive = true;
+                        ORTE_ACTIVATE_PROC_STATE(&proc->name, ORTE_PROC_STATE_RUNNING);
+                    }
+                }
+            }
+        }
+    }
+
+    // check if we need to transfer job state / start sensor
+    if (launched_proc_num >= orte_local_children->size) {
+        if (sensor_started) {
+            orte_sensor.start(jobid);
+            sensor_started = true;
+        }
+        if (job->state <= ORTE_JOB_STATE_LAUNCH_APPS) {
+            job->state = ORTE_JOB_STATE_LOCAL_LAUNCH_COMPLETE;
+            ORTE_ACTIVATE_JOB_STATE(job, ORTE_JOB_STATE_LOCAL_LAUNCH_COMPLETE);
+        }
+    }
+    
+    if (finished_proc_num < orte_local_children->size) {
+        // register another event if needed
+        yarn_local_procs_monitor_t* mon = OBJ_NEW(yarn_local_procs_monitor_t);
+        mon->jobid = caddy->jobid;
+        opal_event_evtimer_set(orte_event_base, &mon->ev, local_process_state_monitor_cb, mon);
+        opal_event_evtimer_add(&mon->ev, &tv);
+    }
+
+    // move on
+    OBJ_RELEASE(caddy);
+    return;
+
+error_out:
+    // release last caddy
+    OBJ_RELEASE(caddy);
+    if (!job) {
+        ORTE_ACTIVATE_JOB_STATE(NULL, ORTE_JOB_STATE_FAILED_TO_LAUNCH);
+    } else {
+        ORTE_ACTIVATE_JOB_STATE(job, ORTE_JOB_STATE_FAILED_TO_LAUNCH); 
+    }
+}

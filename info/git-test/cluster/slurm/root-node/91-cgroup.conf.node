@@ -1,0 +1,15 @@
+[root@node1 etc]# cat /root/slurmhome/etc/cgroup.conf
+CgroupMountpoint=/cgroup
+CgroupAutomount=yes
+#CgroupReleaseAgentDir="/etc/slurm/cgroup"
+CgroupReleaseAgentDir="/root/slurmhome/etc"
+
+
+ConstrainCores=yes
+TaskAffinity=yes    #rely on HWLOC
+
+ConstrainRAMSpace=yes
+ConstrainSwapSpace=yes
+
+#ConstrainDevices=yes
+#AllowedDevicesFile="/root/slurmhome/etc/allowed_devices.conf"

@@ -1,0 +1,16 @@
+最近几天测试了mahout svd算法，网上的文档比较少，花了不少时间读它的代码，终于把流程搞清楚了，在这里总结一下。
+1、关于奇异值分解的理论基础，请参看下面的链接
+http://www.cnblogs.com/LeftNotEasy/archive/2011/01/19/svd-and-applications.html
+2、关于奇异值分解的应用场景，请参看下面的例子
+http://www.igvita.com/2007/01/15/svd-recommendation-system-in-ruby/
+3、关于奇异值分解输入、输出文格式的件的转换，，请参考
+http://bickson.blogspot.com/2011/02/mahout-svd-matrix-factorization.html
+注意输出结果解析的时应该用NamedVector，而不是SequentialAccessSparseVector
+4、输出结果解释
+输入的矩阵记为A，mahout svd输出的结果为矩阵A^t * A的特征值和特征向量，需要注意的是，特征值是按照顺序排列的。要得到U和奇异值需要做进一步的运算（参照第一步里面提到的公式），V则是输出的特征向量。
+
+----------
+ mahout实现的并行降维算法不多，svd奇异值分解算法，主要通过矩阵运算来实现降维。
+ 首先，将要处理的数据转换为矩阵格式，这里使用csv文件存储，再将每列存人一个vector向量(行值作为key)，
+ 然后将vector逐一存入sequence序列文件。这样便完成了输入文件的准备工作，而算法调用就比较简单了。
+ 遵循官方文档的说明或示例(https://cwiki.apache.org/MAHOUT/dimensional-reduction.html)即可完成降维处理。得到结果后，只要将结果矩阵再次转置一下就可进一步处理了，如聚类，分类或关联等。

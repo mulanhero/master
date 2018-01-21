@@ -1,0 +1,2 @@
+[root@node1 bin]# cat netpipe_submit.sh
+./hamster_cli.sh /root/program/orte/bin/mpirun --hamster-verbose -np 2 /root/program/NetPIPE-3.7.1/NPmpi -u 1024

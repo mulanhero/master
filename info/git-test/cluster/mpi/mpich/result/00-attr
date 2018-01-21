@@ -1,0 +1,95 @@
+-rwxr-xr-x 1 root root 68675 Dec  5 05:59 attr2type     		10			x								application_1386032214214_0072
+-rwxr-xr-x 1 root root 68010 Dec  5 08:08 attrend				4,5 
+-rwxr-xr-x 1 root root 68036 Dec  5 08:08 attrend2				6,7
+-rwxr-xr-x 1 root root 69605 Dec  5 05:59 attrerr				3
+-rwxr-xr-x 1 root root 70013 Dec  5 05:59 attrerrcomm			8
+-rwxr-xr-x 1 root root 70077 Dec  5 05:59 attrerrtype			9
+-rwxr-xr-x 1 root root 69535 Dec  5 05:59 attric				2			x 				cannot run by mpirun
+-rwxr-xr-x 1 root root 69709 Dec  5 05:59 attrorder				11
+-rwxr-xr-x 1 root root 69778 Dec  5 05:59 attrordercomm			12
+-rwxr-xr-x 1 root root 69786 Dec  5 05:59 attrordertype			13
+-rwxr-xr-x 1 root root 72120 Dec  5 05:59 attrt					1
+-rwxr-xr-x 1 root root 73586 Dec  5 05:59 baseattr2				14
+-rwxr-xr-x 1 root root 68416 Dec  5 05:59 baseattrcomm			15
+-rwxr-xr-x 1 root root 68328 Dec  5 05:59 fkeyval				16
+-rwxr-xr-x 1 root root 68376 Dec  5 05:59 fkeyvalcomm			17
+-rwxr-xr-x 1 root root 68992 Dec  5 05:59 fkeyvaltype			18
+-rwxr-xr-x 1 root root 67681 Dec  5 05:59 keyval_double_free	19			x									application_1386032214214_0081
+
+[root@gphd-vm33 btest]# cat runtests.batch 
+export MPIEXEC_TIMEOUT=180000
+echo "# hamster -n 2    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/attr/attrt " > runtests.1.out
+hamster -n 2    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/attrt  >> runtests.1.out 2>&1
+echo $? > runtests.1.status
+#export MPIEXEC_TIMEOUT=180000
+#echo "# hamster -n 4    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/attr/attric " > runtests.2.out
+#hamster -n 4    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/attric  >> runtests.2.out 2>&1
+#echo $? > runtests.2.status
+export MPIEXEC_TIMEOUT=180000
+echo "# hamster -n 1    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/attr/attrerr " > runtests.3.out
+hamster -n 1    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/attrerr  >> runtests.3.out 2>&1
+echo $? > runtests.3.status
+export MPIEXEC_TIMEOUT=180000
+echo "# hamster -n 1    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/attr/attrend " > runtests.4.out
+hamster -n 1    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/attrend  >> runtests.4.out 2>&1
+echo $? > runtests.4.status
+export MPIEXEC_TIMEOUT=180000
+echo "# hamster -n 4    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/attr/attrend " > runtests.5.out
+hamster -n 4    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/attrend  >> runtests.5.out 2>&1
+echo $? > runtests.5.status
+export MPIEXEC_TIMEOUT=180000
+echo "# hamster -n 1    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/attr/attrend2 " > runtests.6.out
+hamster -n 1    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/attrend2  >> runtests.6.out 2>&1
+echo $? > runtests.6.status
+export MPIEXEC_TIMEOUT=180000
+echo "# hamster -n 5    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/attr/attrend2 " > runtests.7.out
+hamster -n 5    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/attrend2  >> runtests.7.out 2>&1
+echo $? > runtests.7.status
+export MPIEXEC_TIMEOUT=180000
+echo "# hamster -n 1    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/attr/attrerrcomm " > runtests.8.out
+hamster -n 1    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/attrerrcomm  >> runtests.8.out 2>&1
+echo $? > runtests.8.status
+export MPIEXEC_TIMEOUT=180000
+echo "# hamster -n 1    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/attr/attrerrtype " > runtests.9.out
+hamster -n 1    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/attrerrtype  >> runtests.9.out 2>&1
+echo $? > runtests.9.status
+export MPIEXEC_TIMEOUT=180000
+echo "# hamster -n 1    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/attr/attr2type " > runtests.10.out
+hamster -n 1    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/attr2type  >> runtests.10.out 2>&1
+echo $? > runtests.10.status
+export MPIEXEC_TIMEOUT=180000
+echo "# hamster -n 1    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/attr/attrorder " > runtests.11.out
+hamster -n 1    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/attrorder  >> runtests.11.out 2>&1
+echo $? > runtests.11.status
+export MPIEXEC_TIMEOUT=180000
+echo "# hamster -n 1    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/attr/attrordercomm " > runtests.12.out
+hamster -n 1    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/attrordercomm  >> runtests.12.out 2>&1
+echo $? > runtests.12.status
+export MPIEXEC_TIMEOUT=180000
+echo "# hamster -n 1    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/attr/attrordertype " > runtests.13.out
+hamster -n 1    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/attrordertype  >> runtests.13.out 2>&1
+echo $? > runtests.13.status
+export MPIEXEC_TIMEOUT=180000
+echo "# hamster -n 1    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/attr/baseattr2 " > runtests.14.out
+hamster -n 1    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/baseattr2  >> runtests.14.out 2>&1
+echo $? > runtests.14.status
+export MPIEXEC_TIMEOUT=180000
+echo "# hamster -n 1    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/attr/baseattrcomm " > runtests.15.out
+hamster -n 1    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/baseattrcomm  >> runtests.15.out 2>&1
+echo $? > runtests.15.status
+export MPIEXEC_TIMEOUT=180000
+echo "# hamster -n 1    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/attr/fkeyval " > runtests.16.out
+hamster -n 1    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/fkeyval  >> runtests.16.out 2>&1
+echo $? > runtests.16.status
+export MPIEXEC_TIMEOUT=180000
+echo "# hamster -n 1    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/attr/fkeyvalcomm " > runtests.17.out
+hamster -n 1    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/fkeyvalcomm  >> runtests.17.out 2>&1
+echo $? > runtests.17.status
+export MPIEXEC_TIMEOUT=180000
+echo "# hamster -n 1    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/attr/fkeyvaltype " > runtests.18.out
+hamster -n 1    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/fkeyvaltype  >> runtests.18.out 2>&1
+echo $? > runtests.18.status
+export MPIEXEC_TIMEOUT=180000
+echo "# hamster -n 1    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/attr/keyval_double_free " > runtests.19.out
+hamster -n 1    /usr/local/hamster/mpi-testsuite/go/mpich2-1.5/test/mpi/btest/keyval_double_free  >> runtests.19.out 2>&1
+echo $? > runtests.19.status

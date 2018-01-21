@@ -1,0 +1,44 @@
+------------------------------------------------------------------------
+1. input data
+------------------------------------------------------------------------
+[root@node1 clustering]# cat sc_data.txt            //6 points, each point in a 5-dimensional space
+1 -10.7551  6.82178 5.33455 -2.08247  2.86694
+2 -1.36687  10.8464 -5.28851  -4.26768  -5.50659
+3 -8.79834  8.01002 5.33418 0.102824  3.23318 
+4 -8.64345  6.81946 1.2309  -4.46784  2.26341 
+5 -8.29782  7.1154  3.32559 -2.59422  2.33936
+6 -8.12504  8.98924 4.15027 0.253153  1.75911 
+------------------------------------------------------------------------
+2. single process (cannot get passed through)
+------------------------------------------------------------------------
+./spectral_clustering --data=[data prefix] --clusters=[N cluster] 
+./spectral_clustering --data=data --clusters=3 
+./spectral_clustering --data=data.txt --clusters=3 
+------------
+This program uses svd in Graphlab Collaborative Filtering Toolkit, kmeans in Graphlab Clustering Toolkit 
+and eigen_vector_normalization in Graphlab Graph Analytics Toolkit. The paths to the directories are 
+specified by Ðsvd-dir, Ðkmeans-dir and Ðgraph-analytics-dir, respectively.
+------------we just use the default value, but make sure all such tools ready, so just 'make'.
+Ðsvd-dir=      Ðkmeans-dir=    Ðgraph-analytics-dir=
+./spectral_clustering --data=data.txt --clusters=3  -svd-dir=../collaborative_filtering/ -kmeans-dir=../clustering/ -graph-analytics-dir=../graph_analytics/ 
+./spectral_clustering --data=data.txt --clusters=3  -svd-dir=/usr/local/hamster/graphlab/release/toolkits/collaborative_filtering -kmeans-dir=/usr/local/hamster/graphlab/release/toolkits/clustering -graph-analytics-dir=/usr/local/hamster/graphlab/release/toolkits/graph_analytics 
+------------------------------------------------------------------------
+3. mpi process (cannot get passed through)
+------------------------------------------------------------------------
+mpirun -np 2 /usr/local/hamster/graphlab/debug/toolkits/clustering/spectral_clustering --data=/usr/local/hamster/graphlab/debug/toolkits/clustering/data --clusters=3
+------------------------------------------------------------------------
+4. hamster  (cannot get passed through)
+------------------------------------------------------------------------
+/root/program/graphlab/release/toolkits/clustering/spectral_clustering --data=/root/program/graphlab/release/toolkits/clustering/data.txt --clusters=3 --svd-dir=/root/program/graphlab/release/toolkits/collaborative_filtering/ --kmeans-dir=/root/program/graphlab/release/toolkits/clustering --graph-analytics-dir=/root/program/graphlab/release/toolkits/graph_analytics --add-file ./graph_laplacian_for_sc --hamster-verbose
+
+
+------------------------------------------------------------------------
+5. hamster on with no HDFS  (succeed, 1. need to revise the hard-coded cmd 2. need bin/hamster on each node 3. partitining is not a mpi program)
+------------------------------------------------------------------------
+/usr/local/hamster/graphlab/release/toolkits/clustering/spectral_clustering \
+--data=/usr/local/hamster/writable_dir/sc_data.txt \
+--clusters=3 \
+--svd-dir=/usr/local/hamster/graphlab/release/toolkits/collaborative_filtering/ \
+--kmeans-dir=/usr/local/hamster/graphlab/release/toolkits/clustering/ \
+--graph-analytics-dir=/usr/local/hamster/graphlab/release/toolkits/graph_analytics/ \
+--mpi-args="-np 2"

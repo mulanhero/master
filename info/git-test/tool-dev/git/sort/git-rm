@@ -1,0 +1,4 @@
+keep it on your disk, but not track them any more!!!
+==========================
+[caoj7@cnencaoj7mbp2 BitArray]$git rm --cached *.o
+[caoj7@cnencaoj7mbp2 BitArray]$git rm --cached *.a

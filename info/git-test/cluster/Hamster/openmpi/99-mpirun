@@ -1,0 +1,52 @@
+1. 	ompi_info --param ras slurm
+	ompi_info --param ras yarn 
+	ompi_info --param plm all
+-------------------------------------------	 
+ 2. mpirun
+ 	mpirun -mca ras_slurm_select 1 -mca ras_base_verbose 10  -mca ras_slurm_enable_dyn_alloc 1 -mca ras_slurm_config_file /root/slurmhome/etc/slurm.conf -np 2  hello
+ 	mpirun -mca ras_base_verbose 10  -mca ras_yarn_enable_dyn_alloc 1 -mca ras_yarn_config_file /root/slurmhome/etc/slurm.conf -np 1  hello
+    ----------------------------------------------------
+	mpirun -mca plm slurm -mca plm_base_verbose 10 -np 8 hello
+	mpirun -mca plm slurm -mca ras slurm -mca plm_base_verbose -np 10 hello
+		
+3. ompi_info --param <type> <plugin>  [--parsable]
+
+	(1)  mpirun --mca <name> <value>  
+		E.g.,  mpirun --mca btl tcp,self   -np 4 ring_c
+	(2) export OMPI_MCA_<name>=<value>
+	
+
+	 mpirun -mca urm_base_verbose 10  -  ras_slurm_enable_dyn_alloc 1 -mca ras_slurm_config_file /usr/local/etc/slurm.conf -np 8  hello
+
+  MCA test: parameter "test" (current value: <none>, data source: default value)
+                          Default selection set of components for the test framework (<none>
+                          means use all components that can be found)
+                MCA test: parameter "test_base_verbose" (current value: <0>, data source:
+                          default value)
+                          Verbosity level for the test framework (0 = no verbosity)
+                MCA test: parameter "test_app_priority" (current value: <0>, data source:
+                          default value)
+
+mpirun -mca test app -mca test_base_verbose 10 -mca test_app_priority 1000 jimmy
+
+=======plm============================================
+1) 
+mpirun -mca plm_base_verbose 10 -mca plm rsh zz_plm
+2) 
+[caoj7@vm1 system]$ export OMPI_MCA_plm_base_verbose=10 
+[caoj7@vm1 system]$ export OMPI_MCA_plm=rsh
+[caoj7@vm1 system]$ ./zz_plm
+====test==================================================
+1)
+mpirun -mca test_base_verbose 10 -mca test app zz_test
+2)
+export OMPI_MCA_test_base_verbose=10
+Export OMPI_MCA_test=app
+
+========ufo==========================================
+1)
+mpirun -mca ufo_base_verbose 10 -mca ufo rsh zz_ufo
+2)
+[caoj7@vm1 system]$ export OMPI_MCA_ufo_base_verbose=10 
+[caoj7@vm1 system]$ export OMPI_MCA_ufo=rsh
+[caoj7@vm1 system]$ ./zz_ufo

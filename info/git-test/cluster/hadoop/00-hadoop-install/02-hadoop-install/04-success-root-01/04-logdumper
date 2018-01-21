@@ -1,0 +1,74 @@
+1. 
+[root@node1 ~]# yarn logs
+usage: general options are:
+ -applicationId <arg>   ApplicationId
+ -appOwner <arg>        AppOwner
+ -containerId <arg>     ContainerId
+ -nodeAddress <arg>     NodeAddress
+ 
+2. 
+In yarn-site.xml, if we set
+-----------
+<property>
+        <name>yarn.log-aggregation-enable</name>
+        <value>true</value>
+</property>
+------------
+after execution, all local logs on each related node's /tmp/logs/application_** will upload to hdfs:/tmp/logs/$user/logs/application_**,
+moreover, the local logs will be removed.  
+
+3. we can use 'yarn logs' to obtain such logs 
+yarn logs \
+-applicationId	\
+-appOwner root \
+-containerId \
+-nodeAddress 
+
+
+--------------
+yarn logs \
+-applicationId application_1366391102622_0001 \
+-appOwner root \
+-containerId container_1366391102622_0001_01_000001 \
+-nodeAddress node2.hadoop.com:41710
+
+yarn logs \
+-applicationId application_1366391102622_0003 \
+-appOwner root \
+-containerId container_1366391102622_0003_01_000001 \
+-nodeAddress node4.hadoop.com:44482
+
+
+
+[root@node3 logs]# hadoop fs -ls /tmp/logs/root/logs/application_1366391102622_0003
+Found 3 items
+-rw-r-----   1 root supergroup       9205 2013-04-20 01:25 /tmp/logs/root/logs/application_1366391102622_0003/node2.hadoop.com_40769
+-rw-r-----   1 root supergroup       9203 2013-04-20 01:25 /tmp/logs/root/logs/application_1366391102622_0003/node3.hadoop.com_36246
+-rw-r-----   1 root supergroup      64391 2013-04-20 01:25 /tmp/logs/root/logs/application_1366391102622_0003/node4.hadoop.com_44482
+
+
+node3.hadoop.com:59946	node3.hadoop.com:8042
+node4.hadoop.com:52604	node4.hadoop.com:8042
+node2.hadoop.com:54645	node2.hadoop.com:8042
+
+
+http://node1.hadoop.com:19888/jobhistory/job/job_1366371415079_0002/jobhistory/job/job_1366371415079_0002
+http://node1.hadoop.com:19888/jobhistory/logs/node3.hadoop.com:43914/container_1366371415079_0002_01_000001/job_1366371415079_0002/root
+[root@node1 program]# yarn logs -applicationId application_1366371415079_0002 -appOwner root -containerId container_1366371415079_0002_01_000001 -nodeAddress node3.hadoop.com:43914
+					yarn logs -applicationId application_1366371415079_0002 -appOwner root -containerId container_1366371415079_0002_01_000001 -nodeAddress node3.hadoop.com:43914
+					
+4. summary
+jobhistory server(19888) is merely for mapreduce job
+yarn.log-aggregation-enable (if enabled), it is for all kinds of jobs, all logs will be moved to hdfs.
+
+[root@node3 logs]# hadoop fs -ls /tmp/logs/root/logs/application_1366391102622_0003/
+Found 3 items
+-rw-r-----   1 root supergroup       9205 2013-04-20 01:25 /tmp/logs/root/logs/application_1366391102622_0003/node2.hadoop.com_40769
+-rw-r-----   1 root supergroup       9203 2013-04-20 01:25 /tmp/logs/root/logs/application_1366391102622_0003/node3.hadoop.com_36246
+-rw-r-----   1 root supergroup      64391 2013-04-20 01:25 /tmp/logs/root/logs/application_1366391102622_0003/node4.hadoop.com_44482
+
+5. ????
+(1) if yarn.log-aggregation-enable is disabled,  
+	we can get a job's log from all its container/node's /tmp/logs/....?
+(2) if yarn.log-aggregation-enable is enabled,
+	we can get a job's log from HDFS by (1) read from HDFS, (2) dy LogDumper

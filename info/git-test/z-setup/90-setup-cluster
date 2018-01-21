@@ -1,0 +1,127 @@
+----------------------------------------------------------------
+2) modify hostname  (as root)
+[root@host33 /]# cat /etc/hosts
+127.0.0.1   localhost.localdomain   localhost.localdomain   localhost4  localhost4.localdomain4 localhost   host33
+::1 localhost.localdomain   localhost.localdomain   localhost6  localhost6.localdomain6 localhost   host33
+
+10.62.67.33 host33
+10.62.67.32 host32
+10.62.67.31 host31
+10.62.67.30 host30
+10.62.67.29 host29
+10.62.67.28 host28
+10.62.67.27 host27
+10.62.67.26 host26
+10.62.67.25 host25
+10.62.67.24 host24
+10.62.67.23 host23
+10.62.67.22 host22
+10.62.67.21 host21
+10.62.67.20 host20
+10.62.67.19 host19
+10.62.67.18 host18
+10.62.67.17 host17
+10.62.67.16 host16
+10.62.67.15 host15
+10.62.67.14 host14
+10.62.67.13 host13
+10.62.67.12 host12
+10.62.67.11 host11
+----------------------------------------------------------------
+3) yum repo
+[root@host33 /]# cat /etc/yum.repos.d/CentOS-Base-163.repo
+# CentOS-Base.repo
+#
+# The mirror system uses the connecting IP address of the client and the
+# update status of each mirror to pick mirrors that are updated to and
+# geographically close to the client.  You should use this for CentOS updates
+# unless you are manually picking other mirrors.
+#
+# If the mirrorlist= does not work for you, as a fall back you can try the
+# remarked out baseurl= line instead.
+#
+#
+
+[base]
+name=CentOS-6 - Base - 163.com
+baseurl=http://mirrors.163.com/centos/6/os/$basearch/
+#mirrorlist=http://mirrorlist.centos.org/?release=$releasever&arch=$basearch&repo=os
+gpgcheck=1
+gpgkey=http://mirror.centos.org/centos/RPM-GPG-KEY-CentOS-6
+
+#released updates
+[updates]
+name=CentOS-6 - Updates - 163.com
+baseurl=http://mirrors.163.com/centos/6/updates/$basearch/
+#mirrorlist=http://mirrorlist.centos.org/?release=$releasever&arch=$basearch&repo=updates
+gpgcheck=1
+gpgkey=http://mirror.centos.org/centos/RPM-GPG-KEY-CentOS-6
+
+#additional packages that may be useful
+[extras]
+name=CentOS-6 - Extras - 163.com
+baseurl=http://mirrors.163.com/centos/6/extras/$basearch/
+#mirrorlist=http://mirrorlist.centos.org/?release=$releasever&arch=$basearch&repo=extras
+gpgcheck=1
+gpgkey=http://mirror.centos.org/centos/RPM-GPG-KEY-CentOS-6
+
+#additional packages that extend functionality of existing packages
+[centosplus]
+name=CentOS-6 - Plus - 163.com
+baseurl=http://mirrors.163.com/centos/6/centosplus/$basearch/
+#mirrorlist=http://mirrorlist.centos.org/?release=$releasever&arch=$basearch&repo=centosplus
+gpgcheck=1
+enabled=0
+gpgkey=http://mirror.centos.org/centos/RPM-GPG-KEY-CentOS-6
+
+#contrib - packages by Centos Users
+[contrib]
+name=CentOS-6 - Contrib - 163.com
+baseurl=http://mirrors.163.com/centos/6/contrib/$basearch/
+#mirrorlist=http://mirrorlist.centos.org/?release=$releasever&arch=$basearch&repo=contrib
+gpgcheck=1
+enabled=0
+gpgkey=http://mirror.centos.org/centos/RPM-GPG-KEY-CentOS-6
+
+---------------------------------------------------------------- 
+4) .ssh for root or other user
+    scp -r .ssh  root@node1:~  or hadoop@node1:~ form your mac (other_nodes) 
+----------------------------------------------------------------
+5) install massh and ambit on host33 using RPM
+massh host[11-32] push /etc/hosts
+massh host[11-32] push /etc/yum.repos.d/CentOS-Base-163.repo
+or
+massh mycluster push /etc/yum.repos.d/CentOS-Base-163.repo
+----------------------------------------------------------------
+6) gcc  (as root on each node)
+    tips: yum search *** & yum install ***
+    yum search gcc
+    yum install gcc.x86_64 gcc-c++.x86_64  // will also install 'gcc.x86_64' and 'libgcc.x86_64'
+    
+   sudo yum -y install gcc.x86_64 gcc-gfortran.x86_64 libgcc.x86_64 gcc-c++.x86_64
+----------------------------------------------------------------
+7)NFS (as root) 
+    NFS server for headnode
+    NFS mount for other node
+    share headnode's /home or /root/program 
+
+
+massh mycluster verbose mount -t nfs gphd-vm33:/root/program /root/program
+==========================================================================
+----------------------------------------------------------------
+[root@gphd-vm33 ~]# massh all23 verbose useradd -g hadoop ham
+[root@gphd-vm33 ~]# cat /etc/exports 
+/home/ham *(rw,no_root_squash,sync)
+[root@gphd-vm33 ~]# massh slave22 verbose mount -t nfs gphd-vm33:/home/ham /home/ham
+[root@gphd-vm33 ~]# su - ham
+[ham@gphd-vm33 ~]$ ssh-keygen -t rsa
+[ham@gphd-vm33 ~]$ cp ~/.ssh/id_rsa.pub ~/.ssh/authorized_keys
+
+==========================================================================
+2) add user (as root)
+	a)add group and user, passwd  on each nodes
+	
+3) sudoers (as root, scp to other nodes)
+	vi /etc/sudoers
+
+7) setup openssl and munge  (as root) 

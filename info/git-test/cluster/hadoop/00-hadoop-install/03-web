@@ -1,0 +1,8 @@
+1.RM
+node1.hadoop.com:8088
+
+2.jobhistory
+node1.hadoop.com:19888
+
+3. namenode
+node1.hadoop.com:50070

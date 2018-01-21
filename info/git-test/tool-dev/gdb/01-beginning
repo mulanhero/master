@@ -1,0 +1,40 @@
+1) gcc -g -Wall go.c -o go
+2) gdb go
+	(gdb) start
+	(gdb) n    //next step
+	(gdb) RETURN RETURN 
+3) step into
+	(gdb) start
+	(gdb) start
+	(gdb) s
+	(gdb) n
+	(gdb) i locals
+	i = 1
+	sum = 0
+	(gdb) n
+	7		for (i = low; i <= high; i++) 
+	(gdb) i locals
+	i = 1
+	sum = 1
+
+4) frame 1
+	f 1
+	i locals
+5) printf var
+	p sum
+6) s=>n=>i locals / p sum
+	(gdb) s  
+	add_range (low=1, high=10) at go.c:7
+	7		for (i = low; i <= high; i++) 
+	(gdb) n
+	8			sum = sum + i; 
+	(gdb)  
+	7		for (i = low; i <= high; i++) 
+	(gdb) 
+	8			sum = sum + i; 
+	(gdb) i locals
+	i = 2
+	sum = 1
+	(gdb) p sum
+	$10 = 1
+7)

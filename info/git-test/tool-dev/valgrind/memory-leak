@@ -1,0 +1,9 @@
+valgrind --tool=memcheck --leak-check=summary program1
+valgrind --tool=memcheck --leak-check=full program1
+
+=======================
+valgrind --tool=memcheck --leak-check=summary slurmctld -D vvvvvv
+
+
+=======================
+valgrind --tool=massif ./prog.exe

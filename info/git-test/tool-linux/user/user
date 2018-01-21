@@ -1,0 +1,18 @@
+1. Add a user and set its password in Linux
+   $adduser username (add user)
+   $passwd username  (set password)
+2. Add group
+  $groupadd groupname (add group)
+3. Add user and add group
+ $useradd -g group username
+4. Add group to an existed user
+$usermod -G groupname username
+5. Show user information
+$id username
+6. Change owner and group
+$chown username:groupname filename
+
+---------------------------------------------
+userdel [-r] login
+
+-r	Files in the user's home directory will be removed along with the home directory itself and the user's mail spool. Files located in other file systems will have to be searched for and deleted manually.

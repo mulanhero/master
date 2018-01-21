@@ -1,0 +1,37 @@
+
+======================================
+1. Clone project from a repo-server
+	[caoj7@vm1 ~]$ hg clone https://jimmycao@bitbucket.org/rhc/ompi-slurm
+	
+2. Edit (edit files)
+
+3. Check the status
+	[caoj7@vm1 ompi-slurm]$ hg status
+	M orte/mca/ras/slurm/ras_slurm_module.c 
+
+4. Add the modified files
+	[caoj7@vm1 ompi-slurm]$ hg add
+
+5. Add your username and email
+	[caoj7@vm1 ompi-slurm]$ vi .hg/hgrc 
+	[paths]
+	default = https://jimmycao@bitbucket.org/rhc/ompi-slurm
+	[ui]
+	username = jimmycao <jimmy.cao@emc.com>
+
+6. Commit -m
+	[caoj7@vm1 ompi-slurm]$ hg commit -m 'recv_data libevent ready'
+
+7. Push to repo-server
+	[caoj7@vm1 ompi-slurm]$ hg push
+	pushing to https://jimmycao@bitbucket.org/rhc/ompi-slurm
+	searching for changes
+	http authorization required
+	realm: Bitbucket.org HTTP
+	user: jimmycao
+	password:    ######input password
+	adding changesets
+	adding manifests
+	adding file changes
+	added 1 changesets with 1 changes to 1 files
+	bb/acl: jimmycao is allowed. accepted payload.

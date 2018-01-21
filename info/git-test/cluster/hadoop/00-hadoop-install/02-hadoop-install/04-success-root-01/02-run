@@ -1,0 +1,37 @@
+1. HDFS (NameNode/DataNode)									hadoop-daemon.sh
+-----------------------------------start----------------------------------------------------
+# hdfs namenode -format
+$HADOOP_HOME/sbin/hadoop-daemon.sh --config $HADOOP_CONF_DIR --script hdfs start namenode
+$HADOOP_HOME/sbin/hadoop-daemon.sh --config $HADOOP_CONF_DIR --script hdfs start datanode
+----------------------------------stop-----------------------------------------------------
+$HADOOP_HOME/sbin/hadoop-daemon.sh --config $HADOOP_CONF_DIR --script hdfs stop namenode
+$HADOOP_HOME/sbin/hadoop-daemon.sh --config $HADOOP_CONF_DIR --script hdfs stop datanode
+
+
+
+2. YARN (ResourceManager/NodeManager)  						yarn-daemon.sh 
+-----------------------------------start----------------------------------------------------
+$HADOOP_YARN_HOME/sbin/yarn-daemon.sh --config $HADOOP_CONF_DIR start resourcemanager
+$HADOOP_YARN_HOME/sbin/yarn-daemon.sh --config $HADOOP_CONF_DIR start nodemanager
+-----------------------------------stop----------------------------------------------------
+$HADOOP_YARN_HOME/sbin/yarn-daemon.sh --config $HADOOP_CONF_DIR stop resourcemanager
+$HADOOP_YARN_HOME/sbin/yarn-daemon.sh --config $HADOOP_CONF_DIR stop nodemanager
+
+3. jobhistory
+-------------------------------------------------------------------------------------------
+should config jobhistory in mapred-site.xml/yarn-site.xml
+-------------------------------------------------------------------------------------------
+$HADOOP_HOME/sbin/mr-jobhistory-daemon.sh start historyserver --config $HADOOP_CONF_DIR
+$HADOOP_HOME/sbin/mr-jobhistory-daemon.sh stop 	historyserver --config $HADOOP_CONF_DIR
+
+4. hdfs
+[hadoop@node1 hadoop]$ hadoop fs -ls /
+[hadoop@node1 hadoop]$ hadoop fs -cat /**
+[hadoop@node1 hadoop]$ hadoop fs -mkdir /testdir2
+[hadoop@node1 hadoop]$ hadoop fs -rmdir /testdir2
+[root@node1 ~]# hadoop fs -rmr /user/root/Quasi*
+
+
+5. submit a mapreduce job
+hadoop jar $HADOOP_HOME/share/hadoop/mapreduce/hadoop-mapreduce-examples-2.0.3-alpha.jar pi 2 1000 
+//here, 2 means 2 map tasks

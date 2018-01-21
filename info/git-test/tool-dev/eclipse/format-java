@@ -1,0 +1,10 @@
+1. cmd + ,
+
+Java => Code Style => Formatter
+
+Active Profile
+New...  	(input)hadoop
+Edit...		Indentation 		Tab Policy: (choose) Space Only
+Indentation size				(revise)2
+Tab size						(revise)2  
+

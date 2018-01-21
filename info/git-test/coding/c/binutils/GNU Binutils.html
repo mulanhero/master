@@ -1,0 +1,1016 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" xml:lang="en-US">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>GNU Binutils: A Collection of Binary Tools - LINUX For You</title>
+        <script type="text/javascript">
+//<![CDATA[
+window.__CF=window.__CF||{};window.__CF.AJS={"ga_key":{"ua":"UA-27466087-1","ga_bs":"2"}};
+//]]>
+</script>
+<script type="text/javascript">
+//<![CDATA[
+try{if (!window.CloudFlare) { var CloudFlare=[{verbose:0,p:0,byc:0,owlid:"cf",mirage:{responsive:0,lazy:0},mirage2:0,oracle:0,paths:{cloudflare:"/cdn-cgi/nexp/abv=2497138833/"},atok:"ad921ec4c011a545bcb2ae6d397a4d5b",zone:"linuxforu.com",rocket:"0",apps:{"ga_key":{"ua":"UA-27466087-1","ga_bs":"2"}}}];var a=document.createElement("script"),b=document.getElementsByTagName("script")[0];a.async=!0;a.src="//ajax.cloudflare.com/cdn-cgi/nexp/abv=1573736665/cloudflare.min.js";b.parentNode.insertBefore(a,b);}}catch(e){};
+//]]>
+</script>
+<link rel="profile" href="http://gmpg.org/xfn/11" />
+        <link rel="shortcut icon" href="http://www.linuxforu.com/favicon.ico" type="image/x-icon" />		<link rel="stylesheet" href="http://www.linuxforu.com/wp-content/themes/unspoken/style.css?26ab35" type="text/css" media="all" />
+		<link rel="stylesheet" href="http://www.linuxforu.com/wp-content/themes/unspoken/lib/js/fancybox/jquery.fancybox-1.3.4.css?26ab35" type="text/css" media="all" />
+        <link rel="pingback" href="http://www.linuxforu.com/xmlrpc.php" />
+        <link rel="alternate" type="text/xml" title="RSS .92" href="http://www.linuxforu.com/feed/rss/"/>
+        <link rel="alternate" type="application/atom+xml" title="Atom 0.3" href="http://www.linuxforu.com/feed/atom/" />
+		<!--[if lt IE 8]><link rel="stylesheet" href="http://www.linuxforu.com/wp-content/themes/unspoken/ie.css?26ab35" type="text/css" media="all" /><![endif]-->
+
+        
+        <style type="text/css">body {font: 62.5% Helvetica, Arial, sans-serif;}</style>
+        
+<!-- This site is optimized with the Yoast WordPress SEO plugin v1.3.4.4 - http://yoast.com/wordpress/seo/ -->
+<meta name="description" content="Let&#039;s dive deep into linkers, ELF and assembly code. We have a rich set of tools to create, examine, link and dissect binary files, called &quot;Binutils&quot;."/>
+<link rel="canonical" href="http://www.linuxforu.com/2011/10/gnu-binutils-collection-of-binary-tools/" />
+<meta name="twitter:card" content="summary">
+<meta name="twitter:site" content="@linuxforyou">
+<meta name='twitter:image' content='http://www.linuxforu.com/wp-content/uploads/2011/11/binutils-350x198.jpg'>
+<meta name="twitter:description" content="Let&#039;s dive deep into linkers, ELF and assembly code. We have a rich set of tools to create, examine, link and dissect binary files, called &quot;Binutils&quot;.">
+<meta property='og:locale' content='en_US'/>
+<meta property='fb:admins' content='709350085,1340102256'/>
+<meta property='og:title' content='GNU Binutils: A Collection of Binary Tools - LINUX For You'/>
+<meta property='og:description' content='Let&#039;s dive deep into linkers, ELF and assembly code. We have a rich set of tools to create, examine, link and dissect binary files, called &quot;Binutils&quot;.'/>
+<meta property='og:url' content='http://www.linuxforu.com/2011/10/gnu-binutils-collection-of-binary-tools/'/>
+<meta property='og:site_name' content='LINUX For You'/>
+<meta property='og:type' content='article'/>
+<meta property='og:image' content='http://www.linuxforu.com/wp-content/uploads/2011/11/binutils-350x198.jpg'/>
+<meta property='og:image' content='http://www.linuxforu.com/wp-content/uploads/2011/11/binutils-590x335.jpg'/>
+<meta property='og:image' content='http://www.linuxforu.com/wp-content/uploads/2011/11/memory_program.jpeg'/>
+<!-- / Yoast WordPress SEO plugin. -->
+
+<link rel="alternate" type="application/rss+xml" title="LINUX For You &raquo; Feed" href="http://www.linuxforu.com/feed/" />
+<link rel="alternate" type="application/rss+xml" title="LINUX For You &raquo; Comments Feed" href="http://www.linuxforu.com/comments/feed/" />
+<link rel="alternate" type="application/rss+xml" title="LINUX For You &raquo; GNU Binutils: A Collection of Binary Tools Comments Feed" href="http://www.linuxforu.com/2011/10/gnu-binutils-collection-of-binary-tools/feed/" />
+<link rel='stylesheet' id='contact-form-7-css'  href="http://www.linuxforu.com/wp-content/plugins/contact-form-7/includes/css/styles.css?26ab35" type='text/css' media='all' />
+<link rel='stylesheet' id='jetpack-widgets-css'  href="http://www.linuxforu.com/wp-content/plugins/jetpack/modules/widgets/widgets.css?26ab35" type='text/css' media='all' />
+<link rel='stylesheet' id='sphinxStyleSheets-css'  href="http://www.linuxforu.com/wp-content/plugins/wordpress-sphinx-plugin/templates/sphinxsearch.css?26ab35" type='text/css' media='all' />
+<link rel='stylesheet' id='pre-tag-css'  href="http://www.linuxforu.com/wp-content/plugins/wp-syntaxhighlighter/css/pre.css?26ab35" type='text/css' media='all' />
+<link rel='stylesheet' id='core3.0-css'  href="http://www.linuxforu.com/wp-content/plugins/wp-syntaxhighlighter/syntaxhighlighter3/styles/shCore.css?26ab35" type='text/css' media='all' />
+<link rel='stylesheet' id='core-Default3.0-css'  href="http://www.linuxforu.com/wp-content/plugins/wp-syntaxhighlighter/syntaxhighlighter3/styles/shCoreDefault.css?26ab35" type='text/css' media='all' />
+<link rel='stylesheet' id='theme-Default3.0-css'  href="http://www.linuxforu.com/wp-content/plugins/wp-syntaxhighlighter/syntaxhighlighter3/styles/shThemeDefault.css?26ab35" type='text/css' media='all' />
+<script type='text/javascript' src="http://www.linuxforu.com/wp-includes/js/jquery/jquery.js?26ab35"></script>
+<script type='text/javascript' src="http://www.linuxforu.com/wp-content/themes/unspoken/lib/js/jcarousellite_1.0.1_mod.js?26ab35"></script>
+<script type='text/javascript' src="http://www.linuxforu.com/wp-content/themes/unspoken/lib/js/fancybox/jquery.fancybox-1.3.4.pack.js?26ab35"></script>
+<script type='text/javascript' src="http://www.linuxforu.com/wp-content/themes/unspoken/lib/js/scripts.js?26ab35"></script>
+<script type='text/javascript' src="http://www.linuxforu.com/wp-includes/js/comment-reply.js?26ab35"></script>
+
+<!-- WP SyntaxHighlighter Ver.1.7.3 CSS for code Begin -->
+<style type='text/css'>
+.syntaxhighlighter,
+.syntaxhighlighter a,
+.syntaxhighlighter div,
+.syntaxhighlighter code,
+.syntaxhighlighter table,
+.syntaxhighlighter table td,
+.syntaxhighlighter table tr,
+.syntaxhighlighter table tbody,
+.syntaxhighlighter table thead,
+.syntaxhighlighter table caption,
+.syntaxhighlighter textarea {
+font-size: 12px !important; /* Set the font size in pixels */  
+font-family: "Consolas", "Bitstream Vera Sans Mono", "Courier New", Courier, monospace !important; /* Set the font type */  
+}
+.syntaxhighlighter table caption {
+/* For Title(Caption) */  
+font-size: 14px !important; /* Set the font size in pixels */  
+font-family: "Consolas", "Bitstream Vera Sans Mono", "Courier New", Courier, monospace !important; /* Set the font type */  
+}
+.syntaxhighlighter.nogutter td.code .line {
+/* Set the left padding space when no-gutter in ver. 3.0 */  
+padding-left: 3px !important;
+}
+.syntaxhighlighter {
+/* For Chrome/Safari(WebKit) */  
+/* Hide the superfluous vertical scrollbar in ver. 3.0 */  
+overflow-y: hidden !important;
+padding: 1px !important;
+}
+.widget-area.syntaxhighlighter a,
+.widget-area.syntaxhighlighter div,
+.widget-area.syntaxhighlighter code,
+.widget-area.syntaxhighlighter table,
+.widget-area.syntaxhighlighter table td,
+.widget-area.syntaxhighlighter table tr,
+.widget-area.syntaxhighlighter table tbody,
+.widget-area.syntaxhighlighter table thead,
+.widget-area.syntaxhighlighter table caption,
+.widget-area.syntaxhighlighter textarea {
+/* For Widget */  
+font-size: 14px !important; /* Set the font size in pixels */  
+font-family: "Consolas", "Bitstream Vera Sans Mono", "Courier New", Courier, monospace !important; /* Set the font type */  
+}
+.widget-area table caption {
+/* For Widget */  
+/* For Title(Caption) */  
+font-size: 10px !important; /* Set the font size in pixels */  
+font-family: "Consolas", "Bitstream Vera Sans Mono", "Courier New", Courier, monospace !important; /* Set the font type */  
+}
+</style>
+<!-- WP SyntaxHighlighter Ver.1.7.3 CSS for code End -->
+<meta property="og:image" content="http://www.linuxforu.com/wp-content/uploads/2011/11/binutils-150x150.jpg" /><style type="text/css">.broken_link, a.broken_link {
+	text-decoration: line-through;
+}</style><style type="text/css">.logo-header a span { height: 80px; width: 270px; margin: 0 0 0 40px; }
+.logo-footer span { height: 60px; }
+.header-meta { background-color: #07112B; }
+.header-middle { margin-bottom: 15px; }
+.header-adplace img  { margin-top: 7px; margin-bottom: 0;}
+.wrapper { box-shadow: 0 0 7px #53728E; }
+.announcementbar { background: none repeat scroll 0 0 #FF5800;  color: #FFFFFF; font-family: tahoma; font-size: 14px; padding: 10px; text-align: center; }
+#top-menu ul li a { color: #FFFFFF; }
+#top-menu ul li a:hover { color: #D2E6FF; }
+#navigation ul li { text-transform: uppercase; }
+.footer { background-color: #07112B; }
+.hentry-content { font-size: 14px; }
+.slider {background-color: #FFF8E7;}
+.slider-item h2 { font-size: 18px; line-height: 21px; }
+.block-title2 {border-bottom: 1px solid #222222;color: #444444;}
+.slider-item h2 a {color: #555555;}
+.slider-item p {color: #333333;}
+.slider-item-meta {color: #111111;}
+.slider-item-meta a {color: #111111;}
+.latest-news li { padding: 4px 0; }
+.choice-item { border-right: 1px solid #FFFFFF; }
+.choice-item h2 { font-size: 13px; line-height: 17px; }
+.category-item h2 { font-size: 16px; line-height: 22px; }
+.catlist-item h2 { font-size: 13px; margin-bottom: 0; }
+.wrapper { background: none repeat scroll 0 0 #FFFFFF; }
+.single .hentry-middle { float: none; width: 620px; }
+.single .hentry-content { width: 610px; }
+.single .hentry-sidebar { display: none; width: 0; float: none}
+.single .hentry-content img { max-width: 610px; }
+.hentry-content h2 { line-height: 30px; }
+.hentry-content ol { margin: 0 0 15px 30px;} 
+table { margin: 1px; text-align:left; }
+.single .hentry-content thead { font-weight: bold; background: #EDF7FF;}
+.hentry-content td { border: 1px solid #8DB5FE !important; padding: 4px 8px !important; }
+code { color:#054E76; background:#EDF7FF; font-size: 90%;}
+.syntaxhighlighter { border: 1px solid #EFEFEF; width: 99% !important; }
+.introduction { border-bottom: 3px double #FF5800; font-family: Georgia; font-size: medium; font-style: italic; margin-bottom: 20px; padding: 10px; }
+.note {background: none repeat scroll 0 0 #EDF7FF; margin-bottom: 10px; padding: 3px 10px; }
+.imagecredit { background-color: #EDF7FF; border: 1px solid #8DB5FE; font-size: x-small; font-style: italic; margin: 20px; padding: 0 20px; }
+.list .hentry .post-thumb img, .hentry-content img.alignleft, .hentry-content img.alignright, .hentry-content img.aligncenter { border: 1px double #EFEFEF; }
+.hentry-content .alignleft, .hentry-content img.alignleft { margin: 4px 15px 4px 0; }
+.hentry-content .alignright, .hentry-content img.alignright { margin: 4px 0 4px 15px;}
+.single .hentry-content .wp-caption { max-width: 610px !important; background: none repeat scroll 0 0 transparent; border-bottom: 1px solid #CCCCCC; border-radius: 0 0 0 0;}
+.hentry-content .wp-caption p.wp-caption-text { color: #111111; }
+#comments .block-title { margin: 20px 0; }
+.single .hentry-like, .single .hentry-tags { font-size: x-small; }
+.hentry-content blockquote { font-family: Georgia; font-size: 110%; font-style: oblique; font-weight: normal; }
+.boxmain {border: 3px double #8DB5FE;margin-bottom: 20px;}
+.boxhead {padding: 0 5px; background: none repeat scroll #8DB5FE; color:#FFFFFF;}
+.boxbody {padding: 0 15px;}
+/* WP C-A-PLUS */
+#author-info {font-size: 115%; margin: 20px 25px 20px 15px; padding: 20px; border: 2px solid #4b3e34; background: #5c4e42; color: #ffffff;}
+#author-info a:hover {color: #fdb312;}
+#author-info a {color: #08c5ed;}
+#authorbox-title {font-size: 150%;}
+.author {padding: 20px 0;}
+.authorboxfix  {clear: both;}
+.author-image {width: 105px; float: left;}
+.author-name {float: left; width: 405px; font-size: 140%; font-weight: bold; padding-bottom: 10px; margin: 0 10px;}
+.author-blurb {float: left; width: 405px; margin: 0 10px;}
+.author-blurb .social-links {padding-top: 10px; font-weight: bold;}</style>	<script type="text/javascript">
+/* <![CDATA[ */
+var _gaq = _gaq || [];
+_gaq.push(['_setAccount', 'UA-27466087-1']);
+_gaq.push(['_trackPageview']);
+
+(function() {
+var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+})();
+
+(function(b){(function(a){"__CF"in b&&"DJS"in b.__CF?b.__CF.DJS.push(a):"addEventListener"in b?b.addEventListener("load",a,!1):b.attachEvent("onload",a)})(function(){"FB"in b&&"Event"in FB&&"subscribe"in FB.Event&&(FB.Event.subscribe("edge.create",function(a){_gaq.push(["_trackSocial","facebook","like",a])}),FB.Event.subscribe("edge.remove",function(a){_gaq.push(["_trackSocial","facebook","unlike",a])}),FB.Event.subscribe("message.send",function(a){_gaq.push(["_trackSocial","facebook","send",a])}));"twttr"in b&&"events"in twttr&&"bind"in twttr.events&&twttr.events.bind("tweet",function(a){if(a){var b;if(a.target&&a.target.nodeName=="IFRAME")a:{if(a=a.target.src){a=a.split("#")[0].match(/[^?=&]+=([^&]*)?/g);b=0;for(var c;c=a[b];++b)if(c.indexOf("url")===0){b=unescape(c.split("=")[1]);break a}}b=void 0}_gaq.push(["_trackSocial","twitter","tweet",b])}})})})(window);
+/* ]]> */
+</script>
+</head>
+	<body class="single single-post postid-6026 single-format-standard">
+        <div class="wrapper">
+											
+            <div class="header">
+                <div class="header-meta">
+
+                    <div id="top-menu" class="menu-top-menu-container"><ul id="menu-top-menu" class="header-menu clear"><li id="menu-item-5544" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-5544"><a href="http://www.linuxforu.com/write-for-linux-for-you/">Write For Us</a></li>
+<li id="menu-item-5540" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-5540"><a title="for Tips &amp; Tricks section of print magazine" href="http://www.linuxforu.com/submit-your-tips-tricks/">Submit Tips</a></li>
+<li id="menu-item-6605" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-6605"><a title="Click takes you to our publisher&#8217;s gateway" href="http://electronicsforu.com/electronicsforu/subscription/subsc2scheme.asp">Subscribe to Print Edition</a></li>
+</ul></div>
+                    <div class="header-searchform">
+                        	<form method="get" action="http://www.linuxforu.com">
+                            <fieldset>
+                                <input type="text" id="s" name="s" onfocus="if(this.value=='Search') this.value='';" onblur="if(this.value=='') this.value='Search';" value="Search" />
+                                <button type="submit"></button>
+                            </fieldset>
+                        </form>
+                    </div>
+                </div>
+                <div class="header-middle clear">
+                    <div class="logo-header offset">
+                        <a href="http://www.linuxforu.com">
+                                                        <span style="background: url(http://www.linuxforu.com/wp-content/themes/unspoken/images/logo-header.png) 0 0 no-repeat;"></span>                                                    </a>
+                    </div>
+                    <div class="header-adplace">
+                                            </div>
+                </div>
+            </div>
+
+						<div id="navigation" class="menu-navigation clear"><ul id="menu-navigation" class="menu"><li id="menu-item-12423" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-12423"><a href="http://www.linuxforu.com/">Home</a></li>
+<li id="menu-item-12424" class="menu-item menu-item-type-taxonomy menu-item-object-category parent menu-item-12424"><a href="http://www.linuxforu.com/category/reviews/">Reviews</a>
+<ul class="sub-menu">
+	<li id="menu-item-12426" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-12426"><a href="http://www.linuxforu.com/category/reviews/distros/">Distros</a></li>
+	<li id="menu-item-12425" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-12425"><a href="http://www.linuxforu.com/category/reviews/apps/">Apps</a></li>
+	<li id="menu-item-12427" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-12427"><a href="http://www.linuxforu.com/category/reviews/products/">Products</a></li>
+</ul>
+</li>
+<li id="menu-item-12428" class="menu-item menu-item-type-taxonomy menu-item-object-category parent menu-item-12428"><a href="http://www.linuxforu.com/category/how-tos/">How-Tos</a>
+<ul class="sub-menu">
+	<li id="menu-item-12429" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-12429"><a href="http://www.linuxforu.com/category/how-tos/home-quick-tips/">Home / Quick Tips</a></li>
+	<li id="menu-item-12432" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-12432"><a href="http://www.linuxforu.com/category/how-tos/servers/">Servers</a></li>
+	<li id="menu-item-12430" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-12430"><a href="http://www.linuxforu.com/category/how-tos/networking/">Networking</a></li>
+	<li id="menu-item-12431" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-12431"><a href="http://www.linuxforu.com/category/how-tos/secure/">Security</a></li>
+	<li id="menu-item-12433" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-12433"><a href="http://www.linuxforu.com/category/how-tos/tools-apps/">Tools / Apps</a></li>
+</ul>
+</li>
+<li id="menu-item-12434" class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor current-menu-parent current-post-parent menu-item-12434"><a href="http://www.linuxforu.com/category/coding/">Coding</a></li>
+<li id="menu-item-12435" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-12435"><a href="http://www.linuxforu.com/category/interviews/">Interviews</a></li>
+<li id="menu-item-12436" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-12436"><a href="http://www.linuxforu.com/category/features/">Features</a></li>
+<li id="menu-item-12437" class="menu-item menu-item-type-taxonomy menu-item-object-category parent menu-item-12437"><a href="http://www.linuxforu.com/category/overview/">Overview</a>
+<ul class="sub-menu">
+	<li id="menu-item-12441" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-12441"><a href="http://www.linuxforu.com/category/overview/security/">Security</a></li>
+	<li id="menu-item-12443" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-12443"><a href="http://www.linuxforu.com/category/overview/tips/">Tips</a></li>
+	<li id="menu-item-12442" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-12442"><a href="http://www.linuxforu.com/category/overview/technology/">Technology</a></li>
+	<li id="menu-item-12439" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-12439"><a href="http://www.linuxforu.com/category/overview/case-studies/">Case Studies</a></li>
+	<li id="menu-item-12438" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-12438"><a href="http://www.linuxforu.com/category/overview/applications-overview/">Applications</a></li>
+	<li id="menu-item-12440" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-12440"><a href="http://www.linuxforu.com/category/overview/concepts/">Concepts</a></li>
+</ul>
+</li>
+<li id="menu-item-12444" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-12444"><a href="http://www.linuxforu.com/category/blogs/">Blogs</a></li>
+<li id="menu-item-12445" class="menu-item menu-item-type-custom menu-item-object-custom parent menu-item-12445"><a href="#">Series</a>
+<ul class="sub-menu">
+	<li id="menu-item-12446" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-12446"><a href="http://www.linuxforu.com/tag/linux-device-drivers-series/">Device Drivers</a></li>
+	<li id="menu-item-12447" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-12447"><a href="http://www.linuxforu.com/tag/lisp-tears-of-joy-series/">Lisp Programming</a></li>
+	<li id="menu-item-12448" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-12448"><a href="http://www.linuxforu.com/tag/securing-apache-series/">Apache Security</a></li>
+	<li id="menu-item-12449" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-12449"><a href="http://www.linuxforu.com/tag/advanced-nmap-series/">Advanced NMAP</a></li>
+</ul>
+</li>
+<li id="menu-item-12450" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-12450"><a href="http://www.linuxforu.com/category/sysadmins/">IT Admin</a></li>
+</ul></div>						
+	          <div class="middle clear">
+
+                
+<div id="content">
+
+
+<div id="post-6026" class="post-6026 post type-post status-publish format-standard hentry category-coding category-developers tag-ar-tool tag-archive-files tag-archive-tool tag-assembly-code tag-assembly-language tag-binary-files tag-binutils tag-c tag-c-files tag-c-library tag-centos tag-dynamic-libraries tag-elf tag-embedded-systems tag-executable-file tag-intel tag-ld-tool tag-lfy-october-2011 tag-linux tag-malicious-code tag-nm tag-ram tag-static-libraries tag-symbol-table tag-systems-programming tag-tape-archive tag-unix single">
+
+    <div class="hentry-meta">
+        <h1>GNU Binutils: A Collection of Binary Tools</h1>
+        <p class="hentry-meta-data">By <a href="http://www.linuxforu.com/author/manoj-kumar/" title="Posts by Manoj Kumar" rel="author">Manoj Kumar</a> on October 1, 2011 in <a href="http://www.linuxforu.com/category/coding/" title="View all posts in Coding" rel="category tag">Coding</a>, <a href="http://www.linuxforu.com/category/developers/" title="View all posts in Developers" rel="category tag">Developers</a> &middot; <a href="http://www.linuxforu.com/2011/10/gnu-binutils-collection-of-binary-tools/#comments" title="Comment on GNU Binutils: A Collection of Binary Tools"><span class="dsq-postid" rel="6026 http://www.linuxforu.com/?p=6026">2 Comments</span></a></p>
+    </div>
+
+    <div class="hentry-container clear">
+                <div class="hentry-middle">
+            <div class="hentry-content clear">
+                <p><img class="aligncenter size-large wp-image-6027" title="The toolbox I swear by..." src="http://www.linuxforu.com/wp-content/uploads/2011/11/binutils-590x335.jpg" alt="The toolbox I swear by..." width="590" height="335" /></p>
+<div class="introduction">With years of experience as a systems programming engineer, I&#8217;ve realised that to be a great artist of programming, you must understand the basics of source code, output files, linkers etc. So let&#8217;s dive deep into linkers, ELF and assembly code. We have a rich set of tools to create, examine, link and dissect binary files, called &#8220;Binutils&#8221;.</div>
+<p>Let&#8217;s start with the <code>ar</code> utility, which is used to create, extract and modify archives. Its main use is in building static libraries, which we will examine with an example. We will create two <code>.c</code> files, with a function defined in each. The first is <code>foo.c</code>:</p>
+<pre class="brush: c; gutter: true; first-line: 1">void foo(int *i){
+	*i=*i+5;
+}</pre>
+<p>The second is <code>bar.c</code>:</p>
+<pre class="brush: c; gutter: true; first-line: 1">void bar(int *i){
+	*i=*i*5;
+}</pre>
+<p>Now, let&#8217;s compile these two files, using the <code>-c</code> GCC option to only create object files and not link them. After compilation, we have the object files, as shown:</p>
+<pre class="brush: shell; gutter: false">$ gcc -c foo.c &amp;&amp; gcc -c bar.c
+$ ls *.o
+bar.o  foo.o</pre>
+<p>Most of the time, we do not write code for a program from scratch, but use already available source or compiled code. For example, in C, we use the <code>printf()</code> function, from a library of pre-compiled functions. </p>
+<p>Libraries are of two types, static and dynamic. Dynamic libraries need to be linked to at run-time; if one is missing, the application won&#8217;t run. In cases where we want a program to be &#8220;independent&#8221; and not require any other libraries to be installed on the system before it can run, we need to resolve external functions and variables at compile time, and copy them into the program binary. This removes the runtime dependency on the library. For this purpose, we create static libraries &#8212; archive files of one or more object files. </p>
+<p>The <code>ar</code> tool can archive binary files, and is used to create such static libraries &#8212; actually, to create, modify and extract archive files. You may ask, what is the difference from the <code>tar</code> (tape archive) tool, which also can archive binary and other types of files, and that too, with compression? The answer is, <code>ar</code> creates a symbol table inside the output file, whereas <code>tar</code> doesn&#8217;t; <code>ar</code> yields a collection of symbols, and <code>tar</code> a collection of files. You can get more details from the <code>ar</code> man page. </p>
+<p>So let&#8217;s create our static library. Its name should be in the format <code>liblibraryname.a</code>. The <code>lib</code> prefix is necessary, and the extension must be <code>.a</code> as per UNIX standards (<code>.so</code> is used for shared libraries):</p>
+<pre class="brush: shell; gutter: false">$ ar -cvq libfoobar.a foo.o bar.o
+a - foo.o
+a – bar.o
+$ file libfoobar.a
+libfoobar.a: current ar archive</pre>
+<p>That&#8217;s it! Now, let&#8217;s use this library in a sample program. It&#8217;s better to create a header file declaring the functions defined in the library &#8212; <code>foobar.h</code>:</p>
+<pre class="brush: c; gutter: true; first-line: 1">#ifndef _FOO_BAR_
+#define _FOO_BAR_
+void foo(int *);
+void bar(int *);
+#endif</pre>
+<p>Here is a sample program (<code>test.c</code>) that uses the static library:</p>
+<pre class="brush: c; gutter: true; first-line: 1">#include&lt;stdio.h&gt;
+#include"foobar.h"
+int main(int argc, char **argv){
+        int i=5;
+        int j=10;
+        foo(&amp;i);
+        bar(&amp;j);
+        printf("i = %d\n",i);
+        printf("j = %d\n",j);
+        return 0;
+}</pre>
+<p>Let&#8217;s compile the sample program with <code>gcc test.c -L./ -lfoobar</code>; the <code>-L</code> option is for the library path, and <code>-l</code> for the library name. </p>
+<p>GCC does not require the complete name of the library file; we can omit the prefix <code>lib</code> and the extension <code>.a</code> or <code>.so</code> (in case of a shared library), so let&#8217;s use <code>-lfoobar</code>. This command yields the output file <code>a.out</code>, which will have the contents of the static library compiled into the binary. You can even delete the <code>libfoobar.a</code> file now, and you can still run the output file:</p>
+<pre class="brush: shell; gutter: false">$ ./a.out
+i = 10
+j = 50</pre>
+<p>So we have now built a static library with <code>ar</code>, and used it, statically compiled into a program. </p>
+<h2>The <em>ld</em> tool is important</h2>
+<p>Linking is the process of combining various pieces of code and data together to form a single executable image (that can be loaded) in memory. Linking can be done at compile time or runtime. GCC performs linking in the background; compile with the <code>-v</code> option, and you will see many background details, including the linking. </p>
+<p>To understand what happened during compilation, you must know how to use a linker manually &#8212; so let&#8217;s compile a simple &#8220;Hello World&#8221; C program without linking it (as before, <code>-c</code>) with <code>gcc -c hello.c</code>. Let&#8217;s manually do linking of the resultant object file <code>hello.o</code>. </p>
+<p>First, you must know that <code>main()</code> is the starting point of the program. Now, to make an executable, add some more object code, and the &#8220;C&#8221; library, into the final executable, with the following command:</p>
+<pre class="brush: shell; gutter: false">$  ld -o hello -dynamic-linker /lib/ld-linux.so.2 /usr/lib/crt*.o hello.o -lc</pre>
+<p>Here, <code>-o</code> names the output file <code>hello</code>; <code>-dynamic-linker</code> will include the shared library symbols from <code>ld-linux.so.2</code> in the executable; we will include <code>hello.o</code> and the other object files required, and finally include the C static library with <code>-lc</code>. </p>
+<p>In the output executable <code>hello</code>, <code>/usr/lib/crt*.o</code>, <code>hello.o</code>, and the C library (<code>-lc</code>) are statically linked to (copied into) <code>hello</code>, and <code>/lib/ld-linux.so.2</code> are linked dynamically. </p>
+<p>How are <code>ar</code> and <code>ld</code> different? </p>
+<p>The <code>ar</code> tool can only archive binary files statically, whereas <code>ld</code> links both shared and static libraries. Also, <code>ld</code> resolves symbols, which <code>ar</code> doesn&#8217;t. We don&#8217;t need to use <code>ld</code> manually, since GCC handles this &#8212; but to learn about what is in the background, we tried the above steps.</p>
+<h2><em>nm</em></h2>
+<p>The following diagram represents the memory segments of a C program (heap, data, code and stack), which C programmers must consider. </p>
+<div id="attachment_6028" class="wp-caption aligncenter" style="width: 400px"><img src="http://www.linuxforu.com/wp-content/uploads/2011/11/memory_program.jpeg" alt=" Memory segments of a C program" title=" Memory segments of a C program" width="400" height="256" class="size-full wp-image-6028" />
+<p class="wp-caption-text"> Memory segments of a C program</p>
+</div>
+<p>Different variables and symbols make their entry into different sections: dynamically allocated memory in heap, static and global variables in the data section; code and constants in the text part; and local variables in the stack section. </p>
+<p>It&#8217;s hard to investigate which symbol goes to which section &#8212; so, many thanks to open source developers, for the amazing tool <code>nm</code>, which can dissect <code>a.out</code> and detail the symbols present in it.</p>
+<p>Let&#8217;s try this with a sample program, <code>test.c</code>:</p>
+<pre class="brush: c; gutter: true; first-line: 1">#include&lt;stdio.h&gt;
+#include&lt;stdlib.h&gt;
+#include&lt;string.h&gt;
+/* Declare some global variables*/
+int global_int1;
+int global_int2=10;
+char global_string[10];
+const int const_int = 10;
+void test1(void){
+        global_int1 = 20;
+        printf("[test1] global_int2 = %d\n",global_int2);
+}
+void test2(void){
+        strcpy(global_string,"Hello");
+        printf("[test2] global_int1 = %d\n",global_int1);
+}
+void test3(void){
+        printf("[test3] global_string = %s\n",global_string);
+}
+int main(int argc, char **argv){
+        test1();
+        test2();
+        test3();
+        return 0;
+}</pre>
+<p>Let&#8217;s compile the program with <code>gcc test.c -o test</code> and use <code>nm</code> to dissect it:</p>
+<pre class="brush: shell; gutter: false">$ nm ./test
+08049674 d _DYNAMIC
+08049740 d _GLOBAL_OFFSET_TABLE_
+0804855c R _IO_stdin_used
+         w _Jv_RegisterClasses
+08049664 d __CTOR_END__
+08049660 d __CTOR_LIST__
+0804966c D __DTOR_END__
+08049668 d __DTOR_LIST__
+0804865c r __FRAME_END__
+08049670 d __JCR_END__
+08049670 d __JCR_LIST__
+08049764 A __bss_start
+0804975c D __data_start
+08048510 t __do_global_ctors_aux
+08048370 t __do_global_dtors_aux
+08048560 R __dso_handle
+         w __gmon_start__
+0804850a T __i686.get_pc_thunk.bx
+08049660 d __init_array_end
+08049660 d __init_array_start
+080484a0 T __libc_csu_fini
+080484b0 T __libc_csu_init
+         U __libc_start_main@@GLIBC_2.0
+08049764 A _edata
+0804977c A _end
+0804853c T _fini
+08048558 R _fp_hw
+080482b4 T _init
+08048340 T _start
+08049764 b completed.5963
+08048564 R const_int
+0804975c W data_start
+08049768 b dtor_idx.5965
+080483d0 t frame_dummy
+08049778 B global_int1
+08049760 D global_int2
+0804976c B global_string
+08048476 T main
+         U memcpy@@GLIBC_2.0
+         U printf@@GLIBC_2.0
+080483f4 T test1
+0804841d T test2
+08048459 T test3</pre>
+<p>Let&#8217;s examine the output. First, where do the program functions go? Near the end of the output, you see the names <code>main</code>, <code>test1</code>, <code>test2</code> and <code>test3</code> with a <code>T</code> preceding them; <code>T</code> stands for the text section, in which all these functions are. </p>
+<p>Next, the global and static variables: <code>global_string</code> and <code>global_int1</code> are preceded with <code>B</code>, while we have <code>R const_int</code> and <code>D global_int2</code>. This is because the data section is divided into two further sections: Uninitialised Data or BSS (Block Start by Symbol), and Initialised Data. Both <code>global_string</code> and <code>global_int1</code> are declared but not initialised, so they are in BSS (<code>B</code>); <code>global_int2</code> has been initialised, and is in <code>D</code>, the Initialised Data section.</p>
+<p>The storage of <code>const_int</code> is interesting. We declared it as a <code>const</code> variable, whose value won&#8217;t change throughout the program &#8212;  a read-only variable. Thus, it is stored in <code>R</code>, the read-only data section.</p>
+<p>There are options for <code>nm</code> &#8212; see the man page, and experiment, to understand object files. For example, <code>-S</code> will show the size of each symbol in hexadecimal form, as follows (a snippet of the output):</p>
+<pre class="brush: shell; gutter: false">$ nm -S ./test
+08049778 00000004 B global_int1
+0804976c 0000000a B global_string
+08048476 0000001e T main</pre>
+</div>
+<div class="introduction">
+<h2><em>objdump</em></h2>
+<p>The next utility I will cover is <code>objdump</code>. As a kernel developer, most of the time I have to deal with kernel crashes. Debugging the kernel needs a good understanding of the relation between C and assembly. </p>
+<p>For learning, working on a kernel crash would be time-consuming, so let&#8217;s start with a user-space program. Let&#8217;s compile <code>test.c</code> with debugging symbols (the option <code>-g</code>) and generate its assembly code with <code>objdump</code> as follows:</p>
+<pre class="brush: shell; gutter: false">$ gcc -g test.c -o test
+$ objdump -S ./test &gt; asm</pre>
+<p>The <code>objdump</code> output is huge, so let&#8217;s redirect the output to an <code>asm</code> file, which you can open in any text editor, and examine code from it. For example:</p>
+<pre class="brush: text; gutter: false">global_int1 = 20;
+80483fa:	c7 05 78 97 04 08 14 	movl   $0x14,0x8049778</pre>
+<p>I&#8217;m running CentOS on Intel hardware, so <code>asm</code> contains x86 assembly code. The <code>global_int1</code> variable is assigned the value &#8217;20&#8242; (<code>0x14</code>), which is shown in assembly in the next line. The address <code>0x8049778</code> is the location of <code>global_int1</code>; the <code>movl</code> instruction moves the data <code>0x14</code> (20) to this location. </p>
+<p>Next, look at the following:</p>
+<pre class="brush: text; gutter: false">From main()
+	return 0;
+ 804848b:	b8 00 00 00 00       	mov    $0x0,%eax</pre>
+<p>The return value is placed in the <code>eax</code> register. In this way, you can easily understand other instructions too, and enhance your assembly programming skills.</p>
+<h2><em>strings</em></h2>
+<p>This tool prints the printable characters from a file and can help while debugging a C program. Also, if you get an executable file from the Internet or other source, which contains malicious code, you can get an idea of what it does by looking at printable characters. The tool <code>strings</code> is the solution. </p>
+<p>Here, run it on your own test executable:</p>
+<pre class="brush: shell; gutter: false">$ strings ./test
+/lib/ld-linux.so.2
+q?Hm
+__gmon_start__
+libc.so.6
+_IO_stdin_used
+printf
+memcpy
+__libc_start_main
+GLIBC_2.0
+PTRh
+QVhv
+[^_]
+[test1] global_int2 = %d
+Hello
+[test2] global_int1 = %d
+[test3] global_string = %s</pre>
+<h2><em>strip</em></h2>
+<p>Another important tool is <code>strip</code>. While working on embedded systems projects, you must use memory (both RAM and storage) carefully. A few extra kilobytes can create problems. When you develop code, you need the symbols in it for debugging &#8212; but when you deploy it, there is no sense leaving the symbols in the executable file and wasting precious kilobytes of memory. So strip these symbols before deploying. </p>
+<p>Let&#8217;s compile <code>test.c</code> again (<code>gcc test.c -o test</code>) and check:</p>
+<pre class="brush: shell; gutter: false">$ file test
+test: ELF 32-bit LSB executable, Intel 80386, version 1 (SYSV), dynamically linked (uses shared libs), for GNU/Linux 2.6.15, not stripped
+
+$ ls -lh test
+-rwxr-xr-x 1 manoj manoj 7.2K 2011-09-14 00:44 test</pre>
+<p>It&#8217;s very clear that the 7.2K-size executable is not stripped. If you run <code>nm</code> on it, you will get the symbol details. Now strip this file to remove all symbols, with <code>strip test</code>, and check:</p>
+<pre class="brush: shell; gutter: false">$ ls -lh test
+-rwxr-xr-x 1 manoj manoj 5.4K 2011-09-14 00:47 test
+$ file test
+test: ELF 32-bit LSB executable, Intel 80386, version 1 (SYSV), dynamically linked (uses shared libs), for GNU/Linux 2.6.15, stripped
+$ nm test
+nm: test: no symbols</pre>
+<p>From the output, it&#8217;s clear that the size is reduced to 5.4K after it is stripped, and <code>nm</code> has failed to find any symbols in the file. This is a better file to deploy to embedded systems. </p>
+<h2><em>size</em></h2>
+<p>Finally, one more command that I need to cover is <code>size</code>, to get the sizes of different memory sections of an ELF file (executable):</p>
+<pre class="brush: shell; gutter: false">$ size a.out
+   text	            data            bss	    dec	    hex	filename
+   1192	    272	     24	   1488	    5d0	a.out</pre>
+<p>In this output, <code>text</code>, <code>data</code> and <code>bss</code> should be familiar; <code>dec</code> is the total size of all sections (<code>text</code> + <code>data</code> + <code>bss</code>).
+<div id="crp_related" class="crp_related">
+<h5>Related Posts:</h5>
+<ul>
+<li><a href="http://www.linuxforu.com/2011/12/loading-library-files-in-cpp/" rel="bookmark" class="crp_title">Loading Library Files in C++</a></li>
+<li><a href="http://www.linuxforu.com/2011/10/joy-of-programming-scope-lifetime-and-visibility-in-c/" rel="bookmark" class="crp_title">Joy of Programming: Scope, Lifetime and Visibility in C</a></li>
+<li><a href="http://www.linuxforu.com/2011/08/lets-hook-a-library-function/" rel="bookmark" class="crp_title">Let&#8217;s Hook a Library Function</a></li>
+<li><a href="http://www.linuxforu.com/2011/06/qemu-for-embedded-systems-development-part-1/" rel="bookmark" class="crp_title">Using QEMU for Embedded Systems Development, Part 1</a></li>
+<li><a href="http://www.linuxforu.com/2012/04/dryrun-decoupling-the-process/" rel="bookmark" class="crp_title">Dryrun: Decoupling the Process</a></li>
+</ul>
+</div>
+            </div>
+            <div class="hentry-footer">
+                <p class="hentry-tags">Tags: <a href="http://www.linuxforu.com/tag/ar-tool/" rel="tag">ar tool</a>, <a href="http://www.linuxforu.com/tag/archive-files/" rel="tag">archive files</a>, <a href="http://www.linuxforu.com/tag/archive-tool/" rel="tag">archive tool</a>, <a href="http://www.linuxforu.com/tag/assembly-code/" rel="tag">assembly code</a>, <a href="http://www.linuxforu.com/tag/assembly-language/" rel="tag">assembly language</a>, <a href="http://www.linuxforu.com/tag/binary-files/" rel="tag">binary files</a>, <a href="http://www.linuxforu.com/tag/binutils/" rel="tag">binutils</a>, <a href="http://www.linuxforu.com/tag/c/" rel="tag">C</a>, <a href="http://www.linuxforu.com/tag/c-files/" rel="tag">c files</a>, <a href="http://www.linuxforu.com/tag/c-library/" rel="tag">c library</a>, <a href="http://www.linuxforu.com/tag/centos/" rel="tag">CentOS</a>, <a href="http://www.linuxforu.com/tag/dynamic-libraries/" rel="tag">dynamic libraries</a>, <a href="http://www.linuxforu.com/tag/elf/" rel="tag">ELF</a>, <a href="http://www.linuxforu.com/tag/embedded-systems/" rel="tag">embedded systems</a>, <a href="http://www.linuxforu.com/tag/executable-file/" rel="tag">executable file</a>, <a href="http://www.linuxforu.com/tag/intel/" rel="tag">Intel</a>, <a href="http://www.linuxforu.com/tag/ld-tool/" rel="tag">ld tool</a>, <a href="http://www.linuxforu.com/tag/lfy-october-2011/" rel="tag">LFY October 2011</a>, <a href="http://www.linuxforu.com/tag/linux/" rel="tag">Linux</a>, <a href="http://www.linuxforu.com/tag/malicious-code/" rel="tag">malicious code</a>, <a href="http://www.linuxforu.com/tag/nm/" rel="tag">nm</a>, <a href="http://www.linuxforu.com/tag/ram/" rel="tag">RAM</a>, <a href="http://www.linuxforu.com/tag/static-libraries/" rel="tag">static libraries</a>, <a href="http://www.linuxforu.com/tag/symbol-table/" rel="tag">symbol table</a>, <a href="http://www.linuxforu.com/tag/systems-programming/" rel="tag">systems programming</a>, <a href="http://www.linuxforu.com/tag/tape-archive/" rel="tag">tape archive</a>, <a href="http://www.linuxforu.com/tag/unix/" rel="tag">unix</a></p>                                                <div id="author-info">
+                        <div id="authorbox-title">Article written by:</div>
+                                                        <div class="authorboxfix"></div>
+                                <div class="author">
+                                        <div class="author-image">
+                                                <img alt='' src='http://1.gravatar.com/avatar/786c81be9ca606a3cb0b04bb051ac66d?s=102&amp;d=&amp;r=G' class='avatar avatar-102 photo' height='102' width='102' />                                        </div>
+                                        <div class="author-name">
+                                                <a href="http://www.linuxforu.com/author/manoj-kumar/" title="More articles by Manoj Kumar"rel="nofollow" target="_blank">Manoj Kumar</a>
+                                        </div>
+                                        <div class="author-blurb">
+                                                <p class="description">The author is a freelance developer and trainer. He leads a team in Linux kernel programming, Linux administration, cluster computing, embedded systems and QT/GTK programming on Linux. View and participate in the latest discussions on his <a href="http://tech.groups.yahoo.com/group/FutureOS_Linux/">Yahoo Group</a>.</p>
+                                                <div class="social-links"><p>Connect with him: <a href="http://nxitsolutions.com/">Website</a></p>
+                                                </div>
+                                        </div>
+                                </div>
+                                <div class="authorboxfix"></div>
+                                        </div>
+                                <div class="hentry-navigation">
+                    <div class="hentry-navigation-inn clear">
+                                                    <a class="hentry-navigation-prev" href="http://www.linuxforu.com/2011/10/lisp-tears-of-joy-part-5/">
+                                <em>Previous Post</em>
+                                <span> Lisp: Tears of Joy, Part 5</span>
+                            </a>
+                                                    <a class="hentry-navigation-next" href="http://www.linuxforu.com/2011/10/lets-play-with-codeigniter/">
+                                <em>Next Post</em>
+                                <span>Let's Play with CodeIgniter</span>
+                            </a>
+                                                    <div class="hentry-navigation-line"></div>
+                    </div>
+                </div>
+
+                
+            </div>
+        </div>
+				        <div class="hentry-sidebar">
+            
+            
+            
+            
+        </div>
+				
+                <div id="sharebox">
+             <div class="share-item"><a href="http://twitter.com/share" class="twitter-share-button" data-via="LinuxForYou" data-count="vertical">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script></div>
+            <div class="share-item">
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+<div class="fb-like" data-send="false" data-href="http://www.linuxforu.com/2011/10/gnu-binutils-collection-of-binary-tools/" data-layout="box_count" data-width="49" data-show-faces="false"></div>
+						</div>
+<div class="share-item">
+<g:plusone size="tall"></g:plusone>
+<script type="text/javascript">
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script>
+						</div>
+            <div class="share-item"><script type="text/javascript" src="http://reddit.com/static/button/button2.js"></script></div>
+            <div class="share-item"><script src="http://www.stumbleupon.com/hostedbadge.php?s=5"></script></div>
+<div class="share-item"><script type="text/javascript"> (function() { var s = document.createElement('SCRIPT'), s1 = document.getElementsByTagName('SCRIPT')[0]; s.type = 'text/javascript'; s.async = true; s.src = 'http://widgets.digg.com/buttons.js'; s1.parentNode.insertBefore(s, s1); })(); </script> <a class="DiggThisButton DiggMedium"></a></div>
+        </div>
+        
+    </div>
+
+    <div class="clear"></div>
+
+    
+<div id="disqus_thread">
+                    <div id="dsq-content">
+
+
+            <ul id="dsq-comments">
+                    <li class="comment even thread-even depth-1" id="dsq-comment-3053">
+        <div id="dsq-comment-header-3053" class="dsq-comment-header">
+            <cite id="dsq-cite-3053">
+                <span id="dsq-author-user-3053">Anuj Aggarwal</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3053" class="dsq-comment-body">
+            <div id="dsq-comment-message-3053" class="dsq-comment-message"><p>Quite interesting topic. nice explanations :)</p>
+</div>
+        </div>
+    </li>
+
+    </li>
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-4449">
+        <div id="dsq-comment-header-4449" class="dsq-comment-header">
+            <cite id="dsq-cite-4449">
+                <span id="dsq-author-user-4449">tabsong</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4449" class="dsq-comment-body">
+            <div id="dsq-comment-message-4449" class="dsq-comment-message"><p>pretty nice</p>
+</div>
+        </div>
+    </li>
+
+    </li>
+            </ul>
+
+
+        </div>
+
+    </div>
+
+<script type="text/javascript">
+/* <![CDATA[ */
+    var disqus_url = 'http://www.linuxforu.com/2011/10/gnu-binutils-collection-of-binary-tools/';
+    var disqus_identifier = '6026 http://www.linuxforu.com/?p=6026';
+    var disqus_container_id = 'disqus_thread';
+    var disqus_domain = 'disqus.com';
+    var disqus_shortname = 'linuxforyou';
+    var disqus_title = "GNU Binutils: A Collection of Binary Tools";
+        var disqus_config = function () {
+        var config = this; // Access to the config object
+
+        /*
+           All currently supported events:
+            * preData — fires just before we request for initial data
+            * preInit - fires after we get initial data but before we load any dependencies
+            * onInit  - fires when all dependencies are resolved but before dtpl template is rendered
+            * afterRender - fires when template is rendered but before we show it
+            * onReady - everything is done
+         */
+
+        config.callbacks.preData.push(function() {
+            // clear out the container (its filled for SEO/legacy purposes)
+            document.getElementById(disqus_container_id).innerHTML = '';
+        });
+                config.callbacks.onReady.push(function() {
+            // sync comments in the background so we don't block the page
+            var script = document.createElement('script');
+            script.async = true;
+            script.src = '?cf_action=sync_comments&post_id=6026';
+
+            var firstScript = document.getElementsByTagName( "script" )[0];
+            firstScript.parentNode.insertBefore(script, firstScript);
+        });
+                    };
+    var facebookXdReceiverPath = 'http://www.linuxforu.com/wp-content/plugins/disqus-comment-system/xd_receiver.htm';
+/* ]]> */
+</script>
+
+<script type="text/javascript">
+/* <![CDATA[ */
+    var DsqLocal = {
+        'trackbacks': [
+        ],
+        'trackback_url': "http:\/\/www.linuxforu.com\/2011\/10\/gnu-binutils-collection-of-binary-tools\/trackback\/"    };
+/* ]]> */
+</script>
+
+<script type="text/javascript">
+/* <![CDATA[ */
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript';
+    dsq.async = true;
+        dsq.src = 'http' + '://' + disqus_shortname + '.' + 'disqus.com' + '/embed.js?pname=wordpress&pver=2.73';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+/* ]]> */
+</script>
+
+</div> <!-- .single -->
+
+
+</div><!-- #content -->
+
+<div id="sidebar">
+    <div id="search-3" class="widget_search widget"><form role="search" method="get" id="searchform" action="http://www.linuxforu.com/" >
+	<div><label class="screen-reader-text" for="s">Search for:</label>
+	<input type="text" value="" name="s" id="s" />
+	<input type="submit" id="searchsubmit" value="Search" />
+	</div>
+	</form></div><div id="text-5" class="widget_text widget">			<div class="textwidget"><a href="http://electronicsforu.com/electronicsforu/subscription/subsc2scheme.asp" title="Click takes you to our publisher's site" target="_blank"><img src="http://www.linuxforu.com/300x250-new.gif" style="box-shadow: 0 0 3px #999999; padding: 4px;"/></a></div>
+		</div><div id="wpshower_getconnected-3" class="unspoken-getconnected widget"><h3 class="widget-title">Get Connected</h3><ul>
+				<li class="feed">
+					<a href="http://feeds.feedburner.com/LinuxForYou">RSS Feed</a>
+				</li>
+
+		
+				<li class="twitter">
+					<a href="https://twitter.com/#!/linuxforyou">Twitter</a>
+				</li>
+
+		</ul></div><div id="wpshower_adplace-14" class="unspoken-adplace widget"><a class="unspoken-banner aligncenter" href="http://www.qualispace.in/" target="_blank"><img src="http://www.linuxforu.com/160x200-QS-banner_OSY-v1.gif" alt="Qualispace" title="Qualispace" /></a><div class="clear"></div></div><div id="wpshower_adplace-13" class="unspoken-adplace widget"><a class="unspoken-banner aligncenter" href="http://www.theglobalhighoncloudsummit.com/" target="_blank"><img src="http://www.linuxforu.com/200x150-Full-wordings.JPG" alt="Cloud" title="Cloud" /></a><div class="clear"></div></div><div id="wpshower_adplace-16" class="unspoken-adplace widget"><a class="unspoken-banner aligncenter" href="http://www.techbfsi.com/index.html" target="_blank"><img src="http://www.linuxforu.com/Kamikaze_Banner_size200x150px.gif" alt="Kamikaz" title="Kamikaz" /></a><div class="clear"></div></div><div id="wpshower_adplace-15" class="unspoken-adplace widget"><a class="unspoken-banner aligncenter" href="http://www.fleminggulf.com/conferenceview/2nd-Annual-Cloud-Computing-Summit/464" target="_blank"><img src="http://www.linuxforu.com/INTC05_banner_200x150.gif" alt="Cloud Computing Sumit" title="CCS" /></a><div class="clear"></div></div><div id="text-7" class="widget_text widget">			<div class="textwidget"><!-- Place this tag in the <head> of your document -->
+<link href="https://plus.google.com/104556966235097268920" rel="publisher" /><script type="text/javascript">
+window.___gcfg = {lang: 'en'};
+(function() 
+{var po = document.createElement("script");
+po.type = "text/javascript"; po.async = true;po.src = "https://apis.google.com/js/plusone.js";
+var s = document.getElementsByTagName("script")[0];
+s.parentNode.insertBefore(po, s);
+})();</script><!-- Place this tag where you want the badge to render --><g:plus href="https://plus.google.com/104556966235097268920" width="300" height="131" theme="light"></g:plus></div>
+		</div><div id="text-3" class="widget_text widget">			<div class="textwidget"><div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_GB/all.js#xfbml=1&appId=241865729181918";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script><div class="fb-like-box" data-href="http://www.facebook.com/opensourceforu" data-width="300" data-show-faces="true" data-stream="false" data-header="true"></div></div>
+		</div><div id="text-4" class="widget_text widget">			<div class="textwidget"><script src="http://widgets.twimg.com/j/2/widget.js"></script>
+<script>
+new TWTR.Widget({
+  version: 2,
+  type: 'search',
+  search: 'linuxforyou',
+  interval: 30000,
+  title: 'Complete Magazine on Open Source',
+  subject: '@LinuxForYou',
+  width: 'auto',
+  height: 350,
+  theme: {
+    shell: {
+      background: '#188cc2',
+      color: '#ffffff'
+    },
+    tweets: {
+      background: '#ffffff',
+      color: '#444444',
+      links: '#0079c9'
+    }
+  },
+  features: {
+    scrollbar: false,
+    loop: true,
+    live: true,
+    behavior: 'default'
+  }
+}).render().start();
+</script></div>
+		</div><div id="wpshower_tabs-3" class="unspoken-tabs widget"><div class="tabs-section"><ul class="tabs-list"><li class="tabs-current">Popular</li><li>Comments</li><li>Tag cloud</li></ul><div class="tabs-box"><div id="wpshower_popular_posts-3" class="unspoken_popular_posts widget"><span class="no-title">Popular</span><ul>
+            <li class="hentry-thumb clear">
+                <span class="hentry-thumb-image"><a href="http://www.linuxforu.com/2013/02/linux-professionals-in-high-demand/"></a></span>
+                <span class="hentry-thumb-meta ">February 27, 2013 &middot; <a href="http://www.linuxforu.com/2013/02/linux-professionals-in-high-demand/#comments">9 Comments</a> &middot; <a class="url fn n" href="http://www.linuxforu.com/author/coss/" title="View all posts by COSS">COSS</a></span>
+                <span class="hentry-thumb-title "><a href="http://www.linuxforu.com/2013/02/linux-professionals-in-high-demand/">Linux Professionals in High Demand</a></span>
+             </li>
+
+        
+            <li class="hentry-thumb clear">
+                <span class="hentry-thumb-image"><a href="http://www.linuxforu.com/2013/03/playing-hide-and-seek-with-passwords/"></a></span>
+                <span class="hentry-thumb-meta ">March 1, 2013 &middot; <a href="http://www.linuxforu.com/2013/03/playing-hide-and-seek-with-passwords/#comments">4 Comments</a> &middot; <a class="url fn n" href="http://www.linuxforu.com/author/vinayak-pandey/" title="View all posts by vinayak-pandey">vinayak-pandey</a></span>
+                <span class="hentry-thumb-title "><a href="http://www.linuxforu.com/2013/03/playing-hide-and-seek-with-passwords/">Playing  Hide and Seek with Passwords</a></span>
+             </li>
+
+        
+            <li class="hentry-thumb clear">
+                <span class="hentry-thumb-image"><a href="http://www.linuxforu.com/2013/04/crunchbang-linux-minimalist-and-mac-friendly/"></a></span>
+                <span class="hentry-thumb-meta ">April 4, 2013 &middot; <a href="http://www.linuxforu.com/2013/04/crunchbang-linux-minimalist-and-mac-friendly/#comments">4 Comments</a> &middot; <a class="url fn n" href="http://www.linuxforu.com/author/aditya-pareek/" title="View all posts by Aditya-Pareek">Aditya-Pareek</a></span>
+                <span class="hentry-thumb-title "><a href="http://www.linuxforu.com/2013/04/crunchbang-linux-minimalist-and-mac-friendly/">Crunchbang Linux Minimalist and Mac-Friendly</a></span>
+             </li>
+
+        
+            <li class="hentry-thumb clear">
+                <span class="hentry-thumb-image"><a href="http://www.linuxforu.com/2013/03/introducing-samba-4-now-even-more-awesomeness/"></a></span>
+                <span class="hentry-thumb-meta ">March 1, 2013 &middot; <a href="http://www.linuxforu.com/2013/03/introducing-samba-4-now-even-more-awesomeness/#comments">3 Comments</a> &middot; <a class="url fn n" href="http://www.linuxforu.com/author/boudhayan-gupta/" title="View all posts by Boudhayan Gupta">Boudhayan Gupta</a></span>
+                <span class="hentry-thumb-title "><a href="http://www.linuxforu.com/2013/03/introducing-samba-4-now-even-more-awesomeness/">Introducing Samba 4 Now, Even More Awesomeness</a></span>
+             </li>
+
+        
+            <li class="hentry-thumb clear">
+                <span class="hentry-thumb-image"><a href="http://www.linuxforu.com/2013/04/learn-the-art-of-linux-troubleshooting/"></a></span>
+                <span class="hentry-thumb-meta ">April 1, 2013 &middot; <a href="http://www.linuxforu.com/2013/04/learn-the-art-of-linux-troubleshooting/#comments">2 Comments</a> &middot; <a class="url fn n" href="http://www.linuxforu.com/author/vinayak-pandey/" title="View all posts by vinayak-pandey">vinayak-pandey</a></span>
+                <span class="hentry-thumb-title "><a href="http://www.linuxforu.com/2013/04/learn-the-art-of-linux-troubleshooting/">Learn the Art of Linux Troubleshooting</a></span>
+             </li>
+
+        </ul></div></div><div class="tabs-box"><div id="wpshower_recent_comments-3" class="unspoken_recent_comments widget"><span class="no-title">Comments</span><ul>
+            <li class="hentry-thumb hentry-thumb-comment clear">
+                <span class="hentry-thumb-image"><img alt='' src='http://0.gravatar.com/avatar/288171fd1d2a3235de4171f755ae336b?s=50&amp;d=http%3A%2F%2Fwww.linuxforu.com%2Fwp-content%2Fthemes%2Funspoken%2Fimages%2Fno-avatar.png%3Fs%3D50&amp;r=G' class='avatar avatar-50 photo' height='50' width='50' /></span>
+                <span class="hentry-thumb-meta offset">June 24, 2013</span>
+                <span class="hentry-thumb-title offset">livedb                    <span>&mdash;</span> <a href="http://www.linuxforu.com/2012/01/importance-of-in-memory-databases/#comment-4732" title="Comment on post &quot;The Importance of In-memory Databases&quot;">This is a great article, thank you. However, the images of figure 1 and 2 could be misleading. They imply...</a></span>
+             </li>
+
+        
+            <li class="hentry-thumb hentry-thumb-comment clear">
+                <span class="hentry-thumb-image"><img alt='' src='http://1.gravatar.com/avatar/dfb5fc468702a38c58058584887f4969?s=50&amp;d=http%3A%2F%2Fwww.linuxforu.com%2Fwp-content%2Fthemes%2Funspoken%2Fimages%2Fno-avatar.png%3Fs%3D50&amp;r=G' class='avatar avatar-50 photo' height='50' width='50' /></span>
+                <span class="hentry-thumb-meta offset">June 24, 2013</span>
+                <span class="hentry-thumb-title offset">Anirudh                    <span>&mdash;</span> <a href="http://www.linuxforu.com/2009/01/the-crux-of-linux-notifier-chains/#comment-4731" title="Comment on post &quot;The Crux of Linux Notifier Chains&quot;">Very simple way to explain the Notify chain mechanism. 
+
+Please bring out some article on runtime pm and platform drivers...</a></span>
+             </li>
+
+        
+            <li class="hentry-thumb hentry-thumb-comment clear">
+                <span class="hentry-thumb-image"><img alt='' src='http://1.gravatar.com/avatar/56b953d815ed224d7493f12beedf61ac?s=50&amp;d=http%3A%2F%2Fwww.linuxforu.com%2Fwp-content%2Fthemes%2Funspoken%2Fimages%2Fno-avatar.png%3Fs%3D50&amp;r=G' class='avatar avatar-50 photo' height='50' width='50' /></span>
+                <span class="hentry-thumb-meta offset">June 24, 2013</span>
+                <span class="hentry-thumb-title offset">tejas                    <span>&mdash;</span> <a href="http://www.linuxforu.com/2013/06/new-and-amazing-features-of-linux/#comment-4730" title="Comment on post &quot;New and amazing features of Linux&quot;">Extremely abstract article. How about adding few more technical details.</a></span>
+             </li>
+
+        
+            <li class="hentry-thumb hentry-thumb-comment clear">
+                <span class="hentry-thumb-image"><img alt='' src='http://0.gravatar.com/avatar/0dd75f6c744e02e634a79a7bd7bbdbdc?s=50&amp;d=http%3A%2F%2Fwww.linuxforu.com%2Fwp-content%2Fthemes%2Funspoken%2Fimages%2Fno-avatar.png%3Fs%3D50&amp;r=G' class='avatar avatar-50 photo' height='50' width='50' /></span>
+                <span class="hentry-thumb-meta offset">June 22, 2013</span>
+                <span class="hentry-thumb-title offset">Ikem Krueger                    <span>&mdash;</span> <a href="http://www.linuxforu.com/2010/09/exploring-software-delta-packages-speed-up-updates-by-downloading-less/#comment-4721" title="Comment on post &quot;Exploring Software: Delta Packages &#8212; Speed Up Updates By Downloading Less&quot;">The Debian delta page has moved to: http://debdelta.debian.net/</a></span>
+             </li>
+
+        
+            <li class="hentry-thumb hentry-thumb-comment clear">
+                <span class="hentry-thumb-image"><img alt='' src='http://0.gravatar.com/avatar/0dd75f6c744e02e634a79a7bd7bbdbdc?s=50&amp;d=http%3A%2F%2Fwww.linuxforu.com%2Fwp-content%2Fthemes%2Funspoken%2Fimages%2Fno-avatar.png%3Fs%3D50&amp;r=G' class='avatar avatar-50 photo' height='50' width='50' /></span>
+                <span class="hentry-thumb-meta offset">June 22, 2013</span>
+                <span class="hentry-thumb-title offset">Ikem Krueger                    <span>&mdash;</span> <a href="http://www.linuxforu.com/2010/04/cradle-to-grave-a-look-at-arch-linux/#comment-4720" title="Comment on post &quot;Cradle to Grave &#8211; A Look at Arch Linux&quot;">The Arch Linux wiki is one of the best I stumbled so far. Very useful even if you don't use...</a></span>
+             </li>
+
+        </ul></div></div><div class="tabs-box"><div id="simpletags-3" class="widget-simpletags widget"><span class="no-title">Tag cloud</span>
+<!-- Generated by Simple Tags 2.2 - http://wordpress.org/extend/plugins/simple-tags -->
+	<div class="st-tag-cloud">
+	<a href="http://www.linuxforu.com/tag/javascript/" id="tag-link-774" class="st-tags t1" title="26 topics" rel="tag" style="font-size:8pt; color:#cccccc;">JavaScript</a>
+<a href="http://www.linuxforu.com/tag/api/" id="tag-link-105" class="st-tags t1" title="22 topics" rel="tag" style="font-size:8pt; color:#cccccc;">API</a>
+<a href="http://www.linuxforu.com/tag/fedora/" id="tag-link-490" class="st-tags t4" title="57 topics" rel="tag" style="font-size:12.67pt; color:#888888;">Fedora</a>
+<a href="http://www.linuxforu.com/tag/android/" id="tag-link-79" class="st-tags t4" title="56 topics" rel="tag" style="font-size:12.67pt; color:#888888;">Android</a>
+<a href="http://www.linuxforu.com/tag/lfy-july-2011/" id="tag-link-848" class="st-tags t1" title="24 topics" rel="tag" style="font-size:8pt; color:#cccccc;">LFY July 2011</a>
+<a href="http://www.linuxforu.com/tag/lfy-february-2012/" id="tag-link-4678" class="st-tags t1" title="24 topics" rel="tag" style="font-size:8pt; color:#cccccc;">LFY February 2012</a>
+<a href="http://www.linuxforu.com/tag/windows/" id="tag-link-1647" class="st-tags t2" title="33 topics" rel="tag" style="font-size:9.56pt; color:#b5b5b5;">Windows</a>
+<a href="http://www.linuxforu.com/tag/red-hat/" id="tag-link-1272" class="st-tags t2" title="32 topics" rel="tag" style="font-size:9.56pt; color:#b5b5b5;">Red Hat</a>
+<a href="http://www.linuxforu.com/tag/lfy-december-2010/" id="tag-link-2800" class="st-tags t1" title="22 topics" rel="tag" style="font-size:8pt; color:#cccccc;">LFY December 2010</a>
+<a href="http://www.linuxforu.com/tag/foss/" id="tag-link-521" class="st-tags t1" title="26 topics" rel="tag" style="font-size:8pt; color:#cccccc;">FOSS</a>
+<a href="http://www.linuxforu.com/tag/java/" id="tag-link-763" class="st-tags t6" title="72 topics" rel="tag" style="font-size:15.78pt; color:#5a5a5a;">Java</a>
+<a href="http://www.linuxforu.com/tag/gnome/" id="tag-link-570" class="st-tags t1" title="26 topics" rel="tag" style="font-size:8pt; color:#cccccc;">GNOME</a>
+<a href="http://www.linuxforu.com/tag/ubuntu/" id="tag-link-1539" class="st-tags t8" title="90 topics" rel="tag" style="font-size:18.89pt; color:#2d2d2d;">ubuntu</a>
+<a href="http://www.linuxforu.com/tag/lfy-february-2011/" id="tag-link-2816" class="st-tags t1" title="22 topics" rel="tag" style="font-size:8pt; color:#cccccc;">LFY February 2011</a>
+<a href="http://www.linuxforu.com/tag/firewall/" id="tag-link-506" class="st-tags t1" title="24 topics" rel="tag" style="font-size:8pt; color:#cccccc;">firewall</a>
+<a href="http://www.linuxforu.com/tag/lfy-april-2012/" id="tag-link-5316" class="st-tags t1" title="28 topics" rel="tag" style="font-size:8pt; color:#cccccc;">LFY April 2012</a>
+<a href="http://www.linuxforu.com/tag/lfy-march-2012/" id="tag-link-5165" class="st-tags t1" title="25 topics" rel="tag" style="font-size:8pt; color:#cccccc;">LFY March 2012</a>
+<a href="http://www.linuxforu.com/tag/lfy-january-2012/" id="tag-link-3305" class="st-tags t1" title="22 topics" rel="tag" style="font-size:8pt; color:#cccccc;">LFY January 2012</a>
+<a href="http://www.linuxforu.com/tag/linux/" id="tag-link-865" class="st-tags t10" title="108 topics" rel="tag" style="font-size:22pt; color:#000000;">Linux</a>
+<a href="http://www.linuxforu.com/tag/lfy-may-2011/" id="tag-link-849" class="st-tags t1" title="24 topics" rel="tag" style="font-size:8pt; color:#cccccc;">LFY May 2011</a>
+<a href="http://www.linuxforu.com/tag/lfy-august-2011/" id="tag-link-847" class="st-tags t1" title="22 topics" rel="tag" style="font-size:8pt; color:#cccccc;">LFY August 2011</a>
+<a href="http://www.linuxforu.com/tag/oracle/" id="tag-link-1125" class="st-tags t1" title="30 topics" rel="tag" style="font-size:8pt; color:#cccccc;">Oracle</a>
+<a href="http://www.linuxforu.com/tag/web-server/" id="tag-link-1634" class="st-tags t1" title="23 topics" rel="tag" style="font-size:8pt; color:#cccccc;">Web server</a>
+<a href="http://www.linuxforu.com/tag/microsoft/" id="tag-link-964" class="st-tags t2" title="37 topics" rel="tag" style="font-size:9.56pt; color:#b5b5b5;">Microsoft</a>
+<a href="http://www.linuxforu.com/tag/google/" id="tag-link-592" class="st-tags t4" title="59 topics" rel="tag" style="font-size:12.67pt; color:#888888;">Google</a>
+<a href="http://www.linuxforu.com/tag/security/" id="tag-link-22" class="st-tags t1" title="29 topics" rel="tag" style="font-size:8pt; color:#cccccc;">Security</a>
+<a href="http://www.linuxforu.com/tag/operating-systems/" id="tag-link-2261" class="st-tags t1" title="25 topics" rel="tag" style="font-size:8pt; color:#cccccc;">operating systems</a>
+<a href="http://www.linuxforu.com/tag/python/" id="tag-link-1244" class="st-tags t4" title="58 topics" rel="tag" style="font-size:12.67pt; color:#888888;">python</a>
+<a href="http://www.linuxforu.com/tag/unix/" id="tag-link-1561" class="st-tags t2" title="33 topics" rel="tag" style="font-size:9.56pt; color:#b5b5b5;">unix</a>
+<a href="http://www.linuxforu.com/tag/html/" id="tag-link-661" class="st-tags t2" title="40 topics" rel="tag" style="font-size:9.56pt; color:#b5b5b5;">html</a>
+<a href="http://www.linuxforu.com/tag/ram/" id="tag-link-1817" class="st-tags t1" title="25 topics" rel="tag" style="font-size:8pt; color:#cccccc;">RAM</a>
+<a href="http://www.linuxforu.com/tag/web-applications/" id="tag-link-2351" class="st-tags t2" title="39 topics" rel="tag" style="font-size:9.56pt; color:#b5b5b5;">web applications</a>
+<a href="http://www.linuxforu.com/tag/programming/" id="tag-link-1225" class="st-tags t1" title="23 topics" rel="tag" style="font-size:8pt; color:#cccccc;">programming</a>
+<a href="http://www.linuxforu.com/tag/php/" id="tag-link-1181" class="st-tags t4" title="51 topics" rel="tag" style="font-size:12.67pt; color:#888888;">PHP</a>
+<a href="http://www.linuxforu.com/tag/distro-review/" id="tag-link-401" class="st-tags t1" title="22 topics" rel="tag" style="font-size:8pt; color:#cccccc;">distro review</a>
+<a href="http://www.linuxforu.com/tag/mysql/" id="tag-link-1009" class="st-tags t5" title="63 topics" rel="tag" style="font-size:14.22pt; color:#717171;">MySQL</a>
+<a href="http://www.linuxforu.com/tag/c/" id="tag-link-224" class="st-tags t3" title="47 topics" rel="tag" style="font-size:11.11pt; color:#9e9e9e;">C</a>
+<a href="http://www.linuxforu.com/tag/open-source/" id="tag-link-1094" class="st-tags t1" title="25 topics" rel="tag" style="font-size:8pt; color:#cccccc;">open source</a>
+<a href="http://www.linuxforu.com/tag/india/" id="tag-link-701" class="st-tags t2" title="37 topics" rel="tag" style="font-size:9.56pt; color:#b5b5b5;">India</a>
+<a href="http://www.linuxforu.com/tag/lfy-january-2011/" id="tag-link-2809" class="st-tags t1" title="24 topics" rel="tag" style="font-size:8pt; color:#cccccc;">LFY January 2011</a>
+<a href="http://www.linuxforu.com/tag/apache/" id="tag-link-98" class="st-tags t1" title="28 topics" rel="tag" style="font-size:8pt; color:#cccccc;">Apache</a>
+<a href="http://www.linuxforu.com/tag/cc/" id="tag-link-232" class="st-tags t1" title="22 topics" rel="tag" style="font-size:8pt; color:#cccccc;">C/C++</a>
+<a href="http://www.linuxforu.com/tag/lfy-june-2011/" id="tag-link-2496" class="st-tags t1" title="26 topics" rel="tag" style="font-size:8pt; color:#cccccc;">LFY June 2011</a>
+<a href="http://www.linuxforu.com/tag/http/" id="tag-link-662" class="st-tags t1" title="26 topics" rel="tag" style="font-size:8pt; color:#cccccc;">http</a>
+<a href="http://www.linuxforu.com/tag/xml/" id="tag-link-2131" class="st-tags t1" title="28 topics" rel="tag" style="font-size:8pt; color:#cccccc;">xml</a></div>
+
+</div></div></div></div></div><!-- #sidebar -->
+
+            </div> <!-- .middle -->
+            <div class="bottom-widgetarea">
+                <div class="bottom-widgetarea-inn clear">
+                                                        </div>
+            </div>
+            <div class="footer clear">
+
+            <div class="menu-footer clear"><ul id="menu-navigation-footer" class="menu"><li id="menu-item-26" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-26"><a href="http://www.linuxforu.com/category/reviews/">Reviews</a></li>
+<li id="menu-item-27" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-27"><a href="http://www.linuxforu.com/category/how-tos/">How-Tos</a></li>
+<li id="menu-item-28" class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor current-menu-parent current-post-parent menu-item-28"><a href="http://www.linuxforu.com/category/coding/">Coding</a></li>
+<li id="menu-item-5530" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-5530"><a href="http://www.linuxforu.com/category/interviews/">Interviews</a></li>
+<li id="menu-item-29" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-29"><a href="http://www.linuxforu.com/category/features/">Features</a></li>
+<li id="menu-item-5548" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-5548"><a href="http://www.linuxforu.com/category/overview/">Overview</a></li>
+<li id="menu-item-32" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-32"><a href="http://www.linuxforu.com/category/blogs/">Blogs</a></li>
+</ul></div>
+                <div class="footer-leftpart">
+                    <a class="logo-footer" href="http://www.linuxforu.com">
+                                                    <span style="background: url(http://www.linuxforu.com/wp-content/themes/unspoken/images/logo-footer.png) 0 0 no-repeat;"></span>                                            </a>
+                </div>
+                <div class="footer-middlepart">
+                    <div class="footer-searchform">
+                        <form method="get" id="searchform" action="http://www.linuxforu.com">
+                            <fieldset>
+                                <input type="text" name="s" onfocus="if(this.value=='Search') this.value='';" onblur="if(this.value=='') this.value='Search';" value="Search" />
+                            </fieldset>
+                        </form>
+                    </div>
+                    <div class="footer-tags">
+                        <p>Popular tags</p><a href='http://www.linuxforu.com/tag/linux/' title='Linux' class='linux'>Linux</a>, <a href='http://www.linuxforu.com/tag/ubuntu/' title='ubuntu' class='ubuntu'>ubuntu</a>, <a href='http://www.linuxforu.com/tag/java/' title='Java' class='java'>Java</a>, <a href='http://www.linuxforu.com/tag/mysql/' title='MySQL' class='mysql'>MySQL</a>, <a href='http://www.linuxforu.com/tag/google/' title='Google' class='google'>Google</a>, <a href='http://www.linuxforu.com/tag/python/' title='python' class='python'>python</a>, <a href='http://www.linuxforu.com/tag/fedora/' title='Fedora' class='fedora'>Fedora</a>, <a href='http://www.linuxforu.com/tag/android/' title='Android' class='android'>Android</a>, <a href='http://www.linuxforu.com/tag/php/' title='PHP' class='php'>PHP</a>, <a href='http://www.linuxforu.com/tag/c/' title='C' class='c'>C</a>, <a href='http://www.linuxforu.com/tag/html/' title='html' class='html'>html</a>, <a href='http://www.linuxforu.com/tag/web-applications/' title='web applications' class='web-applications'>web applications</a>, <a href='http://www.linuxforu.com/tag/india/' title='India' class='india'>India</a>, <a href='http://www.linuxforu.com/tag/microsoft/' title='Microsoft' class='microsoft'>Microsoft</a>, <a href='http://www.linuxforu.com/tag/unix/' title='unix' class='unix'>unix</a>, <a href='http://www.linuxforu.com/tag/windows/' title='Windows' class='windows'>Windows</a>, <a href='http://www.linuxforu.com/tag/red-hat/' title='Red Hat' class='red-hat'>Red Hat</a>, <a href='http://www.linuxforu.com/tag/oracle/' title='Oracle' class='oracle'>Oracle</a>, <a href='http://www.linuxforu.com/tag/security/' title='Security' class='security'>Security</a>, <a href='http://www.linuxforu.com/tag/apache/' title='Apache' class='apache'>Apache</a>, <a href='http://www.linuxforu.com/tag/xml/' title='xml' class='xml'>xml</a>, <a href='http://www.linuxforu.com/tag/lfy-april-2012/' title='LFY April 2012' class='lfy-april-2012'>LFY April 2012</a>, <a href='http://www.linuxforu.com/tag/foss/' title='FOSS' class='foss'>FOSS</a>, <a href='http://www.linuxforu.com/tag/gnome/' title='GNOME' class='gnome'>GNOME</a>, <a href='http://www.linuxforu.com/tag/http/' title='http' class='http'>http</a>, <a href='http://www.linuxforu.com/tag/javascript/' title='JavaScript' class='javascript'>JavaScript</a>, <a href='http://www.linuxforu.com/tag/lfy-june-2011/' title='LFY June 2011' class='lfy-june-2011'>LFY June 2011</a>, <a href='http://www.linuxforu.com/tag/open-source/' title='open source' class='open-source'>open source</a>, <a href='http://www.linuxforu.com/tag/ram/' title='RAM' class='ram'>RAM</a>, <a href='http://www.linuxforu.com/tag/operating-systems/' title='operating systems' class='operating-systems'>operating systems</a>                    </div>
+                </div>
+
+            <ul id="menu-footer-left-linkset" class="footer-linkset"><li id="menu-item-33" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-33"><a href="http://www.linuxforu.com/category/everyone/">For You &#038; Me</a></li>
+<li id="menu-item-3257" class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor current-menu-parent current-post-parent menu-item-3257"><a href="http://www.linuxforu.com/category/developers/">Developers</a></li>
+<li id="menu-item-5536" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-5536"><a href="http://www.linuxforu.com/category/sysadmins/">Sysadmins</a></li>
+<li id="menu-item-11294" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-11294"><a href="http://www.linuxforu.com/category/power-users/">Open Gurus</a></li>
+<li id="menu-item-11293" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-11293"><a href="http://www.linuxforu.com/category/cxo/">CXOs</a></li>
+<li id="menu-item-3258" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-3258"><a href="http://www.linuxforu.com/category/columns/">Columns</a></li>
+</ul>
+            <ul id="menu-footer-right-linkset" class="footer-linkset"></ul>
+            </div><!-- .footer -->
+            <div class="copyrights">
+                <p>All published articles are released under <a href="http://creativecommons.org/licenses/by-nc/3.0/" target="_blank">Creative Commons Attribution-NonCommercial 3.0 Unported License</a>, unless otherwise noted.<br /><a href="http://www.linuxforu.com">LINUX For You</a> is powered by <a href="http://wordpress.org/" target="_blank>">WordPress</a>, which gladly sits on top of a <a href="http://www.centos.org/" target="_blank">CentOS</a>-based <a href="http://en.wikipedia.org/wiki/LAMP_%28software_bundle%29" target="_blank">LEMP stack</a>.</p>
+                            </div>
+            <div class="credits">
+            
+<a rel="license" href="http://creativecommons.org/licenses/by-nc/3.0/"><img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc/3.0/88x31.png" /></a>.
+            </div>
+            <div class="clear"></div>
+        </div> <!-- .wrapper -->
+
+            <script type="text/javascript">
+    // <![CDATA[
+        var disqus_shortname = 'linuxforyou';
+        (function () {
+            var nodes = document.getElementsByTagName('span');
+            for (var i = 0, url; i < nodes.length; i++) {
+                if (nodes[i].className.indexOf('dsq-postid') != -1) {
+                    nodes[i].parentNode.setAttribute('data-disqus-identifier', nodes[i].getAttribute('rel'));
+                    url = nodes[i].parentNode.href.split('#', 1);
+                    if (url.length == 1) url = url[0];
+                    else url = url[1]
+                    nodes[i].parentNode.href = url + '#disqus_thread';
+                }
+            }
+            var s = document.createElement('script'); s.async = true;
+            s.type = 'text/javascript';
+                        s.src = 'http' + '://' + 'disqus.com/forums/' + disqus_shortname + '/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+    //]]>
+    </script>
+
+<!-- WP SyntaxHighlighter Ver.1.7.3 Begin -->
+<script type="text/javascript" src="http://www.linuxforu.com/wp-content/plugins/wp-syntaxhighlighter/syntaxhighlighter3/scripts/shCore.js?26ab35"></script>
+<script type="text/javascript" src="http://www.linuxforu.com/wp-content/plugins/wp-syntaxhighlighter/syntaxhighlighter3/scripts/shAutoloader.js?26ab35"></script>
+<script type="text/javascript" src="http://www.linuxforu.com/wp-content/plugins/wp-syntaxhighlighter/syntaxhighlighter3/scripts/shBrushXml.js?26ab35"></script>
+<script type="text/javascript">//<![CDATA[
+	SyntaxHighlighter.autoloader(
+	"bash shell	http://www.linuxforu.com/wp-content/plugins/wp-syntaxhighlighter/syntaxhighlighter3/scripts/shBrushBash.js?ver=3.0"
+	,"cpp c	http://www.linuxforu.com/wp-content/plugins/wp-syntaxhighlighter/syntaxhighlighter3/scripts/shBrushCpp.js?ver=3.0"
+	,"c# c-sharp csharp	http://www.linuxforu.com/wp-content/plugins/wp-syntaxhighlighter/syntaxhighlighter3/scripts/shBrushCSharp.js?ver=3.0"
+	,"css	http://www.linuxforu.com/wp-content/plugins/wp-syntaxhighlighter/syntaxhighlighter3/scripts/shBrushCss.js?ver=3.0"
+	,"delphi pas pascal	http://www.linuxforu.com/wp-content/plugins/wp-syntaxhighlighter/syntaxhighlighter3/scripts/shBrushDelphi.js?ver=3.0"
+	,"diff patch	http://www.linuxforu.com/wp-content/plugins/wp-syntaxhighlighter/syntaxhighlighter3/scripts/shBrushDiff.js?ver=3.0"
+	,"erl erlang	http://www.linuxforu.com/wp-content/plugins/wp-syntaxhighlighter/syntaxhighlighter3/scripts/shBrushErlang.js?ver=3.0"
+	,"groovy	http://www.linuxforu.com/wp-content/plugins/wp-syntaxhighlighter/syntaxhighlighter3/scripts/shBrushGroovy.js?ver=3.0"
+	,"java	http://www.linuxforu.com/wp-content/plugins/wp-syntaxhighlighter/syntaxhighlighter3/scripts/shBrushJava.js?ver=3.0"
+	,"js jscript javascript	http://www.linuxforu.com/wp-content/plugins/wp-syntaxhighlighter/syntaxhighlighter3/scripts/shBrushJScript.js?ver=3.0"
+	,"perl pl	http://www.linuxforu.com/wp-content/plugins/wp-syntaxhighlighter/syntaxhighlighter3/scripts/shBrushPerl.js?ver=3.0"
+	,"php	http://www.linuxforu.com/wp-content/plugins/wp-syntaxhighlighter/syntaxhighlighter3/scripts/shBrushPhp.js?ver=3.0"
+	,"plain text	http://www.linuxforu.com/wp-content/plugins/wp-syntaxhighlighter/syntaxhighlighter3/scripts/shBrushPlain.js?ver=3.0"
+	,"py python	http://www.linuxforu.com/wp-content/plugins/wp-syntaxhighlighter/syntaxhighlighter3/scripts/shBrushPython.js?ver=3.0"
+	,"rails ror ruby rb	http://www.linuxforu.com/wp-content/plugins/wp-syntaxhighlighter/syntaxhighlighter3/scripts/shBrushRuby.js?ver=3.0"
+	,"scala	http://www.linuxforu.com/wp-content/plugins/wp-syntaxhighlighter/syntaxhighlighter3/scripts/shBrushScala.js?ver=3.0"
+	,"sql	http://www.linuxforu.com/wp-content/plugins/wp-syntaxhighlighter/syntaxhighlighter3/scripts/shBrushSql.js?ver=3.0"
+	,"vb vbnet	http://www.linuxforu.com/wp-content/plugins/wp-syntaxhighlighter/syntaxhighlighter3/scripts/shBrushVb.js?ver=3.0"
+	,"xml xhtml xslt html	http://www.linuxforu.com/wp-content/plugins/wp-syntaxhighlighter/syntaxhighlighter3/scripts/shBrushXml.js?ver=3.0"
+	);
+	SyntaxHighlighter.defaults['auto-links'] = false;
+	SyntaxHighlighter.defaults['quick-code'] = true;
+	SyntaxHighlighter.defaults['title'] = '';
+	SyntaxHighlighter.defaults['class-name'] = 'notranslate';
+	SyntaxHighlighter.defaults['collapse'] = false;
+	SyntaxHighlighter.defaults['first-line'] = 1;
+	SyntaxHighlighter.defaults['gutter'] = false;
+	SyntaxHighlighter.defaults['pad-line-numbers'] = false;
+	SyntaxHighlighter.defaults['smart-tabs'] = true;
+	SyntaxHighlighter.defaults['tab-size'] = 4;
+	SyntaxHighlighter.defaults['toolbar'] = false;
+	SyntaxHighlighter.config.strings.expandSource = '+ expand source';
+	SyntaxHighlighter.config.strings.help = '?';
+	SyntaxHighlighter.config.strings.alert = 'SyntaxHighlighter\n\n';
+	SyntaxHighlighter.config.strings.noBrush = "Can't find brush for: ";
+	SyntaxHighlighter.config.strings.brushNotHtmlScript = "Brush wasn't configured for html-script option: ";
+	SyntaxHighlighter.all();
+	
+//]]></script>
+<!-- WP SyntaxHighlighter Ver.1.7.3 End -->
+	<div style="display:none">
+	<div class="grofile-hash-map-786c81be9ca606a3cb0b04bb051ac66d">
+	</div>
+	<div class="grofile-hash-map-288171fd1d2a3235de4171f755ae336b">
+	</div>
+	<div class="grofile-hash-map-dfb5fc468702a38c58058584887f4969">
+	</div>
+	<div class="grofile-hash-map-56b953d815ed224d7493f12beedf61ac">
+	</div>
+	<div class="grofile-hash-map-0dd75f6c744e02e634a79a7bd7bbdbdc">
+	</div>
+	</div>
+<script type='text/javascript' src="http://www.linuxforu.com/wp-content/plugins/contact-form-7/includes/js/jquery.form.min.js?26ab35"></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var _wpcf7 = {"loaderUrl":"http:\/\/www.linuxforu.com\/wp-content\/plugins\/contact-form-7\/images\/ajax-loader.gif","sending":"Sending ...","cached":"1"};
+/* ]]> */
+</script>
+<script type='text/javascript' src="http://www.linuxforu.com/wp-content/plugins/contact-form-7/includes/js/scripts.js?26ab35"></script>
+<script type='text/javascript' src='http://s0.wp.com/wp-content/js/devicepx-jetpack.js?ver=201326'></script>
+<script type='text/javascript' src='http://s.gravatar.com/js/gprofiles.js?ver=2013Junaa'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var WPGroHo = {"my_hash":""};
+/* ]]> */
+</script>
+<script type='text/javascript' src="http://www.linuxforu.com/wp-content/plugins/jetpack/modules/wpgroho.js?26ab35"></script>
+
+	<script src="http://stats.wordpress.com/e-201326.js" type="text/javascript"></script>
+	<script type="text/javascript">
+	st_go({v:'ext',j:'1:2.2',blog:'12329356',post:'6026',tz:'5.5'});
+	var load_cmc = function(){linktracker_init(12329356,6026,2);};
+	if ( typeof addLoadEvent != 'undefined' ) addLoadEvent(load_cmc);
+	else load_cmc();
+	</script>
+        <script type="text/javascript">/* CloudFlare analytics upgrade */
+</script>
+	</body>
+</html>
+<!-- Performance optimized by W3 Total Cache. Learn more: http://www.w3-edge.com/wordpress-plugins/
+
+Page Caching using disk: enhanced
+Database Caching 37/66 queries in 0.070 seconds using apc
+Object Caching 2805/2899 objects using apc
+
+ Served from: www.linuxforu.com @ 2013-06-25 16:40:31 by W3 Total Cache -->

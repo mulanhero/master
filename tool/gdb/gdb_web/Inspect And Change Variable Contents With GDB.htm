@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<!-- saved from url=(0057)http://rsquared.sdf.org/gdb/iacv.html#inspectingvariables -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Inspect And Change Variable Contents With GDB</title>
+<meta name="description" content="How to examine and change program variables while in a gdb debugging session.">
+<meta charset="UTF-8">
+<link rel="STYLESHEET" type="text/css" href="./Inspect And Change Variable Contents With GDB_files/style.css">
+<link rel="STYLESHEET" type="text/css" href="./Inspect And Change Variable Contents With GDB_files/bawstyle.css">
+<link rel="STYLESHEET" type="text/css" href="./Inspect And Change Variable Contents With GDB_files/print.css" media="print">
+</head>
+
+<body>
+<div id="pagemargin">
+	<div id="gnu">
+            <a href="http://www.gnu.org/software/gdb/mascot/">
+            <img src="./Inspect And Change Variable Contents With GDB_files/archer.png" alt="Image of GDB Mascot | Link to page about GDB Mascot" style="width:200px;height:125px">
+            </a>
+	</div>
+<div id="title">Using The GNU GDB Debugger:</div>
+<h1 id="subtitle">Inspecting And Changing Variables</h1>
+<div id="topnav-p">
+<span id="author">By Peter Jay Salzman</span>
+      <ul id="top-nav">
+        <li class="left">Previous: <a href="http://rsquared.sdf.org/gdb/abaw.html">Various Ways To Set GDB Breakpoints</a></li>
+        <li class="right">Next: <a href="http://rsquared.sdf.org/gdb/maits.html">Moving Around In The Sourcecode</a></li>
+      </ul><br>
+ </div>
+<h2><a id="inspectingvariables">Inspecting Variables</a></h2>
+<div class="notebox">
+<p><b>Note to Fortran users:</b> All Fortran variables must be in lowercase, regardless of how they were capitalized in your source
+code.  This is because the Fortran standard specifies case independence when it comes to variables.  Yes, variable 'C' is
+variable 'c' in the Fortran standard.  There are compilers out there that allow you to use case dependent variables, but
+this is non-standard, and gcc mandates all lowercase variables.  This was done to support legacy code.</p>
+</div>
+
+<p>The whole purpose of setting a breakpoint or watchpoint is to see what's going on with your variables, so let's take a look
+at inspecting your variables.  You can print the data type of a variable using the <code>ptype</code> command.  Here are some
+examples:</p>
+
+<pre class="demo">   (gdb) ptype argc
+   type = int
+   (gdb) ptype myfloat
+   type = float
+   (gdb) ptype argv 
+   type = char **
+   (gdb) ptype mystring
+   type = unsigned char *
+   (gdb) pt myIntArray
+   type = int [10]
+</pre>
+
+<p>You can even use ptype to look at structures.  Take, for example, the fstat structure defined in sys/stat.h.</p>
+
+<pre class="demo">   (gdb) ptype fstat
+   type = struct stat {
+       __dev_t st_dev;
+       short unsigned int __pad1;
+       __ino_t st_ino;
+       __mode_t st_mode;
+       __nlink_t st_nlink;
+       __uid_t st_uid;
+       __gid_t st_gid;
+       __dev_t st_rdev;
+       short unsigned int __pad2;
+       __off_t st_size;
+       long unsigned int st_blksize;
+       __blkcnt_t st_blocks;
+       __time_t st_atime;
+       long unsigned int __unused1;
+       __time_t st_mtime;
+       long unsigned int __unused2;
+       __time_t st_ctime;
+       long unsigned int __unused3;
+       long unsigned int __unused4;
+       long unsigned int __unused5;
+   }
+</pre>
+
+<p>That's quite a structure!  You can abbreviate <code>ptype</code> by <code>pt</code>.</p>
+
+<pre class="demo">	(gdb) pt mydouble
+	type = double
+</pre>
+
+<p>Remember, you can only print the data type of a variable which is defined in the currently selected frame.</p>
+
+<p>Now that you know how to print the data type of your variables, you may want to print their values.  Consider the
+following program (which will be compiled via <code>gcc -g filename</code>):</p>
+
+<pre class="code">1   #include&lt;stdio.h&gt;
+2   #include&lt;string.h&gt;
+3   
+4   int main( int argc, char *argv[] )
+5   {
+6        double mydouble = 3.14 / 3;
+7        float  myfloat  = 3.3;
+8        char   mychar   = 'A';
+9        int    myIntArray[10];
+10       int    MyNegativeInt = -1;
+11       char   myString[20];
+12  
+13       struct foo {
+14            char *name;
+15            int  EyeColour;
+16       } myStruct;
+17  
+18       strncpy(myString, "hello", 19);
+19  
+20       for ( int i = 0; i &lt; 10; i++ )
+21            myIntArray[i] = i;
+22  
+23       return 0;
+24  }
+</pre>
+<p>You can view the value of a variable using the <code>print</code> command.</p>
+
+<pre class="demo">   (gdb) print i
+   $4 = -1073744780
+</pre>
+
+<p>I stopped the program right before the for loop, so this is what variable <code>i</code> is before it gets initialized.  gdb
+prints the value of the variable which is most `comfortable' (to borrow fortran 99 lingo) with the datatype.  In other words,
+floats get printed as floats:</p>
+
+<pre class="demo">	(gdb) print myfloat
+	$1 = 3.29999995
+</pre>
+
+<p>and doubles get printed as doubles:</p>
+
+<pre class="demo">	(gdb) print mydouble
+	$1 = 1.0466666666666666
+</pre>
+
+<p>and chars get printed as chars:</p>
+
+<pre class="demo">	(gdb) print mychar
+	$1 = 65 'A'
+</pre>
+
+<p>By the way, you can use the abbreviation <code>p</code> for <code>print</code>:</p>
+
+<pre class="demo">	(gdb) p argc
+	$1 = 1
+</pre>
+
+<p>You may be wondering what the numbers preceeded by $ (like $1 or $3) mean.   They're kind of like a variable history.
+Everytime you print any variable, the <code>$n</code> gets incremented by 1.   $ by itself refers to the last variable you printed
+and $n refers to the n'th variable you printed.  Look at the following example to see this:</p>
+
+<pre class="demo">	(gdb) p mychar
+	$26 = 65 'A'
+	(gdb) p mydouble
+	$27 = 1.0466666666666666
+	(gdb) p $
+	$28 = 1.0466666666666666
+	(gdb) p $27
+	$29 = 1.0466666666666666
+	(gdb) p $26
+	$30 = 65 'A'
+</pre>
+
+<p>You can even typecast a variable when you print it!  Here's <code>MyNegativeInt</code> as an int, char and double
+respectively:</p>
+
+<pre class="demo">	(gdb) p MyNegativeInt
+	$41 = -1
+	(gdb) p (char) MyNegativeInt
+	$42 = -1 '�'
+	(gdb) p (double) MyNegativeInt
+	$43 = -1
+</pre>
+
+<p>The possibilities are endless.  But wait, there's more!</p>
+
+<h2><a id="inspectingarraysandstructures">Inspecting Arrays And Structures</a></h2>
+
+<p>Printing array values is much the same as printing other variables.  gdb still uses the concept of being `comfortable'.  In
+other words, when you print an array, that's exactly what you get!  From the code snippet of the previous section:</p>
+
+<pre class="demo">   (gdb) p myIntArray
+   $46 = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9}
+</pre>
+
+<p>Of course, gdb knows how to access elements of an array:</p>
+
+<pre class="demo">	(gdb) pt myIntArray
+	type = int [10]
+	(gdb) pt myIntArray[3]
+	type = int
+	(gdb) p myIntArray[3]
+	$48 = 3
+</pre>
+
+<p>You can do kind of advanced stuff too -- things that you'd expect from only Perl :-).   Here's how you print 5 elements of
+myIntArray, starting at element 3:</p>
+
+<pre class="demo">	(gdb) p myIntArray[3]@5
+	$49 = {3, 4, 5, 6, 7}
+</pre>
+
+<p>GDB will not, however, check bounds of the array.  Previously we defined <code>myIntArray</code> as an array of 10 ints.  Let's
+see what happens when we try printing 4 ints past the end of the array:</p>
+
+<pre class="demo">	(gdb) p myIntArray[3]@11
+	$54 = {3, 4, 5, 6, 7, 8, 9, 10, 1107293224, 1079194419, -1947051841}
+</pre>
+
+<p>Doh!  Hopefully, that's not someone's password.  :-).    You can also print structures:</p>
+
+<pre class="demo">	(gdb) p myStruct
+	$2 = {name = 0x40014978 "Miles Davis", EyeColour = 1}
+</pre>
+
+<p>However, this might get out of hand for very large structs.  You can set pretty printing of structures by <code>set print
+pretty</code>:</p>
+
+<pre class="demo">	(gdb) set print pretty
+	(gdb) p myStruct
+	$4 = {
+	  name = 0x40014978 "Miles Davis", 
+	  EyeColour = 1
+	}
+	(gdb) 
+</pre>
+
+<p>or, if you only want one of the elements of the structure, you can print it in the way that would seem obvious:</p>
+
+<pre class="demo">	(gdb) print myStruct.name
+	$6 = 0x40014978 "Miles Davis"
+</pre>
+
+<p>this works too, but why is a mystery to me:</p>
+
+<pre class="demo">	(gdb) print myStruct-&gt;name 
+	$15 = 0x40014978 "Miles Davis"
+</pre>
+
+<h2><a id="advancedinspection">Advanced Inspection</a></h2>
+
+<p>You can print things using a format specifier:</p>
+
+<pre class="demo">	print /FMT variable
+</pre>
+
+<p>Where FMT is:</p>
+
+<table id="delete">
+<tbody><tr>
+	<td>o</td><td>octal</td><td> </td><td>x</td><td>hex</td><td></td><td>d</td><td>decimal</td><td></td>
+    <td>u</td><td>unsigned decimal</td>
+</tr>
+<tr>
+	<td>t</td><td>binary</td><td></td><td>f</td><td>float</td><td></td><td>a</td><td>address</td><td></td>
+    <td>c</td><td>char </td>
+</tr>
+</tbody></table>
+
+<p>Here's some examples of printing some of our variables using a format specifier:</p>
+
+<pre class="demo">	(gdb) p mychar
+	$33 = 65 'A'
+	(gdb) p /o mychar
+	$34 = 0101
+	(gdb) p /x mychar 
+	$35 = 0x41
+	(gdb) p /d mychar 
+	$36 = 65
+	(gdb) p /u mychar 
+	$37 = 65
+	(gdb) p /t mychar 
+	$38 = 1000001
+	(gdb) p /f mychar 
+	$39 = 65
+	(gdb) p /a mychar 
+	$40 = 0x41
+</pre>
+
+<p>By the way, memory addresses in gdb are printed in hex by default.  Therefore, <code>p /a mychar</code> prints mychar interpreted
+as an address, the hexidecimal representation of 65.  This is very different from the address of mychar!</p>
+
+<p>Speaking of the address of mychar, one would expect that since C loves pointers, gdb would love pointers too.  And in fact,
+it does!  Printing the address of mychar is obvious to C programmers (sorry, Fortran users!):</p>
+
+<pre class="demo">	(gdb) p &amp;mychar
+	$42 = 0xbffff41b "A33S@�X�\213%��?H���\023�\003@\001"
+</pre>
+
+<p>gdb even knows about the dereference operator.  How's this for being perverse?</p>
+
+<pre class="demo">	(gdb) p *(&amp;mychar)
+	$43 = 65 'A'
+</pre>
+
+<p>This is the perfect vehicle for teaching students what a pointer is.  We're dereferencing the address of mychar.  Of course,
+there's more to this than just coolness (although it's worth it for the coolness factor alone!).  I was writing a curses program
+once and it kept segfaulting on me whenever I tried drawing to a WINDOW object.  By looking at the address of a WINDOW that I
+was passing to a function, I determined that I was passing a WINDOW by value, drawing to a local copy of the WINDOW and
+returning.  Of course, the local copy of the WINDOW wasn't anything initialized by curses so drawing to it was causing a
+segmentation violation.  Looking at the code, it was highly non-obvious what was was going on; it looked just swell!  It wasn't
+until I compared the address of the passed WINDOW with the address of the received WINDOW that I discovered the big oops!</p>
+
+<p>Furthermore, who here is guilty of buffer overruns?  Be truthful!  It's very easy to fall into the `off by one' error when
+you initialize, write to or read from a C array.  How many times have you used strcpy when you should've used strncpy?  These
+errors are insidious because they usually don't crash the program, but manifest themselves in wierd behavior in certain rare
+cases that are hard to track down.  Looking at the addresses of what's going on is a sure fire way of finding out the details of
+what's going on.</p>
+
+<h2><a id="changingvariables">Changing Variables</a></h2>
+
+<p>There are two ways you can change the value of a variable in gdb.  Let's change the value of <code>double myvariable</code> to
+10.0.  Firstly, you can use the <code>set</code> command:</p>
+
+<pre class="demo">	set myvariable = 10.0
+</pre>
+
+<p>which is the `quiet' way.  gdb will simply set <code>myvariable</code> to 10 without printing anything.  Then there's the `noisy'
+way using the print command:</p>
+
+<pre class="demo">	print myvariable = 10.0
+</pre>
+
+<p>which will set <code>myvariable</code> to 10.0 and then print this new value to the screen.  The <code>print</code> command ends up
+being less keystrokes because you can use the abbreviation <code>p</code> for <code>print</code>.</p>
+
+<p>Remember, you can only change the value of a variable which is defined within the current context.  Make sure the variable
+you want to change is defined in the currently selected frame.  If it's not, you need to set the frame before you can change the
+variable.</p>
+<p>&nbsp;</p>
+<div id="bottomnav-p">
+      <ul id="bottom-nav">
+        <li class="left">Previous: <a href="http://rsquared.sdf.org/gdb/abaw.html">Various Ways To Set GDB Breakpoints</a></li>
+        <li class="right">Next: <a href="http://rsquared.sdf.org/gdb/maits.html">Moving Around In The Sourcecode</a></li>
+      </ul>
+      <div id="bottom-nav-center"><a href="http://rsquared.sdf.org/gdb/">Up</a> to the TOC</div>
+    <a href="http://validator.w3.org/check?uri=referer">
+    <img src="./Inspect And Change Variable Contents With GDB_files/valid-html5-blue.png" alt="Valid HTML 5" style="width:88px;height:31px"></a>
+    <a href="http://jigsaw.w3.org/css-validator/check/referer?profile=css3">
+    <img src="./Inspect And Change Variable Contents With GDB_files/vcss-blue.gif" alt="Valid CSS!" style="width:88px;height:31px;"></a>
+</div>
+</div>
+
+
+</body></html>

@@ -1,0 +1,14 @@
+[root@gphd-vm211 hamster-rte]# git diff ../ompi/orte/mca/state/base/state_base_fns.c
+diff --git a/ompi/orte/mca/state/base/state_base_fns.c b/ompi/orte/mca/state/base/state_base_fns.c
+index c493f7e..88689f1 100644
+--- a/ompi/orte/mca/state/base/state_base_fns.c
++++ b/ompi/orte/mca/state/base/state_base_fns.c
+@@ -488,6 +488,8 @@ void orte_state_base_track_procs(int fd, short argc, void *cbdata)
+         /* update the proc state */
+         pdata->state = state;
+         jdata->num_reported++;
++
++               opal_output(0, "################### jdata->number_reported=%d, jdata->num_procs=%d", jdata->num_reported, jdata->num_procs);
+         if (jdata->num_reported == jdata->num_procs) {
+             ORTE_ACTIVATE_JOB_STATE(jdata, ORTE_JOB_STATE_REGISTERED);
+         }

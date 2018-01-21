@@ -1,0 +1,12 @@
+[root@host33 common-c]# massh mycluster verbose uptime
+[root@host33 common-c]# massh mycluster verbose date
+
+
+
+[root@host33 common-c]# massh mycluster verbose mkdir /root/program
+[root@host33 common-c]# massh mycluster verbose echo 'host33:/root/program   /root/program  nfs   defaults 0 0' > /etc/fstab
+
+
+
+
+ massh all23 verbose yum -y install nc.x86_64 

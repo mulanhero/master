@@ -1,0 +1,5 @@
+$ pwd
+/home/hadoop/program/hadoop-2.0.3-alpha/share/hadoop/mapreduce
+$ hadoop jar /usr/lib/gphd/hadoop-mapreduce/hadoop-mapreduce-examples-*.jar pi 2 1000
+
+$ hadoop jar $HADOOP_HOME/share/hadoop/mapreduce/hadoop-mapreduce-examples-2.0.3-alpha.jar pi 2 1000

@@ -1,0 +1,26 @@
+Stochastic gradient descent (SGD)
+3) hamster on Cluster-node1
+------------------------------------------------------------------------
+------------prepare the file to be predicted
+[root@node1 smallnetflix]# cat to.predict 
+200 200
+500 500
+---------hamster--------
+hamster -v -np 2 /root/program/graphlab/release/toolkits/collaborative_filtering/biassgd --matrix /root/program/graphlab/release/toolkits/collaborative_filtering/smallnetflix --D=20 --lambda=0.065 --max_iter=3 --minval=1 --maxval=5 --predictions=/root/program/graphlab/release/toolkits/collaborative_filtering/smallnetflix/out
+--------------
+after running, combine/sort U and V
+[root@node1 smallnetflix]# cat *U* | sort -g -k 1,1 > out.U     		//each user to #D features
+[root@node1 smallnetflix]# cat *V* | sort -g -k 1,1 > out.V				//each item to #D features 
+[root@node1 smallnetflix]# cat out_* > out.result  					//combine the predict result
+[root@node1 smallnetflix]# cat out.result
+200	200	3.64938
+500	500	3.01699
+
+------------------------------------------------------------------------
+4) hamster on with HDFS
+------------------------------------------------------------------------
+hamster -v -np 2 \
+/usr/local/hamster/graphlab/release/toolkits/collaborative_filtering/biassgd \
+--matrix hdfs://10.37.7.101:8020/user/root/graphlab/cf/smallnetflix \
+--D=20 --lambda=0.065 --max_iter=3 --minval=1 --maxval=5 \
+--predictions=hdfs://10.37.7.101:8020/user/root/graphlab/cf/smallnetflix/out

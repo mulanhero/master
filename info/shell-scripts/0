@@ -1,0 +1,291 @@
+1. confluence
+2. code
+
+----------------------------------------------------
+2014-08-21		4
+1. Done is better than perfect, practice makes perfect!
+2. JSON: ObjectMapper mapper = new ObjectMapper();
+	mapper.writeValueAsString(job);
+	JobContext job = mapper.readValue(reader, JobContext.class);
+
+----------------------------------------------------
+2014-08-20		3
+1. Done is better than perfect, practice makes perfect!
+2. Verify the singleVM
+----------------------------------------------------
+2014-08-19		2
+1. Done is better than perfect, practice makes perfect!
+2. verify the SingleVM
+----------------------------------------------------
+2014-08-18		1
+1. Done is better than perfect, practice makes perfect!
+2. Docker
+----------------------------------------------------
+2014-08-17		7
+1. Done is better than perfect, practice makes perfect!
+2. Kang and Jiang come to Shanghai for Jiang's advertising idea
+----------------------------------------------------
+2014-08-16		6
+1. Done is better than perfect, practice makes perfect!
+----------------------------------------------------
+2014-08-15		5
+1. Done is better than perfect, practice makes perfect!
+2. cpp
+----------------------------------------------------
+2014-08-14		4
+1. Done is better than perfect, practice makes perfect!
+2. cpp
+----------------------------------------------------
+2014-08-13		3
+1. Done is better than perfect, practice makes perfect!
+2. hamster-1.1 bug solved
+3. bug solved
+----------------------------------------------------
+2014-08-12		2
+1. Done is better than perfect, practice makes perfect!
+2. code to solve hamster-1.1 bug
+----------------------------------------------------
+2014-08-11		1
+1. Done is better than perfect, practice makes perfect!
+2. setup the cluster, read the code of hamster
+3. code to solve hamster-1.1 bug
+----------------------------------------------------
+2014-08-10		7
+1. Done is better than perfect, practice makes perfect!
+2. buy switch and plugin 
+----------------------------------------------------
+2014-08-09		6
+1. Done is better than perfect, practice makes perfect!
+2. go to COE to attend the CloudFoundry meetup
+----------------------------------------------------
+2014-08-08		5
+1. Done is better than perfect, practice makes perfect!
+2. verify libyarn on RHEL6 and CentOS
+----------------------------------------------------
+2014-08-07		4
+1. Done is better than perfect, practice makes perfect!
+2. sync-up with Michael, re-send the resignation mail  
+3. write in EAS 
+4. check the libyarn for RHEL 5.5, 6
+----------------------------------------------------
+2014-08-06		3
+1. Done is better than perfect, practice makes perfect!
+2. receive the switches
+3. go to new apartment for give qiangdong 6000 RMB
+4. wait for the worker to have kitchen sized
+5. wait for workers to have hot-supplies installed
+6. go back to shanghai by spring air
+----------------------------------------------------
+2014-08-05		2
+1. Done is better than perfect, practice makes perfect!
+2. go to hospital  
+3. go to artist university and see lots of stone for chain horse
+----------------------------------------------------
+2014-08-04		1
+1. Done is better than perfect, practice makes perfect!
+2. go to tangdou hospital and chanba for toilet bowl
+3. go to beilin and get the marriage certification
+----------------------------------------------------
+2014-08-03		7
+1. Done is better than perfect, practice makes perfect!
+2. go back to xi'an
+3. goto qinglong temple with Lin
+----------------------------------------------------
+2014-08-02		6
+1. Done is better than perfect, practice makes perfect!
+2. go to hospital to get Lin's log
+3. swimming
+4. buy air ticket and switch for xi'an apartment
+----------------------------------------------------
+2014-08-01		5
+1. Done is better than perfect, practice makes perfect!
+2. update the document of libyarn
+----------------------------------------------------
+2014-07-31		4
+1. Done is better than perfect, practice makes perfect!
+2. review utils in Hamster-core
+----------------------------------------------------
+2014-07-30		3
+1. Done is better than perfect, practice makes perfect!
+2. tidy up lots of project code on github
+3. review launcher in hamster-core 
+----------------------------------------------------
+2014-07-29		2
+1. Done is better than perfect, practice makes perfect!
+2. interview with a candidate
+3. talk with Michael on resignation, wangbo, etc.
+4. review/rewrite 'DefaultSingleAppMasterImpl' in hamster-core
+----------------------------------------------------
+2014-07-28		1
+1. Done is better than perfect, practice makes perfect!
+2. add Exception handler in Libyarn
+----------------------------------------------------
+2014-07-27		7
+1. Done is better than perfect, practice makes perfect!
+2. goto XiaoJiaoBaiLian, Raining
+----------------------------------------------------
+2014-07-26		6
+1. Done is better than perfect, practice makes perfect!
+2. goto hospital 
+3. have launch with wangda
+4. goto Jingke Road and Cafe with Longfa docoration 
+5. swimming
+----------------------------------------------------
+2014-07-25		5
+1. Done is better than perfect, practice makes perfect!
+2. refactor on LibYarn
+3. wangda come to shanghai for visa, sleep at Eric's room
+4. fix a bug on final status of App in LibYarn
+----------------------------------------------------
+2014-07-24		4
+1. Done is better than perfect, practice makes perfect!
+2. refactor on LibYarn
+----------------------------------------------------
+2014-07-23		3
+1. Done is better than perfect, practice makes perfect!
+2. get up early and go to office, finish the LibYarn
+3. send a email to Beijing about LibYarn
+4. goto COE and meet with intel spark team  
+5. talk with Michael on resignation
+----------------------------------------------------
+2014-07-22		2
+1. Done is better than perfect, practice makes perfect!
+2. talk with Michael on quit in Cafe
+3. rewrite the LibYarn
+----------------------------------------------------
+2014-07-21		1
+1. Done is better than perfect, practice makes perfect!
+2. rewrite the LibYarn
+----------------------------------------------------
+2014-07-20		7
+1. Done is better than perfect, practice makes perfect!
+2. come to office and rewrite the LibYarn
+----------------------------------------------------
+2014-07-19		6
+1. Done is better than perfect, practice makes perfect!
+2. come to office and rewrite wangbo's code 
+----------------------------------------------------
+2014-07-18		5
+1. Done is better than perfect, practice makes perfect!
+2. rewrite LibYarn with wangbo's LibYarn API 
+3. got the offer from Baidu
+4. send the email on resignation
+----------------------------------------------------
+2014-07-17		4
+1. Done is better than perfect, practice makes perfect!
+2. debug AWB with Sujit, Cliton
+3. refactor on LibYarn
+----------------------------------------------------
+2014-07-16		3
+1. Done is better than perfect, practice makes perfect!
+2. refactor LibYarn
+----------------------------------------------------
+2014-07-15		2
+1. Done is better than perfect, practice makes perfect!
+2. cpp ch11, ch12
+----------------------------------------------------
+2014-07-14		1
+1. Done is better than perfect, practice makes perfect!
+2. refactor LibYarn, remove LibHdfs related
+3. swimming
+----------------------------------------------------
+2014-07-13		7
+1. Done is better than perfect, practice makes perfect!
+2. go to post office to send invoice to Baidu
+2. go to HongXingMeiKaiLong 
+----------------------------------------------------
+2014-07-12		6
+1. Done is better than perfect, practice makes perfect!
+2. go to office to check 
+3. watch the football match 
+----------------------------------------------------
+2014-07-11		5
+1. Done is better than perfect, practice makes perfect!
+2. Encapsulate LibYarn C++ API with C 
+----------------------------------------------------
+2014-07-10		4
+1. Done is better than perfect, practice makes perfect!
+2. Encapsulate LibYarn C++ API with C 
+3. Support Sarah on Hamster
+----------------------------------------------------
+2014-07-09		3
+1. Done is better than perfect, practice makes perfect!
+2. Encapsulate LibYarn C++ API with C 
+3. Support Sarah on Hamster
+----------------------------------------------------
+2014-07-08		2
+1. Done is better than perfect, practice makes perfect!
+2. Update Hamster-1.1 document
+----------------------------------------------------
+2014-07-07		1
+1. Done is better than perfect, practice makes perfect!
+2. OOO (BJ)
+----------------------------------------------------
+2014-07-06		7
+1. Done is better than perfect, practice makes perfect!
+2. LinJuan go back to XI'AN
+----------------------------------------------------
+2014-07-05		6
+1. Done is better than perfect, practice makes perfect!
+2. @home
+----------------------------------------------------
+2014-07-04		5
+1. Done is better than perfect, practice makes perfect!
+2. team building: bowling, singbar
+----------------------------------------------------
+2014-07-03		4
+1. Done is better than perfect, practice makes perfect!
+2. implement LibYarn, getClusterReport, and getQueueInfo
+----------------------------------------------------
+2014-07-02		3
+1. Done is better than perfect, practice makes perfect!
+2. implement LibYarn
+----------------------------------------------------
+2014-07-01		2
+1. Done is better than perfect, practice makes perfect!
+2. implement LibYarn
+----------------------------------------------------
+2014-06-30		1
+1. Done is better than perfect, practice makes perfect!
+2. implement LibYarn2. implement LibYarn
+----------------------------------------------------
+2014-06-29		7
+1. Done is better than perfect, practice makes perfect!
+2. goto office, Lin, Wumei, and Wumei's friend 
+----------------------------------------------------
+2014-06-28		6
+1. Done is better than perfect, practice makes perfect!
+2. goto train station to accept Wumei and her friend
+	goto East Nanjing Road 
+----------------------------------------------------
+2014-06-27		5
+1. Done is better than perfect, practice makes perfect!
+2. libyarn 
+3. Weiming give me a call on his wife and friend is 
+	at Shanghai
+----------------------------------------------------
+2014-06-26		4
+1. Done is better than perfect, practice makes perfect!
+2. libyarn
+----------------------------------------------------
+2014-06-25		3
+1. Done is better than perfect, practice makes perfect!
+2. libyarn 
+----------------------------------------------------
+2014-06-24		2
+1. Done is better than perfect, practice makes perfect!
+2. libyarn
+----------------------------------------------------
+2014-06-23		1
+1. Done is better than perfect, practice makes perfect!
+2. cpp ch17
+3. createJob
+----------------------------------------------------
+2014-06-22		7
+1. Done is better than perfect, practice makes perfect!
+2. cpp ch7
+----------------------------------------------------
+2014-06-21		6
+1. Done is better than perfect, practice makes perfect!
+2. cpp ch6
+----------------------------------------------------

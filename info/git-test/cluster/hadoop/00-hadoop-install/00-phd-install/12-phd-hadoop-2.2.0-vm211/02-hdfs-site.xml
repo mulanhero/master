@@ -1,0 +1,27 @@
+<property>
+	<name>dfs.permissions</name>
+	<value>false</value>
+</property>
+
+<property>
+	<name>dfs.replication</name>
+	<value>3</value>
+</property>
+
+<property>
+   <name>dfs.namenode.name.dir</name>
+   <value>file:///var/lib/gphd/hadoop-hdfs/cache/dfs/name</value>
+</property>
+<property>
+   <name>dfs.namenode.checkpoint.dir</name>
+   <value>file:///var/lib/gphd/hadoop-hdfs/cache/dfs/namesecondary</value>
+</property>
+<property>
+   <name>dfs.datanode.data.dir</name>
+   <value>file:///var/lib/gphd/hadoop-hdfs/cache/dfs/data</value>
+</property>
+
+<property>
+	<name>dfs.block.size</name>
+	<value>134217728</value>
+</property>

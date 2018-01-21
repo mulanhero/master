@@ -1,0 +1,16 @@
+srun -N3 -l /bin/hostname
+srun -n4 -l /bin/hostname
+
+
+
+==============================
+srun --gres=help //but no output
+
+srun --resv-ports hello
+
+srun -n1 -–gres=gpu:1 sleep 100
+
+srun --gres=gpus:2*cpu,disk=40G
+
+
+srun -N1 -n48 --mem=120000   -p cuda01 hostname 

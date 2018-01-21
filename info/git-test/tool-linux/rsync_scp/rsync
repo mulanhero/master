@@ -1,0 +1,82 @@
+rsync -r git-test node1:~
+rsync -rtzv 
+rsync -t from.tar.gz  caoj7@node1:~/soft/
+
+rsync --exclude
+
+rsync -riuv 
+
+
+So what is unique about the rsync command?
+
+It can perform differential uploads and downloads (synchronization) of files across the network, transferring only data that has changed. The rsync remote-update protocol allows rsync to transfer just the differences between two sets of files across the network connection.
+
+How do I install rsync?
+
+Use any one of the following commands to install rsync. If you are using Debian or Ubuntu Linux, type the following command:
+# apt-get install rsync
+
+OR
+$ sudo apt-get install rsync
+
+If you are using Red Hat Enterprise Linux (RHEL) / CentOS 4.x or older version, type the following command:
+# up2date rsync
+
+RHEL / CentOS 5.x or newer (or Fedora Linux) user type the following command:
+# yum install rsync
+
+Always use rsync over ssh
+
+Since rsync does not provide any security while transferring data it is recommended that you use rsync over ssh session. This allows a secure remote connection. Now let us see some examples of rsync command.
+
+Comman rsync command options
+
+--delete : delete files that don't exist on sender (system)
+-v : Verbose (try -vv for more detailed information)
+-e "ssh options" : specify the ssh as remote shell
+-a : archive mode
+-r : recurse into directories
+-z : compress file data
+Task : Copy file from a local computer to a remote server
+
+Copy file from /www/backup.tar.gz to a remote server called openbsd.nixcraft.in
+$ rsync -v -e ssh /www/backup.tar.gz jerry@openbsd.nixcraft.in:~
+
+Output:
+
+Password:
+sent 19099 bytes  received 36 bytes  1093.43 bytes/sec
+total size is 19014  speedup is 0.99
+Please note that symbol ~ indicate the users home directory (/home/jerry).
+
+Task : Copy file from a remote server to a local computer
+
+Copy file /home/jerry/webroot.txt from a remote server openbsd.nixcraft.in to a local computer's /tmp directory:
+$ rsync -v -e ssh jerry@openbsd.nixcraft.in:~/webroot.txt /tmp
+
+Task: Synchronize a local directory with a remote directory
+
+$ rsync -r -a -v -e "ssh -l jerry" --delete /local/webroot openbsd.nixcraft.in:/webroot
+
+Task: Synchronize a remote directory with a local directory
+
+$ rsync -r -a -v -e "ssh -l jerry" --delete openbsd.nixcraft.in:/webroot/ /local/webroot
+
+Task: Synchronize a local directory with a remote rsync server or vise-versa
+
+$ rsync -r -a -v --delete rsync://rsync.nixcraft.in/cvs /home/cvs
+
+OR
+$ rsync -r -a -v --delete /home/cvs rsync://rsync.nixcraft.in/cvs
+
+Task: Mirror a directory between my "old" and "new" web server/ftp
+
+You can mirror a directory between my "old" (my.old.server.com) and "new" web server with the command (assuming that ssh keys are set for password less authentication)
+$ rsync -zavrR --delete --links --rsh="ssh -l vivek" my.old.server.com:/home/lighttpd /home/lighttpd
+
+READ RELATED PREVIOUS ARTICLES
+How do I sync data between two Load balanced Linux/UNIX servers?
+How do I sync data between two Load balanced Windows 2003 servers?
+Other options - rdiff and rdiff-backup
+
+The rdiff command uses the rsync algorithm. A utility called rdiff-backup has been created which is capable of maintaining a backup mirror of a file or directory over the network, on another server. rdiff-backup stores incremental rdiff deltas with the backup, with which it is possible to recreate any backup point. Next time I will write about these utilities.

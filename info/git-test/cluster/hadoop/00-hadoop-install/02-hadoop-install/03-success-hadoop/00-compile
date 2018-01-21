@@ -1,0 +1,17 @@
+0. prepare (hadoop)
+(1) gcc/autoconf/automake/google's protocol buffer
+(2) http://protobuf.googlecode.com/files/protobuf-2.4.1.tar.gz
+./configure --prefix=/usr/local
+make
+make check
+sudo make install
+------------
+$ protoc
+Missing input file.
+(3) JDK/ANT/Maven(MVN)/SVN
+================================================================================
+1. checkout code
+svn checkout http://svn.apache.org/repos/asf/hadoop/common/tags/release-2.0.3-alpha/ hadoop2.0.3
+
+2. build
+$ mvn package  -Pdist -DskipTests -Dtar 

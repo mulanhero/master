@@ -1,0 +1,94 @@
+<!--1 Configurations for ResourceManager-->
+<property>
+    <name>yarn.resourcemanager.address</name>
+    <value>node1:8032</value>
+</property>
+
+<property>
+    <name>yarn.resourcemanager.scheduler.address</name>
+    <value>node1:8030</value>
+</property>
+
+<property>
+    <name>yarn.resourcemanager.resource-tracker.address</name>
+    <value>node1:8031</value>
+</property>
+
+<property>
+    <name>yarn.resourcemanager.admin.address</name>
+    <value>node1:8033</value>
+</property>
+
+<property>
+    <name>yarn.resourcemanager.webapp.address</name>
+    <value>node1:8088</value>
+</property>
+
+<property>
+    <name>yarn.resourcemanager.scheduler.class</name>
+    <value>org.apache.hadoop.yarn.server.resourcemanager.scheduler.capacity.CapacityScheduler</value>
+   	<description>In case you do not want to use the default scheduler, CapacityScheduler recommended or FifoScheduler </description>
+</property>
+
+<property>
+    <name>yarn.scheduler.minimum-allocation-mb</name>
+    <value>512</value>
+</property>
+
+<property>
+    <name>yarn.scheduler.maximum-allocation-mb</name>
+    <value>1024</value>
+</property>
+
+<!--2 Configurations for NodeManager-->
+<property>
+    <name>yarn.nodemanager.local-dirs</name>
+    <value>/tmp/hadoop-yarn2/nm-local-dir</value>
+    <description>List of local directories to store intermediate data</description>
+</property>
+
+<property>
+    <name>yarn.nodemanager.log-dirs</name>
+    <value>/tmp/hadoop-yarn2/nm-container-log</value>
+    <description>Where to store container logs</description>
+</property>
+
+
+<property>
+    <name>yarn.log-aggregation-enable</name>
+    <value>true</value>
+</property>
+
+<property>
+   <name>yarn.nodemanager.remote-app-log-dir</name>
+   <value>/tmp/hadoop-yarn2/app-logs</value>
+    <description>Where to aggregate logs to.</description>
+</property>
+
+<property>
+   <name>yarn.nodemanager.remote-app-log-dir-suffix</name>
+   <value>logs</value>
+</property>
+
+
+<property>
+    <name>yarn.nodemanager.aux-services</name>
+    <value>mapreduce.shuffle</value>
+</property>
+
+<property>
+    <name>yarn.nodemanager.aux-services.mapreduce.shuffle.class</name>
+    <value>org.apache.hadoop.mapred.ShuffleHandler</value>
+</property>
+<!--classpath-->
+<property>
+    <name>yarn.application.classpath</name>
+    <value>
+        $HADOOP_CONF_DIR,
+        $HADOOP_COMMON_HOME/*,$HADOOP_COMMON_HOME/lib/*,
+        $HADOOP_HDFS_HOME/*,$HADOOP_HDFS_HOME/lib/*,
+        $HADOOP_MAPRED_HOME/*,$HADOOP_MAPRED_HOME/lib/*,
+        $HADOOP_YARN_HOME/*,$HADOOP_YARN_HOME/lib/*
+    </value>
+	<description>Classpath for typical applications.</description>
+</property>

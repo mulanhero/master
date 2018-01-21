@@ -1,0 +1,185 @@
+---------------------------------------------------------------------------------------
+0. pre-installed	
+---------------------------------------------------------------------------------------
+* hadoop-2.4
+* scala-2.10.4
+* spark-1.1.0
+---------------------------------------------------------------------------------------
+1. install mysql
+---------------------------------------------------------------------------------------
+[root@node.sth.com nfs_share]# yum install mysql-server.x86_64 mysql-devel.x86_64 mysql.x86_64
+[root@node.sth.com nfs_share]# /etc/init.d/mysqld start
+[root@node.sth.com nfs_share]# service mysqld status
+mysqld (pid  10474) is running...
+[root@node.sth.com nfs_share]# chkconfig --add mysqld
+[root@node.sth.com nfs_share]# chkconfig --list|grep mysqld
+mysqld          0:off   1:off   2:on    3:on    4:on    5:on    6:off
+----------------------------
+[root@node.sth.com nfs_share]# mysqladmin -u root password '123456'
+[root@node.sth.com nfs_share]# mysql -u root -p
+Enter password: #123456
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| test               |
++--------------------+
+3 rows in set (0.00 sec)
+
+mysql> use test;
+Database changed
+mysql> show tables;
+Empty set (0.00 sec
+----------------------
+mysql> create database hive default character set latin1;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> create user 'hive'@'%' identified by 'hive';  
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> grant all on hive.* to hive@'%' identified by 'hive';
+Query OK, 0 rows affected (0.00 sec)
+
+grant all on hive.* to hive@localhost identified by 'hive';
+
+mysql> flush privileges;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| hive               |
+| mysql              |
+| test               |
++--------------------+
+4 rows in set (0.00 sec)
+---------------------------------------------------------------------------------------
+2. install Hive	
+---------------------------------------------------------------------------------------
+[root@node.sth.com nfs_share]# pwd
+/nfs_share
+
+[root@node.sth.com nfs_share]# tar -zxvf apache-hive-0.14.0-bin.tar.gz
+ 
+[root@node.sth.com nfs_share]# cat /etc/bashrc
+#hive-0.14
+export HIVE_HOME=/nfs_share/apache-hive-0.14.0-bin
+export PATH=$HIVE_HOME/bin:$PATH
+
+[root@node.sth.com nfs_share]# for i in {2..10}; do scp /etc/bashrc node${i}:/etc/; done
+---------------------------------------------------------------------------------------
+3. config Hive	
+---------------------------------------------------------------------------------------
+[root@node.sth.com apache-hive-0.14.0-bin]# vi conf/hive-env.sh
+HADOOP_HOME=/nfs_share/hadoop-2.4.0
+export HIVE_CONF_DIR=$HIVE_HOME/conf
+[root@node.sth.com conf]# cp hive-default.xml.template hive-default.xml 
+##Configuration variables can be changed by (re-)defining them in <install-dir>/conf/hive-site.xml
+[root@node.sth.com conf]# cp hive-log4j.properties.template hive-log4j.properties
+[root@node.sth.com conf]# cp hive-exec-log4j.properties.template hive-exec-log4j.properties
+[root@node.sth.com apache-hive-0.14.0-bin]# vi conf/hive-log4j.properties
+hive.log.dir=/nfs_share/apache-hive-0.14.0-bin/logs
+[root@node.sth.com apache-hive-0.14.0-bin]# mkdir logs
+---------------------------------------------------------------------------------------
+4. mkdir in HDFS
+---------------------------------------------------------------------------------------
+[root@node.sth.com conf]# hadoop fs -mkdir /tmp  
+[root@node.sth.com conf]# hadoop fs -mkdir -p /user/hive/warehouse     //in hive-default.xml 'hive.metastore.warehouse.dir'
+[root@node.sth.com conf]# hadoop fs -chmod g+w /tmp
+[root@node.sth.com conf]# hadoop fs -chmod g+w /user/hive/warehouse
+---------------------------------------------------------------------------------------
+5. config hive-site.xml
+---------------------------------------------------------------------------------------
+[root@node.sth.com conf]# cat hive-site.xml 
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+
+<configuration>
+   <property>
+    <name>javax.jdo.option.ConnectionURL</name>
+    <value>jdbc:mysql://10.58.173.36:3306/hive?createDatabaseIfNotExist=true</value>
+  </property>
+
+  <property>
+    <name>javax.jdo.option.ConnectionDriverName</name>
+    <value>com.mysql.jdbc.Driver</value>
+  </property>
+ 
+  <property>
+    <name>javax.jdo.option.ConnectionUserName</name>
+    <value>hive</value>
+  </property>
+ 
+  <property>
+    <name>javax.jdo.option.ConnectionPassword</name>
+    <value>hive</value>
+  </property>
+
+  <property>
+    <name>hive.metastore.warehouse.dir</name>
+    <value>/user/hive/warehouse</value>
+    <description>location of default database for the warehouse</description>
+  </property>
+
+  <property>
+    <name>hive.aux.jars.path</name>
+    <value>file:////nfs_share/apache-hive-0.14.0-bin/lib/hive-hbase-handler-0.14.0.jar,file:////nfs_share/apache-hive-0.14.0-bin/lib/protobuf-java-2.5.0.jar,file:////nfs_share/apache-hive-0.14.0-bin/lib/hbase-client-0.98.8-hadoop2.jar,file:////nfs_share/apache-hive-0.14.0-bin/lib/hbase-common-0.98.8-hadoop2.jar,file:////nfs_share/apache-hive-0.14.0-bin/lib/zookeeper-3.4.6.jar,file:////nfs_share/apache-hive-0.14.0-bin/lib/guava-11.0.2.jar</value>
+  </property>
+
+</configuration>
+  
+---------------------------------------------------------------------------------------
+6. mysql jar 
+---------------------------------------------------------------------------------------
+[root@node.sth.com nfs_share]# cp mysql-connector-java-5.1.34/mysql-connector-java-5.1.34-bin.jar $HIVE_HOME/lib/
+
+---------------------------------------------------------------------------------------
+7. first use
+---------------------------------------------------------------------------------------
+[root@node.sth.com conf]# hive
+
+Logging initialized using configuration in file:/nfs_share/apache-hive-0.14.0-bin/conf/hive-log4j.properties
+SLF4J: Class path contains multiple SLF4J bindings.
+SLF4J: Found binding in [jar:file:/nfs_share/hadoop-2.4.0/share/hadoop/common/lib/slf4j-log4j12-1.7.5.jar!/org/slf4j/impl/StaticLoggerBinder.class]
+SLF4J: Found binding in [jar:file:/nfs_share/apache-hive-0.14.0-bin/lib/hive-jdbc-0.14.0-standalone.jar!/org/slf4j/impl/StaticLoggerBinder.class]
+SLF4J: See http://www.slf4j.org/codes.html#multiple_bindings for an explanation.
+SLF4J: Actual binding is of type [org.slf4j.impl.Log4jLoggerFactory]
+
+
+
+---------------------------------------------------------------------------------------
+5. copy hbase's lib to hive   (/nfs_share/hbase-0.98.8-hadoop2)
+---------------------------------------------------------------------------------------
+[root@node.sth.com lib]# cp $HBASE_HOME/lib/hbase* $HIVE_HOME/lib/
+[root@node.sth.com lib]# cp /nfs_share/hbase-0.98.8-hadoop2/lib/htrace-core-2.04.jar $HIVE_HOME/lib/
+[root@node.sth.com lib]# cp /nfs_share/hbase-0.98.8-hadoop2/lib/zookeeper-3.4.6.jar $HIVE_HOME/lib/
+[root@node.sth.com lib]# cp /nfs_share/hbase-0.98.8-hadoop2/lib/protobuf-java-2.5.0.jar $HIVE_HOME/lib/
+[root@node.sth.com lib]# cp /nfs_share/hbase-0.98.8-hadoop2/lib/guava-12.0.1.jar $HIVE_HOME/lib/
+
+---------------------------------------------------------------------------------------
+7. high-scale
+---------------------------------------------------------------------------------------
+[root@node.sth.com nfs_share]# cp high-scale-lib-1.1.4.jar $HIVE_HOME/lib/
+
+
+
+
+
+---------------------------------------------------------------------------------------
+
+---------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------
+---------------------------------------------------------

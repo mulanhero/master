@@ -1,0 +1,65 @@
+================================================================================
+1 format namenode
+[hadoop@node1 tmp]$ hdfs namenode -format
+---------------
+after formatting, /tmp/hadoop-haoop/dfs/name is created, under it, 'current' dir 
+is created.
+[hadoop@node1 tmp]$ ll hadoop-hadoop/dfs/name/current/
+total 16
+-rw-rw-r--. 1 hadoop hadoop 121 Mar 21 06:48 fsimage_0000000000000000000
+-rw-rw-r--. 1 hadoop hadoop  62 Mar 21 06:48 fsimage_0000000000000000000.md5
+-rw-rw-r--. 1 hadoop hadoop   2 Mar 21 06:48 seen_txid
+-rw-rw-r--. 1 hadoop hadoop 203 Mar 21 06:48 VERSION
+================================================================================
+2 start namenode on node1
+[hadoop@node1 tmp]$ $HADOOP_HOME/sbin/hadoop-daemon.sh --config $HADOOP_CONF_DIR --script hdfs start namenode
+starting namenode, logging to /home/hadoop/program/hadoop-2.0.3-alpha/logs/hadoop-hadoop-namenode-node1.out
+--------------------
+(1)after starting, hadoop-hadoop-namenode.pid is created under /tmp.
+--------------------
+(2)after staring, create log under $HADOOP_HOME/logs
+[hadoop@node1 logs]$ pwd
+/home/hadoop/program/hadoop-2.0.3-alpha/logs 
+[hadoop@node1 logs]$ ll
+total 24
+-rw-rw-r--. 1 hadoop hadoop 21853 Mar 21 07:00 hadoop-hadoop-namenode-node1.log
+-rw-rw-r--. 1 hadoop hadoop     0 Mar 21 07:00 hadoop-hadoop-namenode-node1.out
+-rw-rw-r--. 1 hadoop hadoop     0 Mar 21 07:00 SecurityAuth-hadoop.audit
+================================================================================
+3. start datanode  (on each datanode)
+[hadoop@node2 ~]$ $HADOOP_HOME/sbin/hadoop-daemon.sh --config $HADOOP_CONF_DIR --script hdfs start datanode
+starting datanode, logging to /home/hadoop/program/hadoop-2.0.3-alpha/logs/hadoop-hadoop-datanode-node2.out
+jpsafter starting, 
+(1) hadoop-hadoop-datanode.pid under /tmp/ is created.
+(2)  hadoop-hadoop/dfs/data under /tmp/ is created
+[hadoop@node4 tmp]$ ll hadoop-hadoop/dfs/data/current/
+total 8
+drwx------. 4 hadoop hadoop 4096 Mar 21 07:12 BP-334646709-10.37.7.101-1363819708812
+-rw-rw-r--. 1 hadoop hadoop  185 Mar 21 07:12 VERSION
+(3) hsperfdata_hadoop/25374 under /tmp/ is created.
+(4) log files are created under $HADOOP_HOME/logs
+[hadoop@node4 ~]$ ll program/hadoop-2.0.3-alpha/logs/
+total 100
+-rw-rw-r--. 1 hadoop hadoop 20832 Mar 21 13:32 hadoop-hadoop-datanode-node2.log
+-rw-rw-r--. 1 hadoop hadoop     0 Mar 21 07:08 hadoop-hadoop-datanode-node2.out
+-rw-rw-r--. 1 hadoop hadoop 20927 Mar 21 13:57 hadoop-hadoop-datanode-node3.log
+-rw-rw-r--. 1 hadoop hadoop     0 Mar 21 07:09 hadoop-hadoop-datanode-node3.out
+-rw-rw-r--. 1 hadoop hadoop 20834 Mar 21 14:14 hadoop-hadoop-datanode-node4.log
+-rw-rw-r--. 1 hadoop hadoop     0 Mar 21 07:09 hadoop-hadoop-datanode-node4.out
+-rw-rw-r--. 1 hadoop hadoop 26209 Mar 21 13:57 hadoop-hadoop-namenode-node1.log
+-rw-rw-r--. 1 hadoop hadoop     0 Mar 21 07:00 hadoop-hadoop-namenode-node1.out
+-rw-rw-r--. 1 hadoop hadoop     0 Mar 21 07:00 SecurityAuth-hadoop.audit 
+------------
+here, you will find node role and node id are specified.
+================================================================================
+4. run hdfs 
+[hadoop@node1 tmp]$ hadoop fs -mkdir /tmp
+[hadoop@node1 soft]$ hadoop fs -put hadoop2.0.3.tar /
+[hadoop@node1 soft]$ hadoop fs -ls /
+Found 2 items
+-rw-r--r--   2 hadoop supergroup  363028480 2013-03-21 16:01 /hadoop2.0.3.tar
+drwxr-xr-x   - hadoop supergroup          0 2013-03-21 15:59 /tmp
+================================================================================
+5. stop namenode and datanode 
+$HADOOP_HOME/sbin/hadoop-daemon.sh --config $HADOOP_CONF_DIR --script hdfs stop namenode
+$HADOOP_HOME/sbin/hadoop-daemon.sh --config $HADOOP_CONF_DIR --script hdfs stop datanode

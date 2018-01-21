@@ -1,0 +1,91 @@
+#cpuset
+salloc --exclusive 		srun --cpu_bind=cores -n2 sleep 300
+salloc --exclusive -N2 	srun --cpu_bind=cores -n6 sleep 300
+
+##memory
+[root@vm3 ~]# 	salloc --exclusive --mem-per-cpu=100 srun -n2 sleep 300
+salloc: Granted job allocation 15
+
+#########cpuset and memory
+salloc --exclusive -N2 --mem-per-cpu=100 --cpu_bind=cores srun -n3  sleep 300
+-------------------------------------to see resv-ports
+salloc --exclusive --mem-per-cpu=100 --cpu_bind=cores -n2  sh
+>srun --resv-ports hello
+>srun --mpi=openmpi hello
+=========
+>mpirun hello  (will not allocate port)
+>exit
+
+--cpu_bind=[{quiet,verbose},]type
+              Bind tasks to CPUs.  Used only when the task/affinity  or  task/cgroup
+              plugin  is  enabled.   The configuration parameter TaskPluginParam may
+              override these options.  For example, if TaskPluginParam is configured
+              to  bind to cores, your job will not be able to bind tasks to sockets.
+              NOTE: To have SLURM always report on the selected CPU binding for  all
+              commands  executed  in a shell, you can enable verbose mode by setting
+              the SLURM_CPU_BIND environment variable value to "verbose".
+
+              The  following  informational  environment  variables  are  set   when
+              --cpu_bind is in use:
+                   SLURM_CPU_BIND_VERBOSE
+                   SLURM_CPU_BIND_TYPE
+                   SLURM_CPU_BIND_LIST
+
+              See  the ENVIRONMENT VARIABLES section for a more detailed description
+              of the individual SLURM_CPU_BIND* variables.
+              
+/***************************************************************\
+	salloc - srun - cgroup
+\***************************************************************/
+1. salloc (note: --exclusive is mandatory, which makes cpu as consumerable resources)
+[root@node2 ~]# salloc --exclusive -N2 --cpu_bind=cores --mem-per-cpu=100
+desc->cpu_bind = (null)
+desc->cpu_bind_type = 4
+desc->mem_bind = (null)
+desc->mem_bind_type = 65534
+salloc: Granted job allocation 40
+------------------------------------
+2. srun  (Note: --jobid= )
+[root@node1 ~]# srun --jobid=40 -n3 sleep 300&
+[1] 13737
+------------------------------------
+3. check the cpuset.cpus  node1 and node2(note: step_0)
+[root@node1 ~]# cat /cgroup/cpuset/slurm/uid_0/job_40/step_0/cpuset.cpus
+0-1
+[root@node2 ~]# cat /cgroup/cpuset/slurm/uid_0/job_40/step_0/cpuset.cpus
+0-1
+------------------------------------
+4. check the process running on node1 and node2
+---------on node1
+[root@node1 ~]# cat /cgroup/cpuset/slurm/uid_0/job_40/step_0/tasks
+13750
+13753
+13754
+13755
+[root@node1 ~]# cat /cgroup/cpuset/slurm/uid_0/job_40/step_0/cgroup.procs
+13750
+13754
+13755
+[root@node1 ~]# ps -ef f|grep 13750
+root     13775 13715  0 00:24 pts/5    S+     0:00          \_ grep 13750
+root     13750     1  0 00:22 ?        Sl     0:00 slurmstepd: [40.0]             
+root     13754 13750  0 00:22 ?        S      0:00  \_ /bin/sleep 300
+root     13755 13750  0 00:22 ?        S      0:00  \_ /bin/sleep 300
+---------on node2
+[root@node2 ~]# cat /cgroup/cpuset/slurm/uid_0/job_40/step_0/tasks
+1456
+1459
+1460
+[root@node2 ~]# cat /cgroup/cpuset/slurm/uid_0/job_40/step_0/cgroup.procs
+1456
+1460
+[root@node2 ~]# ps -ef f|grep 1456
+root      1485  1440  0 00:24 pts/1    S+     0:00      \_ grep 1456
+root      1456     1  0 00:22 ?        Sl     0:00 slurmstepd: [40.0]             
+root      1460  1456  0 00:22 ?        S      0:00  \_ /bin/sleep 300
+============================================
+5. memory
+[root@node1 ~]# cat /cgroup/memory/slurm/uid_0/job_41/step_1/memory.limit_in_bytes
+209715200  //two processes on node1, so 200MB
+[root@node2 ~]# cat /cgroup/memory/slurm/uid_0/job_41/step_1/memory.limit_in_bytes
+104857600  //1 process on node2, so 100MB

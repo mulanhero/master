@@ -1,0 +1,41 @@
+ex================================================================================
+1. start RM on node1
+[hadoop@node1 soft]$ $HADOOP_YARN_HOME/sbin/yarn-daemon.sh --config $HADOOP_CONF_DIR start resourcemanager
+starting resourcemanager, logging to /home/hadoop/program/hadoop-2.0.3-alpha/logs/yarn-hadoop-resourcemanager-node1.out
+---------
+after starting, 
+(1) under /tmp/
+yarn-hadoop-resourcemanager.pid is created
+(2) under $HADOOP_YARN_HOME/logs/ 
+-rw-rw-r--. 1 hadoop hadoop 31413 Mar 21 16:14 yarn-hadoop-resourcemanager-node1.log
+-rw-rw-r--. 1 hadoop hadoop     0 Mar 21 16:14 yarn-hadoop-resourcemanager-node1.out
+================================================================================
+2. start NM on each NM
+[hadoop@node2 ~]$ $HADOOP_YARN_HOME/sbin/yarn-daemon.sh --config $HADOOP_CONF_DIR start nodemanager
+starting nodemanager, logging to /home/hadoop/program/hadoop-2.0.3-alpha/logs/yarn-hadoop-nodemanager-node2.out
+----------------------------------------
+after starting, 
+(1) under /tmp/, yarn-hadoop-nodemanager.pid is created.
+(2) under /tmp/, hadoop-yarn2 is created, under that, 
+[hadoop@node2 ~]$ ll /tmp/hadoop-yarn2/
+total 8
+drwxr-xr-x. 2 hadoop hadoop 4096 Mar 21 16:20 nm-container-log
+drwxr-xr-x. 5 hadoop hadoop 4096 Mar 21 16:20 nm-local-dir
+---
+[hadoop@node2 ~]$ ll /tmp/hadoop-yarn2/nm-local-dir/
+total 12
+drwxr-xr-x. 2 hadoop hadoop 4096 Mar 21 16:20 filecache
+drwx------. 2 hadoop hadoop 4096 Mar 21 16:20 nmPrivate
+drwxr-xr-x. 2 hadoop hadoop 4096 Mar 21 16:20 usercache
+(3) under $HADOOP_YARN_HOME/logs/ 
+-rw-rw-r--. 1 hadoop hadoop 29962 Mar 21 16:20 yarn-hadoop-nodemanager-node2.log
+-rw-rw-r--. 1 hadoop hadoop     0 Mar 21 16:20 yarn-hadoop-nodemanager-node2.out
+
+
+
+================================================================================
+9. stop RM and NM (on each NM)
+$HADOOP_YARN_HOME/sbin/yarn-daemon.sh --config $HADOOP_CONF_DIR stop resourcemanager
+$HADOOP_YARN_HOME/sbin/yarn-daemon.sh --config $HADOOP_CONF_DIR stop nodemanager
+
+ 

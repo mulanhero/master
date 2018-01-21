@@ -1,0 +1,82 @@
+# install 'protos' to $(DESTDIR)$(sysconfdir)
+protos_dir = protos
+protos_dir_1 = $(protos_dir)/2.0.2-alpha
+protos_dir_2 = $(protos_dir)/2.0.3-alpha
+EXTRA_DIST = protos
+
+install-data-local:
+	$(MKDIR_P) $(DESTDIR)$(sysconfdir)/$(protos_dir_1)
+	for filename in $(protos_dir_1)/*; do \
+	  	$(INSTALL_DATA) $$filename $(DESTDIR)$(sysconfdir)/$(protos_dir_1); \
+	done
+	
+	$(MKDIR_P) $(DESTDIR)$(sysconfdir)/$(protos_dir_2)
+	for filename in $(protos_dir_2)/*; do \
+	  	$(INSTALL_DATA) $$filename $(DESTDIR)$(sysconfdir)/$(protos_dir_2); \
+	done
+
+uninstall-local:
+	rm -rf $(DESTDIR)$(sysconfdir)/$(protos_dir)\
+	
+##################################################													 
+#protos_dir = protos/2.0.2-alpha
+#EXTRA_DIST = $(protos_dir)
+		
+#install-data-local:
+#	$(MKDIR_P) $(DESTDIR)$(sysconfdir)/$(protos_dir)
+#	for filename in $(protos_dir)/*; do \
+#	  	$(INSTALL_DATA) $$filename $(DESTDIR)$(sysconfdir)/$(protos_dir); \
+#	done	
+##################################################
+#protos_dir = protos/2.0.2-alpha
+#EXTRA_DIST = $(protos_dir)
+#orte_protos_files = \
+#		$(protos_dir)/AM_RM_protocol.proto \
+#		$(protos_dir)/AM_RM_protocol.proto.pb
+#install-data-local:
+#	$(MKDIR_P) $(DESTDIR)$(sysconfdir)/$(protos_dir) 
+	##$(mkinstalldirs) $(DESTDIR)$(sysconfdir)/$(protos_dir); \
+#	for file in $(orte_protos_files); do \
+#	  $(INSTALL_DATA) $$file $(DESTDIR)$(sysconfdir)/$(protos_dir); \
+#	done
+##################################################
+
+
+#install-data-local:
+#	$(MKDIR_P) $(DESTDIR)$(sysconfdir)
+#	@ p="$(orte_config_files)"; \
+#	for file in $$p; do \
+#	  if test -f $(DESTDIR)$(sysconfdir)/$$file; then \
+#	    echo "******************************* WARNING ************************************"; \
+#	    echo "*** Not installing new $$file over existing file in:"; \
+#	    echo "***   $(DESTDIR)$(sysconfdir)/$$file"; \
+#	    echo "******************************* WARNING ************************************"; \
+#	  else \
+#	    if test -f "$$file"; then d=; else d="$(srcdir)/"; fi; \
+#	    f="`echo $$file | sed -e 's|^.*/||'`"; \
+#	    echo " $(INSTALL_DATA) $$d$$file $(DESTDIR)$(sysconfdir)/$$f"; \
+#	    $(INSTALL_DATA) $$d$$file $(DESTDIR)$(sysconfdir)/$$f; \
+#	  fi; \
+#	done
+	
+#	$(MKDIR_P) $(DESTDIR)$(sysconfdir)/$(protos_dir) 
+#	##$(mkinstalldirs) $(DESTDIR)$(sysconfdir)/$(protos_dir); \
+#	for file in $(orte_protos_files); do \
+#	  $(INSTALL_DATA) $$file $(DESTDIR)$(sysconfdir)/$(protos_dir); \
+#	done
+
+# Only remove if exactly the same as what in our tree
+# NOTE TO READER: Bourne shell if ... fi evaluates the body if 
+#    the return of the evaluted command is 0 (as opposed to non-zero
+#    as used by everyone else)
+#uninstall-local:
+#	@ p="$(orte_config_files)"; \
+#	for file in $$p; do \
+#	  if test -f "$(DESTDIR)$(sysconfdir)/$$file"; then \
+#	  	if test -f "$$file"; then d=; else d="$(srcdir)/"; fi; \
+#	    if diff "$(DESTDIR)$(sysconfdir)/$$file" "$$d$$file" > /dev/null 2>&1 ; then \
+#	      echo "rm -f $(DESTDIR)$(sysconfdir)/$$file" ; \
+#	      rm -f "$(DESTDIR)$(sysconfdir)/$$file" ; \
+#	    fi ; \
+#	  fi ; \
+#	done

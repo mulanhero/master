@@ -1,0 +1,31 @@
+ 1.
+[root@gphd-vm33 hamster-core]# pwd
+/root/program/tmp-res/hamster-core
+
+[root@gphd-vm33 hamster-core]# mvn package
+
+
+2. .bashrc
+#for hamster
+export HAMSTER_CORE_HOME=/root/program/tmp-res/hamster-core/target/hamster-core-0.8.0-SNAPSHOT-bin
+export PATH=$HAMSTER_CORE_HOME/bin:$PATH
+
+3. 
+[root@gphd-vm33 program]# cat /root/program/tmp-res/hamster-core/target/hamster-core-0.8.0-SNAPSHOT-bin/conf/hamster-site.xml 
+<?xml version="1.0"?>
+
+<configuration>
+  <property>
+    <name>com.pivotal.hamster.ompi.preinstall</name>
+    <value>true</value>
+  </property>
+
+  <property>
+    <name>com.pivotal.hamster.ompi.home</name>
+    <value>/root/program/orte</value>
+  </property>
+  
+  <!--   ... ...   -->
+</configuration>
+
+4. 

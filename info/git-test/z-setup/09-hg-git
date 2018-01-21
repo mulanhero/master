@@ -1,0 +1,6 @@
+3. hg (caoj7)
+	sudo yum install mercurial.x86_64
+
+4. git (caoj7)
+	sudo yum install git.x86_64
+	

@@ -1,0 +1,136 @@
+mpiBLAST on Hamster-1.0
+
+1. Overview
+mpiBLAST is a freely available, open-source, parallel implementation of NCBI BLAST. mpiBLAST takes advantage of distributed computational resources, i.e., a cluster, through explicit MPI communication and thereby utilizes all available resources unlike standard NCBI BLAST which can only take advantage of shared-memory multi-processors (SMPs).  
+2.  Prerequisites
+Make sure the following frameworks have been deployed on your cluster.
+Hadoop 
+Hamster-1.0  (including OpenMPI-1.7.*)
+A NFS directory (Since NFS is a convenient way to share data all over your cluster with the same directory path, we strongly recommend you to export a directory on your NFS server (it might be your login node), and each computing node (Hadoop NodeManager) mount the directory to the NFS server.  This will be helpful on two aspects: 1) MPI executable binary (e.g., mpiblast) should be deployed on each computing node with the same directory before job running,  2) during MPI job running, each MPI process should have permission to read the input data the write the output. Since mpiBLAST can not support data on HDFS,  using NFS to hold the input data will be a good choice. 
+For example, in our cluster, /nfs_share on gphd-vm211 (NFS server) is exported,  other computing nodes (gphd-vm212 ~ gphd-vm215) mount /nfs_share to gphd-vm33:/nfs_share
+Note: on NFS server, run chmod o+w /nfs_share to make other user have write permission on /nfs_share.
+3. Install mpiBLAST
+3.1 download (login user: hamster)
+[hamster@gphd-vm211 bio]$ pwd
+/home/hamster/bio
+[hamster@gphd-vm211 bio]$ wget http://www.mpiblast.org/downloads/files/mpiBLAST-1.6.0.tgz
+[hamster@gphd-vm211 bio]$ tar -zxvf mpiBLAST-1.6.0.tgz
+3.2 compile and install
+[hamster@gphd-vm211 bio]$ cd mpiblast-1.6.0
+[hamster@gphd-vm211 mpiblast-1.6.0]$ ./configure --prefix=/nfs_share/mpiblast --with-mpi=/usr
+1) compile ncbi
+[hamster@gphd-vm211 mpiblast-1.6.0]$ make ncbi
+2) compile mpiBLAST
+[hamster@gphd-vm211 mpiblast-1.6.0]$ make
+3) deploy mpiBLAST
+[hamster@gphd-vm211 mpiblast-1.6.0]$ make install
+4) check the installed
+[hamster@gphd-vm211 mpiblast-1.6.0]$ ll /nfs_share/mpiblast/bin/
+total 28052
+-rwxr-xr-x 1 hamster hamster 13057695 Feb 17 00:12 mpiblast
+-rwxr-xr-x 1 hamster hamster  7589196 Feb 17 00:12 mpiblast_cleanup
+-rwxr-xr-x 1 hamster hamster  8030255 Feb 17 00:12 mpiformatdb
+Note: Executables, e.g., mpiformatdb and mpiblast, have been installed under /nfs_share/mpiblast/bin/. Since /nfs_share is the NFS server, these excutables has been actually deployed on all over other computing nodes with the same directory.
+3.3 prepare the dataset 
+We put dataset in the /nfs_share because during MPI job running, each MPI process should have permission to access the data.
+3.3.1 download, format the dataset
+[hamster@gphd-vm211 bio]$ vi ~/.ncbirc
+[mpiBLAST]
+Shared=/nfs_share/mpiblastdb
+Local=/tmp
+[hamster@gphd-vm211 bio]$ cd /nfs_share
+[hamster@gphd-vm211 nfs_share]$ mkdir mpiblastdb
+[hamster@gphd-vm211 nfs_share]$ cd mpiblastdb
+[hamster@gphd-vm211 nfs_share]$ wget ftp://ftp.ncbi.nlm.nih.gov/blast/db/FASTA/drosoph.nt.gz   #if wget is failed, you can download drosoph.nt.gz with the same URL by manual.
+[hamster@gphd-vm211 mpiblastdb]$ gunzip drosoph.nt.gz 
+[hamster@gphd-vm211 mpiblastdb]$ /nfs_share/mpiblast/bin/mpiformatdb -i drosoph.nt --nfrags=8   #here, we split drosoph.nt into 8 fragments, we will set 8 mpi procs (-np 8) later
+3.3.2 prepare the test data
+[hamster@gphd-vm211 nfs_share]$ pwd
+/nfs_share
+[hamster@gphd-vm211 nfs_share]$ vi test.in
+>Test
+AGCTTTTCATTCTGACTGCAACGGGCAATATGTCTCTGTGTGGATTAAAAAAAGAGTGTCTGATAGCAGC
+TTCTGAACTGGTTACCTGCCGTGAGTAAATTAAAATTTTATTGACTTAGGTCACTAAATACTTTAACCAA
+TATAGGCATAGCGCACAGACAGATAAAAATTACAGAGTACACAACATCCATGAAACGCATTAGCACCACC
+ATTACCACCACCATCACCATTACCACAGGTAACGGTGCGGGCTGACGCGTACAGGAAACACAGAAAAAAG
+CCCGCACCTGACAGTGCGGGCTTTTTTTTTCGACCAAAGGTAACGAGGTAACAACCATGCGAGTGTTGAA
+GTTCGGCGGTACATCAGTGGCAAATGCAGAACGTTTTCTGCGTGTTGCCGATATTCTGGAAAGCAATGCC
+AGGCAGGGGCAGGTGGCCACCGTCCTCTCTGCCCCCGCCAAAATCACCAACCACCTGGTGGCGATGATTG
+AAAAAACCATTAGCGGCCAGGATGCTTTACCCAATATCAGCGATGCCGAACGTATTTTTGCCGAACTTTT
+4. run the mpiBLAST with Hamster
+[hamster@gphd-vm211 nfs_share]$ chmod -R 777 /nfs_share/mpiblastdb  #after job submission, mpi proc will be run by 'yarn' user, so we should grant the permission to 'yarn' on /nfs_share/mpiblastdb.
+ 
+[hamster@gphd-vm211 nfs_share]$ hamster -x MPIBLAST_SHARED=/nfs_share/mpiblastdb -x MPIBLAST_LOCAL=/tmp -np 8 /nfs_share/mpiblast/bin/mpiblast -d drosoph.nt -i /nfs_share/test.in -p blastn -o /nfs_share/result.txt
+##check the result
+[hamster@gphd-vm211 nfs_share]$ cat /nfs_share/result.txt 
+BLASTN 2.2.20 [Feb-08-2009]
+Reference: Altschul, Stephen F., Thomas L. Madden, Alejandro A. Schaffer, 
+Jinghui Zhang, Zheng Zhang, Webb Miller, and David J. Lipman (1997), 
+"Gapped BLAST and PSI-BLAST: a new generation of protein database search
+programs",  Nucleic Acids Res. 25:3389-3402.
+Query= Test
+         (560 letters)
+Database: drosoph.nt 
+           1170 sequences; 122,655,632 total letters
+                                                                 Score    E
+Sequences producing significant alignments:                      (bits) Value
+gb|AE002936.2|AE002936 Drosophila melanogaster genomic scaffold ...    36   0.86 
+gb|AE003493.2|AE003493 Drosophila melanogaster genomic scaffold ...    36   0.86 
+gb|AE003681.2|AE003681 Drosophila melanogaster genomic scaffold ...    36   0.86 
+gb|AE003698.2|AE003698 Drosophila melanogaster genomic scaffold ...    36   0.86 
+gb|AE003648.1|AE003648 Drosophila melanogaster genomic scaffold ...    34   3.4  
+gb|AE003495.2|AE003495 Drosophila melanogaster genomic scaffold ...    34   3.4  
+gb|AE003441.1|AE003441 Drosophila melanogaster genomic scaffold ...    34   3.4  
+gb|AE003587.2|AE003587 Drosophila melanogaster genomic scaffold ...    34   3.4  
+gb|AE003673.2|AE003673 Drosophila melanogaster genomic scaffold ...    34   3.4  
+gb|AE002615.2|AE002615 Drosophila melanogaster genomic scaffold ...    34   3.4  
+gb|AE003484.1|AE003484 Drosophila melanogaster genomic scaffold ...    34   3.4  
+gb|AE003447.2|AE003447 Drosophila melanogaster genomic scaffold ...    34   3.4  
+gb|AE003431.2|AE003431 Drosophila melanogaster genomic scaffold ...    34   3.4  
+gb|AE003628.1|AE003628 Drosophila melanogaster genomic scaffold ...    34   3.4  
+gb|AE003740.2|AE003740 Drosophila melanogaster genomic scaffold ...    34   3.4  
+gb|AE003723.3|AE003723 Drosophila melanogaster genomic scaffold ...    34   3.4  
+gb|AE002665.2|AE002665 Drosophila melanogaster genomic scaffold ...    34   3.4  
+gb|AE003525.2|AE003525 Drosophila melanogaster genomic scaffold ...    34   3.4  
+>gb|AE002936.2|AE002936 Drosophila melanogaster genomic scaffold 142000013385220, complete
+             sequence
+          Length = 48123
+ Score = 36.2 bits (18), Expect = 0.86
+ Identities = 18/18 (100%)
+ Strand = Plus / Minus
+                                
+Query: 97    aaattaaaattttattga 114
+             ||||||||||||||||||
+Sbjct: 40704 aaattaaaattttattga 40687
+ 
+>gb|AE003493.2|AE003493 Drosophila melanogaster genomic scaffold 142000013386053 section 10 of
+              30, complete sequence
+          Length = 308092
+ Score = 36.2 bits (18), Expect = 0.86
+ Identities = 18/18 (100%)
+ Strand = Plus / Minus
+                                 
+Query: 261    acaggaaacacagaaaaa 278
+              ||||||||||||||||||
+Sbjct: 133232 acaggaaacacagaaaaa 133215
+ 
+>gb|AE003681.2|AE003681 Drosophila melanogaster genomic scaffold 142000013386035 section 6 of
+              105, complete sequence
+          Length = 329362
+ Score = 36.2 bits (18), Expect = 0.86
+ Identities = 18/18 (100%)
+ Strand = Plus / Minus
+                                 
+Query: 96     taaattaaaattttattg 113
+              ||||||||||||||||||
+Sbjct: 111644 taaattaaaattttattg 111627
+ 
+>gb|AE003698.2|AE003698 Drosophila melanogaster genomic scaffold 142000013386035 section 23 of
+              105, complete sequence
+          Length = 225827
+ Score = 36.2 bits (18), Expect = 0.86
+ Identities = 18/18 (100%)
+ Strand = Plus / Minus
+                                 
+Query: 107    tttattgacttaggtcac 124
+              |||||

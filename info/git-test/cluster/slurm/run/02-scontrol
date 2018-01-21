@@ -1,0 +1,31 @@
+1.
+scontrol suspend  	#jobid
+scontrol resume 	#jobid
+
+2.
+scontrol show config
+
+3.
+scontrol show job $SLURM_JOB_ID 
+
+
+
+4. 
+scontrol --clusters=<cluster_name> show jobid=<job ID>
+scontrol show job 693
+scontrol --clusters=<cluster_name> update jobid=65648 TimeLimit=04:00:00
+
+
+===========================
+scontrol show partition
+scontrol show node (node001)
+Scontrol show job
+	Scontrol show jobid 108
+Scontrol update jobid=# partition=compute
+
+Scripts
+#!/bin/sh
+for i in $(squeue –u jimmy –h -t PD –o %i)
+do
+Scontrol update jobid=$i partition=compute
+done

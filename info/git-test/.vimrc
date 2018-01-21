@@ -1,0 +1,13 @@
+set nocompatible
+syntax enable
+syntax on
+set pastetoggle=<F10>
+set hlsearch
+set nu
+set autoindent
+set cindent
+set ts=4
+set t_Co=256
+set background=dark
+let g:solarized_termcolors=256
+colorscheme solarized

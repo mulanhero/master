@@ -1,0 +1,97 @@
+[root@node1 common-j]# cat ~/.bashrc
+# .bashrc
+
+# User specific aliases and functions
+
+alias rm='rm -i'
+alias cp='cp -i'
+alias mv='mv -i'
+alias vi='vim'
+
+# Source global definitions
+if [ -f /etc/bashrc ]; then
+	. /etc/bashrc
+fi
+
+#for general(openssl, munge)
+export PATH=/usr/local/bin:$PATH
+export LD_LIBRARY_PATH=/usr/lib:/usr/lib64:/usr/local/lib:$LD_LIBRARY_PATH
+
+#m4, autoconf, automake, libtool, flex, protocal buffer, cmake
+export PATH=/root/program/common-c/bin:$PATH
+export LD_LIBRARY_PATH=/root/program/common-c/lib:$LD_LIBRARY_PATH
+
+#hwloc
+export PATH=/root/program/common-c/hwloc/bin:$PATH
+#export LD_LIBRARY_PATH=/root/program/common-c/hwloc/lib:$LD_LIBRARY_PATH
+
+#slurm
+#export PATH=/root/program/slurmhome/bin:/root/program/slurmhome/sbin:$PATH
+#export LD_LIBRARY_PATH=/root/program/slurmhome/lib:/root/program/slurmhome/lib/slurm:$LD_LIBRARY_PATH
+
+#orte
+export PATH=/root/program/orte/bin:$PATH
+export LD_LIBRARY_PATH=/root/program/orte/lib:/root/program/orte/lib/openmpi:$LD_LIBRARY_PATH
+export C_INCLUDE_PATH=/root/program/orte/include:/root/program/orte/include/openmpi:/root/program/orte/include/openmpi/opal/mca/hwloc/hwloc152/hwloc/include:/root/program/orte/include/openmpi/opal/mca/event/libevent2019/libevent:$C_INCLUDE_PATH
+#export CPLUS_INCLUDE_PATH=/root/program/orte/include:$CPLUS_INCLUDE_PATH
+#-----------------------------------------------
+#userlogs
+export userlogs=/root/program/hadoop-2.0.4-alpha/logs/userlogs
+
+#mpi
+export mpi=/root/program/mpi
+
+#plda
+export plda=/root/program/plda
+
+#for BLAS
+export LD_LIBRARY_PATH=/root/program/test/BLAS:$LD_LIBRARY_PATH
+#for CBLAS
+export LD_LIBRARY_PATH=/root/program/test/CBLAS/lib:$LD_LIBRARY_PATH
+export LD_LIBRARY_PATH=/usr/lib64:$LD_LIBRARY_PATH
+
+#hpl
+export hpl=/root/program/test/hpl-2.1/bin/Linux64
+#-----------------------------------------------
+#for java
+export JAVA_HOME=/root/program/common-j/jdk1.6.0_21
+export PATH=$JAVA_HOME/bin:$PATH
+export CLASSPATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar:$CLASSPATH
+
+#for ant
+export PATH=/root/program/common-j/apache-ant-1.9.0/bin:$PATH
+
+#for maven
+export M2_HOME=/root/program/common-j/apache-maven-3.0.5
+export PATH=$M2_HOME/bin:$PATH
+
+#hadoop_home
+export HADOOP_HOME=/root/program/hadoop-2.0.4-alpha
+export HADOOP_COMMON_HOME=$HADOOP_HOME
+export HADOOP_HDFS_HOME=$HADOOP_HOME
+export HADOOP_MAPRED_HOME=$HADOOP_HOME
+export HADOOP_YARN_HOME=$HADOOP_HOME
+export PATH=$HADOOP_HOME/bin:$HADOOP_HOME/sbin:$PATH
+
+export HADOOP_CONF_DIR=${HADOOP_HOME}/etc/hadoop
+export YARN_CONF_DIR=$HADOOP_CONF_DIR
+
+#orte verbose
+#export OMPI_MCA_mrplus_jobclient_verbose=5
+#export OMPI_MCA_state_base_verbose=5
+#export OMPI_MCA_plm_base_verbose=5
+#export OMPI_MCA_ras_base_verbose=5
+#export OMPI_MCA_event_base_verbose=5
+#export OMPI_MCA_rmaps_base_verbose=5
+#export OMPI_MCA_dfs_base_verbose=5
+#export OMPI_MCA_ess_base_verbose=5
+#export OMPI_MCA_grpcomm_base_verbose=5
+#export OMPI_MCA_routed_base_verbose=5
+#export OMPI_MCA_rml_base_verbose=5
+#export OMPI_MCA_odls_base_verbose=10
+export OMPI_MCA_orte_default_hostfile=/root/orte_hosts
+
+
+#for hamster
+export HAMSTER_CORE_HOME=/root/program/jimmy-hamster/hamster-core/target/hamster-core-0.8.0-SNAPSHOT-bin
+export PATH=$HAMSTER_CORE_HOME/bin:$PATH

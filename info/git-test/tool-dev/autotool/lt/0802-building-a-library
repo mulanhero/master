@@ -1,0 +1,29 @@
+8.2 Building a library
+
+Building a library is much like building a program. In this case, the name of the primary is LIBRARIES. Libraries can be installed in libdir or pkglibdir.
+
+See A Shared Library, for information on how to build shared libraries using libtool and the LTLIBRARIES primary.
+
+Each _LIBRARIES variable is a list of the libraries to be built. For instance, to create a library named libcpio.a, but not install it, you would write:
+
+noinst_LIBRARIES = libcpio.a
+libcpio_a_SOURCES = É
+The sources that go into a library are determined exactly as they are for programs, via the _SOURCES variables. Note that the library name is canonicalized (see Canonicalization), so the _SOURCES variable corresponding to libcpio.a is Ôlibcpio_a_SOURCESÕ, not Ôlibcpio.a_SOURCESÕ.
+
+Extra objects can be added to a library using the library_LIBADD variable. This should be used for objects determined by configure. Again from cpio:
+
+libcpio_a_LIBADD = $(LIBOBJS) $(ALLOCA)
+In addition, sources for extra objects that will not exist until configure-time must be added to the BUILT_SOURCES variable (see Sources).
+
+Building a static library is done by compiling all object files, then by invoking Ô$(AR) $(ARFLAGS)Õ followed by the name of the library and the list of objects, and finally by calling Ô$(RANLIB)Õ on that library. You should call AC_PROG_RANLIB from your configure.ac to define RANLIB (Automake will complain otherwise). You should also call AM_PROG_AR to define AR, in order to support unusual archivers such as Microsoft lib. ARFLAGS will default to cru; you can override this variable by setting it in your Makefile.am or by AC_SUBSTing it from your configure.ac. You can override the AR variable by defining a per-library maude_AR variable (see Program and Library Variables).
+
+Be careful when selecting library components conditionally. Because building an empty library is not portable, you should ensure that any library always contains at least one object.
+
+To use a static library when building a program, add it to LDADD for this program. In the following example, the program cpio is statically linked with the library libcpio.a.
+
+noinst_LIBRARIES = libcpio.a
+libcpio_a_SOURCES = É
+
+bin_PROGRAMS = cpio
+cpio_SOURCES = cpio.c É
+cpio_LDADD = libcpio.a

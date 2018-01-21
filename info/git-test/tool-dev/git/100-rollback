@@ -1,0 +1,78 @@
+---------------------------------------------------------------------------------------
+1. discard changes
+---------------------------------------------------------------------------------------
+changed but not add yet, if you want to discard changes
+(use "git checkout -- <file>..." to discard changes in working directory)
+
+[root@node1 mpi]# git checkout -- hello.c
+---------------------------------------------------------------------------------------
+2. discard staged (add)
+---------------------------------------------------------------------------------------
+after add (staged), you can reset to remove the staged file
+git reset HEAD src/test/common/xtree_test_0.c
+git reset HEAD src/test/common/Makefile.am
+---------------------------------------------------------------------------------------
+3. after commit
+---------------------------------------------------------------------------------------
+the commit has beed logged, refer to the followings:
+=======================================================================================
+4. temporarily go back to a desired commit
+---------------------------------------------------------------------------------------
+# This will detach your HEAD, i.e. leave you with no branch checked out:
+git checkout 0d1d7fc32
+---------------------------------------------------------------------------------------
+5. make a new branch from a old commit
+---------------------------------------------------------------------------------------
+git checkout -b old-state 0d1d7fc32
+---------------------------------------------------------------------------------------
+6. go back to a old commit (get rid of recently commits)
+---------------------------------------------------------------------------------------
+git reset --hard 0d1d7fc32
+--------------
+if you want to keep your un-committed work
+git stash
+git reset --hard 0d1d7fc32
+git stash pop 
+# This saves the modifications, then reapplies that patch after resetting.
+# You could get merge conflicts, if you've modified things which were
+# changed since the commit you reset to
+----------------
+after 
+git push -f origin branch-name
+---------------------------------------------------------------------------------------
+7. git revert
+---------------------------------------------------------------------------------------
+On the other hand, if you've published the work, you probably don't want to reset the branch, 
+since that's effectively rewriting history. 
+In that case, you could indeed revert the commits. 
+With git, revert has a very specific meaning: create a commit with the reverse patch to cancel it out. 
+This way you don't rewrite any history.
+
+# This will create three separate revert commits:
+git revert 0766c053 25eee4ca a867b4af
+
+# It also takes ranges. This will revert the last two commits:
+git revert HEAD~2..HEAD
+---------------------------------------------------------------------------------------
+8. 
+---------------------------------------------------------------------------------------
+# To get just one, you could use `rebase -i` to squash them afterwards
+# Or, you could do it manually (be sure to do this at top level of the repo)
+# get your index and work tree into the desired state, without changing HEAD:
+git checkout 0d1d7fc32 .
+# and then commit
+git commit    # be sure and write a good message describing what you just did
+The git-revert manpage actually covers a lot of this in its description. Another useful link is this git-scm.com blog post discussing git-revert.
+---------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------

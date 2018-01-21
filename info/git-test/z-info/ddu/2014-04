@@ -1,0 +1,151 @@
+----------------------------------------------------
+Conclusion:
+1. Hamster-1.1 RPM
+2. MPI Primitives with Hamster-1.1
+3. Refactor: 2 
+4. Java Design Pattern
+5. Linux Debugging training
+6. Comes from star
+----------------------------------------------------
+2014-04-30          3
+1. xadd MPI-IO code
+2. Jeff said he will leave
+----------------------------------------------------
+2014-04-29          2
+1. present the qsub and mpirun design, discuss
+2. read code
+----------------------------------------------------
+2014-04-28          1
+1. design pattern to 23
+2. retrieve some MPI primitive routines
+3. one-one with Michael
+4. design the qsub
+----------------------------------------------------
+2014-04-27          7
+1. design pattern to 22
+----------------------------------------------------
+2014-04-26          6
+1. goto hospital and check
+2. shortcut on terminal:
+     ctrl + a /e
+     ctrl + d, w                    //cut a char/word
+     ctrl + u , k               //cut to head/tail
+     ctrl + y                     //paster
+    ctrl + l (clear the screen)    
+     !v
+     !!
+     $$
+     !$
+3. make eclipse like EMACS
+     going to preferences
+     to general -> Editors -> keys
+     from Scheme select Emacs
+4. design pattern to 18
+----------------------------------------------------
+2014-04-25          5
+1. enable checkReadyToRun in 1.7.2 and 1.7.4
+2. in 1.7.2 ras: add mem and cpu in allocate request
+3. debug
+----------
+[root@node1 ~]# cat /proc/sys/kernel/randomize_va_space
+2
+--------
+[root@node1 do]# objdump -x ./a|grep NEED
+  NEEDED               libc.so.6
+  VERNEED              0x0000000000400398
+  VERNEEDNUM           0x0000000000000001
+[root@node1 do]# objdump -x ./a|grep NEED
+  NEEDED               libc.so.6
+  VERNEED              0x0000000000400398
+  VERNEEDNUM           0x0000000000000001
+[root@node1 do]# ldd ./a
+     linux-vdso.so.1 =>  (0x00007fff735ff000)
+     libc.so.6 => /lib64/libc.so.6 (0x00000034b1c00000)
+     /lib64/ld-linux-x86-64.so.2 (0x00000034b1800000)
+---------
+cat /proc/$PID/maps
+cat /proc/$PID/smaps
+--------
+!echo
+!cc
+echo !$
+----------------------------------------------------
+2014-04-24          4
+1. training in COE
+----------------------------------------------------
+2014-04-23          3
+1. training in COE
+----------------------------------------------------
+2014-04-22          2
+1. training in COE
+----------------------------------------------------
+2014-04-21          1
+1. refactor in 1.7.4 and java side, add resource spec
+     in allocation request
+2. Discusss on the futher work
+----------------------------------------------------
+2014-04-20          7
+1. go to company, design pattern to 8
+----------------------------------------------------
+2014-04-19          6
+1. go to nong-gong-shang to take presents from ChinaMobile
+----------------------------------------------------
+2014-04-18          5
+1. refactor: to sperate the hamster.proto and gateway.proto 
+----------------------------------------------------
+2014-04-17          4
+1. update the design doc on confluence
+2. to make MTT and MPICH2-test suite    
+----------------------------------------------------
+2014-04-16          3
+1. make MTT and MPICH2-test suite
+2. update the doc on confluence
+----------------------------------------------------
+2014-04-15          2
+1. make MTT and MPICH2-test suite
+----------------------------------------------------
+2014-04-14          1
+1. make MTT and MPICH2-test suite
+----------------------------------------------------
+2014-04-13          7
+1. to go to company for MPICH3 with MTT
+----------------------------------------------------
+2014-04-12          6
+1. Raining
+2. Lin come back to SH
+----------------------------------------------------
+2014-04-11          5
+1. MTT with Hamster-1.1
+----------------------------------------------------
+2014-04-10          4
+1. RPM
+----------------------------------------------------
+2014-04-09          3
+1. RPM
+----------------------------------------------------
+2014-04-08          2
+1. RPM
+2. go to coffee with HW
+----------------------------------------------------
+2014-04-07          1
+1. QingMing
+2. <Come from star>
+----------------------------------------------------
+2014-04-06          7
+1. <Come from star>
+----------------------------------------------------
+2014-04-05          6
+1. <Come from star>
+----------------------------------------------------
+2014-04-04          5
+1. discuss on planning
+----------------------------------------------------
+2014-04-03          4
+1. discuss on planning
+----------------------------------------------------
+2014-04-02          3
+1. discuss on planning
+----------------------------------------------------
+2014-04-01          2
+1. disuss on planning
+----------------------------------------------------

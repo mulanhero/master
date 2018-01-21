@@ -1,0 +1,162 @@
+On a 2 CPU SMP ( PIII 500MHz)
+
+
+ NAS Parallel Benchmarks 2.3 -- CG Benchmark
+
+ Size:      14000
+ Iterations:    15
+ Number of active processes:     2
+
+   iteration           ||r||                 zeta
+        1       0.14794545594840E-12    19.9997581277040
+        2       0.13609323553804E-14    17.1140495745506
+        3       0.13393819662791E-14    17.1296668946143
+        4       0.13258866987131E-14    17.1302113581192
+        5       0.13208227153089E-14    17.1302338856353
+        6       0.12774624105655E-14    17.1302349879482
+        7       0.12460766003449E-14    17.1302350498916
+        8       0.12156793605628E-14    17.1302350537510
+        9       0.11867542778791E-14    17.1302350540101
+       10       0.11445663592605E-14    17.1302350540284
+       11       0.11206704122329E-14    17.1302350540298
+       12       0.10859111355709E-14    17.1302350540299
+       13       0.10496068571391E-14    17.1302350540299
+       14       0.10124071357311E-14    17.1302350540299
+       15       0.98256546275425E-15    17.1302350540299
+ Benchmark completed
+ VERIFICATION SUCCESSFUL
+ Zeta is      0.171302350540E+02
+ Error is     0.891731133379E-12
+
+
+ CG Benchmark Completed.
+ Class           =                        A
+ Size            =                    14000
+ Iterations      =                       15
+ Time in seconds =                    92.56
+ Total processes =                        2
+ Compiled procs  =                        2
+ Mop/s total     =                    16.17
+ Mop/s/process   =                     8.08
+ Operation type  =           floating point
+ Verification    =               SUCCESSFUL
+ Version         =                      2.3
+ Compile date    =              04 Jun 2002
+
+ Compile options:
+    MPIF77       = mpif77
+    FLINK        = mpif77
+    FMPI_LIB     = -L/usr/lib #-lmpi
+    FMPI_INC     = -I/usr/include
+    FFLAGS       = -O3
+    FLINKFLAGS   = (none)
+    RAND         = randi8_safe  
+On a 2 CPU cluster ( 2 AMD k6-2 500MHz )
+
+
+
+ NAS Parallel Benchmarks 2.3 -- CG Benchmark
+
+ Size:      14000
+ Iterations:    15
+ Number of active processes:     2
+
+   iteration           ||r||                 zeta
+        1       0.15927088635378E-12    19.9997581277096
+        2       0.14440658336803E-14    17.1140497027054
+        3       0.14199901565879E-14    17.1296670415578
+        4       0.14022053269863E-14    17.1302115114553
+        5       0.13515735740993E-14    17.1302340410288
+        6       0.13177577947433E-14    17.1302351439837
+        7       0.12995328434467E-14    17.1302352061228
+        8       0.12816409393340E-14    17.1302352100409
+        9       0.12502573734835E-14    17.1302352103173
+       10       0.12074700940630E-14    17.1302352103407
+       11       0.11649799073941E-14    17.1302352103436
+       12       0.11509924552889E-14    17.1302352103441
+       13       0.11325791323205E-14    17.1302352103442
+       14       0.10781841036046E-14    17.1302352103443
+       15       0.10434213874004E-14    17.1302352103443
+ Benchmark completed
+ VERIFICATION FAILED
+ Zeta                  0.171302352103E+02
+ The correct zeta is   0.171302350540E+02
+
+
+ CG Benchmark Completed.
+ Class           =                        A
+ Size            =                    14000
+ Iterations      =                       15
+ Time in seconds =                   175.78
+ Total processes =                        2
+ Compiled procs  =                        2
+ Mop/s total     =                     8.51
+ Mop/s/process   =                     4.26
+ Operation type  =           floating point
+ Verification    =             UNSUCCESSFUL
+ Version         =                      2.3
+ Compile date    =              04 Jun 2002
+
+ Compile options:
+    MPIF77       = mpif77
+    FLINK        = mpif77
+    FMPI_LIB     = -L/usr/lib #-lmpi
+    FMPI_INC     = -I/usr/include
+    FFLAGS       = -O3
+    FLINKFLAGS   = (none)
+    RAND         = randi8_safe
+
+  
+On a 4 CPU cluster ( dual PIII 500MHz, 2 AMD k6-2 500MHz )
+
+
+        NAS Parallel Benchmarks 2.3 -- CG Benchmark
+
+ Size:      14000
+ Iterations:    15
+ Number of active processes:     4
+
+   iteration           ||r||                 zeta
+        1       0.14794545594840E-12    19.9997581277040
+        2       0.13609323553804E-14    17.1140495745506
+        3       0.13393819662791E-14    17.1296668946143
+        4       0.13258866987131E-14    17.1302113581192
+        5       0.13208227153089E-14    17.1302338856353
+        6       0.12774624105655E-14    17.1302349879482
+        7       0.12460766003449E-14    17.1302350498916
+        8       0.12156793605628E-14    17.1302350537510
+        9       0.11867542778791E-14    17.1302350540101
+       10       0.11445663592605E-14    17.1302350540284
+       11       0.11206704122329E-14    17.1302350540298
+       12       0.10859111355709E-14    17.1302350540299
+       13       0.10496068571391E-14    17.1302350540299
+       14       0.10124071357311E-14    17.1302350540299
+       15       0.98256546275425E-15    17.1302350540299
+ Benchmark completed
+ VERIFICATION SUCCESSFUL
+ Zeta is      0.171302350540E+02
+ Error is     0.891731133379E-12
+
+
+ CG Benchmark Completed.
+ Class           =                        A
+ Size            =                    14000
+ Iterations      =                       15
+ Time in seconds =                   100.87
+ Total processes =                        4
+ Compiled procs  =                        4
+ Mop/s total     =                    14.84
+ Mop/s/process   =                     3.71
+ Operation type  =           floating point
+ Verification    =               SUCCESSFUL
+ Version         =                      2.3
+ Compile date    =              04 Jun 2002
+
+ Compile options:
+    MPIF77       = mpif77
+    FLINK        = mpif77
+    FMPI_LIB     = -L/usr/lib #-lmpi
+    FMPI_INC     = -I/usr/include
+    FFLAGS       = -O3
+    FLINKFLAGS   = (none)
+    RAND         = randi8_safe

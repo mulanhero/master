@@ -1,0 +1,27 @@
+使用.gitignore忽略文件
+可通过.gitignore忽略某些文件。在git的特定目录下建立.gitignore，写入：
+
+tmp.txt                #不加入tmp.txt
+*.log                    #不加入所有的log
+tmp/*                   #不加入tmp下所有文件
+log/**/*.log           #忽略log目录下包含子目录的所有.log文件
+log/**/*                #特定目录下的所有文件(log本身扔被跟踪)
+其他过滤条件可用正则表达式。
+
+空目录
+
+由于git不会加入空目录，所以下面做法会导致tmp不存在
+
+tmp/*                    #不加入tmp下所有文件
+在tmp下也加个.gitignore，其內容为
+
+*
+!.gitignore
+.gitignore失效？
+
+已经commit的文件即使在.gitignore中也会被跟踪，需要使用如下命令。
+
+git rm --cached your_file
+然后再commit一次。也可用如下命令一次把.gitignore中的文件全部弄出去：
+
+cat .gitignore | xargs git rm --cached 

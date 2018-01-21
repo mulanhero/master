@@ -1,0 +1,90 @@
+Graphical models provide a compact interpretable representation of complex statistical phenomena 
+by encoding random variables as vertices in a graph and relationships between those variables as edges. 
+The Graphical Models toolkit provides a collection of methods to make predictions under uncertainty, 
+and for reasoning about structured noisy data.
+------------------------------------------------------------------------
+1. compile
+------------------------------------------------------------------------
+[root@node1 graphical_models]# pwd
+/root/program/graphlab/release/toolkits/graphical_models
+[root@node1 graphical_models]# make -j2
+[root@node1 graphical_models]# ll
+total 162924
+drwxr-xr-x 8 root root     4096 Aug  2 19:15 CMakeFiles
+-rw-r--r-- 1 root root     1179 Aug  2 19:15 cmake_install.cmake
+-rw-r--r-- 1 root root      317 Aug  2 19:15 CTestTestfile.cmake
+-rwxr-xr-x 1 root root 29695385 Aug  7 23:38 dd
+-rwxr-xr-x 1 root root 33271877 Aug  7 23:38 lbp_structured_prediction
+-rw-r--r-- 1 root root    17867 Aug  2 19:15 Makefile
+-rwxr-xr-x 1 root root 29481021 Aug  7 23:38 mplp_denoise
+-rwxr-xr-x 1 root root 33651015 Aug  7 23:39 profile_lbp_synthetic
+-rwxr-xr-x 1 root root 33603130 Aug  7 23:39 profile_lbp_synthetic2
+-rwxr-xr-x 1 root root  7089334 Aug  7 23:39 synthetic_image_data
+------------------------------------------------------------------------
+2. single process on cluster-node1
+------------------------------------------------------------------------
+[root@node1 graphical_models]# ./synthetic_image_data 
+-rw-r--r-- 1 root root    42128 Aug  7 23:49 noisy_img.jpeg
+-rw-r--r-- 1 root root     4934 Aug  7 23:49 orig_img.jpeg
+-rw-r--r-- 1 root root  1295418 Aug  7 23:49 synth_edata.tsv
+-rw-r--r-- 1 root root  1445290 Aug  7 23:49 synth_vdata.tsv
+-------------
+./lbp_structured_prediction --prior synth_vdata.tsv --graph synth_edata.tsv --output posterior_vdata.tsv
+--------------
+-rw-r--r-- 1 root root  1277822 Aug  8 00:34 posterior_vdata.tsv_1_of_2
+-rw-r--r-- 1 root root  1278968 Aug  8 00:34 posterior_vdata.tsv_2_of_2
+--------------
+[root@node1 graphical_models]# cat posterior_vdata.tsv_* | ./synthetic_image_data --pred pred_image.jpeg
+Create a synthetic noisy image.
+Reading in predictions
+nrows: 200
+ncols: 200
+minp:  0
+maxp:  4
+-------------
+-rw-r--r-- 1 root root     5002 Aug  8 01:38 pred_image.jpeg
+------------------------------------------------------------------------
+3. mpirun on cluster-node1
+------------------------------------------------------------------------
+mpirun -np 10 ./lbp_structured_prediction --prior synth_vdata.tsv --graph synth_edata.tsv --output posterior_vdata.tsv
+-rw-r--r-- 1 root root   129732 Aug  8 01:51 posterior_vdata.tsv_10_of_20
+-rw-r--r-- 1 root root   126927 Aug  8 01:51 posterior_vdata.tsv_11_of_20
+-rw-r--r-- 1 root root   126938 Aug  8 01:51 posterior_vdata.tsv_12_of_20
+-rw-r--r-- 1 root root   125456 Aug  8 01:51 posterior_vdata.tsv_13_of_20
+-rw-r--r-- 1 root root   125407 Aug  8 01:51 posterior_vdata.tsv_14_of_20
+-rw-r--r-- 1 root root   128941 Aug  8 01:51 posterior_vdata.tsv_15_of_20
+-rw-r--r-- 1 root root   128883 Aug  8 01:51 posterior_vdata.tsv_16_of_20
+-rw-r--r-- 1 root root   123138 Aug  8 01:51 posterior_vdata.tsv_17_of_20
+-rw-r--r-- 1 root root   123205 Aug  8 01:51 posterior_vdata.tsv_18_of_20
+-rw-r--r-- 1 root root   129178 Aug  8 01:51 posterior_vdata.tsv_19_of_20
+-rw-r--r-- 1 root root   131025 Aug  8 01:51 posterior_vdata.tsv_1_of_20
+-rw-r--r-- 1 root root   129094 Aug  8 01:51 posterior_vdata.tsv_20_of_20
+-rw-r--r-- 1 root root   130883 Aug  8 01:51 posterior_vdata.tsv_2_of_20
+-rw-r--r-- 1 root root   130925 Aug  8 01:51 posterior_vdata.tsv_3_of_20
+-rw-r--r-- 1 root root   130911 Aug  8 01:51 posterior_vdata.tsv_4_of_20
+-rw-r--r-- 1 root root   126289 Aug  8 01:51 posterior_vdata.tsv_5_of_20
+-rw-r--r-- 1 root root   126425 Aug  8 01:51 posterior_vdata.tsv_6_of_20
+-rw-r--r-- 1 root root   127423 Aug  8 01:51 posterior_vdata.tsv_7_of_20
+-rw-r--r-- 1 root root   126155 Aug  8 01:51 posterior_vdata.tsv_8_of_20
+-rw-r--r-- 1 root root   129781 Aug  8 01:51 posterior_vdata.tsv_9_of_20
+
+------------------------------------------------------------------------
+4. hamster on cluster-node1
+------------------------------------------------------------------------
+hamster -v -np 10 /root/program/graphlab/release/toolkits/graphical_models/lbp_structured_prediction --prior /root/program/graphlab/release/toolkits/graphical_models/synth_vdata.tsv --graph /root/program/graphlab/release/toolkits/graphical_models/synth_edata.tsv --output /root/program/graphlab/release/toolkits/graphical_models/posterior_vdata.tsv
+cat posterior_vdata.tsv_* | ./synthetic_image_data --pred pred_image.jpeg
+
+
+------------------------------------------------------------------------
+4. hamster on with HDFS
+------------------------------------------------------------------------
+hamster -v -np 2 \
+/usr/local/hamster/graphlab/release/toolkits/graphical_models/lbp_structured_prediction \
+--prior hdfs://10.37.7.101:8020/user/root/graphlab/graphical_model/synth_vdata.tsv \
+--graph hdfs://10.37.7.101:8020/user/root/graphlab/graphical_model/synth_edata.tsv \
+--output hdfs://10.37.7.101:8020/user/root/graphlab/graphical_model/out_posterior_vdata.tsv
+
+
+[root@node1 ~]# hadoop fs -rm /user/root/graphlab/graphical_model/out*
+
+

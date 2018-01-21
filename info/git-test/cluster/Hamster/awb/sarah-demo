@@ -1,0 +1,151 @@
+-------------------------------------------------------------------------------------------------------------
+1. data  in HDFS
+-------------------------------------------------------------------------------------------------------------
+01:55:48 $ hadoop fs -ls /yarn/apps/caoj7/graphlab_data/
+Found 7 items
+drwxr-xr-x   - caoj7 hadoop          0 2013-12-17 06:30 /yarn/apps/caoj7/graphlab_data/cf
+drwxr-xr-x   - caoj7 hadoop          0 2013-12-17 06:31 /yarn/apps/caoj7/graphlab_data/clustering
+drwxr-xr-x   - caoj7 hadoop          0 2013-12-17 06:31 /yarn/apps/caoj7/graphlab_data/computer_vision
+drwxr-xr-x   - caoj7 hadoop          0 2013-12-17 06:31 /yarn/apps/caoj7/graphlab_data/ga
+drwxr-xr-x   - caoj7 hadoop          0 2013-12-17 06:31 /yarn/apps/caoj7/graphlab_data/graphical_model
+drwxr-xr-x   - caoj7 hadoop          0 2013-12-17 06:31 /yarn/apps/caoj7/graphlab_data/linear_solver
+drwxr-xr-x   - caoj7 hadoop          0 2013-12-17 06:31 /yarn/apps/caoj7/graphlab_data/topic
+-------------------------------------------------------------------------------------------------------------
+2. 
+-------------------------------------------------------------------------------------------------------------
+hadoop fs -ls /yarn/apps/caoj7/graphlab_data/cf/smallnetflix/
+----------------------------------------------
+hamster -v -x LD_LIBRARY_PATH=/usr/java/latest/jre/lib/amd64/server -mem 4096 -np 4 \
+/usr/local/graphlab2.2/collaborative_filtering/als \
+--matrix hdfs://mst1.ic.analyticsworkbench.com:8020/yarn/apps/caoj7/graphlab_data/cf/smallnetflix \
+--D=20 --lambda=0.065 --max_iter=5 \
+--predictions=hdfs://mst1.ic.analyticsworkbench.com:8020/yarn/apps/caoj7/graphlab_data/cf/smallnetflix/out
+-------------------------------------------------------------------------------------------------------------
+3. check containers log
+-------------------------------------------------------------------------------------------------------------
+hadoop fs -ls /yarn/apps/caoj7/logs/
+hadoop fs -get /yarn/apps/caoj7/logs/application_1403542528912_1926
+-------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------
+
+-------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------
+
+-------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------
+als
+-------------------------------------------------------------------------------------------------------------
+caoj7@access4:~
+08:39:36 $ hadoop fs -ls /yarn/apps/caoj7/graphlab_data/cf/smallnetflix
+Found 3 items
+-rw-r--r--   3 caoj7 hadoop   44092460 2013-12-17 06:30 /yarn/apps/caoj7/graphlab_data/cf/smallnetflix/smallnetflix_mm.train
+-rw-r--r--   3 caoj7 hadoop    7381633 2013-12-17 06:31 /yarn/apps/caoj7/graphlab_data/cf/smallnetflix/smallnetflix_mm.validate
+-rw-r--r--   3 caoj7 hadoop         16 2013-12-17 06:31 /yarn/apps/caoj7/graphlab_data/cf/smallnetflix/to.predict
+-------------------------------------------------------------------------------------------------------------
+awb (caoj7)
+-------------------------------------------------------------------------------------------------------------
+hamster -x LD_LIBRARY_PATH=/usr/java/latest/jre/lib/amd64/server -np 4 -mem 2048 \
+/usr/local/hamster/graphlab2.2-bin/als \
+--matrix hdfs://mst1.ic.analyticsworkbench.com:8020/yarn/apps/caoj7/graphlab_data/cf/smallnetflix \
+--D=20 --lambda=0.065 --max_iter=5 \
+--predictions=hdfs://mst1.ic.analyticsworkbench.com:8020/yarn/apps/caoj7/graphlab_data/cf/smallnetflix/out 
+-------------
+
+hamster -x LD_LIBRARY_PATH=/usr/java/latest/jre/lib/amd64/server -np 4 -mem 2048 \
+/usr/local/graphlab2.2/collaborative_filtering/als \
+--matrix hdfs://mst1.ic.analyticsworkbench.com:8020/yarn/apps/caoj7/graphlab_data/cf/smallnetflix \
+--D=20 --lambda=0.065 --max_iter=5 \
+--predictions=hdfs://mst1.ic.analyticsworkbench.com:8020/yarn/apps/caoj7/graphlab_data/cf/smallnetflix/out
+
+
+
+
+
+-------------------------------------------------------------------------------------------------------------
+mpirun -np 2  /usr/local/graphlab2.2/graph_analytics/connected_component \
+--graph=hdfs://mst1.ic.analyticsworkbench.com:8020/yarn/apps/caoj7/graphlab_data/ga/input.adj \
+--format=tsv --saveprefix=hdfs://mst1.ic.analyticsworkbench.com:8020/yarn/apps/caoj7/graphlab_data/ga/out
+
+
+=================================================success======================================================
+mpirun -np 1 \
+/usr/local/graphlab2.2/collaborative_filtering/als \
+--matrix hdfs://mst1.ic.analyticsworkbench.com:8020/yarn/apps/caoj7/graphlab_data/cf/smallnetflix \
+--D=20 --lambda=0.065 --max_iter=5 \
+--predictions=hdfs://mst1.ic.analyticsworkbench.com:8020/yarn/apps/caoj7/graphlab_data/cf/smallnetflix/out
+-------------------------------------------------------------------------------------------------------------
+hadoop fs -ls /yarn/apps/caoj7/graphlab_data/cf/smallnetflix/out*
+-------------------------------------------------------------------------------------------------------------
+hamster -x LD_LIBRARY_PATH=/usr/java/latest/jre/lib/amd64/server \
+-np 1 \
+/usr/local/graphlab2.2/collaborative_filtering/als \
+--matrix hdfs://mst1.ic.analyticsworkbench.com:8020/yarn/apps/caoj7/graphlab_data/cf/smallnetflix \
+--D=20 --lambda=0.065 --max_iter=5 \
+--predictions=hdfs://mst1.ic.analyticsworkbench.com:8020/yarn/apps/caoj7/graphlab_data/cf/smallnetflix/out
+===============================================================================================================
+
+
+
+hadoop fs -get /yarn/apps/caoj7/logs/application_1403542528912_1926
+-------------------------------------------------------------------------------------------------------------
+vm211
+-------------------------------------------------------------------------------------------------------------
+---------rpm  (to point out the libjvm.so)
+hamster -p gl -x LD_LIBRARY_PATH=/usr/java/latest/jre/lib/amd64/server -np 2 -mem 2048 \
+/usr/local/hamster/graphlab2.2-bin/als \
+--matrix hdfs://gphd-vm211:9000/user/root/hamster/graphlab_data/cf/smallnetflix \
+--D=20 --lambda=0.065 --max_iter=5 \
+--predictions=hdfs://gphd-vm211:9000/user/root/hamster/graphlab_data/cf/smallnetflix/out
+---------compiled graphlab
+hamster -p gl -np 2 -mem 2048 \
+/usr/local/hamster/hamlib/graphlab/release/toolkits/collaborative_filtering/als \
+--matrix hdfs://gphd-vm211:9000/user/root/hamster/graphlab_data/cf/smallnetflix \
+--D=20 --lambda=0.065 --max_iter=5 \
+--predictions=hdfs://gphd-vm211:9000/user/root/hamster/graphlab_data/cf/smallnetflix/out
+
+-------------------------------------------------------------------------------------------------------------
+gpdh-vm33 
+-------------------------------------------------------------------------------------------------------------
+------rpm +  root
+hamster -x LD_LIBRARY_PATH=/usr/java/jdk1.7.0_15/jre/lib/amd64/server -np 2 -mem 2048 \
+/usr/local/hamster/graphlab2.2-bin/als \
+--matrix hdfs://gphd-vm33:9000/user/root/dataset/smallnetflix \
+--D=20 --lambda=0.065 --max_iter=5 \
+--predictions=hdfs://gphd-vm33:9000/user/root/dataset/smallnetflix/out
+------non-rpm + root
+hamster -v -np 2 -mem 2048 \
+/nfs_share/graphlab/release/toolkits/collaborative_filtering/als \
+--matrix hdfs://gphd-vm33:9000/user/root/dataset/smallnetflix \
+--D=20 --lambda=0.065 --max_iter=5 \
+--predictions=hdfs://gphd-vm33:9000/user/root/dataset/smallnetflix/out 
+-------------------------------------------------------------------------------------------------------------
+
+-------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------
+
+hamster -p gl -x LD_LIBRARY_PATH=/usr/java/latest/jre/lib/amd64/server -np 2 -mem 2048 \
+/usr/local/hamster/graphlab2.2.1-bin/als \
+--matrix hdfs://gphd-vm211:9000/user/root/hamster/graphlab_data/cf/smallnetflix \
+--D=20 --lambda=0.065 --max_iter=5 \
+--predictions=hdfs://gphd-vm211:9000/user/root/hamster/graphlab_data/cf/smallnetflix/out
